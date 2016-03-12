@@ -4,9 +4,7 @@
 /.rvmrc
 /config/additional_environment.rb
 /config/configuration.yml
-/config/database.yml
 /config/email.yml
-/config/secrets.yml
 /config/initializers/session_store.rb
 /config/initializers/secret_token.rb
 /coverage
@@ -39,4 +37,3 @@
 /.bundle
 /Gemfile.lock
 /Gemfile.local
-
