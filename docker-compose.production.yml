@@ -1,5 +1,5 @@
 postgresql:
-  image: sameersbn/postgresql:9.4.4
+  image: sameersbn/postgres:9.4.4
   environment:
     - DB_USER=postgres
     - DB_PASS=postgres
@@ -10,7 +10,7 @@ postgresql:
 redmine:
   image: redmine:3.2
   links:
-    - postgresql:postgres:9.4.4
+    - postgresql:postgresql
   environment:
     - TZ=Asia/Kolkata
 
