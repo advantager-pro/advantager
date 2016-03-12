@@ -1,14 +1,14 @@
 postgresql:
-  image: sameersbn/postgresql:9.4.4
+  image: postgres:9.4.4
   environment:
-    - DB_USER=redmine
+    - DB_USER=postgres
     - DB_PASS=postgres
     - DB_NAME=redmine
   volumes:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: sameersbn/redmine:3.2.0-6
+  image: redmine:3.2
   links:
     - postgresql:postgresql
   environment:
