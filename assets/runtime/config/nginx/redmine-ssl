@@ -1,0 +1,98 @@
+# Redmine
+# Maintainer: @sameersbn
+
+upstream redmine {
+  server 127.0.0.1:8080 fail_timeout=0;
+}
+
+## Normal HTTP host
+server {
+  listen 0.0.0.0:80;
+  listen [::]:80 default_server;
+  server_name _;
+  server_tokens off;
+  
+  ## Redirects all traffic to the HTTPS host
+  return 301 https://$host:{{REDMINE_PORT}}$request_uri;
+}
+
+## HTTPS host
+server {
+  listen 0.0.0.0:443 ssl spdy;
+  listen [::]:443 ssl spdy default_server;
+  server_tokens off;
+  root {{REDMINE_INSTALL_DIR}}/public;
+
+  ## Increase this if you want to upload large attachments
+  client_max_body_size {{NGINX_MAX_UPLOAD_SIZE}};
+
+  ## Strong SSL Security
+  ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+  ssl on;
+  ssl_certificate {{SSL_CERTIFICATE_PATH}};
+  ssl_certificate_key {{SSL_KEY_PATH}};
+  ssl_verify_client {{SSL_VERIFY_CLIENT}};
+  ssl_client_certificate {{SSL_CA_CERTIFICATES_PATH}};
+
+  ssl_ciphers 'AES256+EECDH:AES256+EDH';
+
+  ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+  ssl_session_cache  builtin:1000  shared:SSL:10m;
+
+  ssl_prefer_server_ciphers   on;
+
+  add_header Strict-Transport-Security "max-age={{NGINX_HSTS_MAXAGE}};";
+  # add_header X-Frame-Options SAMEORIGIN;
+  add_header X-Content-Type-Options nosniff;
+
+  ## [Optional] If your certficate has OCSP, enable OCSP stapling to reduce the overhead and latency of running SSL.
+  ## Replace with your ssl_trusted_certificate. For more info see:
+  ## - https://medium.com/devops-programming/4445f4862461
+  ## - https://www.ruby-forum.com/topic/4419319
+  ## - https://www.digitalocean.com/community/tutorials/how-to-configure-ocsp-stapling-on-apache-and-nginx
+  # ssl_stapling on;
+  # ssl_stapling_verify on;
+  # ssl_trusted_certificate /etc/nginx/ssl/stapling.trusted.crt;
+  # resolver 208.67.222.222 208.67.222.220 valid=300s; # Can change to your DNS resolver if desired
+  # resolver_timeout 10s;
+
+  ## [Optional] Generate a stronger DHE parameter:
+  ##   cd /etc/ssl/certs
+  ##   sudo openssl dhparam -out dhparam.pem 4096
+  ##
+  ssl_dhparam {{SSL_DHPARAM_PATH}};
+
+  ## Individual nginx logs for this Redmine vhost
+  access_log  {{REDMINE_LOG_DIR}}/nginx/redmine_access.log;
+  error_log   {{REDMINE_LOG_DIR}}/nginx/redmine_error.log;
+
+  location {{REDMINE_RELATIVE_URL_ROOT}} {
+    ## Serve static files from defined root folder.
+    ## @redmine is a named location for the upstream fallback, see below.
+    try_files $uri index.html $uri.html @redmine;
+  }
+
+  ## If a file, which is not found in the root folder is requested,
+  ## then the proxy passes the request to the upsteam (redmine unicorn).
+  location @redmine {
+    ## If you use HTTPS make sure you disable gzip compression
+    ## to be safe against BREACH attack.
+    gzip off;
+
+    ## Some requests take more than 30 seconds.
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header    Host                $http_host;
+    proxy_set_header    X-Real-IP           $remote_addr;
+    proxy_set_header    X-Forwarded-Ssl     on;
+    proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto   {{NGINX_X_FORWARDED_PROTO}};
+    proxy_set_header    X-Frame-Options     SAMEORIGIN;
+
+    proxy_pass http://redmine;
+  }
+
+  error_page 500 /500.html;
+}
