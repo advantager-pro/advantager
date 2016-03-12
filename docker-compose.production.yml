@@ -1,5 +1,5 @@
 postgresql:
-  image: sameersbn/postgres:9.4.4
+  image: postgres:9.4.4
   environment:
     - DB_USER=postgres
     - DB_PASS=postgres
