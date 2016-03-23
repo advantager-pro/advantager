@@ -79,5 +79,19 @@ module RedmineApp
     if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.default_url_options = { host: '162.243.193.82' }
+    config.action_mailer.smtp_settings = {
+      address: 'smtp.gmail.com',
+      port: 587,
+      domain: '162.243.193.82:80',
+      authentication: 'login',
+      user_name: 'openevm@gmail.com',
+      password: 'hW?+eDvrWeJ3{Z-p',
+      openssl_verify_mode: 'none',
+      enable_starttls_auto: true
+    }
+        
   end
 end
