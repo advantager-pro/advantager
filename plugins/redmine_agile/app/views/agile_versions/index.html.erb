@@ -1,0 +1,29 @@
+<h2><%= l(:label_agile_version_planning) %></h2>
+
+<% if User.current.allowed_to?(:edit_issues, @project) %>
+  <%= javascript_tag do %>
+    new PlanningBoard().init({
+      project_id: '<%= @project && @project.id %>',
+      update_agile_board_path: '<%= escape_javascript update_agile_board_path %>',
+      issues_path: '<%= escape_javascript issues_path %>'
+    });
+  <% end %>
+<% end %>
+
+<% if @project.shared_versions.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <%= render :partial => 'board' %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'agile_boards/issues_links' %>
+  <%= render :partial => 'agile_charts/agile_charts' %>
+<% end %>
+
+<% html_title l(:label_agile_version_planning) %>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :redmine_agile, :plugin => 'redmine_agile' %>
+  <%= javascript_include_tag "jquery.ui.touch-punch.js", :plugin => 'redmine_agile' %>
+  <%= stylesheet_link_tag :context_menu %>
+<% end %>

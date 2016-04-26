@@ -1,0 +1,43 @@
+<%= form_tag({}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+<div class="autoscroll">
+    <div class="flash error" style="display: none;" id="agile-board-errors">
+    </div>
+    <table class="list  versions-planning-board">
+      <thead>
+      <tr>
+        <th style="width: 33%; text-align: left;">
+          <%= text_field_tag "search", '', :placeholder => l(:label_agile_no_version_issues) %>
+          <%= javascript_tag "observeIssueSearchfield('search', '#{escape_javascript autocomplete_agile_versions_path(:project_id => @project)}');" %>
+        </th>
+        <th style="width: 33%; text-align: left;" id="backlog_version_header" data-estimated-unit="<%= estimated_unit%>">
+          <%= version_select_tag(@backlog_version, :version_type => "backlog", :other_version => @current_version) %>
+        </th>
+        <th style="width: 33%; text-align: left;" id="current_version_header" data-estimated-unit="<%= estimated_unit%>">
+          <%= version_select_tag(@current_version, :version_type => "current", :other_version => @backlog_version) %>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="no_version" class="issue-version-col" data-id="">
+          <%= render :partial => 'version_issues', :object => @version_issues  %>
+          </td>
+          <td id="backlog_version" class="<%= 'issue-version-col' if @backlog_version %>" data-id="<%= @backlog_version && @backlog_version.id %>">
+            <%= render :partial => 'version_issues', :object => @backlog_version_issues if @backlog_version %>
+          </td>
+          <td id="current_version" class="<%= 'issue-version-col' if @current_version %>" data-id="<%= @current_version && @current_version.id %>">
+            <%= render :partial => 'version_issues', :object => @current_version_issues if @current_version %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<% end %>
+
+<%= javascript_tag do %>
+  recalculateHours();
+  $(document).ajaxSuccess(recalculateHours);
+<% end %>

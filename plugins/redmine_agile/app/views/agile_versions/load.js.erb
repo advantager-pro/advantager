@@ -1,0 +1,5 @@
+$('#<%= @version_type %>_version').html('<%= escape_javascript(render :partial => "version_issues", :object => @version_issues) %>');
+$('#<%= @version_type %>_version').attr('data-id', '<%= @version.id %>');
+
+$('#<%= @version_type %>_version_header').html('<%= escape_javascript(version_select_tag(@version, :version_type => @version_type, :other_version => @other_version_id)) %>');
+$('#<%= @other_version_type %>_version_header').html('<%= escape_javascript(version_select_tag(@other_version_id, :version_type => @other_version_type, :other_version => @version)) %>');
