@@ -39,6 +39,15 @@ COPY assets/tools/ /usr/bin/
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
+RUN apt-get update
+RUN apt-get install -y vim openssh-server
+# Enable SSH
+RUN rm -f /etc/service/sshd/down
+#RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+COPY authorized_keys /tmp/authorized_keys
+RUN mkdir /root/.ssh
+RUN cat /tmp/authorized_keys >> /root/.ssh/authorized_keys && rm -f /tmp/authorized_keys
+
 EXPOSE 80/tcp 443/tcp
 
 VOLUME ["${REDMINE_DATA_DIR}", "${REDMINE_LOG_DIR}"]
