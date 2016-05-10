@@ -27,3 +27,9 @@ Role.create(name: "Supervisor", permissions: [:edit_issues,:manage_boards, :add_
 #Worker - Realizador
 Role.create(name: "Realizador", permissions: [:view_files,:view_calendar,:comment_news, :view_issues,:add_issues, :edit_issues, :manage_issue_relations, :manage_subtasks,
   :add_issue_notes, :edit_own_issue_notes],issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: false)
+
+#Default priorities
+IssuePriority.create(name: "Low", position:1, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "lowest")
+IssuePriority.create(name: "Normal", position:2, is_default: true, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "Default")
+IssuePriority.create(name: "Alta", position:3, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "high")
+IssuePriority.create(name: "Critica", position:4, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "highest")
