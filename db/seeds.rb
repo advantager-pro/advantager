@@ -33,3 +33,11 @@ IssuePriority.create(name: "Low", position:1, type: "IssuePriority", active: tru
 IssuePriority.create(name: "Normal", position:2, is_default: true, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "Default")
 IssuePriority.create(name: "Alta", position:3, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "high")
 IssuePriority.create(name: "Critica", position:4, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "highest")
+
+#Default TimeEntryActivity
+TimeEntryActivity.create(name: "Planificacion", position: 1, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+TimeEntryActivity.create(name: "Desarrollo", position: 2, is_default: true, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+TimeEntryActivity.create(name: "Investigacion", position: 3, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+TimeEntryActivity.create(name: "Pruebas", position: 4, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+TimeEntryActivity.create(name: "Documentacion", position: 5, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+TimeEntryActivity.create(name: "Evaluacion", position: 6, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
