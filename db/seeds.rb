@@ -41,3 +41,11 @@ TimeEntryActivity.create(name: "Investigacion", position: 3, is_default: false, 
 TimeEntryActivity.create(name: "Pruebas", position: 4, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 TimeEntryActivity.create(name: "Documentacion", position: 5, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 TimeEntryActivity.create(name: "Evaluacion", position: 6, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
+
+#Default Issue status
+default_issue_status = IssueStatus.create(name: "Nueva", is_closed: false, position: 1, default_done_ratio: nil)
+IssueStatus.create(name: "En progreso", is_closed: false, position: 2, default_done_ratio: nil)
+IssueStatus.create(name: "Cerrada", is_closed: true, position: 3, default_done_ratio: 100)
+IssueStatus.create(name: "Rechazada", is_closed: false, position: 4, default_done_ratio: nil)
+
+Tracker.create(name: "Tarea", position: 1, is_in_roadmap: true, default_status_id: default_issue_status.id)
