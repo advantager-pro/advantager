@@ -389,7 +389,7 @@ redmine_configure_incoming_email() {
         ${INCOMING_EMAIL_PRIORITY:+priority=${INCOMING_EMAIL_PRIORITY}} \
         ${INCOMING_EMAIL_PRIVATE:+private=${INCOMING_EMAIL_PRIVATE}} \
         ${INCOMING_EMAIL_ALLOW_OVERRIDE:+allow_override=${INCOMING_EMAIL_ALLOW_OVERRIDE}}"
-      echo "*/${IMAP_INTERVAL} * * * * cd ${REDMINE_HOME}/redmine && bundle exec rake redmine:email:receive_imap host=${IMAP_HOST} port=${IMAP_PORT} ssl=${IMAP_SSL} username=${IMAP_USER} password=${IMAP_PASS} ${INCOMING_EMAIL_OPTIONS} RAILS_ENV=${RAILS_ENV} >> ${REDMINE_LOG_DIR}/redmine/cron_rake.log 2>&1" >>/tmp/cron.${REDMINE_USER}
+      echo "*/${IMAP_INTERVAL} * * * * cd ${REDMINE_HOME}/redmine &&  RAILS_ENV=${RAILS_ENV} bundle exec rake redmine:email:receive_imap host=${IMAP_HOST} port=${IMAP_PORT} ssl=${IMAP_SSL} username=${IMAP_USER} password=${IMAP_PASS} ${INCOMING_EMAIL_OPTIONS} RAILS_ENV=${RAILS_ENV} >> ${REDMINE_LOG_DIR}/redmine/cron_rake.log 2>&1" >>/tmp/cron.${REDMINE_USER}
     fi
     crontab -u ${REDMINE_USER} /tmp/cron.${REDMINE_USER}
     rm -rf /tmp/cron.${REDMINE_USER}
@@ -880,12 +880,12 @@ migrate_database() {
     exec_as_redmine chmod -R 0755 ${REDMINE_DATA_DIR}/tmp
 
     echo "Migrating database. Please be patient, this could take a while..."
-    exec_as_redmine bundle exec rake db:create >/dev/null
-    exec_as_redmine bundle exec rake db:migrate >/dev/null
+    exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake db:create >/dev/null
+    exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake db:migrate >/dev/null
 
     # clear sessions and application cache
-    exec_as_redmine bundle exec rake tmp:cache:clear >/dev/null
-    exec_as_redmine bundle exec rake tmp:sessions:clear >/dev/null
+    exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake tmp:cache:clear >/dev/null
+    exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake tmp:sessions:clear >/dev/null
 
     # update version file
     echo ${REDMINE_VERSION} | exec_as_redmine tee --append ${REDMINE_DATA_DIR}/tmp/VERSION >/dev/null
@@ -932,7 +932,7 @@ install_plugins() {
       exec_as_redmine bundle install -j$(nproc) --without development test --path ${REDMINE_INSTALL_DIR}/vendor/bundle --quiet
 
       echo "Migrating plugins. Please be patient, this could take a while..."
-      exec_as_redmine bundle exec rake redmine:plugins:migrate
+      exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake redmine:plugins:migrate
 
       # save SHA1
       echo -n ${PLUGINS_SHA1} > ${REDMINE_DATA_DIR}/tmp/plugins.sha1
@@ -962,7 +962,7 @@ execute_raketask() {
     return 1
   fi
   echo "Running raketask ${1}..."
-  exec_as_redmine bundle exec rake $@
+  exec_as_redmine RAILS_ENV=${RAILS_ENV} bundle exec rake $@
 }
 
 backup_create() {
