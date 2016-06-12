@@ -14,6 +14,7 @@ redmine:
     - postgresql:postgresql
   environment:
     - TZ=Asia/Kolkata
+    - RAILS_ENV=production
 
     - REDMINE_PORT=10083
     - REDMINE_HTTPS=false
