@@ -11,24 +11,7 @@ exec_as_redmine() {
   sudo -HEu ${REDMINE_USER} "$@"
 }
 
-
-# HACK: we want both the pg and mysql2 gems installed, so we remove the
-#       respective lines and add them at the end of the Gemfile so that they
-#       are both installed.
-PG_GEM=$(grep 'gem "pg"' ${REDMINE_INSTALL_DIR}/Gemfile | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print;}')
-MYSQL2_GEM=$(grep 'gem "mysql2"' ${REDMINE_INSTALL_DIR}/Gemfile | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print;}')
-
-sed -i \
-  -e '/gem "pg"/d' \
-  -e '/gem "mysql2"/d' \
-  ${REDMINE_INSTALL_DIR}/Gemfile
-
-(
-  echo "${PG_GEM}";
-  echo "${MYSQL2_GEM}";
-  echo 'gem "unicorn"';
-  echo 'gem "dalli", "~> 2.7.0"';
-) >> ${REDMINE_INSTALL_DIR}/Gemfile
+# TODO: install pg & imagemagick dependencies
 
 # install gems
 cd ${REDMINE_INSTALL_DIR}
