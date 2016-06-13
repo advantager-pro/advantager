@@ -36,6 +36,10 @@
 /tmp/test/*
 /tmp/thumbnails/*
 /vendor/cache
+
+# We are not using vendor now. But maybe we should review this
+/vendor
+
 *.rbc
 
 /.bundle
