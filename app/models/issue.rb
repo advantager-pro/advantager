@@ -72,6 +72,8 @@ class Issue < ActiveRecord::Base
   validates :estimated_hours, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true, :message => :invalid}
   validates :start_date, :date => true
   validates :due_date, :date => true
+  validates :actual_due_date, :date => true
+  validates :actual_start_date, :date => true
   validate :validate_issue, :validate_required_fields
   attr_protected :id
 
@@ -409,6 +411,8 @@ class Issue < ActiveRecord::Base
     'description',
     'start_date',
     'due_date',
+    'actual_start_date',
+    'actual_due_date',
     'done_ratio',
     'estimated_hours',
     'custom_field_values',
