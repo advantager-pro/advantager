@@ -449,7 +449,7 @@ class Issue < ActiveRecord::Base
       names |= %w(project_id)
     end
     if dates_derived?
-      names -= %w(start_date due_date)
+      names -= %w(start_date due_date actual_start_date actual_due_date)
     end
     if priority_derived?
       names -= %w(priority_id)
