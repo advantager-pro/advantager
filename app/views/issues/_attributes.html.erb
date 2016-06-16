@@ -64,6 +64,20 @@
 </p>
 <% end %>
 
+<% if @issue.safe_attribute? 'actual_start_date' %>
+<p id="actual_start_date_area">
+  <%= f.text_field(:actual_start_date, :size => 10, :required => @issue.required_attribute?('actual_start_date')) %>
+  <%= calendar_for('issue_actual_start_date') %>
+</p>
+<% end %>
+
+<% if @issue.safe_attribute? 'actual_due_date' %>
+<p id="actual_due_date_area">
+  <%= f.text_field(:actual_due_date, :size => 10, :required => @issue.required_attribute?('actual_due_date')) %>
+  <%= calendar_for('issue_actual_due_date') %>
+</p>
+<% end %>
+
 <% if @issue.safe_attribute? 'estimated_hours' %>
 <p><%= f.text_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
 <% end %>
