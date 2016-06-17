@@ -256,6 +256,8 @@ es:
   error_ldap_bind_credentials: Cuenta/Contraseña LDAP incorrecta
   field_account: Cuenta
   field_activity: Actividad
+  field_actual_due_date: Fecha fin real
+  field_actual_start_date: Fecha inicio real
   field_admin: Administrador
   field_assignable: Se pueden asignar peticiones a este perfil
   field_assigned_to: Asignado a
