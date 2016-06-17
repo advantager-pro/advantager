@@ -1,6 +1,6 @@
 class AddEstimatedDatesFields < ActiveRecord::Migration
   def self.up
-    add_column :issues, :actual_end_date, :date
+    add_column :issues, :actual_due_date, :date
     add_column :issues, :actual_start_date, :date
   end
 
