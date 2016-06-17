@@ -426,7 +426,7 @@ class IssuesController < ApplicationController
       @issue.project ||= @issue.allowed_target_projects.first
     end
     @issue.author ||= User.current
-    @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
+    @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date? #TODO check if this is necessary
 
     attrs = (params[:issue] || {}).deep_dup
     if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
