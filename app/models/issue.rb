@@ -639,7 +639,11 @@ class Issue < ActiveRecord::Base
       errors.add :due_date, :greater_than_start_date
     end
 
-    if start_date && start_date_changed? && soonest_start && start_date < soonest_start
+    if actual_due_date && actual_start_date && (actual_start_date_changed? || actual_due_date_changed?) && actual_due_date < actual_start_date
+      errors.add :actual_due_date, :greater_than_start_date #TODO check this message
+    end
+
+    if start_date && start_date_changed? && soonest_start && start_date < soonest_start #TODO what about soonest_start
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
@@ -1098,7 +1102,8 @@ class Issue < ActiveRecord::Base
 
   # Returns the duration in working days
   def working_duration
-    (start_date && due_date) ? working_days(start_date, due_date) : 0
+    #(start_date && due_date) ? working_days(start_date, due_date) : 0
+    (actual_start_date && actual_due_date) ? working_days(actual_start_date, actual_due_date) : 0
   end
 
   def soonest_start(reload=false)
