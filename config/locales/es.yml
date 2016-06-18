@@ -133,7 +133,8 @@ es:
         less_than_or_equal_to: "debe ser menor que o igual a %{count}"
         odd: "debe ser impar"
         even: "debe ser par"
-        greater_than_start_date: "debe ser posterior a la fecha de comienzo"
+        greater_than_start_date: "debe ser posterior a la fecha de comienzo estimada"
+        greater_than_actual_start_date: "debe ser posterior a la fecha de comienzo real"
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
@@ -278,7 +279,7 @@ es:
   field_description: Descripción
   field_done_ratio: "% Realizado"
   field_downloads: Descargas
-  field_due_date: Fecha fin
+  field_due_date: Fecha fin estimada
   field_effective_date: Fecha
   field_estimated_hours: Tiempo estimado
   field_field_format: Formato
@@ -325,7 +326,7 @@ es:
   field_role: Perfil
   field_searchable: Incluir en las búsquedas
   field_spent_on: Fecha
-  field_start_date: Fecha de inicio
+  field_start_date: Fecha de inicio estimada
   field_start_page: Página principal
   field_status: Estado
   field_subject: Asunto
