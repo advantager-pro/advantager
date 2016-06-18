@@ -640,7 +640,7 @@ class Issue < ActiveRecord::Base
     end
 
     if actual_due_date && actual_start_date && (actual_start_date_changed? || actual_due_date_changed?) && actual_due_date < actual_start_date
-      errors.add :actual_due_date, :greater_than_start_date #TODO check this message
+      errors.add :actual_due_date, :greater_than_actual_start_date 
     end
 
     if start_date && start_date_changed? && soonest_start && start_date < soonest_start #TODO what about soonest_start
