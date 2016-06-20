@@ -32,8 +32,10 @@ class IssueQuery < Query
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
-    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
-    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"), #estimated
+    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"), #estimated
+    QueryColumn.new(:actual_start_date, :sortable => "#{Issue.table_name}.actual_start_date"),
+    QueryColumn.new(:actual_due_date, :sortable => "#{Issue.table_name}.actual_due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
     QueryColumn.new(:total_estimated_hours,
       :sortable => "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +
@@ -214,6 +216,8 @@ class IssueQuery < Query
     add_available_filter "closed_on", :type => :date_past
     add_available_filter "start_date", :type => :date
     add_available_filter "due_date", :type => :date
+    add_available_filter "actual_start_date", :type => :date
+    add_available_filter "actual_due_date", :type => :date
     add_available_filter "estimated_hours", :type => :float
     add_available_filter "done_ratio", :type => :integer
 
