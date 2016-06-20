@@ -4,6 +4,51 @@
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true, :size => 60 %></p>
 
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th> <%= t("evm.field") %> </th>
+        <th> <%= t("evm.visible_field") %> </th>
+        <th> <%= t("evm.evm_field") %> </th>
+        <th> <%= t("evm.customize") %> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Project.available_fields.each do | field | %>
+        <tr>
+          <td>
+            <%= field %>
+          </td>
+          <td>
+            <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
+          </td>
+          <td>
+            <%= f.radio_button :evm_field, field, checked: @project.evm_field == field, data: { evm_field: field }  %>
+          </td>
+
+          <td>
+            <% if field == 'custom' %>
+              <div id="custom_field_container" style="display: <%= @project.using_custom_unity? ? 'block' : 'none' %>;">
+                <%= f.text_field :custom_unity, label: "", size: 60 %>
+              </div>
+            <% elsif field == 'cost' %>
+              <div id="cost_field_container" style="display: <%= @project.using_currency? ? 'block' : 'none' %>;">
+                <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: "" %></p>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<%= f.hidden_field :visible_fields, id: :visible_fields %>
+
+
+
 <p><%= f.text_area :description, :rows => 8, :class => 'wiki-edit' %></p>
 <p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
 <% unless @project.identifier_frozen? %>
@@ -102,5 +147,32 @@ $(document).ready(function() {
       $('#project_trackers, #project_issue_custom_fields').hide();
     }
   }).trigger('change');
+
+
+  var togleContainer = function(field){
+    if(field != 'custom' && field != 'cost') return;
+    var fields = ['custom', 'cost'];
+    $.each(fields, function(k, f){
+      var evmChecked = $("[data-evm-field='"+f+"']").is(':checked');
+      var visibleChecked = $("[data-visible-field='"+f+"']").is(':checked');
+      if(evmChecked || visibleChecked){
+        $("#"+f+"_field_container").slideDown();
+      }else if(!(evmChecked || visibleChecked)){
+        $("#"+f+"_field_container").slideUp();
+      }
+    });
+
+  }
+
+  $(document).on('change', "[data-evm-field]", function(e){
+    togleContainer($(this).data('evm-field'));
+  });
+
+  $(document).on('change', "[data-visible-field]", function(e){
+    togleContainer($(this).data('visible-field'));
+    var visibleFields = [];
+    $("[data-visible-field]:checked").each(function(){ visibleFields.push($(this).data("visible-field")); });
+    $("#visible_fields").val(visibleFields.join(','));
+  });
 });
 <% end %>

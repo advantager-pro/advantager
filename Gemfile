@@ -17,6 +17,9 @@ gem "roadie-rails"
 gem "unicorn"
 gem "dalli", "~> 2.7.0"
 
+# Money gem to manage currencies
+gem 'money'
+
 # Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"
 
