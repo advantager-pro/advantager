@@ -32,6 +32,25 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45F
  && rm -rf /var/lib/apt/lists/*
 
 COPY assets/build/ ${REDMINE_BUILD_DIR}/
+
+# This will create the /home/redmine folder
+RUN bash ${REDMINE_BUILD_DIR}/preinstall.sh
+
+####### Copy this repo code to /home/redmine
+# Create dir for sources
+# WORKDIR $REDMINE_INSTALL_DIR
+# Install Gemfile so its cache doesn't get invalidated by copying the rest of the sources
+# COPY Gemfile Gemfile.lock $REDMINE_INSTALL_DIR/
+# ENV BUNDLE_PATH=/home/app/bundle \
+#	BUNDLE_GEMFILE=$REDMINE_INSTALL_DIR/Gemfile \
+#   BUNDLE_JOBS=2
+# RUN bundle install
+# Copy sources
+COPY . $REDMINE_INSTALL_DIR
+########
+
+RUN chown redmine:redmine $REDMINE_INSTALL_DIR -R
+# Finish the installation
 RUN bash ${REDMINE_BUILD_DIR}/install.sh
 
 COPY assets/runtime/ ${REDMINE_RUNTIME_DIR}/

@@ -72,6 +72,8 @@ class Issue < ActiveRecord::Base
   validates :estimated_hours, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true, :message => :invalid}
   validates :start_date, :date => true
   validates :due_date, :date => true
+  validates :actual_due_date, :date => true
+  validates :actual_start_date, :date => true
   validate :validate_issue, :validate_required_fields
   attr_protected :id
 
@@ -409,6 +411,8 @@ class Issue < ActiveRecord::Base
     'description',
     'start_date',
     'due_date',
+    'actual_start_date',
+    'actual_due_date',
     'done_ratio',
     'estimated_hours',
     'custom_field_values',
@@ -445,7 +449,7 @@ class Issue < ActiveRecord::Base
       names |= %w(project_id)
     end
     if dates_derived?
-      names -= %w(start_date due_date)
+      names -= %w(start_date due_date actual_start_date actual_due_date)
     end
     if priority_derived?
       names -= %w(priority_id)
@@ -635,7 +639,11 @@ class Issue < ActiveRecord::Base
       errors.add :due_date, :greater_than_start_date
     end
 
-    if start_date && start_date_changed? && soonest_start && start_date < soonest_start
+    if actual_due_date && actual_start_date && (actual_start_date_changed? || actual_due_date_changed?) && actual_due_date < actual_start_date
+      errors.add :actual_due_date, :greater_than_actual_start_date
+    end
+
+    if start_date && start_date_changed? && soonest_start && start_date < soonest_start #TODO what about soonest_start
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
@@ -1588,7 +1596,7 @@ class Issue < ActiveRecord::Base
   # Callback for setting closed_on when the issue is closed.
   # The closed_on attribute stores the time of the last closing
   # and is preserved when the issue is reopened.
-  def update_closed_on
+  def update_closed_on #TODO check this to update state
     if closing?
       self.closed_on = updated_on
     end
