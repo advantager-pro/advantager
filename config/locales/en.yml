@@ -125,7 +125,8 @@ en:
         less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
-        greater_than_start_date: "must be greater than start date"
+        greater_than_start_date: "must be greater than estimated start date"
+        greater_than_actual_start_date: "must be greater than actual start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
@@ -269,7 +270,7 @@ en:
   field_is_default: Default value
   field_tracker: Tracker
   field_subject: Subject
-  field_due_date: Due date
+  field_due_date: Estimated due date
   field_assigned_to: Assignee
   field_priority: Priority
   field_fixed_version: Target version
@@ -282,6 +283,8 @@ en:
   field_is_in_roadmap: Issues displayed in roadmap
   field_login: Login
   field_mail_notification: Email notifications
+  field_actual_due_date: Actual due date
+  field_actual_start_date: Actual start date
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
@@ -300,7 +303,7 @@ en:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
-  field_start_date: Start date
+  field_start_date: Estimated start date
   field_done_ratio: "% Done"
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
