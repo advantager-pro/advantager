@@ -640,7 +640,7 @@ class Issue < ActiveRecord::Base
     end
 
     if actual_due_date && actual_start_date && (actual_start_date_changed? || actual_due_date_changed?) && actual_due_date < actual_start_date
-      errors.add :actual_due_date, :greater_than_actual_start_date 
+      errors.add :actual_due_date, :greater_than_actual_start_date
     end
 
     if start_date && start_date_changed? && soonest_start && start_date < soonest_start #TODO what about soonest_start
@@ -1102,8 +1102,7 @@ class Issue < ActiveRecord::Base
 
   # Returns the duration in working days
   def working_duration
-    #(start_date && due_date) ? working_days(start_date, due_date) : 0
-    (actual_start_date && actual_due_date) ? working_days(actual_start_date, actual_due_date) : 0
+    (start_date && due_date) ? working_days(start_date, due_date) : 0
   end
 
   def soonest_start(reload=false)
@@ -1597,7 +1596,7 @@ class Issue < ActiveRecord::Base
   # Callback for setting closed_on when the issue is closed.
   # The closed_on attribute stores the time of the last closing
   # and is preserved when the issue is reopened.
-  def update_closed_on
+  def update_closed_on #TODO check this to update state
     if closing?
       self.closed_on = updated_on
     end
