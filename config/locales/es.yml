@@ -341,6 +341,20 @@ es:
   field_user: Usuario
   field_value: Valor
   field_version: Versión
+  field_evm_field: Campo para cálculo del EVM
+  field_currency: Moneda
+  field_visible_fields: Campos opcionales
+  field_custom_unity: Unidad personalizada
+  field_evm_frequency: Frequencia de cortes para EVM (en días)
+  field_actual_cost: Costo
+  field_actual_time: Horas
+  field_actual_point: Puntos dedicados
+  field_actual_custom: Valor dedicado
+  evm:
+    field: Campo
+    visible_field: Campo visible
+    evm_field: Campo para EVM
+    customize: Personalizar..
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15
   general_csv_separator: ';'

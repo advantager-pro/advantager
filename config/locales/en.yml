@@ -364,6 +364,20 @@ en:
   field_total_estimated_hours: Total estimated time
   field_default_version: Default version
   field_remote_ip: IP address
+  field_evm_field: EVM field
+  field_currency: Currency
+  field_visible_fields: Visible fields
+  field_custom_unity: Custom unity
+  field_evm_frequency: EVM calculation frequency (days)
+  field_actual_cost: Cost spent
+  field_actual_time: Hours
+  field_actual_point: Spent points
+  field_actual_custom: Spent value
+  evm:
+    field: Field
+    visible_field: Visible field
+    evm_field: EVM field
+    customize: Customize..
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
