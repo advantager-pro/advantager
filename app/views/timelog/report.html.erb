@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:button_log_time), 
+<%= link_to l(:button_log_time),
             _new_time_entry_path(@project, @issue),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
@@ -27,7 +27,7 @@
                                                           :id => "criterias") %>
      <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @report.columns}, :class => 'icon icon-reload' %></p>
 <% end %>
-
+EVM_TODO
 <% unless @report.criteria.empty? %>
 <div class="total-hours">
 <p><%= l(:label_total_time) %>: <%= html_hours(l_hours(@report.total_hours)) %></p>
@@ -71,4 +71,3 @@
 <% end %>
 
 <% html_title l(:label_spent_time), l(:label_report) %>
-

@@ -5,10 +5,10 @@ module EVM::ActualCostEntry
       alias_attribute :actual_time, :hours
 
       Project.available_fields.each do |field|
-        validates :"actual_#{field}", presence: true, if: "project.evm_#{field}_based?"
+        validates Project.entry_field(field), presence: true, if: "project.evm_#{field}_based?", numericality: { greater_than: 0 }
+        safe_attributes field.to_s
       end
 
-      safe_attributes 'actual_point', 'actual_cost', 'actual_custom', 'hours'
     end
 
     module ClassMethods

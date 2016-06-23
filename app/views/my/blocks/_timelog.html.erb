@@ -17,13 +17,25 @@ entries_by_day = entries.group_by(&:spent_on)
 <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
 </div>
 
+
 <% if entries.any? %>
+<% project = entries.first.project %>
+<% unless project.evm_time_based? %>
+  <div class="total-cost">
+  <p><%= l(:label_total_actual_cost) %>: <%= entries.sum(&:"#{project.entry_evm_field}").to_f %></p>
+</div>
+
+<% end %>
 <table class="list time-entries">
 <thead><tr>
 <th><%= l(:label_activity) %></th>
 <th><%= l(:label_project) %></th>
 <th><%= l(:field_comments) %></th>
-<th><%= l(:field_hours) %></th>
+<% project.visible_fields.each do |field| %>
+  <th><%= l(:"field_#{Project.entry_field(field)}") %></th>
+<% end %>
+<th><%= l(:"field_#{project.entry_evm_field}") %></th>
+
 <th></th>
 </tr></thead>
 <tbody>
@@ -31,7 +43,14 @@ entries_by_day = entries.group_by(&:spent_on)
     <tr class="odd">
     <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>
+
     <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
+
+    <% project.visible_fields.each do |field| %>
+      <td class="actual_cost"><em><%= entries_by_day[day].sum(&:"#{Project.entry_field(field)}").to_f %></em></td>
+    <% end %>
+    <td class="actual_cost"><em><%= entries_by_day[day].sum(&:"#{project.entry_evm_field}").to_f %></em></td>
+
     <td></td>
     </tr>
     <% entries_by_day[day].each do |entry| -%>
@@ -39,7 +58,8 @@ entries_by_day = entries.group_by(&:spent_on)
     <td class="activity"><%= entry.activity %></td>
     <td class="subject"><%= entry.project %> <%= h(' - ') + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%= entry.comments %></td>
-    <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+    <td class="actual_cost"><%= entry.send(project.entry_evm_field) %></td>
+
     <td class="buttons">
     <% if entry.editable_by?(@user) -%>
         <%= link_to '', {:controller => 'timelog', :action => 'edit', :id => entry},

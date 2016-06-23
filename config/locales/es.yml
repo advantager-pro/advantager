@@ -206,6 +206,7 @@ es:
   button_list: Listar
   button_lock: Bloquear
   button_log_time: Tiempo dedicado
+  button_log: Registro
   button_login: Acceder
   button_move: Mover
   button_quote: Citar
@@ -346,11 +347,21 @@ es:
   field_visible_fields: Campos opcionales
   field_custom_unity: Unidad personalizada
   field_evm_frequency: Frequencia de cortes para EVM (en días)
+  field_total_estimated_custom: Valor estimado total
+  field_total_estimated_cost: Costo total estimado
+  field_total_estimated_point: Total de puntos estimados
+  field_total_estimated_value: Valor estimado total
   field_actual_cost: Costo
   field_actual_time: Horas
   field_actual_point: Puntos dedicados
   field_actual_custom: Valor dedicado
+  field_estimated_cost: Costo estimado
+  field_estimated_time: Horas estimadas
+  field_estimated_point: Puntos estimados
+  field_estimated_custom: Valor estimado
+  field_estimated_value: Valor estimado
   evm:
+    fieldset: Campo utilizado para calcular EVM
     field: Campo
     visible_field: Campo visible
     evm_field: Campo para EVM
@@ -560,6 +571,20 @@ es:
   label_options: Opciones
   label_overall_activity: Actividad global
   label_overview: Vistazo
+
+  label_spent_point: Puntos dedicados
+  label_total_spent_point: Puntos totales dedicados
+  label_overall_spent_point: Puntos dedicados en general
+  label_spent_cost: Costo parcial
+  label_total_spent_cost: Costo total
+  label_overall_spent_cost: Costo general
+  label_spent_custom: Valor dedicado
+  label_total_spent_custom: Valor dedicado total
+  label_overall_spent_custom: Valor dedicado general
+  label_spent_value: Valor dedicado
+  label_total_spent_value: Valor dedicado total
+  label_overall_spent_value: Valor dedicado general
+
   label_password_lost: ¿Olvidaste la contraseña?
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
@@ -626,6 +651,7 @@ es:
   label_sort_lower: Bajar
   label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
+
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto

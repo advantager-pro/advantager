@@ -1,6 +1,7 @@
 <h2><%= l(:label_bulk_edit_selected_time_entries) %></h2>
 
 <ul id="bulk-selection">
+  EVM_TODO
 <% @time_entries.each do |entry| %>
   <%= content_tag 'li',
         link_to("#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => entry.hours)}", edit_time_entry_path(entry)) %>
@@ -9,6 +10,8 @@
 
 <%= form_tag(bulk_update_time_entries_path, :id => 'bulk_edit_form') do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join.html_safe %>
+
+<% project = @time_entries.first.project # All those time entries should be from the same project %>
 <div class="box tabular">
   <div>
     <p>
@@ -21,10 +24,18 @@
       <%= text_field :time_entry, :spent_on, :size => 10 %><%= calendar_for('time_entry_spent_on') %>
     </p>
 
-    <p>
-      <label><%= l(:field_hours) %></label>
-      <%= text_field :time_entry, :hours, :size => 6 %>
-    </p>
+    <fieldset>
+      <legend><%= t("evm.fieldset") %></legend>
+      <p>
+        <label><%= l(:"field_#{project.entry_evm_field}") %></label>
+        <%= text_field :time_entry, project.entry_evm_field, size: 6 %>
+      </p>
+    </fieldset>
+
+    <% project.visible_fields.each do |field| %>
+      <%= text_field :time_entry, Project.entry_field(field), size: 6 %>
+    <% end %>
+
 
     <% if @available_activities.any? %>
     <p>

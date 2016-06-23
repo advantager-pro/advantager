@@ -1,4 +1,6 @@
 <div id="query_form_with_buttons" class="hide-when-print">
+EVM_TODO
+
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
@@ -18,7 +20,6 @@
     </div>
   </fieldset>
 </div>
-
 <p class="buttons">
   <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>

@@ -73,8 +73,8 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = IssueCustomField.sorted.to_a
     @trackers = Tracker.sorted.to_a
     @project = Project.new
+    params[:project][:visible_fields] = params[:project][:visible_fields].split(",") if params[:project][:visible_fields].present?
     @project.safe_attributes = params[:project]
-
     if @project.save
       unless User.current.admin?
         @project.add_default_member(User.current)
@@ -145,7 +145,7 @@ class ProjectsController < ApplicationController
     @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count
 
     if User.current.allowed_to_view_all_time_entries?(@project)
-      @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
+      @total_cost = TimeEntry.visible.where(cond).sum(@issue.project.entry_evm_field).to_f
     end
 
     @key = User.current.rss_key
@@ -162,12 +162,15 @@ class ProjectsController < ApplicationController
     @member ||= @project.members.new
     @trackers = Tracker.sorted.to_a
     @wiki ||= @project.wiki || Wiki.new(:project => @project)
+    @project.visible_fields_will_change!
   end
 
   def edit
+    @project.visible_fields_will_change!
   end
 
   def update
+    params[:project][:visible_fields] = params[:project][:visible_fields].split(",") if params[:project][:visible_fields].present?
     @project.safe_attributes = params[:project]
     if @project.save
       respond_to do |format|

@@ -1,3 +1,5 @@
+EVM_TODO
+
 <% @report.hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
 <% hours_for_value = select_hours(hours, criterias[level], value) -%>
 <% next if hours_for_value.empty? -%>

@@ -48,12 +48,13 @@ class TimelogController < ApplicationController
       includes(:project, :user, :issue).
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
+    project  = scope.to_a.first.project
     respond_to do |format|
       format.html {
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
         @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
-        @total_hours = scope.sum(:hours).to_f
+        @total_cost = scope.sum(project.entry_evm_field).to_f
 
         render :layout => !request.xhr?
       }

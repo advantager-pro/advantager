@@ -1,5 +1,21 @@
 <%= labelled_fields_for :issue, @issue do |f| %>
 
+
+
+
+<fieldset>
+<p>
+  <legend><%= t("evm.fieldset") %></legend>
+  <%= f.number_field @issue.project.issue_evm_field, required: true %>
+</p>
+</fieldset>
+
+<% @issue.project.visible_fields.each do |field| %>
+  <p><%= f.number_field Project.issue_field(field) %></p>
+<% end %>
+
+
+
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
@@ -76,10 +92,6 @@
   <%= f.text_field(:actual_due_date, :size => 10, :required => @issue.required_attribute?('actual_due_date')) %>
   <%= calendar_for('issue_actual_due_date') %>
 </p>
-<% end %>
-
-<% if @issue.safe_attribute? 'estimated_hours' %>
-<p><%= f.text_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>

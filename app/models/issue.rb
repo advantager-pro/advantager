@@ -21,6 +21,7 @@ class Issue < ActiveRecord::Base
   include Redmine::I18n
   before_save :set_parent_id
   include Redmine::NestedSet::IssueNestedSet
+  include ::EVM::Issue
 
   belongs_to :project
   belongs_to :tracker
@@ -215,8 +216,21 @@ class Issue < ActiveRecord::Base
     @assignable_versions = nil
     @relations = nil
     @spent_hours = nil
+    @spent_value = nil
     @total_spent_hours = nil
+    @total_spent_value = nil
+    @total_estimated_value = nil
     @total_estimated_hours = nil
+
+    @spent_custom = nil
+    @total_spent_custom = nil
+    @total_estimated_custom = nil
+    @spent_point = nil
+    @total_spent_point = nil
+    @total_estimated_point = nil
+    @spent_cost = nil
+    @total_spent_cost = nil
+    @total_estimated_cost = nil
     base_reload(*args)
   end
 
@@ -975,11 +989,84 @@ class Issue < ActiveRecord::Base
     end
   end
 
+
+  # Returns the number of hours spent on this issue
+  def spent_point
+    @spent_point ||= time_entries.sum(:"actual_point") || 0
+  end
+
+  # Returns the total number of hours spent on this issue and its descendants
+  def total_spent_point
+    @total_spent_point ||= if leaf?
+      spent_point
+    else
+      self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.actual_point").to_f || 0.0
+    end
+  end
+
+
+  # Returns the number of hours spent on this issue
+  def spent_custom
+    @spent_custom ||= time_entries.sum(:"actual_custom") || 0
+  end
+
+  # Returns the total number of hours spent on this issue and its descendants
+  def total_spent_custom
+    @total_spent_custom ||= if leaf?
+      spent_custom
+    else
+      self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.actual_custom").to_f || 0.0
+    end
+  end
+
+
+  # Returns the number of hours spent on this issue
+  def spent_cost
+    @spent_cost ||= time_entries.sum(:"actual_cost") || 0
+  end
+
+  # Returns the total number of hours spent on this issue and its descendants
+  def total_spent_cost
+    @total_spent_cost ||= if leaf?
+      spent_cost
+    else
+      self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.actual_cost").to_f || 0.0
+    end
+  end
+
+
+
+  # Returns the number of hours spent on this issue
+  def spent_value
+    @spent_value ||= time_entries.sum(project.entry_evm_field) || 0
+  end
+
+  # Returns the total number of hours spent on this issue and its descendants
+  def total_spent_value
+    @total_spent_value ||= if leaf?
+      spent_value
+    else
+      self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.#{project.entry_evm_field}").to_f || 0.0
+    end
+  end
+
   def total_estimated_hours
     if leaf?
       estimated_hours
     else
       @total_estimated_hours ||= self_and_descendants.sum(:estimated_hours)
+    end
+  end
+
+  def estimated_value
+    self.send(self.project.issue_evm_field)
+  end
+
+  def total_estimated_value
+    if leaf?
+      estimated_value
+    else
+      @total_estimated_value ||= self_and_descendants.sum(self.project.issue_evm_field)
     end
   end
 
@@ -1016,6 +1103,77 @@ class Issue < ActiveRecord::Base
         where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:hours)
       issues.each do |issue|
         issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+
+  # Preloads visible spent time for a collection of issues
+  def self.load_visible_spent_cost(issues, user=User.current)
+    if issues.any?
+      cost_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:actual_cost)
+      issues.each do |issue|
+        issue.instance_variable_set "@spent_cost", (cost_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  # Preloads visible total spent time for a collection of issues
+  def self.load_visible_total_spent_cost(issues, user=User.current)
+    if issues.any?
+      cost_by_issue_id = TimeEntry.visible(user).joins(:issue).
+        joins("JOIN #{Issue.table_name} parent ON parent.root_id = #{Issue.table_name}.root_id" +
+          " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
+        where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:actual_cost)
+      issues.each do |issue|
+        issue.instance_variable_set "@total_spent_cost", (cost_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+
+  # Preloads visible spent time for a collection of issues
+  def self.load_visible_spent_point(issues, user=User.current)
+    if issues.any?
+      point_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:actual_point)
+      issues.each do |issue|
+        issue.instance_variable_set "@spent_point", (point_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  # Preloads visible total spent time for a collection of issues
+  def self.load_visible_total_spent_point(issues, user=User.current)
+    if issues.any?
+      point_by_issue_id = TimeEntry.visible(user).joins(:issue).
+        joins("JOIN #{Issue.table_name} parent ON parent.root_id = #{Issue.table_name}.root_id" +
+          " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
+        where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:actual_point)
+      issues.each do |issue|
+        issue.instance_variable_set "@total_spent_point", (point_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  # Preloads visible spent time for a collection of issues
+  def self.load_visible_spent_point(issues, user=User.current)
+    if issues.any?
+      point_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:actual_point)
+      issues.each do |issue|
+        issue.instance_variable_set "@spent_point", (point_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  # Preloads visible total spent time for a collection of issues
+  def self.load_visible_total_spent_point(issues, user=User.current)
+    if issues.any?
+      point_by_issue_id = TimeEntry.visible(user).joins(:issue).
+        joins("JOIN #{Issue.table_name} parent ON parent.root_id = #{Issue.table_name}.root_id" +
+          " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
+        where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:actual_point)
+      issues.each do |issue|
+        issue.instance_variable_set "@total_spent_point", (point_by_issue_id[issue.id] || 0)
       end
     end
   end

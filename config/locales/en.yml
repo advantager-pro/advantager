@@ -362,6 +362,10 @@ en:
   field_users_visibility: Users visibility
   field_time_entries_visibility: Time logs visibility
   field_total_estimated_hours: Total estimated time
+  field_total_estimated_custom: Total estimated value
+  field_total_estimated_cost: Total estimated cost
+  field_total_estimated_point: Total estimated point
+  field_total_estimated_value: Total estimated value
   field_default_version: Default version
   field_remote_ip: IP address
   field_evm_field: EVM field
@@ -373,7 +377,14 @@ en:
   field_actual_time: Hours
   field_actual_point: Spent points
   field_actual_custom: Spent value
+  field_actual_value: Spent value
+  field_estimated_cost: Estimated cost
+  field_estimated_time: Estimated time
+  field_estimated_point: Estimated point
+  field_estimated_custom: Estimated value
+  field_estimated_value: Estimated value
   evm:
+    fieldset: Field used to calculate EVM
     field: Field
     visible_field: Visible field
     evm_field: EVM field
@@ -791,6 +802,18 @@ en:
   label_spent_time: Spent time
   label_total_spent_time: Total spent time
   label_overall_spent_time: Overall spent time
+  label_spent_point: Spent point
+  label_total_spent_point: Total spent point
+  label_overall_spent_point: Overall spent point
+  label_spent_cost: Spent cost
+  label_total_spent_cost: Total spent cost
+  label_overall_spent_cost: Overall spent cost
+  label_spent_custom: Spent value
+  label_total_spent_custom: Total spent value
+  label_overall_spent_custom: Overall spent value
+  label_spent_value: Spent value
+  label_total_spent_value: Total spent value
+  label_overall_spent_value: Overall spent value
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_f_hour_short: "%{value} h"
@@ -1035,6 +1058,7 @@ en:
   button_activate: Activate
   button_sort: Sort
   button_log_time: Log time
+  button_log: Log
   button_rollback: Rollback to this version
   button_watch: Watch
   button_unwatch: Unwatch

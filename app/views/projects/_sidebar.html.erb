@@ -1,5 +1,6 @@
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
   <h3><%= l(:label_spent_time) %></h3>
+  EVM_TODO
   <% if @total_hours.present? %>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
   <% end %>
