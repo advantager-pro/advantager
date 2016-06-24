@@ -17,6 +17,7 @@
 
 class TimeEntryActivity < Enumeration
   has_many :time_entries, :foreign_key => 'activity_id'
+  translates :name
 
   OptionName = :enumeration_activities
 
