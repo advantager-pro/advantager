@@ -361,6 +361,9 @@ es:
   field_estimated_custom: Valor estimado
   field_estimated_value: Valor estimado
   evm:
+    unities:
+      time: hora/s
+      point: punto/s
     fieldset: Campo utilizado para calcular EVM
     field: Campo
     visible_field: Campo visible
@@ -828,8 +831,9 @@ es:
   text_caracters_minimum: "%{count} caracteres como mínimo."
   text_comma_separated: Múltiples valores permitidos (separados por coma).
   text_default_administrator_account_changed: Cuenta de administrador por defecto modificada
-  text_destroy_time_entries: Borrar las horas
-  text_destroy_time_entries_question: Existen %{hours} horas asignadas a la petición que quiere borrar. ¿Qué quiere hacer?
+  text_destroy_time_entries_question: "Ha sido assignado un costo real de %{actual_cost} %{unity} a las peticiones que desea borrar. ¿Qué desea hacer?"
+  text_destroy_time_entries: Eliminar el costo real (%{unity}) reportado
+  text_reassign_time_entries: 'Reasignar el costo real (%{unity}) a la siguiente petición:'
   text_diff_truncated: '... Diferencia truncada por exceder el máximo tamaño visualizable.'
   text_email_delivery_not_configured: "Las notificaciones están desactivadas porque el servidor de correo no está configurado.\nConfigure el servidor de SMTP en config/configuration.yml y reinicie la aplicación para activar los cambios."
   text_enumeration_category_reassign_to: 'Reasignar al siguiente valor:'
@@ -847,7 +851,6 @@ es:
   text_min_max_length_info: 0 para ninguna restricción
   text_no_configuration_data: "Todavía no se han configurado perfiles, ni tipos, estados y flujo de trabajo asociado a peticiones. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla."
   text_project_destroy_confirmation: ¿Estás seguro de querer eliminar el proyecto?
-  text_reassign_time_entries: 'Reasignar las horas a esta petición:'
   text_regexp_info: ej. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de Redmine y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en Redmine y en el repositorio serán asociados automáticamente."
   text_rmagick_available: RMagick disponible (opcional)
