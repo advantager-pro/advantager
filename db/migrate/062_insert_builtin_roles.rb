@@ -1,5 +1,6 @@
 class InsertBuiltinRoles < ActiveRecord::Migration
   def self.up
+    #This was commented because initial roles are added as a seed.
     # Role.reset_column_information
     # nonmember = Role.new(:name => 'Non member', :position => 0)
     # nonmember.builtin = Role::BUILTIN_NON_MEMBER
