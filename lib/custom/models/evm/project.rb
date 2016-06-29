@@ -70,6 +70,14 @@ module EVM::Project
         @@available_fields ||= %w(time point cost custom)
       end
 
+      def available_fields_for_entry
+        available_fields.map{|f| entry_field(f).to_sym }
+      end
+
+      def available_fields_for_issue
+        available_fields.map{|f| issue_field(f).to_sym }
+      end
+
       def currency_ids
         @@currency_ids ||= Money::Currency.table.keys.map(&:to_s)
       end
