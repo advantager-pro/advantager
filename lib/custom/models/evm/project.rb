@@ -52,6 +52,21 @@ module EVM::Project
       evm_based_on?(field) || visible_fields.include?(field)
     end
 
+    def fields_for_entry
+      ([evm_field] + visible_fields).map{|f| ::Project.entry_field(f).to_sym }
+    end
+
+    def fields_for_entry_of_descendants
+      fields = fields_for_entry
+      unless project.leaf?
+        subprojects = project.descendants.visible.to_a
+        if subprojects.any?
+          subprojects.each{ |s| fields+= s.fields_for_entry_of_descendants }
+        end
+      end
+      fields
+    end
+
     module ClassMethods
 
       def entry_field(field)

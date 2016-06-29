@@ -98,8 +98,11 @@ class TimeEntryQuery < Query
     @available_columns
   end
 
+
   def default_columns_names
-    @default_columns_names ||= ([:project, :spent_on, :user, :activity, :issue, :comments] + ::Project.available_fields_for_entry )
+    project_evm_fields = ::Project.available_fields_for_entry
+    project_evm_fields = project.fields_for_entry_of_descendants if project.present?
+    @default_columns_names ||= ([:project, :spent_on, :user, :activity, :issue, :comments] + project_evm_fields )
   end
 
   def results_scope(options={})
