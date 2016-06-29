@@ -123,8 +123,8 @@
 
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
-  <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
-          :class => 'icon-time-add' %></li>
+  <li><%= context_menu_link l(:button_log), new_issue_time_entry_path(@issue),
+          :class => 'icon icon-add' %></li>
   <% end %>
   <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
           :class => 'icon-copy', :disabled => !@can[:copy] %></li>
