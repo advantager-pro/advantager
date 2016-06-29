@@ -327,8 +327,7 @@ class IssueQuery < Query
   def default_columns_names
     @default_columns_names ||= begin
       default_columns = Setting.issue_list_default_columns.map(&:to_sym)
-
-      project.present? ? default_columns : [:project] | default_columns
+      project.present? ? default_columns + project.fields_for_issue_of_descendants : default_columns | ([:project] + ::Project.available_fields_for_issue)
     end
   end
 
