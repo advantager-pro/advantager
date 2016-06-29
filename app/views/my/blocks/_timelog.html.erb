@@ -1,5 +1,5 @@
 <h3>
-  <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
+  <%= link_to l(:label_logs), time_entries_path(:user_id => 'me') %>
   (<%= l(:label_last_n_days, 7) %>)
 </h3>
 <%
@@ -9,33 +9,33 @@ entries_by_day = entries.group_by(&:spent_on)
 
 <% if User.current.allowed_to?(:log_time, nil, :global => true) %>
 <div class="contextual">
-  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" %>
+  <%= link_to l(:button_log), new_time_entry_path, :class => "icon icon-add" %>
 </div>
 <% end %>
 
-<div class="total-hours">
-<p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
-</div>
 
 
-<% if entries.any? %>
-<% project = entries.first.project %>
-<% unless project.evm_time_based? %>
-  <div class="total-cost">
-  <p><%= l(:label_total_actual_cost) %>: <%= entries.sum(&:"#{project.entry_evm_field}").to_f %></p>
-</div>
-
+<% Project.available_fields.each do |field|  %>
+  <% if field == 'time' %>
+  <div class="total-hours">
+    <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+  </div>
+  <% else %>
+  <div class="total-actual-<%= field %>">
+    <% entry_field = Project.entry_field(field) %>
+    <p><%= l(:"label_total_spent_#{field}") %>: <%= entries.sum(&entry_field).to_f %></p>
+  </div>
+  <% end %>
 <% end %>
+
 <table class="list time-entries">
 <thead><tr>
 <th><%= l(:label_activity) %></th>
 <th><%= l(:label_project) %></th>
 <th><%= l(:field_comments) %></th>
-<% project.visible_fields.each do |field| %>
-  <th><%= l(:"field_#{Project.entry_field(field)}") %></th>
+<% Project.available_fields.each do |field| %>
+  <th><%= l(:"field_#{field}") %></th>
 <% end %>
-<th><%= l(:"field_#{project.entry_evm_field}") %></th>
-
 <th></th>
 </tr></thead>
 <tbody>
@@ -44,12 +44,9 @@ entries_by_day = entries.group_by(&:spent_on)
     <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>
 
-    <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
-
-    <% project.visible_fields.each do |field| %>
+    <% Project.available_fields.each do |field| %>
       <td class="actual_cost"><em><%= entries_by_day[day].sum(&:"#{Project.entry_field(field)}").to_f %></em></td>
     <% end %>
-    <td class="actual_cost"><em><%= entries_by_day[day].sum(&:"#{project.entry_evm_field}").to_f %></em></td>
 
     <td></td>
     </tr>
@@ -58,7 +55,23 @@ entries_by_day = entries.group_by(&:spent_on)
     <td class="activity"><%= entry.activity %></td>
     <td class="subject"><%= entry.project %> <%= h(' - ') + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%= entry.comments %></td>
-    <td class="actual_cost"><%= entry.send(project.entry_evm_field) %></td>
+
+    <% Project.available_fields.each do |field| %>
+      <% if field == entry.project.evm_field %>
+      <td class="actual-cost">
+        <strong title="<%= t('evm.fieldset') %>">
+          <%= entry_field_value(entry.send(Project.entry_field(field))) %>
+          <cursive><%= evm_entry_unity(entry, field) %></cursive>
+          *
+        </strong>
+      </td>
+      <% else %>
+      <td class="actual-<=% field %>">
+        <%= entry_field_value(entry.send(Project.entry_field(field))) %>
+        <cursive><%= evm_entry_unity(entry, field) %></cursive>
+      </td>
+      <% end %>
+    <% end %>
 
     <td class="buttons">
     <% if entry.editable_by?(@user) -%>
@@ -76,4 +89,3 @@ entries_by_day = entries.group_by(&:spent_on)
 <% end -%>
 </tbody>
 </table>
-<% end %>
