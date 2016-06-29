@@ -145,7 +145,7 @@ class ProjectsController < ApplicationController
     @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count
 
     if User.current.allowed_to_view_all_time_entries?(@project)
-      @total_cost = TimeEntry.visible.where(cond).sum(@issue.project.entry_evm_field).to_f
+      @total_cost = TimeEntry.visible.where(cond).sum(@project.entry_evm_field).to_f
     end
 
     @key = User.current.rss_key
