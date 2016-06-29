@@ -1,12 +1,12 @@
 <div class="contextual">
-<%= link_to l(:button_log_time),
+<%= link_to l(:button_log),
             _new_time_entry_path(@project, @issue),
-            :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
+            :class => 'icon icon-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
 <%= render_timelog_breadcrumb %>
 
-<h2><%= l(:label_spent_time) %></h2>
+<h2><%= l(:label_logs) %></h2>
 
 <%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
 <%= render :partial => 'date_range' %>
