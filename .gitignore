@@ -43,8 +43,6 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
-/Gemfile.local
 
 .remote-sync.json
 .DS_Store
