@@ -56,8 +56,20 @@ module EVM::Project
       ([evm_field] + visible_fields).map{|f| ::Project.entry_field(f).to_sym }
     end
 
+    def fields_for_issue
+      ([evm_field] + visible_fields).map{|f| ::Project.issue_field(f).to_sym }
+    end
+
     def fields_for_entry_of_descendants
-      fields = fields_for_entry
+      get_from_descendants(:fields_for_entry)
+    end
+
+    def fields_for_issue_of_descendants
+      get_from_descendants(:fields_for_issue)
+    end
+
+    def get_from_descendants method
+      fields = self.send(method)
       unless project.leaf?
         subprojects = project.descendants.visible.to_a
         if subprojects.any?
