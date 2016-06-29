@@ -206,7 +206,7 @@ es:
   button_list: Listar
   button_lock: Bloquear
   button_log_time: Tiempo dedicado
-  button_log: Registro
+  button_log: Agregar registro
   button_login: Acceder
   button_move: Mover
   button_quote: Citar
@@ -360,6 +360,10 @@ es:
   field_estimated_point: Puntos estimados
   field_estimated_custom: Valor estimado
   field_estimated_value: Valor estimado
+  field_cost: Costo
+  field_custom: Valor
+  field_time: Horas
+  field_point: Puntos
   evm:
     unities:
       time: hora/s
@@ -654,7 +658,7 @@ es:
   label_sort_lower: Bajar
   label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
-
+  label_logs: Registros
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto

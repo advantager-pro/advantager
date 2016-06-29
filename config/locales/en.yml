@@ -239,6 +239,10 @@ en:
   mail_body_settings_updated: "The following settings were changed:"
 
   field_name: Name
+  field_cost: Cost
+  field_custom: Value
+  field_time: Hours
+  field_point: Points
   field_description: Description
   field_summary: Summary
   field_is_required: Required
@@ -803,6 +807,7 @@ en:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
+  label_logs: Logs
   label_total_spent_time: Total spent time
   label_overall_spent_time: Overall spent time
   label_spent_point: Spent point
@@ -1061,7 +1066,7 @@ en:
   button_activate: Activate
   button_sort: Sort
   button_log_time: Log time
-  button_log: Log
+  button_log: Add log
   button_rollback: Rollback to this version
   button_watch: Watch
   button_unwatch: Unwatch
