@@ -1,12 +1,14 @@
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
-  <h3><%= l(:label_spent_time) %></h3>
-  EVM_TODO
-  <% if @total_hours.present? %>
-    <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
+  <h3><%= l(:label_logs) %></h3>
+
+  <% if @total_cost.present? %>
+    <p>
+      <%= @total_cost %> <i><%= evm_unity(@project) %></i>
+    </p>
   <% end %>
   <p>
   <% if User.current.allowed_to?(:log_time, @project) %>
-    <%= link_to l(:button_log_time), new_project_time_entry_path(@project) %> |
+    <%= link_to l(:button_log), new_project_time_entry_path(@project), class: 'icon icon-add' %> |
   <% end %>
   <%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
   <%= link_to(l(:label_report), report_project_time_entries_path(@project)) %>
