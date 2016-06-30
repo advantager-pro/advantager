@@ -76,11 +76,20 @@ class TimelogController < ApplicationController
   end
 
   def report
-    @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
-    scope = time_entry_scope
 
-    @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
-
+    if @project.present?
+      @query = TimeEntryQuery.build_from_params(params, :project => @project, :name => '_')
+      scope = time_entry_scope # This method uses @query internally
+      @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
+      @reports = [@report]
+    else
+      @reports = []
+      Project.where(id: User.current.visible_project_ids).each do |project|
+        @query = TimeEntryQuery.build_from_params(params, project: project, :name => '_')
+        scope = time_entry_scope # This method uses @query internally
+        @reports << Redmine::Helpers::TimeReport.new(project, @issue, params[:criteria], params[:columns], scope)
+      end
+    end
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
       format.csv  { send_data(report_to_csv(@report), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
