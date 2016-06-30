@@ -18,7 +18,7 @@
 class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  include EVM::Version
+  include EVM::VersionM
 
   after_update :update_issues_from_sharing_change
   before_destroy :nullify_projects_default_version

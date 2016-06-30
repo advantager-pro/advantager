@@ -16,7 +16,7 @@ module EVMHelper
   end
 
   def sum_evm_values values, field
-    values.reduce{ |sum, e|  sum + ( e.send(field) || 0 ) }
+    values.reduce{ |sum, e|  sum + e.send(field).to_f }
   end
 
 end
