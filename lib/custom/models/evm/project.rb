@@ -9,7 +9,7 @@ module EVM::ProjectM
       validates :evm_frequency, presence: true, numericality: { only_integer: true, greater_than: 0 }
       validate :validate_visible_fields
 
-      available_fields.each do |field|
+      (available_fields + [:hours]).each do |field|
         define_method "evm_#{field}_based?".to_sym do
           evm_based_on?(field)
         end
