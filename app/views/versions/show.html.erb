@@ -10,23 +10,28 @@
 <div id="roadmap">
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
-EVM_TODO
+
 <div id="version-summary">
 <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
-<fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
-<table>
-<tr>
-    <th><%= l(:field_estimated_hours) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
-</tr>
-<% if User.current.allowed_to_view_all_time_entries?(@project) %>
-<tr>
-    <th><%= l(:label_spent_time) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>
-</tr>
-<% end %>
-</table>
-</fieldset>
+  <fieldset class="time-tracking"><legend><%= l(:label_logs) %></legend>
+  <table>
+    <% @project.fields_for_issue.each do |field| %>
+      <tr>
+          <th><%= l(:"field_#{field}") %></th>
+          <td class="total-<%= field %>"><%= @version.send(field) %></td>
+      </tr>
+    <% end %>
+
+  <% if User.current.allowed_to_view_all_time_entries?(@project) %>
+    <% @project.fields_for_entry.each do |field| %>
+        <tr>
+            <th><%= l(:"label_#{field}") %></th>
+            <td class="total-<%= field %>"><%= @version.send(field) %></td>
+        </tr>
+    <% end %>
+  <% end %>
+  </table>
+  </fieldset>
 <% end %>
 
 <div id="status_by">
