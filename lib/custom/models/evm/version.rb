@@ -1,4 +1,4 @@
-module EVM::Version
+module EVM::VersionM
     extend ActiveSupport::Concern
 
     included do

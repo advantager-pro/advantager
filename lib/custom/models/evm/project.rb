@@ -1,4 +1,4 @@
-module EVM::Project
+module EVM::ProjectM
     extend ActiveSupport::Concern
 
     included do
@@ -15,7 +15,7 @@ module EVM::Project
         end
       end
 
-      safe_attributes 'evm_field', 'visible_fields', 'currency', 'evm_frequency'
+      safe_attributes 'evm_field', 'visible_fields', 'currency', 'evm_frequency', 'custom_unity'
     end
 
     def issue_evm_field
