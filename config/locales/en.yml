@@ -806,8 +806,8 @@ en:
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
-  label_spent_time: Spent time
   label_logs: Logs
+  label_spent_time: Spent time
   label_total_spent_time: Total spent time
   label_overall_spent_time: Overall spent time
   label_spent_point: Spent point
@@ -822,6 +822,21 @@ en:
   label_spent_value: Spent value
   label_total_spent_value: Total spent value
   label_overall_spent_value: Overall spent value
+  label_actual_time: Spent time
+  label_total_actual_time: Total spent time
+  label_overall_actual_time: Overall spent time
+  label_actual_point: Spent point
+  label_total_actual_point: Total spent point
+  label_overall_actual_point: Overall spent point
+  label_actual_cost: Spent cost
+  label_total_actual_cost: Total spent cost
+  label_overall_actual_cost: Overall spent cost
+  label_actual_custom: Spent value
+  label_total_actual_custom: Total spent value
+  label_overall_actual_custom: Overall spent value
+  label_actual_value: Spent value
+  label_total_actual_value: Total spent value
+  label_overall_actual_value: Overall spent value  
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_f_hour_short: "%{value} h"

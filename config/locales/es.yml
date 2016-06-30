@@ -591,7 +591,19 @@ es:
   label_spent_value: Valor dedicado
   label_total_spent_value: Valor dedicado total
   label_overall_spent_value: Valor dedicado general
-
+  label_actual_point: Puntos dedicados
+  label_total_actual_point: Puntos totales dedicados
+  label_overall_actual_point: Puntos dedicados en general
+  label_actual_cost: Costo parcial
+  label_total_actual_cost: Costo total
+  label_overall_actual_cost: Costo general
+  label_actual_custom: Valor dedicado
+  label_total_actual_custom: Valor dedicado total
+  label_overall_actual_custom: Valor dedicado general
+  label_actual_value: Valor dedicado
+  label_total_actual_value: Valor dedicado total
+  label_overall_actual_value: Valor dedicado general
+  
   label_password_lost: ¿Olvidaste la contraseña?
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
