@@ -18,12 +18,12 @@ entries_by_day = entries.group_by(&:spent_on)
 <% Project.available_fields.each do |field|  %>
   <% if field == 'time' %>
   <div class="total-hours">
-    <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+    <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % sum_evm_values(entries, :hours).to_f) %></p>
   </div>
   <% else %>
   <div class="total-actual-<%= field %>">
     <% entry_field = Project.entry_field(field) %>
-    <p><%= l(:"label_total_spent_#{field}") %>: <%= entries.sum(&entry_field).to_f %></p>
+    <p><%= l(:"label_total_spent_#{field}") %>: <%= sum_evm_values(entries, entry_field).to_f %></p>
   </div>
   <% end %>
 <% end %>
@@ -45,7 +45,7 @@ entries_by_day = entries.group_by(&:spent_on)
     <td colspan="2"></td>
 
     <% Project.available_fields.each do |field| %>
-      <td class="actual_cost"><em><%= entries_by_day[day].sum(&:"#{Project.entry_field(field)}").to_f %></em></td>
+      <td class="actual_cost"><em><%= sum_evm_values(entries_by_day[day], :"#{Project.entry_field(field)}").to_f %></em></td>
     <% end %>
 
     <td></td>
