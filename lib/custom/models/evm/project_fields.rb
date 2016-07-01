@@ -1,4 +1,4 @@
-module EVM::ProjectM
+module EVM::ProjectFields
     extend ActiveSupport::Concern
 
     included do

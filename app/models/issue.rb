@@ -21,7 +21,7 @@ class Issue < ActiveRecord::Base
   include Redmine::I18n
   before_save :set_parent_id
   include Redmine::NestedSet::IssueNestedSet
-  include ::EVM::IssueM
+  include ::EVM::IssuePV
 
   belongs_to :project
   belongs_to :tracker
