@@ -248,7 +248,7 @@ mt.attributes = {name: "Milestone", locale: :en}
 mt.attributes = {name: "Hito", locale: :es}
 mt.save!
 
-ts = Tracker.where(name: "Tarea").first
+ts = Tracker.where(name: "Task").first
 ts.attributes = {name: "Task", locale: :en}
 ts.attributes = {name: "Tarea", locale: :es}
 ts.save!
