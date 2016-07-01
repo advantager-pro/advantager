@@ -15,6 +15,10 @@ module EVM::ActualCostEntry
         # end
       end
 
+      def actual_cost
+        self.send(project.entry_evm_field)
+      end
+
     end
 
     module ClassMethods

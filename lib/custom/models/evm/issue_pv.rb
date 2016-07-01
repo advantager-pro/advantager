@@ -15,6 +15,20 @@ module EVM::IssuePV
         # end
       end
 
+      def planned_value
+        self.send(project.issue_evm_field)
+      end
+
+      def actual_cost
+        ac = 0
+        time_entries.each{ |e| ac += e.actual_cost }
+        ac
+      end
+
+      def earned_value
+        (done_ratio/100.0) * planned_value
+      end
+
     end
 
     module ClassMethods
