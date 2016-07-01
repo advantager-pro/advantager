@@ -29,6 +29,8 @@ class Role < ActiveRecord::Base
     end
   end
 
+  translates :name
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2

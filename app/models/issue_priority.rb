@@ -21,6 +21,8 @@ class IssuePriority < Enumeration
   after_destroy {|priority| priority.class.compute_position_names}
   after_save {|priority| priority.class.compute_position_names if (priority.position_changed? && priority.position) || priority.active_changed?}
 
+  translates :name
+
   OptionName = :enumeration_issue_priorities
 
   def option_name

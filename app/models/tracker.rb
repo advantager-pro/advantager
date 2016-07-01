@@ -24,6 +24,8 @@ class Tracker < ActiveRecord::Base
   CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS + EVM_FIELDS).freeze
 
+  translates :name
+
   before_destroy :check_integrity
   belongs_to :default_status, :class_name => 'IssueStatus'
   has_many :issues
