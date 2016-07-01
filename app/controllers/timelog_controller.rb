@@ -19,8 +19,8 @@ class TimelogController < ApplicationController
   menu_item :issues
 
   before_filter :find_time_entry, :only => [:show, :edit, :update]
-  before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
+  before_filter :find_time_entries, :only => [:destroy]
+  before_filter :authorize, :only => [:show, :edit, :update, :destroy]
 
   before_filter :find_optional_project, :only => [:new, :create, :index, :report]
   before_filter :authorize_global, :only => [:new, :create, :index, :report]
@@ -179,28 +179,6 @@ class TimelogController < ApplicationController
     end
   end
 
-  def bulk_edit
-    @available_activities = TimeEntryActivity.shared.active
-    @custom_fields = TimeEntry.first.available_custom_fields
-  end
-
-  def bulk_update
-    attributes = parse_params_for_bulk_time_entry_attributes(params)
-
-    unsaved_time_entry_ids = []
-    @time_entries.each do |time_entry|
-      time_entry.reload
-      time_entry.safe_attributes = attributes
-      call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
-      unless time_entry.save
-        logger.info "time entry could not be updated: #{time_entry.errors.full_messages}" if logger && logger.info?
-        # Keep unsaved time_entry ids to display them in flash error
-        unsaved_time_entry_ids << time_entry.id
-      end
-    end
-    set_flash_from_bulk_time_entry_save(@time_entries, unsaved_time_entry_ids)
-    redirect_back_or_default project_time_entries_path(@projects.first)
-  end
 
   def destroy
     destroyed = TimeEntry.transaction do

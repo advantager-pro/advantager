@@ -219,8 +219,8 @@ Rails.application.routes.draw do
   resources :time_entries, :controller => 'timelog', :except => :destroy do
     collection do
       # get 'report'
-      get 'bulk_edit'
-      post 'bulk_update'
+      # get 'bulk_edit'
+      # post 'bulk_update'
     end
   end
   match '/time_entries/:id', :to => 'timelog#destroy', :via => :delete, :id => /\d+/
