@@ -9,7 +9,7 @@ postgresql:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: redmine:3.2
+  image: redmine_volume:3.2
   links:
     - postgresql:postgresql
   environment:
@@ -50,6 +50,7 @@ redmine:
   ports:
     - "10083:80"
   volumes:
-    - /srv/docker/redmine/redmine:/home/redmine/data
+    - ../redmine_data:/home/redmine/data
     - .:/home/redmine/redmine
-    - ./vendor/bundle:/home/redmine/data/tmp/bundle
+    # - ./vendor/bundle:/home/redmine/data/tmp/bundle
+    # - ./lib/custom:/home/redmine/redmine/lib/custom

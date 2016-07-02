@@ -206,6 +206,7 @@ es:
   button_list: Listar
   button_lock: Bloquear
   button_log_time: Tiempo dedicado
+  button_log: Agregar registro
   button_login: Acceder
   button_move: Mover
   button_quote: Citar
@@ -341,6 +342,37 @@ es:
   field_user: Usuario
   field_value: Valor
   field_version: Versión
+  field_evm_field: Campo para cálculo del EVM
+  field_currency: Moneda
+  field_visible_fields: Campos opcionales
+  field_custom_unity: Unidad personalizada
+  field_evm_frequency: Frequencia de cortes para EVM (en días)
+  field_total_estimated_custom: Valor estimado total
+  field_total_estimated_cost: Costo total estimado
+  field_total_estimated_point: Total de puntos estimados
+  field_total_estimated_value: Valor estimado total
+  field_actual_cost: Costo
+  field_actual_time: Horas
+  field_actual_point: Puntos dedicados
+  field_actual_custom: Valor dedicado
+  field_estimated_cost: Costo estimado
+  field_estimated_time: Horas estimadas
+  field_estimated_point: Puntos estimados
+  field_estimated_custom: Valor estimado
+  field_estimated_value: Valor estimado
+  field_cost: Costo
+  field_custom: Valor
+  field_time: Horas
+  field_point: Puntos
+  evm:
+    unities:
+      time: hora/s
+      point: punto/s
+    fieldset: Campo utilizado para calcular EVM
+    field: Campo
+    visible_field: Campo visible
+    evm_field: Campo para EVM
+    customize: Personalizar..
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15
   general_csv_separator: ';'
@@ -546,6 +578,32 @@ es:
   label_options: Opciones
   label_overall_activity: Actividad global
   label_overview: Vistazo
+
+  label_spent_point: Puntos dedicados
+  label_total_spent_point: Puntos totales dedicados
+  label_overall_spent_point: Puntos dedicados en general
+  label_spent_cost: Costo parcial
+  label_total_spent_cost: Costo total
+  label_overall_spent_cost: Costo general
+  label_spent_custom: Valor dedicado
+  label_total_spent_custom: Valor dedicado total
+  label_overall_spent_custom: Valor dedicado general
+  label_spent_value: Valor dedicado
+  label_total_spent_value: Valor dedicado total
+  label_overall_spent_value: Valor dedicado general
+  label_actual_point: Puntos dedicados
+  label_total_actual_point: Puntos totales dedicados
+  label_overall_actual_point: Puntos dedicados en general
+  label_actual_cost: Costo parcial
+  label_total_actual_cost: Costo total
+  label_overall_actual_cost: Costo general
+  label_actual_custom: Valor dedicado
+  label_total_actual_custom: Valor dedicado total
+  label_overall_actual_custom: Valor dedicado general
+  label_actual_value: Valor dedicado
+  label_total_actual_value: Valor dedicado total
+  label_overall_actual_value: Valor dedicado general
+  
   label_password_lost: ¿Olvidaste la contraseña?
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
@@ -612,6 +670,7 @@ es:
   label_sort_lower: Bajar
   label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
+  label_logs: Registros
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto
@@ -788,8 +847,9 @@ es:
   text_caracters_minimum: "%{count} caracteres como mínimo."
   text_comma_separated: Múltiples valores permitidos (separados por coma).
   text_default_administrator_account_changed: Cuenta de administrador por defecto modificada
-  text_destroy_time_entries: Borrar las horas
-  text_destroy_time_entries_question: Existen %{hours} horas asignadas a la petición que quiere borrar. ¿Qué quiere hacer?
+  text_destroy_time_entries_question: "Ha sido assignado un costo real de %{actual_cost} %{unity} a las peticiones que desea borrar. ¿Qué desea hacer?"
+  text_destroy_time_entries: Eliminar el costo real (%{unity}) reportado
+  text_reassign_time_entries: 'Reasignar el costo real (%{unity}) a la siguiente petición:'
   text_diff_truncated: '... Diferencia truncada por exceder el máximo tamaño visualizable.'
   text_email_delivery_not_configured: "Las notificaciones están desactivadas porque el servidor de correo no está configurado.\nConfigure el servidor de SMTP en config/configuration.yml y reinicie la aplicación para activar los cambios."
   text_enumeration_category_reassign_to: 'Reasignar al siguiente valor:'
@@ -807,7 +867,6 @@ es:
   text_min_max_length_info: 0 para ninguna restricción
   text_no_configuration_data: "Todavía no se han configurado perfiles, ni tipos, estados y flujo de trabajo asociado a peticiones. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla."
   text_project_destroy_confirmation: ¿Estás seguro de querer eliminar el proyecto?
-  text_reassign_time_entries: 'Reasignar las horas a esta petición:'
   text_regexp_info: ej. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de Redmine y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en Redmine y en el repositorio serán asociados automáticamente."
   text_rmagick_available: RMagick disponible (opcional)

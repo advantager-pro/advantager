@@ -17,6 +17,9 @@
 
 class TimeEntry < ActiveRecord::Base
   include Redmine::SafeAttributes
+
+  include ::EVM::ActualCostEntry
+
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
   belongs_to :project
@@ -37,7 +40,7 @@ class TimeEntry < ActiveRecord::Base
                             :author_key => :user_id,
                             :scope => joins(:project).preload(:project)
 
-  validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
+  validates_presence_of :user_id, :activity_id, :project_id, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
@@ -158,3 +161,6 @@ class TimeEntry < ActiveRecord::Base
     editable_custom_field_values(user).map(&:custom_field).uniq
   end
 end
+
+# Alias to fit new behaviour
+ActualCostEntry = TimeEntry

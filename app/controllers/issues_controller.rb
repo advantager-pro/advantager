@@ -317,13 +317,11 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
-    if @hours > 0
+    @actual_cost = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(@issues.first.project.entry_evm_field).to_f
+    if @actual_cost > 0
       case params[:todo]
       when 'destroy'
         # nothing to do
-      when 'nullify'
-        TimeEntry.where(['issue_id IN (?)', @issues]).update_all('issue_id = NULL')
       when 'reassign'
         reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
@@ -474,7 +472,7 @@ class IssuesController < ApplicationController
   # Saves @issue and a time_entry from the parameters
   def save_issue_with_child_records
     Issue.transaction do
-      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, @issue.project)
+      if params[:time_entry] && (params[:time_entry][@issue.project.entry_evm_field].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, @issue.project)
         time_entry = @time_entry || TimeEntry.new
         time_entry.project = @issue.project
         time_entry.issue = @issue

@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
-  database: redmine_development
+  encoding: unicode
+  database: redmine
   host: postgresql
   port: 5432
   username: postgres
   password: "postgres"
-  encoding: utf8
   pool: 5
 
 production:
@@ -20,10 +20,10 @@ production:
 
 test:
   adapter: postgresql
+  encoding: utf8
   database: redmine_test
   host: postgresql
   port: 5432
   username: postgres
   password: "postgres"
-  encoding: utf8
   pool: 5

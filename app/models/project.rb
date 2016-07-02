@@ -19,6 +19,8 @@ class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
   include Redmine::NestedSet::ProjectNestedSet
 
+  include ::EVM::ProjectFields
+  include ::EVM::ProjectMethods
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_CLOSED     = 5

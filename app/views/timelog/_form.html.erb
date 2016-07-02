@@ -18,7 +18,21 @@
     <% end %>
   </p>
   <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
-  <p><%= f.text_field :hours, :size => 6, :required => true %></p>
+
+
+  <fieldset>
+    <p>
+    <legend><%= t("evm.fieldset") %></legend>
+    <%= f.number_field @time_entry.issue.project.entry_evm_field, required: true %>
+    </p>
+  </fieldset>
+
+  <% @time_entry.issue.project.visible_fields.each do |field| %>
+    <p><%= f.number_field Project.entry_field(field) %></p>
+  <% end %>
+
+
+
   <p><%= f.text_field :comments, :size => 100, :maxlength => 1024 %></p>
   <p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>
   <% @time_entry.custom_field_values.each do |value| %>

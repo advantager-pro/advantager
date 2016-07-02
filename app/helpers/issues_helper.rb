@@ -121,25 +121,25 @@ module IssuesHelper
     s.html_safe
   end
 
-  def issue_estimated_hours_details(issue)
-    if issue.total_estimated_hours.present?
-      if issue.total_estimated_hours == issue.estimated_hours
-        l_hours_short(issue.estimated_hours)
+  def issue_estimated_value_details(issue)
+    if issue.total_estimated_value.present?
+      if issue.total_estimated_value == issue.estimated_value
+        (issue.estimated_value)
       else
-        s = issue.estimated_hours.present? ? l_hours_short(issue.estimated_hours) : ""
-        s << " (#{l(:label_total)}: #{l_hours_short(issue.total_estimated_hours)})"
+        s = issue.estimated_value.present? ? (issue.estimated_value) : ""
+        s << " (#{l(:label_total)}: #{issue.total_estimated_value})"
         s.html_safe
       end
     end
   end
 
-  def issue_spent_hours_details(issue)
-    if issue.total_spent_hours > 0
-      if issue.total_spent_hours == issue.spent_hours
-        link_to(l_hours_short(issue.spent_hours), issue_time_entries_path(issue))
+  def issue_spent_value_details(issue)
+    if issue.total_spent_value > 0
+      if issue.total_spent_value == issue.spent_value
+        link_to((issue.spent_value), issue_time_entries_path(issue))
       else
-        s = issue.spent_hours > 0 ? l_hours_short(issue.spent_hours) : ""
-        s << " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), issue_time_entries_path(issue)})"
+        s = issue.spent_value > 0 ? (issue.spent_value) : ""
+        s << " (#{l(:label_total)}: #{link_to issue.total_spent_value, issue_time_entries_path(issue)})"
         s.html_safe
       end
     end
@@ -384,6 +384,23 @@ module IssuesHelper
       when 'estimated_hours'
         value = l_hours_short(detail.value.to_f) unless detail.value.blank?
         old_value = l_hours_short(detail.old_value.to_f) unless detail.old_value.blank?
+
+      when 'estimated_time'
+        value = detail.value.to_f unless detail.value.blank?
+        old_value = detail.old_value.to_f unless detail.old_value.blank?
+      when 'estimated_point'
+        value = detail.value.to_f unless detail.value.blank?
+        old_value = detail.old_value.to_f unless detail.old_value.blank?
+      when 'estimated_cost'
+        value = detail.value.to_f unless detail.value.blank?
+        old_value = detail.old_value.to_f unless detail.old_value.blank?
+      when 'estimated_custom'
+        value = detail.value.to_f unless detail.value.blank?
+        old_value = detail.old_value.to_f unless detail.old_value.blank?
+      when 'estimated_value'
+        value = detail.value.to_f unless detail.value.blank?
+        old_value = detail.old_value.to_f unless detail.old_value.blank?
+
 
       when 'parent_id'
         label = l(:field_parent_issue)

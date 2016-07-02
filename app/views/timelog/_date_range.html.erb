@@ -1,4 +1,5 @@
 <div id="query_form_with_buttons" class="hide-when-print">
+
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
@@ -18,7 +19,6 @@
     </div>
   </fieldset>
 </div>
-
 <p class="buttons">
   <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
@@ -30,7 +30,5 @@
 <ul>
     <li><%= link_to(l(:label_details), _time_entries_path(@project, @issue, query_params),
                                        :class => (action_name == 'index' ? 'selected' : nil)) %></li>
-    <li><%= link_to(l(:label_report), _report_time_entries_path(@project, @issue, query_params),
-                                       :class => (action_name == 'report' ? 'selected' : nil)) %></li>
 </ul>
 </div>

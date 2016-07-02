@@ -14,6 +14,11 @@ gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "roadie-rails"
+gem "unicorn"
+gem "dalli", "~> 2.7.0"
+
+# Money gem to manage currencies
+gem 'money'
 
 #to translate model data
 gem 'globalize', '~> 5.0.0'

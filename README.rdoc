@@ -1,6 +1,6 @@
 = OpenEvm
 
-Install plugins  
+Install plugins
 bundle exec rake redmine:plugins NAME=plugin_name RAILS_ENV=production
 
 Uninstall plugins

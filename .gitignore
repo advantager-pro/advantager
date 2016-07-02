@@ -36,11 +36,13 @@
 /tmp/test/*
 /tmp/thumbnails/*
 /vendor/cache
+
+# We are not using vendor now. But maybe we should review this
+/vendor
+
 *.rbc
 
 /.bundle
-/Gemfile.lock
-/Gemfile.local
 
 .remote-sync.json
 .DS_Store

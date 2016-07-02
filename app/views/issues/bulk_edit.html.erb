@@ -73,6 +73,8 @@
 </p>
 <% end %>
 
+<% # Do not add PV here because estimated_hours isn't here. PV should be assigned individually for each issue %>
+
 <% if @safe_attributes.include?('category_id') -%>
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
