@@ -6,7 +6,7 @@ module EVM::ProjectMethods
       has_many :evm_points, through: :issues
 
       def budget_at_conclusion
-        Rails.cache.fetch("#{cache_key}/budget_at_conclusion", expires_in: 20.minutes) do
+        Rails.cache.fetch("#{cache_key}/budget_at_conclusion", expires_in: 5.minutes) do
           sum = 0
           issues.each{ |e| sum += e.planned_value }
           sum
@@ -14,26 +14,20 @@ module EVM::ProjectMethods
       end
 
       def planned_value
-        Rails.cache.fetch("#{cache_key}/planned_value", expires_in: 20.minutes) do
-          sum = 0
-          issues.each{ |e| sum += e.planned_value }
-          sum
+        Rails.cache.fetch("#{cache_key}/planned_value", expires_in: 15.minutes) do
+          ::Evm::Point.grouped_by_day(self).last.planned_value
         end
       end
 
       def actual_cost
-        Rails.cache.fetch("#{cache_key}/actual_cost", expires_in: 20.minutes) do
-          sum = 0
-          issues.each{ |e| sum += e.actual_cost }
-          sum
+        Rails.cache.fetch("#{cache_key}/actual_cost", expires_in: 15.minutes) do
+          ::Evm::Point.grouped_by_day(self).last.actual_cost
         end
       end
 
       def earned_value
-        Rails.cache.fetch("#{cache_key}/earned_value", expires_in: 20.minutes) do
-          sum = 0
-          issues.each{ |e| sum += e.earned_value }
-          sum
+        Rails.cache.fetch("#{cache_key}/earned_value", expires_in: 15.minutes) do
+          ::Evm::Point.grouped_by_day(self).last.earned_value
         end
       end
 
