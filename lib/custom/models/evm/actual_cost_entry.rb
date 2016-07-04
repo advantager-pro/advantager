@@ -13,6 +13,10 @@ module EVM::ActualCostEntry
         # define_method ::Project.entry_field(field) do
         #   read_attribute(::Project.entry_field(field)) || 0
         # end
+
+        after_save do
+          Evm::Point.update_current_point!(self.issue)
+        end
       end
 
       def actual_cost
