@@ -1,0 +1,37 @@
+<%= form_for(@evm_break_point) do |f| %>
+  <% if @evm_break_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@evm_break_point.errors.count, "error") %> prohibited this evm_break_point from being saved:</h2>
+
+      <ul>
+      <% @evm_break_point.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :project_id %><br>
+    <%= f.text_field :project_id %>
+  </div>
+  <div class="field">
+    <%= f.label :planned_value %><br>
+    <%= f.text_field :planned_value %>
+  </div>
+  <div class="field">
+    <%= f.label :actual_cost %><br>
+    <%= f.text_field :actual_cost %>
+  </div>
+  <div class="field">
+    <%= f.label :earned_value %><br>
+    <%= f.text_field :earned_value %>
+  </div>
+  <div class="field">
+    <%= f.label :day %><br>
+    <%= f.date_select :day %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

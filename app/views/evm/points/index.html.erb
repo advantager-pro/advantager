@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Evm Points</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Planned value</th>
+      <th>Actual cost</th>
+      <th>Earned value</th>
+      <th>Day</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @evm_points.each do |evm_point| %>
+      <tr>
+        <td><%= evm_point.issue %></td>
+        <td><%= evm_point.planned_value %></td>
+        <td><%= evm_point.actual_cost %></td>
+        <td><%= evm_point.earned_value %></td>
+        <td><%= evm_point.day %></td>
+        <td><%= link_to 'Show', evm_point %></td>
+        <td><%= link_to 'Edit', edit_evm_point_path(evm_point) %></td>
+        <td><%= link_to 'Destroy', evm_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Point', new_evm_point_path %>

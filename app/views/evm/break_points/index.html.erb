@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Evm Break Points</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Planned value</th>
+      <th>Actual cost</th>
+      <th>Earned value</th>
+      <th>Day</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @evm_break_points.each do |evm_break_point| %>
+      <tr>
+        <td><%= evm_break_point.project %></td>
+        <td><%= evm_break_point.planned_value %></td>
+        <td><%= evm_break_point.actual_cost %></td>
+        <td><%= evm_break_point.earned_value %></td>
+        <td><%= evm_break_point.day %></td>
+        <td><%= link_to 'Show', evm_break_point %></td>
+        <td><%= link_to 'Edit', edit_evm_break_point_path(evm_break_point) %></td>
+        <td><%= link_to 'Destroy', evm_break_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Break point', new_evm_break_point_path %>
