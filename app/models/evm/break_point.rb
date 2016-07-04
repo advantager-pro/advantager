@@ -1,6 +1,6 @@
 class Evm::BreakPoint < ActiveRecord::Base
   belongs_to :project
-  validate_presence_of :project
+  validates_presence_of :project
 
   def self.minimum_quantity_for_feature
     6

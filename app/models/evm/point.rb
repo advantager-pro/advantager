@@ -1,6 +1,6 @@
 class Evm::Point < ActiveRecord::Base
   belongs_to :issue
-  validate_presence_of :issue
+  validates_presence_of :issue
 
   def self.update_current_point!(issue)
     Evm::Point.find_or_initialize_by(issue: issue,
