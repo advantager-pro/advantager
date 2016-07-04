@@ -4,6 +4,8 @@ module EVM::IssuePV
     included do
       alias_attribute :estimated_time, :estimated_hours
 
+      has_many :points, class_name: ::Evm::Point.to_s
+
       ( ::Project.available_fields  ).each do |field|
         validates Project.issue_field(field), numericality: { greater_than: 0, allow_nil: true }
         safe_attributes Project.issue_field(field).to_s
@@ -13,6 +15,10 @@ module EVM::IssuePV
         # define_method ::Project.issue_field(field) do
         #   read_attribute(::Project.issue_field(field)) || 0
         # end
+
+        after_save do
+          Evm::Point.update_current_point!(self)
+        end
       end
 
       def planned_value
