@@ -2,9 +2,6 @@ module EVM::ProjectMethods
     extend ActiveSupport::Concern
 
     included do
-      has_many :issues
-      has_many :evm_points, through: :issues
-
       def budget_at_conclusion
         Rails.cache.fetch("#{cache_key}/budget_at_conclusion", expires_in: 5.minutes) do
           sum = 0
@@ -102,10 +99,6 @@ module EVM::ProjectMethods
       end
     end
 
-    # def intance_method_x
-    # end
-
     module ClassMethods
-
     end
 end
