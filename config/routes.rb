@@ -17,11 +17,14 @@
 
 Rails.application.routes.draw do
   namespace :evm do
-    resources :break_points
-  end
-  namespace :evm do
+    resources :break_points do
+      collection do
+        get 'is_break_point_day'
+      end
+    end
     resources :points
   end
+
   root :to => 'welcome#index', :as => 'home'
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
