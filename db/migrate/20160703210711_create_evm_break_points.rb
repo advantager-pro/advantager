@@ -5,7 +5,7 @@ class CreateEvmBreakPoints < ActiveRecord::Migration
       t.decimal :planned_value
       t.decimal :actual_cost
       t.decimal :earned_value
-      t.date :day
+      t.date :day, index: true
 
       t.timestamps null: false
     end

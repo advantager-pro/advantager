@@ -4,7 +4,7 @@ module EVM::IssuePV
     included do
       alias_attribute :estimated_time, :estimated_hours
 
-      has_many :points, class_name: ::Evm::Point.to_s
+      has_many :evm_points, class_name: ::Evm::Point.to_s
 
       ( ::Project.available_fields  ).each do |field|
         validates Project.issue_field(field), numericality: { greater_than: 0, allow_nil: true }
