@@ -21,4 +21,10 @@ module EVMHelper
     sum
   end
 
+  def emv_points_data(evm_points, field)
+    '['+ evm_points.sort_by{ |e| e['day'] }.map do |e|
+      "{ x: new Date(#{e['day'].year},#{e['day'].month},#{e['day'].day}), y: #{e[field]}}"
+    end.join(',').html_safe + ']'
+  end
+
 end
