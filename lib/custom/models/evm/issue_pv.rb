@@ -20,11 +20,11 @@ module EVM::IssuePV
       end
 
       def planned_value
-        self.send(project.issue_evm_field)
+        self.send(project.issue_evm_field) || 0.0
       end
 
       def actual_cost
-        ac = 0
+        ac = 0.0
         time_entries.each{ |e| ac += e.actual_cost }
         ac
       end
