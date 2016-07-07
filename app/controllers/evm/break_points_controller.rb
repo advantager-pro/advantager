@@ -4,7 +4,7 @@ class Evm::BreakPointsController < ApplicationController
 
   # GET /:project_id/evm/break_points
   def index
-    @evm_break_points = Evm::BreakPoint.grouped_by_day(@project)
+    @evm_break_points = Evm::BreakPoint.find_by(project: @project).all
   end
 
 
