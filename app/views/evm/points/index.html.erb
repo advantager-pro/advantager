@@ -5,31 +5,90 @@
 <table>
   <thead>
     <tr>
-      <th>Issue</th>
-      <th>Planned value</th>
-      <th>Actual cost</th>
-      <th>Earned value</th>
-      <th>Day</th>
-      <th colspan="3"></th>
+      <!-- <% @evm_points.first.keys.each do |field| %>
+        <td> <%= t("field_#{field}") %> </td>
+      <% end %> -->
     </tr>
   </thead>
 
   <tbody>
-    <% @evm_points.each do |evm_point| %>
+    <!-- <% @evm_points.each do |evm_point_hash| %>
       <tr>
-        <td><%= evm_point.issue %></td>
-        <td><%= evm_point.planned_value %></td>
-        <td><%= evm_point.actual_cost %></td>
-        <td><%= evm_point.earned_value %></td>
-        <td><%= evm_point.day %></td>
-        <td><%= link_to 'Show', evm_point %></td>
-        <td><%= link_to 'Edit', edit_evm_point_path(evm_point) %></td>
-        <td><%= link_to 'Destroy', evm_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% evm_point_hash.values.each do |val| %>
+          <td><%= val %></td>
+        <% end %>
       </tr>
-    <% end %>
+    <% end %> -->
   </tbody>
 </table>
 
 <br>
+<div id="chartContainer"></div>
 
-<%= link_to 'New Point', new_evm_point_path %>
+<script type="text/javascript">
+/*
+http://morrisjs.github.io/morris.js/index.html
+Morris.Area({
+   element: 'hero-area',
+   data: [
+     {period: '2010 Q1', iphone: 2666, ipad: null, itouch: 2647},
+     {period: '2010 Q2', iphone: 2778, ipad: 2294, itouch: 2441},
+     {period: '2010 Q3', iphone: 4912, ipad: 1969, itouch: 2501},
+     {period: '2010 Q4', iphone: 3767, ipad: 3597, itouch: 5689},
+     {period: '2011 Q1', iphone: 6810, ipad: 1914, itouch: 2293},
+     {period: '2011 Q2', iphone: 5670, ipad: 4293, itouch: 1881},
+     {period: '2011 Q3', iphone: 4820, ipad: 3795, itouch: 1588},
+     {period: '2011 Q4', iphone: 15073, ipad: 5967, itouch: 5175},
+     {period: '2012 Q1', iphone: 10687, ipad: 4460, itouch: 2028},
+     {period: '2012 Q2', iphone: 8432, ipad: 5713, itouch: 1791}
+   ],
+   xkey: 'period',
+   ykeys: ['iphone', 'ipad', 'itouch'],
+   labels: ['iPhone', 'iPad', 'iPod Touch'],
+   pointSize: 2,
+   hideHover: 'auto'
+ });
+*/
+$(document).ready(function () {
+	//Better to construct options first and then pass it as a parameter
+var options =
+  	{
+  		title:{
+  			text: "EVM in time"
+  		},
+  		axisY: {
+  			includeZero:false,
+  			suffix: "pts.",
+  			title: "Estimated points"
+  		},
+  		axisX: {
+  			// interval:1,
+        title: "Time",
+  			valueFormatString: "DD MMM"
+  		},
+  		data: [
+  		{
+  			type: "spline",
+        name: "Planned Value",
+        showInLegend: true,
+  			dataPoints: <%= emv_points_data(@evm_points, 'planned_value') %>
+  		},
+      {
+  			type: "spline",
+        name: "Earned Value",
+        showInLegend: true,
+  			dataPoints: <%= emv_points_data(@evm_points, 'earned_value') %>
+  		},
+      {
+  			type: "spline",
+        name: "Actual Cost",
+        showInLegend: true,
+  			dataPoints: <%= emv_points_data(@evm_points, 'actual_cost') %>
+  		}
+  		]
+  	}
+	$("#chartContainer").CanvasJSChart(options);
+
+});
+</script>
+<%#= link_to 'New Point', new_evm_point_path %>
