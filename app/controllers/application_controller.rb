@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
+  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization, :set_is_search_enabled
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -658,5 +658,13 @@ class ApplicationController < ActionController::Base
   # doesn't use the layout for api requests
   def _include_layout?(*args)
     api_request? ? false : super
+  end
+
+  def set_is_search_enabled
+    @is_search_enabled = is_search_enabled
+  end
+
+  def is_search_enabled
+    true
   end
 end
