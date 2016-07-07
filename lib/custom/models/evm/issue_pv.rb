@@ -13,10 +13,6 @@ module EVM::IssuePV
         # define_method ::Project.issue_field(field) do
         #   read_attribute(::Project.issue_field(field)) || 0
         # end
-
-        after_save do
-          Evm::Point.update_current_point!(self)
-        end
       end
 
       def planned_value

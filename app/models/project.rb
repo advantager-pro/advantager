@@ -58,7 +58,7 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  has_many :evm_points, through: :issues, class_name: ::Evm::Point.to_s
+  has_many :evm_points, class_name: ::Evm::Point.to_s
 
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,
