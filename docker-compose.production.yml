@@ -13,7 +13,7 @@ redmine:
   links:
     - postgresql:postgresql
   environment:
-    - DB_ADAPTER=postgresql
+    - DB_TYPE=postgresql
     - DB_POOL=5
     - DB_HOST=postgresql
     - DB_PORT= 5432
