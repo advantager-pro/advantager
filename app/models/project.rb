@@ -59,6 +59,7 @@ class Project < ActiveRecord::Base
                           :association_foreign_key => 'custom_field_id'
 
   has_many :evm_points, class_name: ::Evm::Point.to_s
+  has_many :evm_break_points, class_name: ::Evm::BreakPoint.to_s
 
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,

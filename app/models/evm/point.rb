@@ -9,6 +9,12 @@ class Evm::Point < ActiveRecord::Base
       day: Date.today).save!
   end
 
+  # def self.grouped_by_day(project)
+  #   tbname = self.table_name
+  #   project.evm_points.select("#{tbname}.day, #{tbname}.project_id, SUM(#{tbname}.planned_value) as planned_value,
+  #     SUM(#{tbname}.actual_cost) as actual_cost,
+  #     SUM(#{tbname}.earned_value) as earned_value").group("#{tbname}.day, #{tbname}.project_id")
+  # end
 
   before_save do
     self.planned_value = self.project.planned_value
