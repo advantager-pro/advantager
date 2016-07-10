@@ -4,9 +4,9 @@ class Evm::PointsController < ApplicationController
 
   # GET /evm/points
   def index
-    @evm_points = @project.evm_points
+    @evm_points = @project.evm_points#::Evm::Point.grouped_by_day(@project)
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @evm_points }
     end
   end
