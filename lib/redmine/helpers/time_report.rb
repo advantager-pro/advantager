@@ -18,11 +18,11 @@
 module Redmine
   module Helpers
     class TimeReport
-      attr_reader :criteria, :columns, :hours, :total_hours, :periods
+      attr_reader :criteria, :columns, :values, :total_values, :periods, :project
 
       def initialize(project, issue, criteria, columns, time_entry_scope)
-        @project = project
         @issue = issue
+        @project = project || issue.try(:project)
 
         @criteria = criteria || []
         @criteria = @criteria.select{|criteria| available_criteria.has_key? criteria}
@@ -44,19 +44,19 @@ module Redmine
       def run
         unless @criteria.empty?
           time_columns = %w(tyear tmonth tweek spent_on)
-          @hours = []
+          @values = []
           @scope.includes(:issue, :activity).
               group(@criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).
               joins(@criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).
-              sum(:hours).each do |hash, hours|
-            h = {'hours' => hours}
+              sum(@project.entry_evm_field).each do |hash, values|
+            h = {@project.entry_evm_field => values}
             (@criteria + time_columns).each_with_index do |name, i|
               h[name] = hash[i]
             end
-            @hours << h
+            @values << h
           end
-          
-          @hours.each do |row|
+
+          @values.each do |row|
             case @columns
             when 'year'
               row['year'] = row['tyear']
@@ -68,14 +68,14 @@ module Redmine
               row['day'] = "#{row['spent_on']}"
             end
           end
-          
-          min = @hours.collect {|row| row['spent_on']}.min
+
+          min = @values.collect {|row| row['spent_on']}.min
           @from = min ? min.to_date : Date.today
 
-          max = @hours.collect {|row| row['spent_on']}.max
+          max = @values.collect {|row| row['spent_on']}.max
           @to = max ? max.to_date : Date.today
-          
-          @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
+
+          @total_values = @values.inject(0) {|s,k| s = s + k[@project.entry_evm_field].to_f}
 
           @periods = []
           # Date#at_beginning_of_ not supported in Rails 1.2.x
@@ -101,40 +101,40 @@ module Redmine
       end
 
       def load_available_criteria
-        @available_criteria = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
-                                              :klass => Project,
+        @available_criteria = { 'project' => {:sql => "#{::TimeEntry.table_name}.project_id",
+                                              :klass => ::Project,
                                               :label => :label_project},
-                                 'status' => {:sql => "#{Issue.table_name}.status_id",
-                                              :klass => IssueStatus,
+                                 'status' => {:sql => "#{::Issue.table_name}.status_id",
+                                              :klass => ::IssueStatus,
                                               :label => :field_status},
-                                 'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
-                                              :klass => Version,
+                                 'version' => {:sql => "#{::Issue.table_name}.fixed_version_id",
+                                              :klass => ::Version,
                                               :label => :label_version},
-                                 'category' => {:sql => "#{Issue.table_name}.category_id",
-                                                :klass => IssueCategory,
+                                 'category' => {:sql => "#{::Issue.table_name}.category_id",
+                                                :klass => ::IssueCategory,
                                                 :label => :field_category},
-                                 'user' => {:sql => "#{TimeEntry.table_name}.user_id",
-                                             :klass => User,
+                                 'user' => {:sql => "#{::TimeEntry.table_name}.user_id",
+                                             :klass => ::User,
                                              :label => :label_user},
-                                 'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
-                                              :klass => Tracker,
+                                 'tracker' => {:sql => "#{::Issue.table_name}.tracker_id",
+                                              :klass => ::Tracker,
                                               :label => :label_tracker},
-                                 'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-                                               :klass => TimeEntryActivity,
+                                 'activity' => {:sql => "#{::TimeEntry.table_name}.activity_id",
+                                               :klass => ::TimeEntryActivity,
                                                :label => :label_activity},
-                                 'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
-                                             :klass => Issue,
+                                 'issue' => {:sql => "#{::TimeEntry.table_name}.issue_id",
+                                             :klass => ::Issue,
                                              :label => :label_issue}
                                }
 
         # Add time entry custom fields
-        custom_fields = TimeEntryCustomField.all
+        custom_fields = ::TimeEntryCustomField.all
         # Add project custom fields
-        custom_fields += ProjectCustomField.all
+        custom_fields += ::ProjectCustomField.all
         # Add issue custom fields
-        custom_fields += (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+        custom_fields += (@project.nil? ? ::IssueCustomField.for_all : @project.all_issue_custom_fields)
         # Add time entry activity custom fields
-        custom_fields += TimeEntryActivityCustomField.all
+        custom_fields += ::TimeEntryActivityCustomField.all
 
         # Add list and boolean custom fields as available criteria
         custom_fields.select {|cf| %w(list bool).include?(cf.field_format) && !cf.multiple?}.each do |cf|

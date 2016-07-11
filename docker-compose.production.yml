@@ -8,12 +8,21 @@ postgresql:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: redmine:3.2
+  image: redevm:0.1.0
   mem_limit: 650m
   links:
     - postgresql:postgresql
   environment:
+    - DB_TYPE=postgresql
+    - DB_POOL=5
+    - DB_HOST=postgresql
+    - DB_PORT= 5432
+    - DB_USER=postgres
+    - DB_PASS=postgres
+    - DB_NAME=redmine_production
+    - DB_ENCODING=UTF-8
     - TZ=Asia/Kolkata
+    - RAILS_ENV=production
 
     - REDMINE_PORT=10083
     - REDMINE_HTTPS=false

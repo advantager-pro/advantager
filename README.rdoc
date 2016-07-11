@@ -1,4 +1,7 @@
 = OpenEvm
 
-Install plugins  
+Install plugins
 bundle exec rake redmine:plugins NAME=plugin_name RAILS_ENV=production
+
+Uninstall plugins
+bundle exec rake redmine:plugins:migrate NAME=redmine_agile VERSION=0 RAILS_ENV=development

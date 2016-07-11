@@ -73,14 +73,15 @@
   <label><%= l(:field_due_date) %></label>
   <%= mapping_select_tag @import, 'due_date' %>
 </p>
-<p>
-  <label><%= l(:field_estimated_hours) %></label>
-  <%= mapping_select_tag @import, 'estimated_hours' %>
-</p>
+<% Project.available_fields.each do |field| %>
+  <p>
+    <label><%= l(:"field_#{Project.issue_field(field)}") %></label>
+    <%= mapping_select_tag @import, Project.issue_field(field).to_s %>
+  </p>
+<% end %>
 <p>
   <label><%= l(:field_done_ratio) %></label>
   <%= mapping_select_tag @import, 'done_ratio' %>
 </p>
 </div>
 </div>
-

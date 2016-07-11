@@ -1,0 +1,10 @@
+# encoding: utf-8
+# German strings go here for Rails i18n
+de:
+  label_checklist_plural: Checkliste
+  field_checklist: Checkliste
+  label_checklist_save_log: "Speichere Änderungen in der Ticket-Historie"
+  label_checklist_done_ratio: Aktualisiere den Ticket-Fortschritt
+  permission_view_checklists: Checkliste anzeigen
+  permission_done_checklists: Checkliste anwenden
+  permission_edit_checklists: Checkliste bearbeiten

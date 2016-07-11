@@ -5,8 +5,10 @@ ENV REDMINE_VERSION=3.2.0 \
     REDMINE_USER="redmine" \
     REDMINE_HOME="/home/redmine" \
     REDMINE_LOG_DIR="/var/log/redmine" \
-    REDMINE_CACHE_DIR="/etc/docker-redmine" \
-    RAILS_ENV=production
+    REDMINE_CACHE_DIR="/etc/docker-redmine"
+
+ENV RAILS_ENV="production" \
+    DB_TYPE="postgresql"
 
 ENV REDMINE_INSTALL_DIR="${REDMINE_HOME}/redmine" \
     REDMINE_DATA_DIR="${REDMINE_HOME}/data" \
@@ -32,12 +34,40 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45F
  && rm -rf /var/lib/apt/lists/*
 
 COPY assets/build/ ${REDMINE_BUILD_DIR}/
+
+# This will create the /home/redmine folder
+RUN bash ${REDMINE_BUILD_DIR}/preinstall.sh
+
+####### Copy this repo code to /home/redmine
+# Create dir for sources
+# WORKDIR $REDMINE_INSTALL_DIR
+# Install Gemfile so its cache doesn't get invalidated by copying the rest of the sources
+# COPY Gemfile Gemfile.lock $REDMINE_INSTALL_DIR/
+# ENV BUNDLE_PATH=/home/app/bundle \
+#	BUNDLE_GEMFILE=$REDMINE_INSTALL_DIR/Gemfile \
+#   BUNDLE_JOBS=2
+# RUN bundle install
+# Copy sources
+COPY . $REDMINE_INSTALL_DIR
+########
+
+RUN chown redmine:redmine $REDMINE_INSTALL_DIR -R
+# Finish the installation
 RUN bash ${REDMINE_BUILD_DIR}/install.sh
 
 COPY assets/runtime/ ${REDMINE_RUNTIME_DIR}/
 COPY assets/tools/ /usr/bin/
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
+
+RUN apt-get update
+RUN apt-get install -y vim openssh-server
+# Enable SSH
+RUN rm -f /etc/service/sshd/down
+#RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+COPY authorized_keys /tmp/authorized_keys
+RUN mkdir /root/.ssh
+RUN cat /tmp/authorized_keys >> /root/.ssh/authorized_keys && rm -f /tmp/authorized_keys
 
 EXPOSE 80/tcp 443/tcp
 

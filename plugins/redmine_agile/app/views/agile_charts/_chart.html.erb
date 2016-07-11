@@ -1,0 +1,7 @@
+<% if issues_scope.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% elsif %w(work_burndown cumulative_flow hours_velocity).include?(chart) && issues_scope.count > RedmineAgile.time_reports_items_limit %>
+  <p class="nodata"><%= l(:label_agile_too_many_items, :max => RedmineAgile.time_reports_items_limit) %></p>
+<% else %>
+  <%= tag("embed", :width => "100%", :height => 400, :type => "image/svg+xml", :src => url_for(:controller => 'agile_charts', :action => 'render_chart', :project_id => @project, :chart => chart, :version_id => @version))  %>
+<% end %>

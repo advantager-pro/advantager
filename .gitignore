@@ -1,3 +1,10 @@
+
+# os x files
+/.DS_Store
+
+# remote sync
+.remote-sync.json
+
 /.project
 /.loadpath
 /.powrc
@@ -15,8 +22,6 @@
 /lib/redmine/scm/adapters/mercurial/redminehelper.pyo
 /log/*.log*
 /log/mongrel_debug
-/plugins/*
-!/plugins/README
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
@@ -31,11 +36,13 @@
 /tmp/test/*
 /tmp/thumbnails/*
 /vendor/cache
+
+# We are not using vendor now. But maybe we should review this
+/vendor
+
 *.rbc
 
 /.bundle
-/Gemfile.lock
-/Gemfile.local
 
 .remote-sync.json
 .DS_Store

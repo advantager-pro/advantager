@@ -14,9 +14,15 @@ api.issue do
   api.description @issue.description
   api.start_date @issue.start_date
   api.due_date @issue.due_date
+  api.actual_start_date @issue.actual_start_date
+  api.actual_due_date @issue.actual_due_date
   api.done_ratio @issue.done_ratio
   api.is_private @issue.is_private
-  api.estimated_hours @issue.estimated_hours
+
+  Project.available_fields.each do |field|
+    api.send(Project.issue_field(field), @issue.send(Project.issue_field(field)))
+  end
+
   api.spent_hours(@issue.spent_hours) if User.current.allowed_to?(:view_time_entries, @project)
 
   render_api_custom_values @issue.visible_custom_field_values, api

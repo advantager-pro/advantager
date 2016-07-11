@@ -11,59 +11,7 @@ exec_as_redmine() {
   sudo -HEu ${REDMINE_USER} "$@"
 }
 
-# install build dependencies
-apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y ${BUILD_DEPENDENCIES}
-
-# add ${REDMINE_USER} user
-adduser --disabled-login --gecos 'Redmine' ${REDMINE_USER}
-passwd -d ${REDMINE_USER}
-
-# set PATH for ${REDMINE_USER} cron jobs
-cat > /tmp/cron.${REDMINE_USER} <<EOF
-REDMINE_USER=${REDMINE_USER}
-REDMINE_INSTALL_DIR=${REDMINE_INSTALL_DIR}
-REDMINE_DATA_DIR=${REDMINE_DATA_DIR}
-REDMINE_RUNTIME_DIR=${REDMINE_RUNTIME_DIR}
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-EOF
-crontab -u ${REDMINE_USER} /tmp/cron.${REDMINE_USER}
-rm -rf /tmp/cron.${REDMINE_USER}
-
-# install redmine, use local copy if available
-exec_as_redmine mkdir -p ${REDMINE_INSTALL_DIR}
-if [[ -f ${REDMINE_BUILD_DIR}/redmine-${REDMINE_VERSION}.tar.gz ]]; then
-  exec_as_redmine tar -zvxf ${REDMINE_BUILD_DIR}/redmine-${REDMINE_VERSION}.tar.gz --strip=1 -C ${REDMINE_INSTALL_DIR}
-else
-  echo "Downloading Redmine ${REDMINE_VERSION}..."
-  exec_as_redmine wget "http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz" -O /tmp/redmine-${REDMINE_VERSION}.tar.gz
-
-  echo "Extracting..."
-  exec_as_redmine tar -zxf /tmp/redmine-${REDMINE_VERSION}.tar.gz --strip=1 -C ${REDMINE_INSTALL_DIR}
-
-  exec_as_redmine rm -rf /tmp/redmine-${REDMINE_VERSION}.tar.gz
-fi
-
-# HACK: we want both the pg and mysql2 gems installed, so we remove the
-#       respective lines and add them at the end of the Gemfile so that they
-#       are both installed.
-PG_GEM=$(grep 'gem "pg"' ${REDMINE_INSTALL_DIR}/Gemfile | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print;}')
-MYSQL2_GEM=$(grep 'gem "mysql2"' ${REDMINE_INSTALL_DIR}/Gemfile | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print;}')
-
-sed -i \
-  -e '/gem "pg"/d' \
-  -e '/gem "mysql2"/d' \
-  ${REDMINE_INSTALL_DIR}/Gemfile
-
-(
-  echo "${PG_GEM}";
-  echo "${MYSQL2_GEM}";
-  echo 'gem "unicorn"';
-  echo 'gem "dalli", "~> 2.7.0"';
-) >> ${REDMINE_INSTALL_DIR}/Gemfile
-
-## some gems complain about missing database.yml, shut them up!
-exec_as_redmine cp ${REDMINE_INSTALL_DIR}/config/database.yml.example ${REDMINE_INSTALL_DIR}/config/database.yml
+# TODO: install pg & imagemagick dependencies
 
 # install gems
 cd ${REDMINE_INSTALL_DIR}
@@ -73,6 +21,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   cp -a ${GEM_CACHE_DIR} ${REDMINE_INSTALL_DIR}/vendor/cache
   chown -R ${REDMINE_USER}: ${REDMINE_INSTALL_DIR}/vendor/cache
 fi
+
 exec_as_redmine bundle install -j$(nproc) --without development test --path ${REDMINE_INSTALL_DIR}/vendor/bundle
 
 # finalize redmine installation

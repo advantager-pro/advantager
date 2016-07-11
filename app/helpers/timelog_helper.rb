@@ -56,7 +56,7 @@ module TimelogHelper
     collection
   end
 
-  def select_hours(data, criteria, value)
+  def select_criteria_from_data(data, criteria, value)
     if value.to_s.empty?
       data.select {|row| row[criteria].blank? }
     else
@@ -64,10 +64,10 @@ module TimelogHelper
     end
   end
 
-  def sum_hours(data)
+  def sum_values(data, project)
     sum = 0
     data.each do |row|
-      sum += row['hours'].to_f
+      sum += row[project.entry_evm_field].to_f
     end
     sum
   end
@@ -97,13 +97,13 @@ module TimelogHelper
       headers << l(:label_total_time)
       csv << headers
       # Content
-      report_criteria_to_csv(csv, report.available_criteria, report.columns, report.criteria, report.periods, report.hours)
+      report_criteria_to_csv(csv, report.available_criteria, report.columns, report.criteria, report.periods, report.values)
       # Total row
       str_total = l(:label_total_time)
       row = [ str_total ] + [''] * (report.criteria.size - 1)
       total = 0
       report.periods.each do |period|
-        sum = sum_hours(select_hours(report.hours, report.columns, period.to_s))
+        sum = sum_values(select_criteria_from_data(report.values, report.columns, period.to_s), report.project)
         total += sum
         row << (sum > 0 ? sum : '')
       end
@@ -112,23 +112,23 @@ module TimelogHelper
     end
   end
 
-  def report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, hours, level=0)
-    hours.collect {|h| h[criteria[level]].to_s}.uniq.each do |value|
-      hours_for_value = select_hours(hours, criteria[level], value)
-      next if hours_for_value.empty?
+  def report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, values, level=0)
+    values.collect {|h| h[criteria[level]].to_s}.uniq.each do |value|
+      values_for_criteria = select_criteria_from_data(values, criteria[level], value)
+      next if values_for_criteria.empty?
       row = [''] * level
       row << format_criteria_value(available_criteria[criteria[level]], value).to_s
       row += [''] * (criteria.length - level - 1)
       total = 0
       periods.each do |period|
-        sum = sum_hours(select_hours(hours_for_value, columns, period.to_s))
+        sum = sum_values(select_criteria_from_data(values_for_criteria, columns, period.to_s), report.project)
         total += sum
         row << (sum > 0 ? sum : '')
       end
       row << total
       csv << row
       if criteria.length > level + 1
-        report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, hours_for_value, level + 1)
+        report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, values_for_criteria, level + 1)
       end
     end
   end

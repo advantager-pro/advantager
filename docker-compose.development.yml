@@ -4,16 +4,27 @@ postgresql:
     - DB_USER=postgres
     - DB_PASS=postgres
     - DB_NAME=redmine
-  volumes:
-    - /srv/docker/redmine/postgresql:/var/lib/postgresql
+    - DB_HOST=postgres
+  # volumes:
+  #   - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: redmine:3.2
+  image: redevm:0.1.0
   links:
     - postgresql:postgresql
   environment:
     - TZ=Asia/Kolkata
 
+    - DB_TYPE=postgresql
+    - DB_POOL=5
+    - DB_HOST=postgresql
+    - DB_PORT= 5432
+    - DB_USER=postgres
+    - DB_PASS=postgres
+    - DB_NAME=redmine
+    - DB_ENCODING=UTF-8
+
+    - RAILS_ENV=development
     - REDMINE_PORT=10083
     - REDMINE_HTTPS=false
     - REDMINE_RELATIVE_URL_ROOT=
@@ -49,4 +60,7 @@ redmine:
   ports:
     - "10083:80"
   volumes:
-    - /srv/docker/redmine/redmine:/home/redmine/data
+    - ../redmine_data:/home/redmine/data
+    #- .:/home/redmine/redmine
+    # - ./vendor/bundle:/home/redmine/data/tmp/bundle
+    # - ./lib/custom:/home/redmine/redmine/lib/custom

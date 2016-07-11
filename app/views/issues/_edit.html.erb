@@ -10,11 +10,21 @@
         </fieldset>
     <% end %>
     <% if User.current.allowed_to?(:log_time, @project) %>
-        <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
+
+        <fieldset class="tabular"><legend><%= l(:button_log) %></legend>
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
         <div class="splitcontent">
         <div class="splitcontentleft">
-        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+
+        <% project = @issue.project %>
+        <fieldset class=""><legend><%= t('evm.fieldset') %></legend>
+          <p><%= time_entry.text_field project.entry_evm_field, size: 6, label: :"label_spent_#{project.evm_field}" %></p>
+        </fieldset>
+
+        <% @issue.project.visible_fields.each do |field| %>
+          <p><%= time_entry.text_field Project.entry_field(field), size: 6, label: :"label_spent_#{field}"  %> </p>
+        <% end %>
+
         </div>
         <div class="splitcontentright">
         <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
@@ -26,6 +36,7 @@
         <% end %>
         <% end %>
     </fieldset>
+
     <% end %>
 
     <fieldset><legend><%= l(:field_notes) %></legend>

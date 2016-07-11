@@ -32,13 +32,34 @@ class IssueQuery < Query
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
-    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
-    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"), #estimated
+    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"), #estimated
+    QueryColumn.new(:actual_start_date, :sortable => "#{Issue.table_name}.actual_start_date"),
+    QueryColumn.new(:actual_due_date, :sortable => "#{Issue.table_name}.actual_due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
+    QueryColumn.new(:estimated_point, :sortable => "#{Issue.table_name}.estimated_point", :totalable => true),
+    QueryColumn.new(:estimated_cost, :sortable => "#{Issue.table_name}.estimated_cost", :totalable => true),
+    QueryColumn.new(:estimated_custom, :sortable => "#{Issue.table_name}.estimated_custom", :totalable => true),
     QueryColumn.new(:total_estimated_hours,
       :sortable => "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +
         " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
       :default_order => 'desc'),
+
+
+    QueryColumn.new(:total_estimated_point,
+      :sortable => "COALESCE((SELECT SUM(estimated_point) FROM #{Issue.table_name} subtasks" +
+        " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+      :default_order => 'desc'),
+    QueryColumn.new(:total_estimated_cost,
+      :sortable => "COALESCE((SELECT SUM(estimated_cost) FROM #{Issue.table_name} subtasks" +
+        " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+      :default_order => 'desc'),
+    QueryColumn.new(:total_estimated_custom,
+      :sortable => "COALESCE((SELECT SUM(estimated_custom) FROM #{Issue.table_name} subtasks" +
+        " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+      :default_order => 'desc'),
+
+
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
     QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
@@ -214,7 +235,12 @@ class IssueQuery < Query
     add_available_filter "closed_on", :type => :date_past
     add_available_filter "start_date", :type => :date
     add_available_filter "due_date", :type => :date
+    add_available_filter "actual_start_date", :type => :date
+    add_available_filter "actual_due_date", :type => :date
     add_available_filter "estimated_hours", :type => :float
+    add_available_filter "estimated_custom", :type => :decimal
+    add_available_filter "estimated_point", :type => :float
+    add_available_filter "estimated_cost", :type => :decimal
     add_available_filter "done_ratio", :type => :integer
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
@@ -250,6 +276,25 @@ class IssueQuery < Query
     }
   end
 
+  def available_columns_for_time_entries(available_columns, options)
+    index = available_columns.find_index {|column| column.name == :"total_#{Project.issue_field(options[:estimated])}"}
+    index = (index ? index + 1 : -1)
+    # insert the column after total_estimated_hours or at the end
+    available_columns.insert index, QueryColumn.new(:"spent_#{options[:actual]}",
+      :sortable => "COALESCE((SELECT SUM(#{options[:actual]}) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
+      :default_order => 'desc',
+      :caption => :"label_#{options[:caption]}",
+      :totalable => true
+    )
+    available_columns.insert index+1, QueryColumn.new(:"total_spent_#{options[:actual]}",
+      :sortable => "COALESCE((SELECT SUM(#{options[:actual]}) FROM #{TimeEntry.table_name} JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
+        " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+      :default_order => 'desc',
+      :caption => :"label_total_#{options[:caption]}"
+    )
+    available_columns
+  end
+
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
@@ -259,21 +304,11 @@ class IssueQuery < Query
                            ).visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
-      index = @available_columns.find_index {|column| column.name == :total_estimated_hours}
-      index = (index ? index + 1 : -1)
-      # insert the column after total_estimated_hours or at the end
-      @available_columns.insert index, QueryColumn.new(:spent_hours,
-        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
-        :default_order => 'desc',
-        :caption => :label_spent_time,
-        :totalable => true
-      )
-      @available_columns.insert index+1, QueryColumn.new(:total_spent_hours,
-        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
-          " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
-        :default_order => 'desc',
-        :caption => :label_total_spent_time
-      )
+      @available_columns = available_columns_for_time_entries(@available_columns, { caption: :spent_time, estimated: :hours, actual: :hours })
+
+      @available_columns = available_columns_for_time_entries(@available_columns, { caption: :spent_point, estimated: :point, actual: :point })
+      @available_columns = available_columns_for_time_entries(@available_columns, { caption: :spent_cost, estimated: :cost, actual: :cost })
+      @available_columns = available_columns_for_time_entries(@available_columns, { caption: :spent_custom, estimated: :custom, actual: :custom })
     end
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
@@ -292,8 +327,7 @@ class IssueQuery < Query
   def default_columns_names
     @default_columns_names ||= begin
       default_columns = Setting.issue_list_default_columns.map(&:to_sym)
-
-      project.present? ? default_columns : [:project] | default_columns
+      project.present? ? default_columns + project.fields_for_issue_of_descendants : default_columns | ([:project] + ::Project.available_fields_for_issue)
     end
   end
 
@@ -320,18 +354,41 @@ class IssueQuery < Query
     map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}
   end
 
-  # Returns sum of all the issue's time entries hours
-  def total_for_spent_hours(scope)
+  def total_for_estimated_point(scope)
+    map_total(scope.sum(:estimated_point)) {|t| t.to_f.round(2)}
+  end
+  def total_for_estimated_cost(scope)
+    map_total(scope.sum(:estimated_cost)) {|t| t.to_f.round(2)}
+  end
+  def total_for_estimated_custom(scope)
+    map_total(scope.sum(:estimated_custom)) {|t| t.to_f.round(2)}
+  end
+
+  def total_for_spent_x(scope, field)
     total = if group_by_column.try(:name) == :project
       # TODO: remove this when https://github.com/rails/rails/issues/21922 is fixed
       # We have to do a custom join without the time_entries.project_id column
       # that would trigger a ambiguous column name error
-      scope.joins("JOIN (SELECT issue_id, hours FROM #{TimeEntry.table_name}) AS joined_time_entries ON joined_time_entries.issue_id = #{Issue.table_name}.id").
-        sum("joined_time_entries.hours")
+      scope.joins("JOIN (SELECT issue_id, #{field} FROM #{TimeEntry.table_name}) AS joined_time_entries ON joined_time_entries.issue_id = #{Issue.table_name}.id").
+        sum("joined_time_entries.#{field}")
     else
-      scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
+      scope.joins(:time_entries).sum("#{TimeEntry.table_name}.#{field}")
     end
     map_total(total) {|t| t.to_f.round(2)}
+  end
+
+  # Returns sum of all the issue's time entries hours
+  def total_for_spent_hours(scope)
+    total_for_spent_x(scope, "hours")
+  end
+  def total_for_spent_cost(scope)
+    total_for_spent_x(scope, "actual_cost")
+  end
+  def total_for_spent_custom(scope)
+    total_for_spent_x(scope, "actual_custom")
+  end
+  def total_for_spent_point(scope)
+    total_for_spent_x(scope, "actual_point")
   end
 
   # Returns the issues
@@ -362,6 +419,36 @@ class IssueQuery < Query
     if has_column?(:total_spent_hours)
       Issue.load_visible_total_spent_hours(issues)
     end
+
+    if has_column?(:spent_cost)
+      Issue.load_visible_spent_cost(issues)
+    end
+    if has_column?(:total_spent_cost)
+      Issue.load_visible_total_spent_cost(issues)
+    end
+
+    if has_column?(:spent_custom)
+      Issue.load_visible_spent_custom(issues)
+    end
+    if has_column?(:total_spent_custom)
+      Issue.load_visible_total_spent_custom(issues)
+    end
+
+    if has_column?(:spent_point)
+      Issue.load_visible_spent_point(issues)
+    end
+    if has_column?(:total_spent_point)
+      Issue.load_visible_total_spent_point(issues)
+    end
+
+
+    if has_column?(:spent_value)
+      Issue.load_visible_spent_value(issues)
+    end
+    if has_column?(:total_spent_value)
+      Issue.load_visible_total_spent_value(issues)
+    end
+
     if has_column?(:relations)
       Issue.load_visible_relations(issues)
     end

@@ -1,0 +1,50 @@
+== Redmine Checklists plugin changelog
+
+Redmine Checklists plugin - managing issue checklists plugin for Redmine
+Copyright (C) 2011-2015 Kirill Bezrukov
+http://www.redminecrm.com/
+
+== 2015-09-25 v3.1.3
+
+* Bug with attach files history fixed
+* Bug with old checkboxes fixed
+
+== 2015-09-25 v3.1.2
+
+* Issue history details
+* Templates permissions fixes
+
+== 2015-04-08 v3.1.0
+
+* Checklist templates
+
+== 2015-03-06 v3.0.4
+
+* Redmine 3.0 compatibility fixes
+* Fixed checklist styles on read only issue mode
+
+== 2015-02-23 v3.0.3
+
+* Swedish translation update (Khedron Wilk)
+* Portuguese Brazilian translation (Leandro Gehlen)
+* Redmine 3.0 (Rails4) support
+* Copying checklists with project copying (Andrew Reshetov)
+* Fixed bug with unable editing checklist after tracker or status changed
+
+== 2014-12-09 v3.0.2
+
+* Fixed bug wuth empty subject with CKEditor plugin
+
+== 2014-09-15 v3.0.1
+
+* Bulgarian translation (Иван Ценов)
+* Fixed bug with IE browser
+
+== 2014-09-10 v3.0.0
+
+* Editing checklist items
+* REST API for index, create, destroy, update, show
+* Change issues progress in real time
+* Sync checked items with show and edit forms
+* Fixed bug with rejecting new checklist items on update issue status
+* Japan translation (Yukio KANEDA)

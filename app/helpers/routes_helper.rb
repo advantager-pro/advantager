@@ -47,16 +47,6 @@ module RoutesHelper
     end
   end
 
-  def _report_time_entries_path(project, issue, *args)
-    if issue
-      report_issue_time_entries_path(issue, *args)
-    elsif project
-      report_project_time_entries_path(project, *args)
-    else
-      report_time_entries_path(*args)
-    end
-  end
-
   def _new_time_entry_path(project, issue, *args)
     if issue
       new_issue_time_entry_path(issue, *args)

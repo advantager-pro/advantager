@@ -1,3 +1,13 @@
+development:
+  adapter: {{DB_ADAPTER}}
+  encoding: {{DB_ENCODING}}
+  database: {{DB_NAME}}
+  host: {{DB_HOST}}
+  port: {{DB_PORT}}
+  username: {{DB_USER}}
+  password: "{{DB_PASS}}"
+  pool: {{DB_POOL}}
+
 production:
   adapter: {{DB_ADAPTER}}
   encoding: {{DB_ENCODING}}
@@ -8,3 +18,13 @@ production:
   username: {{DB_USER}}
   password: "{{DB_PASS}}"
   pool: {{DB_POOL}}
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: redmine_test
+  host: postgresql
+  port: 5432
+  username: postgres
+  password: "postgres"
+  pool: 5

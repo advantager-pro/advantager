@@ -125,7 +125,8 @@ en:
         less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
-        greater_than_start_date: "must be greater than start date"
+        greater_than_start_date: "must be greater than estimated start date"
+        greater_than_actual_start_date: "must be greater than actual start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
@@ -238,6 +239,10 @@ en:
   mail_body_settings_updated: "The following settings were changed:"
 
   field_name: Name
+  field_cost: Cost
+  field_custom: Value
+  field_time: Hours
+  field_point: Points
   field_description: Description
   field_summary: Summary
   field_is_required: Required
@@ -269,7 +274,7 @@ en:
   field_is_default: Default value
   field_tracker: Tracker
   field_subject: Subject
-  field_due_date: Due date
+  field_due_date: Estimated due date
   field_assigned_to: Assignee
   field_priority: Priority
   field_fixed_version: Target version
@@ -282,6 +287,8 @@ en:
   field_is_in_roadmap: Issues displayed in roadmap
   field_login: Login
   field_mail_notification: Email notifications
+  field_actual_due_date: Actual due date
+  field_actual_start_date: Actual start date
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
@@ -300,7 +307,7 @@ en:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
-  field_start_date: Start date
+  field_start_date: Estimated start date
   field_done_ratio: "% Done"
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
@@ -359,8 +366,36 @@ en:
   field_users_visibility: Users visibility
   field_time_entries_visibility: Time logs visibility
   field_total_estimated_hours: Total estimated time
+  field_total_estimated_custom: Total estimated value
+  field_total_estimated_cost: Total estimated cost
+  field_total_estimated_point: Total estimated point
+  field_total_estimated_value: Total estimated value
   field_default_version: Default version
   field_remote_ip: IP address
+  field_evm_field: EVM field
+  field_currency: Currency
+  field_visible_fields: Visible fields
+  field_custom_unity: Custom unity
+  field_evm_frequency: EVM calculation frequency (days)
+  field_actual_cost: Cost spent
+  field_actual_time: Hours
+  field_actual_point: Spent points
+  field_actual_custom: Spent value
+  field_actual_value: Spent value
+  field_estimated_cost: Estimated cost
+  field_estimated_time: Estimated time
+  field_estimated_point: Estimated point
+  field_estimated_custom: Estimated value
+  field_estimated_value: Estimated value
+  evm:
+    unities:
+      time: hour/s
+      point: point/s
+    fieldset: Field used to calculate EVM
+    field: Field
+    visible_field: Visible field
+    evm_field: EVM field
+    customize: Customize..
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -771,9 +806,37 @@ en:
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
+  label_logs: Logs
   label_spent_time: Spent time
   label_total_spent_time: Total spent time
   label_overall_spent_time: Overall spent time
+  label_spent_point: Spent point
+  label_total_spent_point: Total spent point
+  label_overall_spent_point: Overall spent point
+  label_spent_cost: Spent cost
+  label_total_spent_cost: Total spent cost
+  label_overall_spent_cost: Overall spent cost
+  label_spent_custom: Spent value
+  label_total_spent_custom: Total spent value
+  label_overall_spent_custom: Overall spent value
+  label_spent_value: Spent value
+  label_total_spent_value: Total spent value
+  label_overall_spent_value: Overall spent value
+  label_actual_time: Spent time
+  label_total_actual_time: Total spent time
+  label_overall_actual_time: Overall spent time
+  label_actual_point: Spent point
+  label_total_actual_point: Total spent point
+  label_overall_actual_point: Overall spent point
+  label_actual_cost: Spent cost
+  label_total_actual_cost: Total spent cost
+  label_overall_actual_cost: Overall spent cost
+  label_actual_custom: Spent value
+  label_total_actual_custom: Total spent value
+  label_overall_actual_custom: Overall spent value
+  label_actual_value: Spent value
+  label_total_actual_value: Total spent value
+  label_overall_actual_value: Overall spent value  
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_f_hour_short: "%{value} h"
@@ -1018,6 +1081,7 @@ en:
   button_activate: Activate
   button_sort: Sort
   button_log_time: Log time
+  button_log: Add log
   button_rollback: Rollback to this version
   button_watch: Watch
   button_unwatch: Unwatch
@@ -1101,10 +1165,9 @@ en:
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick available (optional)
   text_convert_available: ImageMagick convert available (optional)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
-  text_destroy_time_entries: Delete reported hours
-  text_assign_time_entries_to_project: Assign reported hours to the project
-  text_reassign_time_entries: 'Reassign reported hours to this issue:'
+  text_destroy_time_entries_question: "%{actual_cost} %{unity} were reported on the issues you are about to delete. What do you want to do?"
+  text_destroy_time_entries: Delete reported %{unity}
+  text_reassign_time_entries: 'Reassign reported %{unity} to this issue:'
   text_user_wrote: "%{value} wrote:"
   text_enumeration_destroy_question: "%{count} objects are assigned to the value “%{name}”."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'

@@ -1,0 +1,52 @@
+<%= render_agile_charts_breadcrumb %>
+
+<h2><%= @query.new_record? ? l(:label_agile_chart_plural) : h(@query.name) %></h2>
+<% html_title(@query.new_record? ? l(:label_agile_chart_plural) : @query.name) %>
+
+
+<%= form_tag({ :controller => 'agile_charts', :action => 'show', :project_id => @project },
+            :method => :get, :id => 'query_form') do %>
+  <div id="query_form_with_buttons" class="hide-when-print">
+    <%= hidden_field_tag 'set_filter', '1' %>
+    <div id="query_form_content">
+      <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+        <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+        <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+          <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+        </div>
+      </fieldset>
+      <fieldset class="collapsible collapsed">
+        <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+        <div>
+          <table>
+            <tr>
+              <td><label for='chart'><%= l(:label_agile_chart) %></label></td>
+              <td><%= select_tag('chart', options_charts_for_select(@chart)) %></td>
+            </tr>
+            <tr>
+              <td><%= l(:label_agile_date_from) %></td>
+              <td>
+                <%= text_field_tag 'date_from', @query.date_from, :size => 10 %><%= calendar_for('date_from') %>
+                <%= l(:label_agile_date_to) %>
+                <%= text_field_tag 'date_to', @query.date_to, :size => 10 %><%= calendar_for('date_to') %>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
+    </div>
+    <p class="buttons">
+      <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+      <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+    </p>
+  </div>
+<% end %>
+
+<%= error_messages_for 'query' %>
+
+<%= render_agile_chart(@chart, @issues) if @query.valid? %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'agile_boards/issues_links' %>
+  <%= render :partial => 'agile_charts/agile_charts' %>
+<% end %>

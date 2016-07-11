@@ -26,9 +26,8 @@ class TimeEntryQuery < Query
     QueryColumn.new(:user, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
-    QueryColumn.new(:comments),
-    QueryColumn.new(:hours, :sortable => "#{TimeEntry.table_name}.hours"),
-  ]
+    QueryColumn.new(:comments)
+  ] + ::Project.available_fields_for_entry.map{ |f| QueryColumn.new(f, sortable: "#{TimeEntry.table_name}.#{f}") }
 
   def initialize(attributes=nil, *args)
     super attributes
@@ -99,8 +98,11 @@ class TimeEntryQuery < Query
     @available_columns
   end
 
+
   def default_columns_names
-    @default_columns_names ||= [:project, :spent_on, :user, :activity, :issue, :comments, :hours]
+    project_evm_fields = ::Project.available_fields_for_entry
+    project_evm_fields = project.fields_for_entry_of_descendants if project.present?
+    @default_columns_names ||= ([:project, :spent_on, :user, :activity, :issue, :comments] + project_evm_fields )
   end
 
   def results_scope(options={})

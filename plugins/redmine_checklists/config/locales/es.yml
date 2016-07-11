@@ -1,0 +1,9 @@
+# Spanish strings go here for Rails i18n
+es:
+  label_checklist_plural: Checklist
+  field_checklist: Checklist
+  label_checklist_save_log: Salvar cambios al log de la petición
+  label_checklist_done_ratio: Setear porcentaje de estado de petición
+  permission_view_checklists: Ver checklist
+  permission_done_checklists: Cerrar items de checklist
+  permission_edit_checklists: Editar iterms de checklist

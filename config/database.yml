@@ -1,15 +1,30 @@
-production:
-  adapter: postgresql
-  database: redmine_production
-  host: postgresql
-  username: postgres
-  password: postgres
-  encoding: utf8
-
 development:
+  adapter: {{DB_ADAPTER}}
+  encoding: {{DB_ENCODING}}
+  database: {{DB_NAME}}
+  host: {{DB_HOST}}
+  port: {{DB_PORT}}
+  username: {{DB_USER}}
+  password: "{{DB_PASS}}"
+  pool: {{DB_POOL}}
+
+production:
+  adapter: {{DB_ADAPTER}}
+  encoding: {{DB_ENCODING}}
+  reconnect: false
+  database: {{DB_NAME}}
+  host: {{DB_HOST}}
+  port: {{DB_PORT}}
+  username: {{DB_USER}}
+  password: "{{DB_PASS}}"
+  pool: {{DB_POOL}}
+
+test:
   adapter: postgresql
-  database: redmine_development
-  host: postgresql
-  username: postgres
-  password: postgres
   encoding: utf8
+  database: redmine_test
+  host: postgresql
+  port: 5432
+  username: postgres
+  password: "postgres"
+  pool: 5

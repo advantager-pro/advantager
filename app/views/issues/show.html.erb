@@ -57,14 +57,20 @@
   unless @issue.disabled_core_fields.include?('done_ratio')
     rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
   end
-  unless @issue.disabled_core_fields.include?('estimated_hours')
-    if @issue.estimated_hours.present? || @issue.total_estimated_hours.to_f > 0
-      rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
-    end
+
+  if @issue.estimated_value.present? || @issue.total_estimated_value.to_f > 0
+    rows.right l(:"field_#{@issue.project.issue_evm_field}"), issue_estimated_value_details(@issue), class: 'estimated-hours estimated-value'
   end
+
   if User.current.allowed_to_view_all_time_entries?(@project)
-    if @issue.total_spent_hours > 0
-      rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
+    @issue.project.visible_fields.each do |field|
+      if @issue.send(:"total_spent_#{field}") > 0
+        rows.right l(:"label_spent_#{field}"), issue_spent_value_details(@issue), class: "spent-#{field}"
+      end
+    end
+
+    if @issue.send(:"total_spent_#{@issue.project.evm_field}") > 0
+      rows.right l(:"label_spent_#{@issue.project.evm_field}"), issue_spent_value_details(@issue), class: "spent-#{@issue.project.evm_field} actual-cost"
     end
   end
 end %>

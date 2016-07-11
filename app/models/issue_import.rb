@@ -131,6 +131,15 @@ class IssueImport < Import
     if estimated_hours = row_value(row, 'estimated_hours')
       attributes['estimated_hours'] = estimated_hours
     end
+    if estimated_cost = row_value(row, 'estimated_cost')
+      attributes['estimated_cost'] = estimated_cost
+    end
+    if estimated_custom = row_value(row, 'estimated_custom')
+      attributes['estimated_custom'] = estimated_custom
+    end
+    if estimated_value = row_value(row, 'estimated_value')
+      attributes['estimated_value'] = estimated_value
+    end
     if done_ratio = row_value(row, 'done_ratio')
       attributes['done_ratio'] = done_ratio
     end
