@@ -2,7 +2,7 @@ development:
   adapter: {{DB_ADAPTER}}
   encoding: {{DB_ENCODING}}
   database: {{DB_NAME}}
-  host: postgresql
+  host: {{DB_HOST}}
   port: {{DB_PORT}}
   username: {{DB_USER}}
   password: "{{DB_PASS}}"
