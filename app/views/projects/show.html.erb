@@ -1,3 +1,4 @@
+<% @evm_points ||= @project.evm_points %>
 <div class="contextual">
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
@@ -16,6 +17,8 @@
 <% unless @project.active? %>
   <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
 <% end %>
+
+<div id="evm-chart"></div>
 
 <div class="splitcontentleft">
   <% if @project.description.present? %>
@@ -36,6 +39,11 @@
     <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
   </ul>
+  <% end %>
+  <% if @trackers.present? %>
+    <% @trackers.each do |tracker| %>
+      <div id="issues-chart-<%= tracker.id %>" style="width: 250px; height: 250px; margin: auto;"></div>
+    <% end %>
   <% end %>
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
@@ -86,6 +94,9 @@
 </div>
 
 <div class="splitcontentright">
+  <div id="tcpi-bac-chart"></div>
+
+
   <%= render :partial => 'members_box' %>
 
   <% if @news.any? && authorize_for('news', 'index') %>
@@ -107,3 +118,67 @@
 <% end %>
 
 <% html_title(l(:label_overview)) -%>
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+  <% break_points_events = evm_break_points_events(@project) %>
+  Morris.Line({
+     element: 'evm-chart',
+     behaveLikeLine: true,
+     data: <%= data_for_morris(@evm_points, fields: ['day', 'planned_value', 'earned_value', 'actual_cost']) %>,
+     xkey: 'day',
+     ykeys: ['planned_value', 'earned_value', 'actual_cost'],
+     labels: ['Planned Value', 'Earned Value', 'Actual Cost'],
+     resize: true,
+     pointSize: 4,
+     dateFormat: function(x){
+       function pad(s) { return (s < 10) ? '0' + s : s; };
+       var d = new Date(x);
+       return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join(' - ');
+     },
+     hideHover: 'auto',
+     events: <%= break_points_events %>
+   });
+
+
+   Morris.Area({
+      element: 'tcpi-bac-chart',
+      behaveLikeLine: true,
+      data: <%= data_for_morris(@evm_points, fields: ['day', 'to_complete_performance_index_bac']) %>,
+      xkey: 'day',
+      ykeys: ['to_complete_performance_index_bac'],
+      labels: ['To Complete Performance Index (BAC based)'],
+      resize: true,
+      pointSize: 4,
+      hideHover: 'auto',
+      dateFormat: function(x){
+        function pad(s) { return (s < 10) ? '0' + s : s; };
+        var d = new Date(x);
+        return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join(' - ');
+      },
+      yLabelFormat: function (y) { return y.toFixed(2); },
+      events: <%= break_points_events %>
+    });
+
+
+<% if @trackers.present? %>
+  <% @trackers.each do |tracker| %>
+     Morris.Donut({
+      element: 'issues-chart-<%= tracker.id %>',
+      resize: true,
+      data: [
+        {value: <%= @open_issues_by_tracker[tracker].to_i %>, label: '<%=l(:label_open_issues_plural)%>'},
+        {value: <%= (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i) %>, label: '<%=l(:label_closed_issues_plural)%>'},
+        {value: <%= @total_issues_by_tracker[tracker].to_i %>, label: '<%=l(:label_total)%>'},
+      ],
+      colors: [
+        '#ff7f24',
+       '#0b84a4',
+       '#67afc6',
+     ],
+    })
+  <% end %>
+<% end %>
+});
+</script>
