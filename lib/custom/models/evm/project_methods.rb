@@ -14,7 +14,7 @@ module EVM::ProjectMethods
       def planned_value
         Rails.cache.fetch("#{cache_key}/planned_value", expires_in: 5.minutes) do
           sum = 0.0
-          issues.each{ |e| sum += e.planned_value }
+          issues.where("#{::Issue.table_name}.due_date <= ?", Date.today).each{ |e| sum += e.planned_value }
           sum
         end
       end
