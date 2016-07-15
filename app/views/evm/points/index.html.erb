@@ -22,15 +22,28 @@ Morris.Area({
      {period: '2012 Q1', iphone: 10687, ipad: 4460, itouch: 2028},
      {period: '2012 Q2', iphone: 8432, ipad: 5713, itouch: 1791}
    ],
-   xkey: 'period',
+   xkey: 'period', // 'elapsed'
    ykeys: ['iphone', 'ipad', 'itouch'],
    labels: ['iPhone', 'iPad', 'iPod Touch'],
    pointSize: 2,
    hideHover: 'auto'
  });
+
+ // TEST ISSUES
+ Morris.Donut({
+   element: 'graph',
+   data: [
+     {value: 70, label: 'foo', formatted: 'at least 70%' },
+     {value: 15, label: 'bar', formatted: 'approx. 15%' },
+     {value: 10, label: 'baz', formatted: 'approx. 10%' },
+     {value: 5, label: 'A really really long label', formatted: 'at most 5%' }
+   ],
+   formatter: function (x, data) { return data.formatted; }
+ });
 */
 $(document).ready(function () {
 	//Better to construct options first and then pass it as a parameter
+  /*
 var options =
   	{
   		title:{
@@ -69,5 +82,16 @@ var options =
   	}
 	$("#chartContainer").CanvasJSChart(options);
 
+});*/
+
+Morris.Line({
+   element: 'chartContainer',
+   data: <%= data_for_morris(@evm_points, fields: ['day', 'planned_value', 'earned_value', 'actual_cost']) %>,
+   xkey: 'day',
+   ykeys: ['planned_value', 'earned_value', 'actual_cost'],
+   labels: ['Planned Value', 'Earned Value', 'Actual Cost'],
+   pointSize: 2,
+   hideHover: 'auto'
+ });
 });
 </script>
