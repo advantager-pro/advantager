@@ -30,7 +30,11 @@ module EVMHelper
 
   def data_for_morris(evm_points, options)
     fields = options[:fields]
-    pts = evm_points.map do |e|
+    project = evm_points.first.project
+    n = project.evm_frequency
+
+    pts = (n - 1).step(evm_points.size - 1, n).map do |i|
+      e = evm_points[i]
       hash = {}
       fields.each do |field|
         if field == 'day'
@@ -42,10 +46,10 @@ module EVMHelper
       end
       hash
     end
-    if fields.include?('planned_value') || fields.include?(:planned_value)
+    d = project.due_date
+    if d > Date.today && (fields.include?('planned_value') || fields.include?(:planned_value))
       lp = evm_points.last
-      d = lp.project.due_date
-      pts << { planned_value: lp.planned_value, day: "#{d.year}-#{d.month}-#{d.day}" }
+      pts << { planned_value: lp.budget_at_conclusion, day: "#{d.year}-#{d.month}-#{d.day}" }
     end
     pts.to_json.html_safe
   end
