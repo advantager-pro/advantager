@@ -38,6 +38,10 @@ module EVM::Methods
         actual_cost + (budget_at_conclusion - earned_value)
       end
 
+      def performance_index
+        schedule_performance_index * cost_performance_index
+      end
+
       def estimate_at_completion_cpi
         # EAC = BAC / CPI # EAC considerando el CPI
         budget_at_conclusion / cost_performance_index
