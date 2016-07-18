@@ -9,11 +9,7 @@ postgresql:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-<<<<<<< Updated upstream
-  image: redmine_volume:3.2
-=======
   image: redevm:latest
->>>>>>> Stashed changes
   links:
     - postgresql:postgresql
   environment:
