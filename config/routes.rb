@@ -16,13 +16,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Rails.application.routes.draw do
+
   namespace :evm do
-    resources :break_points do
+    resources :break_points, except: [:index] do
       collection do
         get 'is_break_point_day'
+        get ':project_id', to: "break_points#index"#, as: 'index'
+
       end
     end
-    resources :points
+    resources :points, except: [:index] do
+      collection do
+        get ':project_id', to: "points#index"#, as: 'index'
+      end
+    end
   end
 
   root :to => 'welcome#index', :as => 'home'

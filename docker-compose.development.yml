@@ -5,8 +5,8 @@ postgresql:
     - DB_PASS=postgres
     - DB_NAME=redmine
     - DB_HOST=postgres
-  # volumes:
-  #   - /srv/docker/redmine/postgresql:/var/lib/postgresql
+  volumes:
+    - ../redmine_db:/var/lib/postgresql
 
 redmine:
   image: redevm:latest
@@ -59,7 +59,7 @@ redmine:
 
   ports:
     - "10083:80"
-  # volumes:
-  #   - /srv/docker/redmine/redmine:/home/redmine/data
+  volumes:
+    - ../redmine_data:/home/redmine/data
   #   - .:/home/redmine/redmine
   #   - ./vendor/bundle:/home/redmine/data/tmp/bundle

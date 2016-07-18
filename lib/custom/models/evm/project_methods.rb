@@ -1,7 +1,7 @@
 module EVM::ProjectMethods
     extend ActiveSupport::Concern
 
-    include EVM::Methods
+    include ::EVM::Methods
     included do
       def _budget_at_conclusion
         Rails.cache.fetch("#{cache_key}/budget_at_conclusion", expires_in: 5.minutes) do
@@ -37,15 +37,15 @@ module EVM::ProjectMethods
 
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
       after_create do
-        Evm::BreakPoint.create_minimum(self, self.created_on)
+        ::Evm::BreakPoint.create_minimum(self, self.created_on)
       end
 
       after_update do
         if evm_frequency_changed?
           td = Date.today
           evm_break_points.destroy_all
-          Evm::BreakPoint.generate_until(self, td)
-          Evm::BreakPoint.create_minimum(self, td)
+          ::Evm::BreakPoint.generate_until(self, td)
+          ::Evm::BreakPoint.create_minimum(self, td)
         end
       end
     end
