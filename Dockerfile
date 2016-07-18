@@ -5,8 +5,10 @@ ENV REDMINE_VERSION=3.2.0 \
     REDMINE_USER="redmine" \
     REDMINE_HOME="/home/redmine" \
     REDMINE_LOG_DIR="/var/log/redmine" \
-    REDMINE_CACHE_DIR="/etc/docker-redmine" \
-    RAILS_ENV=production
+    REDMINE_CACHE_DIR="/etc/docker-redmine"
+
+ENV RAILS_ENV="production" \
+    DB_TYPE="postgresql"
 
 ENV REDMINE_INSTALL_DIR="${REDMINE_HOME}/redmine" \
     REDMINE_DATA_DIR="${REDMINE_HOME}/data" \
