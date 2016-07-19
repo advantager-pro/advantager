@@ -1,2 +1,2 @@
-module Evm::BreakPointsHelper
+module EVM::BreakPointsHelper
 end

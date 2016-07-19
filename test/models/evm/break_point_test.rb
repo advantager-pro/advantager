@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Evm::BreakPointTest < ActiveSupport::TestCase
+class EVM::BreakPointTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

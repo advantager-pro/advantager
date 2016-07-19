@@ -1,10 +1,10 @@
-class Evm::PointsController < ApplicationController
+class EVM::PointsController < ApplicationController
   before_action :set_evm_point, only: [:show, :edit, :update, :destroy]
   before_action :set_project, only: [:index]
 
   # GET /evm/points
   def index
-    @evm_points = @project.evm_points#::Evm::Point.grouped_by_day(@project)
+    @evm_points = @project.evm_points#::EVM::Point.grouped_by_day(@project)
     respond_to do |format|
       format.html
       format.json { render json: @evm_points }
@@ -17,7 +17,7 @@ class Evm::PointsController < ApplicationController
 
   # GET /evm/points/new
   def new
-    @evm_point = Evm::Point.new
+    @evm_point = EVM::Point.new
   end
 
   # GET /evm/points/1/edit
@@ -26,7 +26,7 @@ class Evm::PointsController < ApplicationController
 
   # POST /evm/points
   def create
-    @evm_point = Evm::Point.new(evm_point_params)
+    @evm_point = EVM::Point.new(evm_point_params)
 
     if @evm_point.save
       redirect_to @evm_point, notice: 'Point was successfully created.'
@@ -53,7 +53,7 @@ class Evm::PointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_evm_point
-      @evm_point = Evm::Point.find(params[:id])
+      @evm_point = EVM::Point.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

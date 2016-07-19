@@ -37,15 +37,15 @@ module EVM::ProjectMethods
 
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
       after_create do
-        ::Evm::BreakPoint.create_minimum(self, self.created_on)
+        ::EVM::BreakPoint.create_minimum(self, self.created_on)
       end
 
       after_update do
         if evm_frequency_changed?
           td = Date.today
           evm_break_points.destroy_all
-          ::Evm::BreakPoint.generate_until(self, td)
-          ::Evm::BreakPoint.create_minimum(self, td)
+          ::EVM::BreakPoint.generate_until(self, td)
+          ::EVM::BreakPoint.create_minimum(self, td)
         end
       end
     end
@@ -53,7 +53,7 @@ module EVM::ProjectMethods
     module ClassMethods
       def store_all_projects_status
         self.all.each do |project|
-          ::Evm::Point.update_current_point!(project)
+          ::EVM::Point.update_current_point!(project)
         end
       end
     end

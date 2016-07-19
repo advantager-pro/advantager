@@ -1,2 +1,2 @@
-module Evm::PointsHelper
+module EVM::PointsHelper
 end

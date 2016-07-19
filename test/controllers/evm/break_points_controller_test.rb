@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Evm::BreakPointsControllerTest < ActionController::TestCase
+class EVM::BreakPointsControllerTest < ActionController::TestCase
   setup do
     @evm_break_point = evm_break_points(:one)
   end
@@ -17,7 +17,7 @@ class Evm::BreakPointsControllerTest < ActionController::TestCase
   end
 
   test "should create evm_break_point" do
-    assert_difference('Evm::BreakPoint.count') do
+    assert_difference('EVM::BreakPoint.count') do
       post :create, evm_break_point: { actual_cost: @evm_break_point.actual_cost, day: @evm_break_point.day, earned_value: @evm_break_point.earned_value, planned_value: @evm_break_point.planned_value, project_id: @evm_break_point.project_id }
     end
 
@@ -40,7 +40,7 @@ class Evm::BreakPointsControllerTest < ActionController::TestCase
   end
 
   test "should destroy evm_break_point" do
-    assert_difference('Evm::BreakPoint.count', -1) do
+    assert_difference('EVM::BreakPoint.count', -1) do
       delete :destroy, id: @evm_break_point
     end
 

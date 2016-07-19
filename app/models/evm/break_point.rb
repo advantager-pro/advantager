@@ -1,4 +1,4 @@
-class Evm::BreakPoint < ActiveRecord::Base
+class EVM::BreakPoint < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :project
 
@@ -7,14 +7,14 @@ class Evm::BreakPoint < ActiveRecord::Base
   end
 
   def self.create_minimum(project, last_date)
-    min = Evm::BreakPoint.minimum_quantity_for_feature
+    min = EVM::BreakPoint.minimum_quantity_for_feature
     self.create_for_project(project, last_date, min)
   end
 
   def self.create_for_project(project, last_date, qtty)
     bps = qtty.times.map {|i| { project: project,
       day: last_date+((i*project.evm_frequency).days) } }
-    Evm::BreakPoint.create!(bps)
+    EVM::BreakPoint.create!(bps)
   end
 
   def self.generate_until(project, date)
@@ -25,7 +25,7 @@ class Evm::BreakPoint < ActiveRecord::Base
       bps <<  { project: project, day: last_date }
       last_date += freq
     end
-    Evm::BreakPoint.create!(bps)
+    EVM::BreakPoint.create!(bps)
   end
 
   def calculated?

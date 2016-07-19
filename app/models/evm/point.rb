@@ -1,11 +1,11 @@
-class Evm::Point < ActiveRecord::Base
+class EVM::Point < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :project
 
   include EVM::Methods
 
   def self.update_current_point!(project)
-    Evm::Point.find_or_initialize_by(project: project,
+    EVM::Point.find_or_initialize_by(project: project,
       day: Date.today).save!
   end
 
