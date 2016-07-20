@@ -9,15 +9,15 @@ development:
   pool: {{DB_POOL}}
 
 production:
-  adapter: {{DB_ADAPTER}}
-  encoding: {{DB_ENCODING}}
-  reconnect: false
-  database: {{DB_NAME}}
-  host: {{DB_HOST}}
-  port: {{DB_PORT}}
-  username: {{DB_USER}}
-  password: "{{DB_PASS}}"
-  pool: {{DB_POOL}}
+  adapter: postgresql
+  encoding: unicode
+  database: redmine_production
+  host: postgresql
+  port: 5432
+  username: postgres
+  password: "postgres"
+  encoding: utf8
+  pool: 5
 
 test:
   adapter: postgresql

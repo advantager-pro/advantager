@@ -147,7 +147,10 @@ module Redmine
       end
 
       def render_single_menu_node(item, caption, url, selected)
-        link_to(h(caption), url, item.html_options(:selected => selected))
+        begin
+          link_to(h(caption), url, item.html_options(:selected => selected))
+        rescue
+        end
       end
 
       def render_unattached_menu_item(menu_item, project)

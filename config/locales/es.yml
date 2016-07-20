@@ -365,6 +365,24 @@ es:
   field_time: Horas
   field_point: Puntos
   evm:
+    charts:
+      planning: Medidas de la planificación
+      performance: Medidas del desempeño
+      evm: Gestión del Valor Ganado
+      full: Gráfico Integral
+    elements:
+      to_complete_performance_index_bac: Índice de desempeño del trabajo por completar (TCPI) basado en el BAC
+      planned_value: Valor Planificado (PV)
+      earned_value: Valor Ganado (EV)
+      actual_cost: Costo Real (AC)
+      schedule_performance_index: Índice del desempeño del cronograma (SPI)
+      cost_performance_index: Índice del desempeño del costo (CPI)
+      performance_index: Índice de desempeño ( SPI * CPI )
+      budget_at_conclusion: Presupuesto a la conclusión (BAC) 
+      estimate_at_completion_calculated: Estimación a la conclusión (EAC) calculada
+      estimate_at_completion_cpi: Estimación a la conclusión (EAC) basada en el CPI
+      estimate_at_completion_cpi_and_spi: Estimación a la conclusión (EAC) basada en el CPI y SPI
+      estimate_to_complete: Estimación hasta la conclusión (ETC)
     unities:
       time: hora/s
       point: punto/s
@@ -603,7 +621,7 @@ es:
   label_actual_value: Valor dedicado
   label_total_actual_value: Valor dedicado total
   label_overall_actual_value: Valor dedicado general
-  
+
   label_password_lost: ¿Olvidaste la contraseña?
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
