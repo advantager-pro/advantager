@@ -232,6 +232,7 @@ es:
   default_issue_status_in_progress: En curso
   default_issue_status_closed: Cerrada
   default_issue_status_feedback: Comentarios
+  default_issue_status_on_evaluation: "En evaluación"
   default_issue_status_new: Nueva
   default_issue_status_rejected: Rechazada
   default_issue_status_resolved: Resuelta
@@ -378,7 +379,7 @@ es:
       schedule_performance_index: Índice del desempeño del cronograma (SPI)
       cost_performance_index: Índice del desempeño del costo (CPI)
       performance_index: Índice de desempeño ( SPI * CPI )
-      budget_at_conclusion: Presupuesto a la conclusión (BAC) 
+      budget_at_conclusion: Presupuesto a la conclusión (BAC)
       estimate_at_completion_calculated: Estimación a la conclusión (EAC) calculada
       estimate_at_completion_cpi: Estimación a la conclusión (EAC) basada en el CPI
       estimate_at_completion_cpi_and_spi: Estimación a la conclusión (EAC) basada en el CPI y SPI
