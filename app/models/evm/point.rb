@@ -16,9 +16,23 @@ class EVM::Point < ActiveRecord::Base
   #     SUM(#{tbname}.earned_value) as earned_value").group("#{tbname}.day, #{tbname}.project_id")
   # end
 
-  before_save do
-    self.planned_value = self.project.planned_value
+  def set_planned_value(date=nil)
+    self.planned_value = self.project.planned_value(date)
+  end
+
+  def set_actual_cost(date=nil)
+    # TODO: add date as param
     self.actual_cost = self.project.actual_cost
+  end
+
+  def set_earned_value(date=nil)
+    # TODO: add date as param
     self.earned_value = self.project.earned_value
+  end
+
+  before_save do
+    set_planned_value
+    set_actual_cost
+    set_earned_value
   end
 end
