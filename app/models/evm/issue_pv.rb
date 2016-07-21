@@ -45,5 +45,10 @@ module EVM::IssuePV
     end
 
     module ClassMethods
+      def not_rejected
+        rejected_name = { en: :Rejected, es: :Rechazada }
+        rejected_status_id = IssueStatus.where(name: rejected_name[I18n.locale.to_sym].to_s).first.id
+        self.where("status_id != ?",rejected_status_id)
+      end
     end
 end
