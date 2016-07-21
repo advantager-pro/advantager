@@ -4,7 +4,8 @@ module Advantager::Issue
     included do
 
       def done_ratio_in_progress?
-        done_ratio >= ::IssueStatus.find_in_progress_status.default_done_ratio
+        in_progress_done_ratio = ::IssueStatus.find_in_progress_status.default_done_ratio
+        done_ratio >= (in_progress_done_ratio || 0)
       end
 
       def done_ratio_closed?
