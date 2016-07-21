@@ -219,23 +219,23 @@ evl.save!
 
 #Default Issue status
 default_issue_status = IssueStatus.where(name: "New").first
-default_issue_status.attributes = {name: "New", locale: :en}
-default_issue_status.attributes = {name: "Nueva", locale: :es}
+default_issue_status.attributes = {name: I18n.t!("default_issue_status_new", locale: :en), locale: :en}
+default_issue_status.attributes = {name: I18n.t!("default_issue_status_new", locale: :es), locale: :es}
 default_issue_status.save!
 
 pro =IssueStatus.where(name: "In progress").first
-pro.attributes = {name: "In progress", locale: :en}
-pro.attributes = {name: "En progreso", locale: :es}
+pro.attributes = {name: I18n.t!("default_issue_status_in_progress", locale: :en), locale: :en}
+pro.attributes = {name: I18n.t!("default_issue_status_in_progress", locale: :en), locale: :es}
 pro.save!
 
 on_evl = IssueStatus.create(name: "En evaluacion", is_closed: false, default_done_ratio: nil)
-on_evl.attributes = {name: "On evaluation", locale: :en}
-on_evl.attributes = {name: "En evaluación", locale: :es}
+on_evl.attributes = {name: I18n.t!("default_issue_status_on_evaluation", locale: :en), locale: :en}
+on_evl.attributes = {name: I18n.t!("default_issue_status_on_evaluation", locale: :es), locale: :es}
 on_evl.save!
 
 clo = IssueStatus.where(name: "Closed").first
-clo.attributes = {name: "Closed", locale: :en}
-clo.attributes = {name: "Cerrada", locale: :es}
+clo.attributes = {name: I18n.t!("default_issue_status_closed", locale: :en), locale: :en}
+clo.attributes = {name: I18n.t!("default_issue_status_closed", locale: :es), locale: :es}
 clo.save!
 
 rej = IssueStatus.where(name: "Rejected").first
