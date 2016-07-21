@@ -11,10 +11,10 @@ module EVM::ProjectMethods
         end
       end
 
-      def planned_value
+      def planned_value(date=nil)
         Rails.cache.fetch("#{cache_key}/planned_value", expires_in: 5.minutes) do
           sum = 0.0
-          issues.where("#{::Issue.table_name}.due_date <= ?", Date.today).each{ |e| sum += e.planned_value }
+          issues.where("#{::Issue.table_name}.due_date <= ?", Date.today).each{ |e| sum += e.planned_value(date) }
           sum
         end
       end
@@ -37,10 +37,12 @@ module EVM::ProjectMethods
 
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
       after_create do
+        # TODO: Do this in background job
         ::EVM::BreakPoint.create_minimum(self, self.created_on)
       end
 
       after_update do
+        # TODO: Do this in background job
         if evm_frequency_changed?
           td = Date.today
           evm_break_points.destroy_all

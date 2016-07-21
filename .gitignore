@@ -48,9 +48,9 @@
 .DS_Store
 
 # We have example files for docker-compose.yml so let's ignore it
-docker-compose.yml
+/docker-compose.yml
 
 # Those files are generated every time the container starts
-config/configuration.yml
-config/database.yml
-config/unicorn.rb
+/config/configuration.yml
+/config/database.yml
+/config/unicorn.rb
