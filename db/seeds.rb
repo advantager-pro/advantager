@@ -136,7 +136,7 @@
 # ts.attributes = {name: "Tarea", locale: :es}
 # ts.save!
 
-#Workflow tmp seeds
+# tmp where queries for update existing data
 task = Tracker.where(name: "Task").first
 man = Role.where(name: "Manager").first
 clo = IssueStatus.where(name: "Closed").first
@@ -144,14 +144,62 @@ default_issue_status = IssueStatus.where(name: "New").first
 pro = IssueStatus.where(name: "In progress").first
 rej = IssueStatus.where(name: "Rejected").first
 on_evl = IssueStatus.where(name: "On evaluation").first
-#manager
+
+#WorkflowTransition
+#manager attribution over issues
+#new
 WorkflowTransition.create( tracker_id: task.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: 0, new_status_id: pro.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: pro.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: clo.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: rej.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: on_evl.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
-
+#in progress
 WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: clo.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: rej.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: on_evl.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+#closed
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: on_evl.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: pro.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: rej.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+#Rejected
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: on_evl.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: pro.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: clo.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+#on evaluation
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: rej.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: pro.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: clo.id, role_id: man.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+
+#manager attribution when issue is asigned to him and when he is the author
+#new
+WorkflowTransition.create( tracker_id: task.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: man.id, assignee: false, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: 0, new_status_id: pro.id, role_id: man.id, assignee: true, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: pro.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: clo.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: rej.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: default_issue_status.id, new_status_id: on_evl.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+#in progress
+WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: clo.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: rej.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: pro.id, new_status_id: on_evl.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+#closed
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: on_evl.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: pro.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: clo.id, new_status_id: rej.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+#Rejected
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: on_evl.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: pro.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: rej.id, new_status_id: clo.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+#on evaluation
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: rej.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: pro.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: default_issue_status.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
+WorkflowTransition.create( tracker_id: task.id, old_status_id: on_evl.id, new_status_id: clo.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
