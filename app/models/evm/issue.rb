@@ -1,4 +1,4 @@
-module EVM::IssuePV
+module EVM::Issue
     extend ActiveSupport::Concern
 
     included do
@@ -15,8 +15,11 @@ module EVM::IssuePV
         # end
       end
 
-      def planned_value
-        self.send(project.issue_evm_field) || 0.0
+      def planned_value(date=nil)
+        pv = self.send(project.issue_evm_field) || 0.0
+        return pv if date.nil?
+        avg = pv / ((due_date + 1.day) - start_date)
+        avg*(date - start_date)
       end
 
       def actual_cost
@@ -27,6 +30,16 @@ module EVM::IssuePV
 
       def earned_value
         (done_ratio/100.0) * planned_value
+      end
+
+      after_update do
+        # TODO: Do this in background job
+        if self.send(:"#{project.issue_evm_field}_changed?")
+          project.points.each do |evm_point|
+            evm_point.set_planned_value(evm_point.day)
+            evm_point.save!
+          end
+        end
       end
 
     end
