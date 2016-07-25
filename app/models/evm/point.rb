@@ -1,12 +1,11 @@
 class EVM::Point < ActiveRecord::Base
   belongs_to :project
-  validates_presence_of :project
+  validates_presence_of :project, :day
 
   include EVM::Methods
 
   def self.update_current_point!(project)
-    EVM::Point.find_or_initialize_by(project: project,
-      day: Date.today).save!
+    self.save_point!(project, Date.today)
   end
 
   # def self.grouped_by_day(project)
@@ -16,18 +15,50 @@ class EVM::Point < ActiveRecord::Base
   #     SUM(#{tbname}.earned_value) as earned_value").group("#{tbname}.day, #{tbname}.project_id")
   # end
 
+  def self.save_point!(project, date)
+    p = EVM::Point.find_or_initialize_by(project: project,
+      day: date)
+    p.save!
+    p
+  end
+
+  def self.generate_from_project_begining(project, until_date=nil, from_date=nil)
+    until_date ||= Date.today
+    last_date = from_date || project.created_on
+    until last_date > until_date
+      self.save_point!(project, last_date)
+      last_date += 1.day
+    end
+  end
+
+  def self.find_and_read(point, attr, date)
+    return point.read_attribute(attr) if date.nil? || date == point.day
+    p = self.find_by(project: point.project, day: point.day)
+    p.nil? ? self.save_point!(p.project, date).planned_value : p.planned_value
+  end
+
+  def planned_value(date=nil)
+    self.class.find_and_read(self, :planned_value, date)
+  end
+
+  def earned_value(date=nil)
+    self.class.find_and_read(self, :earned_value, date)
+  end
+
+  def actual_cost(date=nil)
+    self.class.find_and_read(self, :actual_cost, date)
+  end
+
   def set_planned_value(date=nil)
-    self.planned_value = self.project.planned_value(date)
+    self.planned_value = self.project.planned_value(date || self.day)
   end
 
   def set_actual_cost(date=nil)
-    # TODO: add date as param
-    self.actual_cost = self.project.actual_cost
+    self.actual_cost = self.project.actual_cost(date || self.day)
   end
 
   def set_earned_value(date=nil)
-    # TODO: add date as param
-    self.earned_value = self.project.earned_value
+    self.earned_value = self.project.earned_value(date || self.day)
   end
 
   before_save do
