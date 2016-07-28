@@ -72,7 +72,7 @@ module EVM::Issue
       after_update do
         # TODO: Do this in background job
         if self.send(:"#{project.issue_evm_field}_changed?")
-          project.points.each do |evm_point|
+          project.evm_points.each do |evm_point|
             evm_point.set_planned_value
             evm_point.save!
           end
