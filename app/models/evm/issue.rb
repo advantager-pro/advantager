@@ -79,6 +79,14 @@ module EVM::Issue
         end
       end
 
+      # def planned?
+      #   start_date.present? && due_date.present?
+      # end
+
+      # after_destroy do
+      #   # TODO: project.recalculate_evm_points if self.planned?
+      # end
+
     end
 
     module ClassMethods
