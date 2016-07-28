@@ -15,32 +15,77 @@ module EVM::Issue
         # end
       end
 
+
+      # Evm::Point.find_or_initialize_by(project: ::Project.last, day: (Date.today - 4.days)).save!
+      #
+      # # Set actual_start_date
+      # Issue.all.each{ |i|  i.actual_start_date = i.journals.first.try(:created_on) || i.start_date || i.created_on  }
+      #
+      # Project.last.evm_points.destroy_all ; EVM::Point.generate_from_project_begining(Project.last)
+
+
       def planned_value(date=nil)
+        # 9, 19
         pv = self.send(project.issue_evm_field) || 0.0
-        return pv if date.nil?
-        avg = pv / ((due_date + 1.day) - start_date)
-        avg*(date - start_date)
+        start = ( start_date || date )
+        due = ( due_date || start )
+        return pv if date.nil? || date >= due || due == start || pv == 0.0
+        return 0 if start > date
+        # 5 - 2 = 3
+        # 9 / 3 = 3
+        #
+        # date 1 -> 2 > 1 : 0
+        # date 2 -> 3 - 2 .. 1*3 = 3
+        # date 3 -> 3 - 2 .. 2*3 = 6
+        # date 4 -> 4 == due : 9
+        # date 5 -> 5 > due : 9
+        #
+        avg = pv / ((due  + 1.day) - start)
+        avg*( (date + 1.day) - start )
       end
 
-      def actual_cost
-        ac = 0.0
-        time_entries.each{ |e| ac += e.actual_cost }
-        ac
+      def actual_cost(date=nil)
+        entry_ac_field = ::Project.entry_field(self.project.evm_field)
+        if date.nil? || date == Date.today
+          time_entries.sum(entry_ac_field)
+        else
+          time_entries.where("#{::TimeEntry.table_name}.created_on <= ?",
+            date).sum(entry_ac_field)
+        end
       end
 
-      def earned_value
-        (done_ratio/100.0) * planned_value
+      def done_ratio_at(date=nil)
+        return done_ratio if date.nil? || date == Date.today
+        last_journal = journals.joins(:details).
+          where("#{::JournalDetail.table_name}.prop_key = 'done_ratio'
+            AND #{::Journal.table_name}.created_on <= ?", date).
+              order("#{::Journal.table_name}.created_on ASC").last
+        return done_ratio if last_journal.nil?
+        last_journal.details.where(prop_key: :done_ratio).last.try(:value).to_f
+      end
+
+      def earned_value(date=nil)
+        total_pv = planned_value(nil)
+        (done_ratio_at(date)/100.0) * total_pv
       end
 
       after_update do
         # TODO: Do this in background job
         if self.send(:"#{project.issue_evm_field}_changed?")
           project.points.each do |evm_point|
-            evm_point.set_planned_value(evm_point.day)
+            evm_point.set_planned_value
             evm_point.save!
           end
         end
       end
+
+      # def planned?
+      #   start_date.present? && due_date.present?
+      # end
+
+      # after_destroy do
+      #   # TODO: project.recalculate_evm_points if self.planned?
+      # end
 
     end
 

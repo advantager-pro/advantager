@@ -19,6 +19,11 @@ module EVM::ActualCostEntry
         self.send(project.entry_evm_field) || 0.0
       end
 
+
+      # after_destroy do
+      #   # TODO: project.recalculate_evm_points
+      # end
+
     end
 
     module ClassMethods
