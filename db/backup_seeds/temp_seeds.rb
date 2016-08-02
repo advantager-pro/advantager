@@ -90,11 +90,6 @@ pro.attributes = {name: "In progress", locale: :en}
 pro.attributes = {name: "En progreso", locale: :es}
 pro.save!
 
-on_evl = IssueStatus.create(name: "En evaluacion", is_closed: false, default_done_ratio: nil)
-on_evl.attributes = {name: "On evaluation", locale: :en}
-on_evl.attributes = {name: "En evaluación", locale: :es}
-on_evl.save!
-
 clo = IssueStatus.where(name: "Closed").first
 clo.attributes = {name: "Closed", locale: :en}
 clo.attributes = {name: "Cerrada", locale: :es}
