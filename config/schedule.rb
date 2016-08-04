@@ -15,4 +15,5 @@
 #
 every 8.hours do
   runner "::Project.store_all_projects_status"
+  runner "::Project.store_all_projects_status_ahead(5)"
 end

@@ -64,7 +64,12 @@ module Advantager::Issue
     module ClassMethods
       def not_rejected
         rejected_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
-        self.where("status_id != ?",rejected_status_id)
+        tbn = self.table_name
+        self.where("#{tbn}.status_id != ?",rejected_status_id)
+      end
+      def planned_only
+        tbn = self.table_name
+        self.where("#{tbn}.due_date IS NOT NULL AND #{tbn}.start_date IS NOT NULL")
       end
     end
 end

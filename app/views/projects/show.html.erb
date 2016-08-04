@@ -52,6 +52,7 @@
   <div class="splitcontentleft">
     <% if @trackers.present? %>
       <% @trackers.each do |tracker| %>
+        <h4 class="text-center"> <%= tracker.name %></h4>
         <div id="issues-chart-<%= tracker.id %>" style="width: 100%; height: 250px; margin: auto;"></div>
       <% end %>
     <% end %>
