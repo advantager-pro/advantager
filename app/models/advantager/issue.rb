@@ -37,7 +37,7 @@ module Advantager::Issue
       def binding_actual_dates
         return unless actual_start_date_changed? ||
           actual_due_date_changed?
-        if self.actual_due_date.present? && self.actual_due_date <= ::Date.today
+        if self.actual_start_date.present? #&& self.actual_due_date <= ::Date.today
           self.status = ::IssueStatus.find_in_progress_status if status.initial?
           self.done_ratio = in_progress_done_ratio
         elsif self.actual_due_date.present? && self.actual_due_date <= ::Date.today
