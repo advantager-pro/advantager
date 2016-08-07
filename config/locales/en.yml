@@ -1224,10 +1224,9 @@ en:
   default_tracker_feature: Feature
   default_tracker_support: Support
   default_issue_status_new: New
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: In progress
   default_issue_status_resolved: Resolved
   default_issue_status_feedback: Feedback
-  default_issue_status_on_evaluation: On evaluation
   default_issue_status_closed: Closed
   default_issue_status_rejected: Rejected
   default_doc_category_user: User documentation
