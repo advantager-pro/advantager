@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @evm_break_point.project %>
+</p>
+
+<p>
+  <strong>Planned value:</strong>
+  <%= @evm_break_point.planned_value %>
+</p>
+
+<p>
+  <strong>Actual cost:</strong>
+  <%= @evm_break_point.actual_cost %>
+</p>
+
+<p>
+  <strong>Earned value:</strong>
+  <%= @evm_break_point.earned_value %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @evm_break_point.day %>
+</p>
+
+<%= link_to 'Edit', edit_evm_break_point_path(@evm_break_point) %> |
+<%= link_to 'Back', evm_break_points_path %>

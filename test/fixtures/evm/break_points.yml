@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id: 
+  planned_value: 9.99
+  actual_cost: 9.99
+  earned_value: 9.99
+  day: 2016-07-04
+
+two:
+  project_id: 
+  planned_value: 9.99
+  actual_cost: 9.99
+  earned_value: 9.99
+  day: 2016-07-04

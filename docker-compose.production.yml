@@ -8,7 +8,7 @@ postgresql:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: redevm:0.1.0
+  image: redevm:0.1.2
   mem_limit: 650m
   links:
     - postgresql:postgresql

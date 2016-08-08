@@ -388,6 +388,24 @@ en:
   field_estimated_custom: Estimated value
   field_estimated_value: Estimated value
   evm:
+    charts:
+      planning: Planning charts
+      performance: Performance charts
+      evm: EVM chart
+      full: Full information charts
+    elements:
+      to_complete_performance_index_bac: To Complete Performance Index (BAC based)
+      planned_value: Planned Value
+      earned_value: Earned Value
+      actual_cost: Actual Cost
+      schedule_performance_index: Schedule Performance Index
+      cost_performance_index: Cost Performance Index
+      performance_index: Performance Index ( SPI * CPI )
+      budget_at_conclusion: Budget At Conclusion
+      estimate_at_completion_calculated: Estimate At Completion (Calculated)
+      estimate_at_completion_cpi: Estimate At Completion (CPI based)
+      estimate_at_completion_cpi_and_spi: Estimate At Completion (CPI and SPI based)
+      estimate_to_complete: Estimate To Complete
     unities:
       time: hour/s
       point: point/s
@@ -836,7 +854,7 @@ en:
   label_overall_actual_custom: Overall spent value
   label_actual_value: Spent value
   label_total_actual_value: Total spent value
-  label_overall_actual_value: Overall spent value  
+  label_overall_actual_value: Overall spent value
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_f_hour_short: "%{value} h"
@@ -1206,7 +1224,7 @@ en:
   default_tracker_feature: Feature
   default_tracker_support: Support
   default_issue_status_new: New
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: In progress
   default_issue_status_resolved: Resolved
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Closed

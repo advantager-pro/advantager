@@ -16,8 +16,13 @@ module EVM::ActualCostEntry
       end
 
       def actual_cost
-        self.send(project.entry_evm_field)
+        self.send(project.entry_evm_field) || 0.0
       end
+
+
+      # after_destroy do
+      #   # TODO: project.recalculate_evm_points
+      # end
 
     end
 

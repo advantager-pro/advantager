@@ -1,3 +1,4 @@
+<% @evm_points ||= @project.evm_points %>
 <div class="contextual">
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
@@ -17,12 +18,22 @@
   <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
 <% end %>
 
-<div class="splitcontentleft">
+<div>
   <% if @project.description.present? %>
   <div class="wiki">
     <%= textilizable @project.description %>
   </div>
   <% end %>
+  <% unless @evm_points.empty? %>
+    <div class="chart-container">
+      <h3 class="chart-title"><%= t("evm.charts.full") %></h3>
+      <div id="full-chart" class="chart"></div>
+    </div>
+  <% end %>
+</div>
+
+<div class="splitcontentleft">
+
   <% if @project.homepage.present? || @subprojects.any? || @project.visible_custom_field_values.any?(&:present?) %>
   <ul>
   <% unless @project.homepage.blank? %>
@@ -38,55 +49,65 @@
   </ul>
   <% end %>
 
-  <% if User.current.allowed_to?(:view_issues, @project) %>
-  <div class="issues box">
-    <h3><%=l(:label_issue_tracking)%></h3>
+  <div class="splitcontentleft">
     <% if @trackers.present? %>
-    <table class="list issue-report">
-      <thead>
-        <tr>
-          <th></th>
-          <th><%=l(:label_open_issues_plural)%></th>
-          <th><%=l(:label_closed_issues_plural)%></th>
-          <th><%=l(:label_total)%></th>
-        </tr>
-      </thead>
-      <tbody>
       <% @trackers.each do |tracker| %>
-        <tr class="<%= cycle("odd", "even") %>">
-          <td class="name">
-            <%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
-          </td>
-          <td>
-            <%= link_to @open_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
-          </td>
-          <td>
-            <%= link_to (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => 'c') %>
-          </td>
-          <td>
-            <%= link_to @total_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => '*') %>
-          </td>
-        </tr>
+        <h4 class="text-center"> <%= tracker.name %></h4>
+        <div id="issues-chart-<%= tracker.id %>" style="width: 100%; height: 250px; margin: auto;"></div>
       <% end %>
-      </tbody>
-    </table>
     <% end %>
-    <p>
-      <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
-      <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        | <%= link_to l(:label_calendar), project_calendar_path(@project) %>
+  </div>
+
+  <div class="splitcontentright">
+    <% if User.current.allowed_to?(:view_issues, @project) %>
+    <div class="issues box">
+      <h3><%=l(:label_issue_tracking)%></h3>
+      <% if @trackers.present? %>
+      <table class="list issue-report">
+        <thead>
+          <tr>
+            <th></th>
+            <th><%=l(:label_open_issues_plural)%></th>
+            <th><%=l(:label_closed_issues_plural)%></th>
+            <th><%=l(:label_total)%></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @trackers.each do |tracker| %>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td class="name">
+              <%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
+            </td>
+            <td>
+              <%= link_to @open_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
+            </td>
+            <td>
+              <%= link_to (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => 'c') %>
+            </td>
+            <td>
+              <%= link_to @total_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => '*') %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
       <% end %>
-      <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-        | <%= link_to l(:label_gantt), project_gantt_path(@project) %>
-      <% end %>
-    </p>
+      <p>
+        <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
+        <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+          | <%= link_to l(:label_calendar), project_calendar_path(@project) %>
+        <% end %>
+        <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
+          | <%= link_to l(:label_gantt), project_gantt_path(@project) %>
+        <% end %>
+      </p>
+    </div>
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
 
 <div class="splitcontentright">
-  <%= render :partial => 'members_box' %>
 
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">
@@ -95,8 +116,42 @@
     <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
   <% end %>
+
+  <%= render :partial => 'members_box' %>
+
   <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
+<% unless @evm_points.empty? %>
+<div>
+  <br style="clear: both" />
+  <div class="chart-container">
+    <h3 class="chart-title"><%= t("evm.charts.planning") %></h3>
+    <div id="planning-chart"></div>
+  </div>
+
+  <div class="chart-container">
+    <h3 class="chart-title"><%= t("evm.charts.performance") %></h3>
+    <div id="performance-chart"></div>
+  </div>
+</div>
+<% end %>
+<br style="clear: both" />
+
+<% unless @evm_points.empty? %>
+<div class="splitcontentright">
+  <div class="chart-container">
+    <h3 class="chart-title"><%= t("evm.elements.to_complete_performance_index_bac") %></h3>
+    <div id="tcpi-bac-chart"></div>
+  </div>
+</div>
+
+<div class="splitcontentleft">
+  <div class="chart-container">
+    <h3 class="chart-title"><%=t("evm.charts.evm") %></h3>
+    <div id="evm-chart"></div>
+  </div>
+</div>
+<% end %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'projects/sidebar' %>
@@ -107,3 +162,118 @@
 <% end %>
 
 <% html_title(l(:label_overview)) -%>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    var dateFormater = function(x){
+      function pad(s) { return (s < 10) ? '0' + s : s; };
+      var d = new Date(x);
+      return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join(' - ');
+    }
+
+<% unless @evm_points.empty? %>
+    <% break_points_events = [@project.due_date.to_s].to_s.html_safe #evm_break_points_events(@project) %>
+    <% evm_fields = %w(planned_value earned_value actual_cost) %>
+    Morris.Line({
+       element: 'evm-chart',
+       behaveLikeLine: true,
+       data: <%= data_for_morris(@evm_points, fields: %w(day) + evm_fields) %>,
+       xkey: 'day',
+       ykeys: <%= evm_fields.to_s.html_safe %>,
+       labels: <%=  evm_fields.map{|f| t("evm.elements.#{f}") }.to_s.html_safe %>,
+       resize: true,
+       pointSize: 4,
+       dateFormat: dateFormater,
+       hideHover: 'auto',
+       events: <%= break_points_events %>
+     });
+
+
+     Morris.Area({
+        element: 'tcpi-bac-chart',
+        behaveLikeLine: true,
+        data: <%= data_for_morris(@evm_points, fields: ['day', 'to_complete_performance_index_bac']) %>,
+        xkey: 'day',
+        ykeys: ['to_complete_performance_index_bac'],
+        labels: ['<%= t("evm.elements.to_complete_performance_index_bac") %>'],
+        resize: true,
+        pointSize: 4,
+        hideHover: 'auto',
+        dateFormat: dateFormater,
+        yLabelFormat: function (y) { return y.toFixed(2); },
+        events: <%= break_points_events %>
+      });
+
+
+      <% performance_fields = %w(schedule_performance_index cost_performance_index performance_index to_complete_performance_index_bac) %>
+     Morris.Line({
+        element: 'performance-chart',
+        behaveLikeLine: true,
+        data: <%= data_for_morris(@evm_points, fields: %w(day) + performance_fields ) %>,
+        xkey: 'day',
+        ykeys: <%= performance_fields.to_s.html_safe %>,
+        labels: <%= performance_fields.map{|f| t("evm.elements.#{f}") }.to_s.html_safe %>,
+        resize: true,
+        pointSize: 4,
+        hideHover: 'auto',
+        dateFormat: dateFormater,
+        yLabelFormat: function (y) { return y.toFixed(2); },
+        events: <%= break_points_events %>
+      });
+
+      <% planning_fields = %w(budget_at_conclusion planned_value estimate_at_completion_calculated estimate_at_completion_cpi estimate_at_completion_cpi_and_spi  estimate_to_complete) %>
+      Morris.Line({
+         element: 'planning-chart',
+         behaveLikeLine: true,
+         data: <%= data_for_morris(@evm_points, fields: %w(day) + planning_fields) %>,
+         xkey: 'day',
+         ykeys: <%= planning_fields.to_s.html_safe %>,
+         labels: <%= planning_fields.map{|f| t("evm.elements.#{f}") }.to_s.html_safe %>,
+         resize: true,
+         pointSize: 4,
+         hideHover: 'auto',
+         dateFormat: dateFormater,
+         yLabelFormat: function (y) { return y.toFixed(2); },
+        events: <%= break_points_events %>
+       });
+
+    <% full_fields = evm_fields + planning_fields %>
+     Morris.Line({
+        element: 'full-chart',
+        behaveLikeLine: true,
+        data: <%= data_for_morris(@evm_points, fields: %w(day) + full_fields) %>,
+        xkey: 'day',
+        ykeys: <%= full_fields.to_s.html_safe %>,
+        labels: <%= full_fields.map{|f| t("evm.elements.#{f}") }.to_s.html_safe %>,
+        resize: true,
+        pointSize: 4,
+        hideHover: 'auto',
+        dateFormat: dateFormater,
+        yLabelFormat: function (y) { return y.toFixed(2); },
+        events: <%= break_points_events %>
+      });
+
+<% end %>
+  <% if @trackers.present? %>
+    <% @trackers.each do |tracker| %>
+       Morris.Donut({
+        element: 'issues-chart-<%= tracker.id %>',
+        resize: true,
+        data: [
+          {value: <%= @open_issues_by_tracker[tracker].to_i %>, label: '<%=l(:label_open_issues_plural)%>'},
+          {value: <%= (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i) %>, label: '<%=l(:label_closed_issues_plural)%>'},
+          {value: <%= @total_issues_by_tracker[tracker].to_i %>, label: '<%=l(:label_total)%>'},
+        ],
+        colors: [
+          '#ff7f24',
+         '#0b84a4',
+         '#67afc6',
+       ],
+      })
+    <% end %>
+  <% end %>
+  });
+
+</script>

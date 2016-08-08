@@ -124,9 +124,9 @@ module IssuesHelper
   def issue_estimated_value_details(issue)
     if issue.total_estimated_value.present?
       if issue.total_estimated_value == issue.estimated_value
-        (issue.estimated_value)
+        (issue.estimated_value).to_s
       else
-        s = issue.estimated_value.present? ? (issue.estimated_value) : ""
+        s = issue.estimated_value.present? ? (issue.estimated_value).to_s : ""
         s << " (#{l(:label_total)}: #{issue.total_estimated_value})"
         s.html_safe
       end
@@ -138,7 +138,7 @@ module IssuesHelper
       if issue.total_spent_value == issue.spent_value
         link_to((issue.spent_value), issue_time_entries_path(issue))
       else
-        s = issue.spent_value > 0 ? (issue.spent_value) : ""
+        s = issue.spent_value > 0 ? (issue.spent_value).to_s : ""
         s << " (#{l(:label_total)}: #{link_to issue.total_spent_value, issue_time_entries_path(issue)})"
         s.html_safe
       end
