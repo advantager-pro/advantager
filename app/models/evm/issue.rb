@@ -69,8 +69,7 @@ module EVM::Issue
         (done_ratio_at(date)/100.0) * total_pv
       end
 
-      after_update do
-        # TODO: Do this in background job
+      def try_to_update_planned_value
         if self.send(:"#{project.issue_evm_field}_changed?")
           project.evm_points.each do |evm_point|
             evm_point.set_planned_value
@@ -79,6 +78,8 @@ module EVM::Issue
         end
       end
 
+      after_update :try_to_update_planned_value
+
       # def planned?
       #   start_date.present? && due_date.present?
       # end
@@ -86,7 +87,8 @@ module EVM::Issue
       # after_destroy do
       #   # TODO: project.recalculate_evm_points if self.planned?
       # end
-
+      
+      handle_asynchronously :try_to_update_planned_value
     end
 
     module ClassMethods
