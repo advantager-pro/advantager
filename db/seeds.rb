@@ -131,13 +131,8 @@ ts.attributes = {name: "Task", locale: :en}
 ts.attributes = {name: "Tarea", locale: :es}
 ts.save!
 
-# tmp where queries for update existing data
-#ts = Tracker.where(name: "Task").first
-# man = Role.where(name: "Manager").first
-# clo = IssueStatus.where(name: "Closed").first
-# default_issue_status = IssueStatus.where(name: "New").first
-# pro = IssueStatus.where(name: "In progress").first
-# rej = IssueStatus.where(name: "Rejected").first
+#for production comment all the part behind.
+
 #WorkflowTransition
 #manager attribution over issues
 #new
@@ -180,7 +175,6 @@ WorkflowTransition.create( tracker_id: ts.id, old_status_id: rej.id, new_status_
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: rej.id, new_status_id: clo.id, role_id: man.id, assignee: true, author: true, type: "WorkflowTransition", field_name: nil, rule: nil)
 
 #worker
-wk = Role.where(name: "Worker").first
 #new
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: wk.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: pro.id, role_id: wk.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
@@ -216,7 +210,6 @@ WorkflowTransition.create( tracker_id: ts.id, old_status_id: pro.id, new_status_
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: pro.id, new_status_id: clo.id, role_id: wk.id, assignee: true, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 
 #supervisor
-sup = Role.where(name: "Supervisor").first
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: sup.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: pro.id, role_id: sup.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 
@@ -252,7 +245,6 @@ WorkflowTransition.create( tracker_id: ts.id, old_status_id: pro.id, new_status_
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: pro.id, new_status_id: clo.id, role_id: sup.id, assignee: true, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 
 #hhrr
-hr = Role.where(name: "HHRR").first
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: hr.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 WorkflowTransition.create( tracker_id: ts.id, old_status_id: 0, new_status_id: pro.id, role_id: hr.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil)
 
