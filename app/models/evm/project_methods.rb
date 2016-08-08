@@ -42,14 +42,10 @@ module EVM::ProjectMethods
           sum
       end
 
-      # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
-      after_create do
-        # TODO: Do this in background job
+      def create_minimum_break_points
         ::EVM::BreakPoint.create_minimum(self, self.created_on)
       end
-
-      after_update do
-        # TODO: Do this in background job
+      def try_to_update_break_points
         if evm_frequency_changed?
           td = Date.today
           evm_break_points.destroy_all
@@ -57,6 +53,12 @@ module EVM::ProjectMethods
           ::EVM::BreakPoint.create_minimum(self, td)
         end
       end
+      # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
+      after_create :create_minimum_break_points
+      after_update :try_to_update_break_points
+
+      handle_asynchronously :create_minimum_break_points
+      handle_asynchronously :try_to_update_break_points
     end
 
     module ClassMethods

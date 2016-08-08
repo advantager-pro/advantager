@@ -20,6 +20,9 @@ gem "dalli", "~> 2.7.0"
 # Cron job
 gem 'whenever', require: false
 
+# Background job
+gem 'delayed_job_active_record'
+
 # Money gem to manage currencies
 gem 'money'
 
