@@ -105,6 +105,7 @@ en:
           one:    "1 error prohibited this %{model} from being saved"
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
+        cannot_start_issue_if_not_planned: " - An issue cannot be set in progress or closed it was not planned"
         inclusion: "is not included in the list"
         exclusion: "is reserved"
         invalid: "is invalid"
