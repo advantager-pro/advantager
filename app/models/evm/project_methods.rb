@@ -53,10 +53,24 @@ module EVM::ProjectMethods
           ::EVM::BreakPoint.create_minimum(self, td)
         end
       end
+
+      def last_point_day
+        self.evm_points.order("day ASC").last.day
+      end
+
+      def first_point_day
+        self.evm_points.order("day ASC").first.day
+      end
+
+      def recalculate_evm_points
+        ::EVM::Point.generate_from_project_begining(self, self.last_point_day, self.first_point_day)
+      end
+
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
       after_create :create_minimum_break_points
       after_update :try_to_update_break_points
 
+      handle_asynchronously :recalculate_evm_points
       handle_asynchronously :create_minimum_break_points
       handle_asynchronously :try_to_update_break_points
     end
@@ -70,7 +84,7 @@ module EVM::ProjectMethods
       def store_all_projects_status_ahead(ahead_days=5)
         ahead_days = ahead_days.days
         self.all.each do |project|
-          last_point_day = project.evm_points.order("day ASC").last.day
+          last_point_day = project.last_point_day
           ::EVM::Point.generate_from_project_begining(project, (last_point_day + ahead_days), last_point_day)
         end
       end

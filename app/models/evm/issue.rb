@@ -78,16 +78,19 @@ module EVM::Issue
         end
       end
 
+      def planned?
+        start_date.present? && due_date.present? &&
+          self.send(project.issue_evm_field).present?
+      end
+
+      def recalculate_project_evm_points
+        project.recalculate_evm_points if self.planned?
+      end
+
+      before_destroy :recalculate_project_evm_points
       after_update :try_to_update_planned_value
 
-      # def planned?
-      #   start_date.present? && due_date.present?
-      # end
-
-      # after_destroy do
-      #   # TODO: project.recalculate_evm_points if self.planned?
-      # end
-      
+      handle_asynchronously :recalculate_project_evm_points
       handle_asynchronously :try_to_update_planned_value
     end
 
