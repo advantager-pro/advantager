@@ -20,10 +20,11 @@ module EVM::ActualCostEntry
       end
 
 
-      # after_destroy do
-      #   # TODO: project.recalculate_evm_points
-      # end
-
+      def recalculate_project_evm_points
+        project.recalculate_evm_points
+      end
+      before_destroy :recalculate_project_evm_points
+      handle_asynchronously :recalculate_project_evm_points
     end
 
     module ClassMethods

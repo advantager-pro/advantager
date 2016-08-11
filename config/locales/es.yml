@@ -114,6 +114,8 @@ es:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
+        cannot_be_greater_than_today: "no puede ser mayor a la fecha de hoy"
+        cannot_start_issue_if_not_planned: " - No se puede poner en progreso o cerrar un issue si el mismo no ha sido planificado"
         inclusion: "no está incluido en la lista"
         exclusion: "está reservado"
         invalid: "no es válido"

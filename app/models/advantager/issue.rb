@@ -4,7 +4,7 @@ module Advantager::Issue
     included do
 
       def in_progress_done_ratio
-        ::IssueStatus.find_in_progress_status.default_done_ratio || 0
+        ::IssueStatus.find_in_progress_status.try(:default_done_ratio) || 0
       end
 
       def done_ratio_in_progress?
@@ -35,14 +35,17 @@ module Advantager::Issue
       end
 
       def binding_actual_dates
-        return unless actual_start_date_changed? ||
-          actual_due_date_changed?
-        if self.actual_start_date.present? #&& self.actual_due_date <= ::Date.today
-          self.status = ::IssueStatus.find_in_progress_status if status.initial?
+        if self.actual_start_date_changed? &&
+          self.actual_start_date.present?
+          if status.initial? && ::IssueStatus.find_in_progress_status.present?
+            self.status = ::IssueStatus.find_in_progress_status
+          end
           self.done_ratio = in_progress_done_ratio
-        elsif self.actual_due_date.present? && self.actual_due_date <= ::Date.today
+        end
+        if self.actual_due_date_changed? &&
+          self.actual_due_date.present? && self.actual_due_date <= ::Date.today
           closed_status = ::IssueStatus.where(is_closed: true).first
-          self.status = closed_status
+          self.status = closed_status unless closed_status.nil?
           self.done_ratio = 100
         end
       end
@@ -54,10 +57,39 @@ module Advantager::Issue
           self.status = closed_status
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
         elsif done_ratio_in_progress?
-          self.status = ::IssueStatus.find_in_progress_status if status.initial?
+          if status.initial? && ::IssueStatus.find_in_progress_status.present?
+            self.status = ::IssueStatus.find_in_progress_status
+          end
           self.actual_start_date = ::Date.today if self.actual_start_date.nil?
         end
       end
+
+
+      validate :planned_to_put_in_progress,
+        :actual_dates_cannot_be_greater_than_today
+
+      def planned_to_put_in_progress
+        will_be_in_progress = done_ratio_in_progress? ||
+          (actual_start_date.present? && actual_start_date <= Date.today) ||
+          status.in_progress? || status.is_closed?
+        if (!planned?) && will_be_in_progress
+          message = I18n.t!("activerecord.errors.messages.cannot_start_issue_if_not_planned")
+          errors.add(:start_date, message)
+          errors.add(:due_date, message)
+          errors.add(project.issue_evm_field, message)
+        end
+      end
+
+      def actual_dates_cannot_be_greater_than_today
+        if actual_due_date.present? && actual_due_date > Date.today
+         errors.add(:actual_due_date,
+          I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
+        end
+        if actual_start_date.present? && actual_start_date > Date.today
+         errors.add(:actual_start_date,
+          I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
+        end
+       end
 
     end
 
