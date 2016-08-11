@@ -36,7 +36,7 @@ module Advantager::Issue
 
       def binding_actual_dates
         if self.actual_start_date_changed? &&
-          self.actual_start_date.present? && self.actual_start_date <= ::Date.today
+          self.actual_start_date.present?
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
             self.status = ::IssueStatus.find_in_progress_status
           end
@@ -78,6 +78,17 @@ module Advantager::Issue
           errors.add(project.issue_evm_field, message)
         end
       end
+
+      def actual_dates_cannot_be_greater_than_today
+        if actual_due_date.present? && actual_due_date > Date.today
+         errors.add(:actual_due_date,
+          I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
+        end
+        if actual_start_date.present? && actual_start_date > Date.today
+         errors.add(:actual_start_date,
+          I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
+        end
+       end
 
     end
 
