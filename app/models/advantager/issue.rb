@@ -65,7 +65,8 @@ module Advantager::Issue
       end
 
 
-      validate :planned_to_put_in_progress
+      validate :planned_to_put_in_progress,
+        :actual_dates_cannot_be_greater_than_today
 
       def planned_to_put_in_progress
         will_be_in_progress = done_ratio_in_progress? ||
