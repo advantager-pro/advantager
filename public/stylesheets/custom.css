@@ -10,3 +10,8 @@
 .text-center{
   text-align: center;
 }
+
+.turbolinks-progress-bar{
+  height: 10px!important;
+  opacity: 0.4!important;
+}
