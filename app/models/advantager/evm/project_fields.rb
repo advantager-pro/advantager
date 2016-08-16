@@ -1,4 +1,4 @@
-module EVM::ProjectFields
+module Advantager::EVM::ProjectFields
     extend ActiveSupport::Concern
 
     included do
@@ -19,11 +19,11 @@ module EVM::ProjectFields
     end
 
     def issue_evm_field
-      Project.issue_field(self.evm_field)
+      ::Project.issue_field(self.evm_field)
     end
 
     def entry_evm_field
-      Project.entry_field(self.evm_field)
+      ::Project.entry_field(self.evm_field)
     end
 
     def validate_visible_fields

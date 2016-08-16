@@ -1,8 +1,8 @@
-class EVM::Point < ActiveRecord::Base
+class Advantager::EVM::Point < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :project, :day
 
-  include EVM::Methods
+  include ::Advantager::EVM::Methods
 
   def self.update_current_point!(project)
     self.save_point!(project, Date.today)
@@ -16,14 +16,14 @@ class EVM::Point < ActiveRecord::Base
   # end
 
   def self.save_point!(project, date)
-    p = EVM::Point.find_or_initialize_by(project: project,
+    p = ::Advantager::EVM::Point.find_or_initialize_by(project: project,
       day: date)
     p.save!
     p
   end
 
   def self.generate_from_project_begining(project, until_date=nil, from_date=nil)
-    until_date ||= Date.today
+    until_date ||= ::Date.today
     last_date = from_date || project.created_on
     until last_date > until_date
       self.save_point!(project, last_date)

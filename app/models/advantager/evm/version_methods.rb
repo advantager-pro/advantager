@@ -1,4 +1,4 @@
-module EVM::VersionMethods
+module Advantager::EVM::VersionMethods
     extend ActiveSupport::Concern
 
     included do
@@ -17,7 +17,7 @@ module EVM::VersionMethods
           entry_field = ::Project.entry_field(field)
           unless self.instance_variable_defined?("@#{entry_field}")
             self.instance_variable_set("@#{entry_field}",
-              TimeEntry.joins(:issue).where("#{Issue.table_name}.fixed_version_id = ?", id).sum(entry_field).to_f)
+              ::TimeEntry.joins(:issue).where("#{::Issue.table_name}.fixed_version_id = ?", id).sum(entry_field).to_f)
           end
           self.instance_variable_get("@#{entry_field}")
         end

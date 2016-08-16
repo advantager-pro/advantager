@@ -1,4 +1,4 @@
-module EVM::ActualCostEntry
+module Advantager::EVM::ActualCostEntry
     extend ActiveSupport::Concern
 
     included do

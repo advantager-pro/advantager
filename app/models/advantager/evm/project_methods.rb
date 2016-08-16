@@ -1,7 +1,7 @@
-module EVM::ProjectMethods
+module Advantager::EVM::ProjectMethods
     extend ActiveSupport::Concern
 
-    include ::EVM::Methods
+    include ::Advantager::EVM::Methods
     included do
       def _budget_at_conclusion
           sum = 0.0
@@ -35,7 +35,7 @@ module EVM::ProjectMethods
 
       def earned_value(date=nil)
           sum = 0.0
-          date ||= Date.today
+          date ||= ::Date.today
           # We only need issues that are in progress or finished
           issues.not_rejected.planned_only.where("#{::Issue.table_name}.actual_start_date <= ?",
             date).each{ |e| sum += e.earned_value(date) }
@@ -43,14 +43,14 @@ module EVM::ProjectMethods
       end
 
       def create_minimum_break_points
-        ::EVM::BreakPoint.create_minimum(self, self.created_on)
+        ::Advantager::EVM::BreakPoint.create_minimum(self, self.created_on)
       end
       def try_to_update_break_points
         if evm_frequency_changed?
           td = Date.today
           evm_break_points.destroy_all
-          ::EVM::BreakPoint.generate_until(self, td)
-          ::EVM::BreakPoint.create_minimum(self, td)
+          ::Advantager::EVM::BreakPoint.generate_until(self, td)
+          ::Advantager::EVM::BreakPoint.create_minimum(self, td)
         end
       end
 
@@ -63,7 +63,7 @@ module EVM::ProjectMethods
       end
 
       def recalculate_evm_points
-        ::EVM::Point.generate_from_project_begining(self, self.last_point_day, self.first_point_day)
+        ::Advantager::EVM::Point.generate_from_project_begining(self, self.last_point_day, self.first_point_day)
       end
 
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
@@ -78,14 +78,14 @@ module EVM::ProjectMethods
     module ClassMethods
       def store_all_projects_status
         self.all.each do |project|
-          ::EVM::Point.update_current_point!(project)
+          ::Advantager::EVM::Point.update_current_point!(project)
         end
       end
       def store_all_projects_status_ahead(ahead_days=5)
         ahead_days = ahead_days.days
         self.all.each do |project|
           last_point_day = project.last_point_day
-          ::EVM::Point.generate_from_project_begining(project, (last_point_day + ahead_days), last_point_day)
+          ::Advantager::EVM::Point.generate_from_project_begining(project, (last_point_day + ahead_days), last_point_day)
         end
       end
     end
