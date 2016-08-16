@@ -187,7 +187,7 @@ es:
       sentence_connector: "y"
 
   actionview_instancetag_blank_option: Por favor seleccione
-
+  please_wait: Por favor espere..
   button_activate: Activar
   button_add: Añadir
   button_annotate: Anotar
