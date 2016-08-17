@@ -1,0 +1,43 @@
+language: ruby
+
+services:
+    - mysql
+    - postgresql
+
+rvm:
+    - 2.0.0
+    - 2.1.8
+    - 2.2.4
+    - 2.3.0
+    - jruby
+
+matrix:
+  allow_failures:
+    - rvm: jruby
+
+gemfile:
+    - $REDMINE_PATH/Gemfile
+
+env:
+    - REDMINE_VER=3.0.7 DB=mysql
+    - REDMINE_VER=3.1.3 DB=mysql
+    - REDMINE_VER=3.2.0 DB=mysql
+    - REDMINE_VER=3.0.7 DB=postgresql
+    - REDMINE_VER=3.1.3 DB=postgresql
+    - REDMINE_VER=3.2.0 DB=postgresql
+
+before_install:
+    - export PLUGIN_NAME=redmine_tags
+    - export REDMINE_PATH=$HOME/redmine
+    - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
+    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.1 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
+    - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
+    - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
+    - cd $REDMINE_PATH
+
+before_script:
+    - echo "config.active_record.schema_format = :sql" >> config/additional_environment.rb
+    - rake db:create db:migrate redmine:plugins:migrate db:structure:dump
+
+script:
+    - rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
