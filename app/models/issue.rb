@@ -418,7 +418,7 @@ class Issue < ActiveRecord::Base
   safe_attributes 'project_id',
     'tracker_id',
     'status_id',
-    'category_id',
+    #'category_id',
     'assigned_to_id',
     'priority_id',
     'fixed_version_id',
