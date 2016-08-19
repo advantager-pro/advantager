@@ -75,14 +75,14 @@
 
 <% # Do not add PV here because estimated_hours isn't here. PV should be assigned individually for each issue %>
 
-<% if @safe_attributes.include?('category_id') -%>
+<!-- <% if @safe_attributes.include?('category_id') -%>
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
   <%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none', :selected => (@issue_params[:category_id] == 'none')) +
                                 options_from_collection_for_select(@categories, :id, :name, @issue_params[:category_id])) %>
 </p>
-<% end %>
+<% end %> -->
 
 <% if @safe_attributes.include?('fixed_version_id') -%>
 <p>
