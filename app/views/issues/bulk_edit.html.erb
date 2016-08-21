@@ -75,7 +75,7 @@
 
 <% # Do not add PV here because estimated_hours isn't here. PV should be assigned individually for each issue %>
 
-<% if @safe_attributes.include?('category_id') -%>
+<% if false #@safe_attributes.include?('category_id') -%>
 <p>
   <label for='issue_category_id'><%= l(:field_category) %></label>
   <%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +

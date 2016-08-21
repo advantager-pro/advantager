@@ -1,0 +1,20 @@
+zh:
+  tags: 标签
+  field_tags: 标签
+  field_tag_list: 标签
+  setting_issue_tags: 问题标签
+  issues_sidebar: 在侧边栏显示标签
+  issues_show_count: 显示问题计数
+  issues_open_only: 仅显示打开的问题
+  issues_sort_by: 标签按何种方式排序
+
+  issue_tags_sidebar_none: 无
+  issue_tags_sidebar_list: 列表显示
+  issue_tags_sidebar_cloud: 云显示
+
+  issues_sort_by_name: 名称
+  issues_sort_by_count: 问题计数
+  issues_sort_order_asc: 顺序
+  issues_sort_order_desc: 倒序
+
+  auto_complete_new_tag: 添加新标签 ... ...
