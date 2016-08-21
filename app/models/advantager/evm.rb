@@ -1,4 +1,4 @@
-module EVM
+module Advantager::EVM
   def self.table_name_prefix
     'evm_'
   end

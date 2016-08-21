@@ -1,17 +1,17 @@
-class EVM::BreakPointsController < ApplicationController
+class Advantager::EVM::BreakPointsController < ApplicationController
   before_action :set_evm_break_point, only: [:show, :edit, :update, :destroy]
   before_action :set_project, only: [:index, :is_break_point_day]
 
   # GET /:project_id/evm/break_points
   def index
-    @evm_break_points = EVM::BreakPoint.find_by(project: @project).all
+    @evm_break_points = Advantager::EVM::BreakPoint.find_by(project: @project).all
   end
 
 
   def is_break_point_day
     tomorrow = Date.today + 1.days
     today = Date.today
-    @evm_break_point = EVM::BreakPoint.where("date <= :tomorrow", tomorrow: tomorrow, project: @project).order(date: :asc).first
+    @evm_break_point = Advantager::EVM::BreakPoint.where("date <= :tomorrow", tomorrow: tomorrow, project: @project).order(date: :asc).first
     if @evm_break_point.present? && ! @evm_break_point.calculated?
       if @evm_break_point.date == today
         @evm_break_point.calculate!
@@ -27,7 +27,7 @@ class EVM::BreakPointsController < ApplicationController
 
   # GET /evm/break_points/new
   def new
-    @evm_break_point = EVM::BreakPoint.new
+    @evm_break_point = Advantager::EVM::BreakPoint.new
   end
 
   # GET /evm/break_points/1/edit
@@ -36,7 +36,7 @@ class EVM::BreakPointsController < ApplicationController
 
   # POST /evm/break_points
   def create
-    @evm_break_point = EVM::BreakPoint.new(evm_break_point_params)
+    @evm_break_point = Advantager::EVM::BreakPoint.new(evm_break_point_params)
 
     if @evm_break_point.save
       redirect_to @evm_break_point, notice: 'Break point was successfully created.'
@@ -63,7 +63,7 @@ class EVM::BreakPointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_evm_break_point
-      @evm_break_point = EVM::BreakPoint.find(params[:id])
+      @evm_break_point = Advantager::EVM::BreakPoint.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

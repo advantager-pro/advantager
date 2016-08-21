@@ -10,3 +10,12 @@
 .text-center{
   text-align: center;
 }
+
+.turbolinks-progress-bar{
+  height: 10px!important;
+  opacity: 0.8!important;
+}
+
+#top-menu{
+  padding-top: 12px;
+}

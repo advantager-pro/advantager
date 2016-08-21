@@ -19,8 +19,7 @@ class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
   include Redmine::NestedSet::ProjectNestedSet
 
-  include ::EVM::ProjectFields
-  include ::EVM::ProjectMethods
+  include ::Advantager::Project
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_CLOSED     = 5
@@ -58,8 +57,8 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  has_many :evm_points, class_name: ::EVM::Point.to_s
-  has_many :evm_break_points, class_name: ::EVM::BreakPoint.to_s
+  has_many :evm_points, class_name: ::Advantager::EVM::Point.to_s
+  has_many :evm_break_points, class_name: ::Advantager::EVM::BreakPoint.to_s
 
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,

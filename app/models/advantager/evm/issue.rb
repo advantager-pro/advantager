@@ -1,12 +1,12 @@
-module EVM::Issue
+module Advantager::EVM::Issue
     extend ActiveSupport::Concern
 
     included do
       alias_attribute :estimated_time, :estimated_hours
 
       ( ::Project.available_fields  ).each do |field|
-        validates Project.issue_field(field), numericality: { greater_than: 0, allow_nil: true }
-        safe_attributes Project.issue_field(field).to_s
+        validates ::Project.issue_field(field), numericality: { greater_than: 0, allow_nil: true }
+        safe_attributes ::Project.issue_field(field).to_s
 
         #  This won't work beacuse when you create a new issue its default value will be 0
         # And the validation above says it shouldn't be 0
@@ -21,7 +21,7 @@ module EVM::Issue
       # # Set actual_start_date
       # Issue.all.each{ |i|  i.actual_start_date = i.journals.first.try(:created_on) || i.start_date || i.created_on  }
       #
-      # Project.last.evm_points.destroy_all ; EVM::Point.generate_from_project_begining(Project.last)
+      # Project.last.evm_points.destroy_all ; Advantager::EVM::Point.generate_from_project_begining(Project.last)
 
 
       def planned_value(date=nil)
@@ -46,7 +46,7 @@ module EVM::Issue
 
       def actual_cost(date=nil)
         entry_ac_field = ::Project.entry_field(self.project.evm_field)
-        if date.nil? || date == Date.today
+        if date.nil? || date == ::Date.today
           time_entries.sum(entry_ac_field)
         else
           time_entries.where("#{::TimeEntry.table_name}.created_on <= ?",

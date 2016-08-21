@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EVM::PointTest < ActiveSupport::TestCase
+class Advantager::EVM::PointTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

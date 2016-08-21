@@ -2,6 +2,7 @@ module Advantager::Issue
     extend ActiveSupport::Concern
 
     included do
+      include Advantager::EVM::Issue
 
       def in_progress_done_ratio
         ::IssueStatus.find_in_progress_status.try(:default_done_ratio) || 0
@@ -94,14 +95,17 @@ module Advantager::Issue
     end
 
     module ClassMethods
+
       def not_rejected
         rejected_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
         tbn = self.table_name
         self.where("#{tbn}.status_id != ?",rejected_status_id)
       end
+
       def planned_only
         tbn = self.table_name
         self.where("#{tbn}.due_date IS NOT NULL AND #{tbn}.start_date IS NOT NULL")
       end
+
     end
 end
