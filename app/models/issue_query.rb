@@ -30,7 +30,7 @@ class IssueQuery < Query
     QueryColumn.new(:author, :sortable => lambda {User.fields_for_order_statement("authors")}, :groupable => true),
     QueryColumn.new(:assigned_to, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
+    #QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"), #estimated
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"), #estimated
@@ -152,7 +152,7 @@ class IssueQuery < Query
     principals = []
     subprojects = []
     versions = []
-    categories = []
+    #categories = []
     issue_custom_fields = []
 
     if project
@@ -162,7 +162,7 @@ class IssueQuery < Query
         principals += Principal.member_of(subprojects).visible
       end
       versions = project.shared_versions.to_a
-      categories = project.issue_categories.to_a
+      #categories = project.issue_categories.to_a
       issue_custom_fields = project.all_issue_custom_fields
     else
       if all_projects.any?
@@ -224,9 +224,9 @@ class IssueQuery < Query
       :type => :list_optional,
       :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
 
-    add_available_filter "category_id",
-      :type => :list_optional,
-      :values => categories.collect{|s| [s.name, s.id.to_s] }
+    # add_available_filter "category_id",
+    #   :type => :list_optional,
+    #   :values => categories.collect{|s| [s.name, s.id.to_s] }
 
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text

@@ -1,0 +1,96 @@
+ul.tags { list-style: none; padding: 0px; }
+ul.tags li { margin: .25em 0px; }
+
+.tag-label { margin: .25em; }
+.tag-label-color {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2px 4px;
+    display: inline-block;
+    margin: 1px;
+    color: white;
+}
+
+table.list tr.issue .tag-label-color a,
+.tags .tag-label-color a,
+.issue .tag-label-color a { color: white; }
+
+tr.issue td.tags {
+  text-align: left;
+  white-space: normal;
+}
+
+div.tags .tag-nube-1 { font-size: .8em; }
+div.tags .tag-nube-2 { font-size: .9em; }
+div.tags .tag-nube-3 { font-size: 1em; }
+div.tags .tag-nube-4 { font-size: 1.1em; }
+div.tags .tag-nube-5 { font-size: 1.2em; }
+div.tags .tag-nube-6 { font-size: 1.3em; }
+div.tags .tag-nube-7 { font-size: 1.4em; }
+div.tags .tag-nube-8 { font-size: 1.5em; }
+
+.tag-count { font-size: .75em; margin-left: .5em; }
+
+ul.tagit {
+  border: 1px solid #d7d7d7;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -khtml-border-radius: 0px;
+  border-radius: 0px;
+  background: white;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul.tagit li.tagit-choice {
+  font-weight: normal;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  font-size: 11px;
+  color: inherit;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #f7f7f7;
+  margin: 1px;
+}
+
+ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
+  background-color: #e5e5e5;
+  text-decoration: none;
+  color: black;
+}
+
+ul.tagit li.tagit-choice a.tagit-close {
+  text-decoration: none;
+}
+
+ul.tagit li.tagit-choice .tagit-close {
+  right: .4em;
+}
+
+ul.tagit li.tagit-choice .ui-icon {
+  display: none;
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon{
+  display: inline;
+  /*font-size: 13px;*/
+  line-height: 16px;
+  /*color: white;*/
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon:hover {
+  color: black;
+}
+
+ul.tagit li.tagit-new input {
+  font-size: 11px;
+  background: white;
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
+ul.tagit li.tagit-new {
+  padding: 0px;
+}

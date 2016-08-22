@@ -159,7 +159,7 @@ Rails.application.routes.draw do
     end
     resources :queries, :only => [:new, :create]
     shallow do
-      resources :issue_categories
+      #resources :issue_categories
     end
     resources :documents, :except => [:show, :edit, :update, :destroy]
     resources :boards

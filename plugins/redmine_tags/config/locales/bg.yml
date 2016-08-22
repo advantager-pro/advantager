@@ -1,0 +1,22 @@
+bg:
+  tags: Маркери
+  field_tags: Маркери
+  field_tag_list: Маркери
+  setting_issue_tags: Маркери на задачите
+  issues_sidebar: Показване на страничния панел като
+  issues_show_count: Показване на броя на задачите
+  issues_open_only: Само отворените задачи
+  issues_sort_by: Подреждане на маркерите по
+  issues_use_colors: Използване на цветове
+
+  issue_tags_sidebar_none: Да не се показват
+  issue_tags_sidebar_list: Списък
+  issue_tags_sidebar_cloud: Облак
+  issue_tags_sidebar_simple_cloud: Опростен облак
+
+  issues_sort_by_name: Наименование
+  issues_sort_by_count: Количество задачи
+  issues_sort_order_asc: Нарастване
+  issues_sort_order_desc: Намаляване
+
+  auto_complete_new_tag: Добавяне на нов...
