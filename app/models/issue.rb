@@ -980,6 +980,10 @@ class Issue < ActiveRecord::Base
     @spent_hours ||= time_entries.sum(:hours) || 0
   end
 
+  def spent_time
+    spent_hours
+  end
+
   # Returns the total number of hours spent on this issue and its descendants
   def total_spent_hours
     @total_spent_hours ||= if leaf?
@@ -987,6 +991,10 @@ class Issue < ActiveRecord::Base
     else
       self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
     end
+  end
+
+  def total_spent_time
+    total_spent_hours
   end
 
 

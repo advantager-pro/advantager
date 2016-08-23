@@ -1,5 +1,5 @@
 <%= error_messages_for 'project' %>
-
+<% evm_checked_css_class = "last-visible_field-checked-because-of-evm_field" %>
 <div class="box tabular">
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true, :size => 60 %></p>
@@ -24,7 +24,11 @@
             <%= field %>
           </td>
           <td>
-            <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
+            <% if @project.evm_field == field %>
+              <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field }, class: evm_checked_css_class %>
+            <% else %>
+              <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
+            <% end %>
           </td>
           <td>
             <%= f.radio_button :evm_field, field, checked: @project.evm_field == field, data: { evm_field: field }  %>
@@ -151,7 +155,7 @@ $(document).ready(function() {
 
 
   var togleContainer = function(field){
-    if(field != 'custom' && field != 'cost') return;
+    // if(field != 'custom' && field != 'cost') return;
     var fields = ['custom', 'cost'];
     $.each(fields, function(k, f){
       var evmChecked = $("[data-evm-field='"+f+"']").is(':checked');
@@ -166,14 +170,18 @@ $(document).ready(function() {
   }
 
   $(document).on('change', "[data-evm-field]", function(e){
-    togleContainer($(this).data('evm-field'));
+    var checkedClass = "<%= evm_checked_css_class %>";
+    $("[data-visible-field]."+checkedClass).prop("checked", false).removeClass(checkedClass);
+    var field = $(this).data('evm-field');
+    $("[data-visible-field='"+field+"']").prop("checked", true).addClass(checkedClass);
+    togleContainer(field);
   });
 
   $(document).on('change', "[data-visible-field]", function(e){
-    togleContainer($(this).data('visible-field'));
     var visibleFields = [];
     $("[data-visible-field]:checked").each(function(){ visibleFields.push($(this).data("visible-field")); });
     $("#visible_fields").val(visibleFields.join(','));
+    togleContainer($(this).data('visible-field'));
   });
 });
 <% end %>

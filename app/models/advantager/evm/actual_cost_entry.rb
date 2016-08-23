@@ -15,7 +15,7 @@ module Advantager::EVM::ActualCostEntry
         # end
       end
 
-      def actual_cost
+      def evm_actual_cost
         self.send(project.entry_evm_field) || 0.0
       end
 

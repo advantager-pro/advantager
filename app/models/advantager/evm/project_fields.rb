@@ -81,8 +81,8 @@ module Advantager::EVM::ProjectFields
 
     module ClassMethods
 
-      def entry_field(field)
-        "actual_#{field}".to_sym
+      def entry_field(f)
+        "actual_#{f}".to_sym
       end
 
       def issue_field(field)
