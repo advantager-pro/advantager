@@ -23,7 +23,7 @@ module ProjectsHelper
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
             {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
-            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
+            #{:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
             {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
             {:name => 'repositories', :action => :manage_repository, :partial => 'projects/settings/repositories', :label => :label_repository_plural},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
@@ -107,11 +107,11 @@ module ProjectsHelper
       end
     end if include_in_api_response?('trackers')
 
-    api.array :issue_categories do
-      project.issue_categories.each do |category|
-        api.issue_category(:id => category.id, :name => category.name)
-      end
-    end if include_in_api_response?('issue_categories')
+    # api.array :issue_categories do
+    #   project.issue_categories.each do |category|
+    #     api.issue_category(:id => category.id, :name => category.name)
+    #   end
+    # end if include_in_api_response?('issue_categories')
 
     api.array :enabled_modules do
       project.enabled_modules.each do |enabled_module|

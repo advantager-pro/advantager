@@ -21,7 +21,6 @@ class Issue < ActiveRecord::Base
   include Redmine::I18n
   before_save :set_parent_id
   include Redmine::NestedSet::IssueNestedSet
-  include ::EVM::Issue
   include ::Advantager::Issue
 
   belongs_to :project
@@ -418,7 +417,7 @@ class Issue < ActiveRecord::Base
   safe_attributes 'project_id',
     'tracker_id',
     'status_id',
-    'category_id',
+    #'category_id',
     'assigned_to_id',
     'priority_id',
     'fixed_version_id',
@@ -981,6 +980,10 @@ class Issue < ActiveRecord::Base
     @spent_hours ||= time_entries.sum(:hours) || 0
   end
 
+  def spent_time
+    spent_hours
+  end
+
   # Returns the total number of hours spent on this issue and its descendants
   def total_spent_hours
     @total_spent_hours ||= if leaf?
@@ -988,6 +991,10 @@ class Issue < ActiveRecord::Base
     else
       self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
     end
+  end
+
+  def total_spent_time
+    total_spent_hours
   end
 
 

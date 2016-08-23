@@ -18,7 +18,7 @@
 class TimeEntry < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  include ::EVM::ActualCostEntry
+  include ::Advantager::EVM::ActualCostEntry
 
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip

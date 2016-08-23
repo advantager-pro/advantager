@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EVM::PointsControllerTest < ActionController::TestCase
+class Advantager::EVM::PointsControllerTest < ActionController::TestCase
   setup do
     @evm_point = evm_points(:one)
   end
@@ -17,7 +17,7 @@ class EVM::PointsControllerTest < ActionController::TestCase
   end
 
   test "should create evm_point" do
-    assert_difference('EVM::Point.count') do
+    assert_difference('Advantager::EVM::Point.count') do
       post :create, evm_point: { actual_cost: @evm_point.actual_cost, day: @evm_point.day, earned_value: @evm_point.earned_value, issue_id: @evm_point.issue_id, planned_value: @evm_point.planned_value }
     end
 
@@ -40,7 +40,7 @@ class EVM::PointsControllerTest < ActionController::TestCase
   end
 
   test "should destroy evm_point" do
-    assert_difference('EVM::Point.count', -1) do
+    assert_difference('Advantager::EVM::Point.count', -1) do
       delete :destroy, id: @evm_point
     end
 

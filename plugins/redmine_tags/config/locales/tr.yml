@@ -1,0 +1,28 @@
+tr:
+  tags: Etiketler
+  field_tags: Etiketler
+  field_tag_list: Etiketler
+  setting_issue_tags: Issues Tags
+  issues_sidebar: Etiketleri yan panelde gösterme şekli
+  issues_show_count: Ticket sayısını göster
+  issues_open_only: Sadece açık ticket'ları göster
+  issues_sort_by: Etiketleri sırala
+  issues_use_colors: Renk kullan
+
+  issue_tags_sidebar_none: Hiçbiri
+  issue_tags_sidebar_list: Liste
+  issue_tags_sidebar_cloud: Bulut
+  issue_tags_sidebar_simple_cloud: Basit bulut
+
+  issues_sort_by_name: İsim
+  issues_sort_by_count: Ticket sayısı
+  issues_sort_order_asc: Artan
+  issues_sort_order_desc: Azalan
+
+  auto_complete_new_tag: Yeni ekle...
+  
+  issue_tags_label_add_tag: + etiket ekle
+  issue_tags_manage_tags: Etiketleri yönet
+  issue_tags_tag: Etiket
+  issue_tags_button_merge: Birleştir
+  issue_tags_label_merge: Seçili etiketleri birleştir

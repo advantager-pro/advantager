@@ -105,6 +105,8 @@ en:
           one:    "1 error prohibited this %{model} from being saved"
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
+        cannot_be_greater_than_today: "cannot be greater than today"
+        cannot_start_issue_if_not_planned: " - An issue cannot be set in progress or closed it was not planned"
         inclusion: "is not included in the list"
         exclusion: "is reserved"
         invalid: "is invalid"
@@ -145,6 +147,7 @@ en:
   general_pdf_fontname: freesans
   general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '7'
+  please_wait: Please wait...
 
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_credentials: Invalid user or password

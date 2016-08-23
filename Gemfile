@@ -16,6 +16,7 @@ gem "actionpack-xml_parser"
 gem "roadie-rails"
 gem "unicorn"
 gem "dalli", "~> 2.7.0"
+gem "turbolinks"
 
 # Cron job
 gem 'whenever', require: false
