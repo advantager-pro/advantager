@@ -90,7 +90,39 @@ module Advantager::Issue
          errors.add(:actual_start_date,
           I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
         end
-       end
+      end
+
+      def milestone_status(milestone_id)
+        ip_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first.id
+        closed_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first.id
+        new_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
+        rej_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
+
+        milestone_status = nil
+        sons = ::Issue.where(parent_id: milestone_id)
+        sons_new = sons.where(status_id: new_status_id)
+
+        if sons_new.nil?
+          sons_closed = sons.where(status_id: closed_status_id)
+          if sons_closed.nil?
+            sons_ip = sons.where(status_id: ip_status_id)
+            if sons_ip.nil?
+              sons_rej = sons.where(status_id: rej_status_id)
+              if sons_rej.count == sons.count #all rejected
+                milestone_status = I18n.t!("default_issue_status_rejected")
+              end
+            else
+              milestone_status = I18n.t!("default_issue_status_in_progress")
+            end
+          elseif sons_closed.count == sons.count #all closed
+            milestone_status = I18n.t!("default_issue_status_closed") #TODO add completed status
+          end
+        elseif sons_new.count == sons.count #all new
+          milestone_status = I18n.t!("default_issue_status_new")
+        else# at least one new and others closed or in progress or rejected
+          milestone_status = I18n.t!("default_issue_status_in_progress")
+        end
+      end
 
     end
 
