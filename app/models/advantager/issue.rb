@@ -98,7 +98,6 @@ module Advantager::Issue
         new_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
         rej_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
 
-        milestone_status = nil
         sons = ::Issue.where(parent_id: milestone_id)
         sons_new = sons.where(status_id: new_status_id)
 
@@ -109,18 +108,18 @@ module Advantager::Issue
             if sons_ip.nil?
               sons_rej = sons.where(status_id: rej_status_id)
               if sons_rej.count == sons.count #all rejected
-                milestone_status = I18n.t!("default_issue_status_rejected")
+                self.status = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first
               end
             else
-              milestone_status = I18n.t!("default_issue_status_in_progress")
+              self.status = ::IssueStatus.find_in_progress_status
             end
           elseif sons_closed.count == sons.count #all closed
-            milestone_status = I18n.t!("default_issue_status_closed") #TODO add completed status
+            self.status = ::IssueStatus.where(is_closed: true).first
           end
         elseif sons_new.count == sons.count #all new
-          milestone_status = I18n.t!("default_issue_status_new")
+          self.status = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
         else# at least one new and others closed or in progress or rejected
-          milestone_status = I18n.t!("default_issue_status_in_progress")
+          self.status = ::IssueStatus.find_in_progress_status
         end
       end
 
