@@ -119,7 +119,7 @@ module Advantager::Issue
          errors.add(:actual_start_date,
           I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
         end
-       end
+      end
 
     end
 
