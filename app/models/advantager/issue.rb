@@ -20,6 +20,7 @@ module Advantager::Issue
       end
 
       before_save :binding_status, :binding_actual_dates, :binding_done_ratio
+      after_save :update_parent_status
 
       def binding_status
         return unless (status_was.present? && self.status != status_was)
@@ -54,7 +55,7 @@ module Advantager::Issue
       def binding_done_ratio
         return unless done_ratio_changed?
         if done_ratio_closed?
-          closed_status = ::IssueStatus.where(is_closed: true).first
+          closed_status = ::IssueStatus.where(is_closed: true).first #check if having rejected as is_closed true doesnt affect to this
           self.status = closed_status
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
         elsif done_ratio_in_progress?
@@ -62,6 +63,34 @@ module Advantager::Issue
             self.status = ::IssueStatus.find_in_progress_status
           end
           self.actual_start_date = ::Date.today if self.actual_start_date.nil?
+        end
+      end
+
+      def update_parent_status
+        unless self.parent_id == nil
+          ip_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first.id
+          closed_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first.id
+          new_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
+          rej_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
+
+          parent = ::Issue.where(id: self.parent_id).first
+
+          childs = ::Issue.where(parent_id: self.parent_id)
+          childs_closed = childs.where(status_id: closed_status_id)
+          childs_rejected = childs.where(status_id: rej_status_id)
+          childs_in_pro = childs.where(status_id: ip_status_id)
+          childs_new = childs.where(status_id: new_status_id)
+
+          if childs_in_pro.count > 0
+            parent.status_id = ip_status_id
+          elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
+            parent.status_id = closed_status_id
+          elsif childs_rejected.count == childs.count
+            parent.status_id = rej_status_id
+          elsif childs_new.count == childs.count
+            parent.status_id = new_status_id
+          end
+          parent.save!
         end
       end
 
