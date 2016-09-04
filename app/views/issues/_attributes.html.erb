@@ -30,7 +30,7 @@
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true} %></p>
 <% end %>
 
-<% if @issue.safe_attribute? 'assigned_to_id' %>
+<% if @issue.safe_attribute?('assigned_to_id') && @issue.tracker_id!=2 %>
 <p id='assigned_to_line'><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
 <% end %>
 
