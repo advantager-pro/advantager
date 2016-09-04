@@ -19,7 +19,7 @@
 
 <div class="splitcontent">
 <div class="splitcontentleft">
-<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
+<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && @issue.tracker_id!=2 %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
 <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
@@ -101,7 +101,7 @@
     <% end %>
 
 <% else %>
-  <p> Dates will be completed with information from task included on milestone TODO translate this!</p>
+  <p> Dates and state will be updated with information from tasks included on milestone TODO translate this! Checklist and assignee are not allowed for Milestones.</p>
 <% end %>  <!-- end if not milestone -->
 </div>
 </div>
