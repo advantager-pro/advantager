@@ -1,4 +1,4 @@
-<% if User.current.allowed_to?(:edit_checklists, @project) %>
+<% if User.current.allowed_to?(:edit_checklists, @project) && @issue.tracker_id!=2%>
   <div class="tabular">
     <p id="checklist_form">
       <label><%=l(:label_checklist_plural)%></label>
