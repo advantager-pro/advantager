@@ -90,7 +90,7 @@ module Advantager::Issue
           parent.status_id = closed_status
         elsif childs_rejected.count == childs.count
           parent.status_id = rej_status
-        elsif childs_new.count == childs.count
+        elsif childs_new.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count + childs_new.count)
           parent.status_id = new_status
         end
         parent.save(:validate => false)
