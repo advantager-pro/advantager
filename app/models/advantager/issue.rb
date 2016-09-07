@@ -20,9 +20,9 @@ module Advantager::Issue
       end
 
       before_save :binding_status, :binding_actual_dates, :binding_done_ratio
-      #after_save :update_parent_status
 
       def binding_status
+        return if milestone?
         return unless (status_was.present? && self.status != status_was)
         if was_closed? && status.in_progress?
           self.actual_due_date = nil
@@ -37,6 +37,7 @@ module Advantager::Issue
       end
 
       def binding_actual_dates
+        return if milestone?
         if self.actual_start_date_changed? &&
           self.actual_start_date.present?
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
@@ -53,6 +54,7 @@ module Advantager::Issue
       end
 
       def binding_done_ratio
+        return if milestone?
         return unless done_ratio_changed?
         if done_ratio_closed?
           closed_status = ::IssueStatus.where(is_closed: true).first #check if having rejected as is_closed true doesnt affect to this
@@ -67,34 +69,38 @@ module Advantager::Issue
       end
 
       def update_parent_status
-        unless self.parent_id == nil
-          ip_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first.id
-          closed_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first.id
-          new_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
-          rej_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
+        return if self.parent_id.nil?
+        ip_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first.id
+        closed_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first.id
+        new_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
+        rej_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
 
-          parent = ::Issue.where(id: self.parent_id).first
+        parent = self.parent
+        childs = ::Issue.where(parent_id: self.parent_id)
 
-          childs = ::Issue.where(parent_id: self.parent_id)
-          childs_closed = childs.where(status_id: closed_status_id)
-          childs_rejected = childs.where(status_id: rej_status_id)
-          childs_in_pro = childs.where(status_id: ip_status_id)
-          childs_new = childs.where(status_id: new_status_id)
+        childs_closed = childs.where(status_id: closed_status)
+        childs_rejected = childs.where(status_id: rej_status)
+        childs_in_pro = childs.where(status_id: ip_status)
+        childs_new = childs.where(status_id: new_status)
+        #raise ({ ip_status: ip_status, closed_status: closed_status, new_status: new_status, rej_status: rej_status, childs: childs, childs_new: childs_new, childs_in_pro: childs_in_pro, childs_closed: childs_closed, childs_rejected: childs_rejected }).inspect
 
-          if childs_in_pro.count > 0
-            parent.status_id = ip_status_id
-          elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
-            parent.status_id = closed_status_id
-          elsif childs_rejected.count == childs.count
-            parent.status_id = rej_status_id
-          elsif childs_new.count == childs.count
-            parent.status_id = new_status_id
-          end
-          parent.save!
+        if childs_in_pro.count > 0
+          parent.status_id = ip_status
+        elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
+          parent.status_id = closed_status
+        elsif childs_rejected.count == childs.count
+          parent.status_id = rej_status
+        elsif childs_new.count == childs.count
+          parent.status_id = new_status
         end
+        parent.save(:validate => false)
       end
 
-      handle_asynchronously :update_parent_status
+      def milestone?
+        self.tracker.name == I18n.t!("default_tracker_milestone")
+      end
+
+      #handle_asynchronously :update_parent_status
 
       validate :planned_to_put_in_progress,
         :actual_dates_cannot_be_greater_than_today
