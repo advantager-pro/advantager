@@ -4,7 +4,7 @@
 
 
 <fieldset>
-<% if @issue.tracker_id!=2 %>
+<% if !@issue.milestone? %>
   <p>
     <legend><%= t("evm.fieldset") %></legend>
     <%= f.number_field @issue.project.issue_evm_field %>
@@ -19,7 +19,7 @@
 
 <div class="splitcontent">
 <div class="splitcontentleft">
-<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && @issue.tracker_id!=2 %>
+<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && !@issue.milestone? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
 <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
@@ -31,7 +31,7 @@
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true} %></p>
 <% end %>
 
-<% if @issue.safe_attribute?('assigned_to_id') && @issue.tracker_id!=2 %>
+<% if @issue.safe_attribute?('assigned_to_id') && !@issue.milestone? %>
 <p id='assigned_to_line'><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
 <% end %>
 
@@ -67,7 +67,7 @@
 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
 <% end %>
 
-<% if @issue.tracker_id!=2 %>
+<% if !@issue.milestone? %>
   <% if @issue.safe_attribute? 'start_date' %>
     <p id="start_date_area">
       <%= f.text_field(:start_date, :size => 10, :required => @issue.required_attribute?('start_date')) %>
