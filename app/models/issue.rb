@@ -1619,6 +1619,7 @@ class Issue < ActiveRecord::Base
     if parent_id
       recalculate_attributes_for(parent_id)
       association(:parent).reset
+      update_parent_status
     end
   end
 
@@ -1637,8 +1638,13 @@ class Issue < ActiveRecord::Base
         # start/due dates = lowest/highest dates of children
         p.start_date = p.children.minimum(:start_date)
         p.due_date = p.children.maximum(:due_date)
+        p.actual_start_date = p.children.minimum(:actual_start_date)
+        p.actual_due_date = p.children.maximum(:actual_due_date)
         if p.start_date && p.due_date && p.due_date < p.start_date
           p.start_date, p.due_date = p.due_date, p.start_date
+        end
+        if p.actual_start_date && p.actual_due_date && p.actual_due_date < p.actual_start_date
+          p.actual_start_date, p.actual_due_date = p.actual_due_date, p.actual_start_date
         end
       end
 
