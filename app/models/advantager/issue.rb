@@ -71,28 +71,27 @@ module Advantager::Issue
       def update_parent_status
         return if self.parent_id.nil?
         #for some reason when using find_by this gives nil
-        ip_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first.id
-        closed_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first.id
-        new_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first.id
-        rej_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
+        ip_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first
+        closed_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first
+        new_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
+        rej_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first
 
-        #parent = self.parent
         childs = ::Issue.where(parent_id: self.parent_id)
 
-        childs_closed = childs.where(status_id: closed_status)
-        childs_rejected = childs.where(status_id: rej_status)
-        childs_in_pro = childs.where(status_id: ip_status)
-        childs_new = childs.where(status_id: new_status)
+        childs_closed = childs.where(status: closed_status)
+        childs_rejected = childs.where(status: rej_status)
+        childs_in_pro = childs.where(status: ip_status)
+        childs_new = childs.where(status: new_status)
         #raise ({ ip_status: ip_status, closed_status: closed_status, new_status: new_status, rej_status: rej_status, childs: childs, childs_new: childs_new, childs_in_pro: childs_in_pro, childs_closed: childs_closed, childs_rejected: childs_rejected }).inspect
 
         if childs_in_pro.count > 0
-          self.parent.status_id = ip_status
+          self.parent.status = ip_status
         elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
-          self.parent.status_id = closed_status
+          self.parent.status = closed_status
         elsif childs_rejected.count == childs.count
-          self.parent.status_id = rej_status
+          self.parent.status = rej_status
         elsif childs_new.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count + childs_new.count)
-          self.parent.status_id = new_status
+          self.parent.status = new_status
         end
         self.parent.save(:validate => false)
       end
