@@ -20,7 +20,7 @@ module Advantager::Issue
       end
 
       before_save :binding_status, :binding_actual_dates, :binding_done_ratio
-      after_save :update_parent_status
+      #after_save :update_parent_status
 
       def binding_status
         return unless (status_was.present? && self.status != status_was)
@@ -94,6 +94,7 @@ module Advantager::Issue
         end
       end
 
+      handle_asynchronously :update_parent_status
 
       validate :planned_to_put_in_progress,
         :actual_dates_cannot_be_greater_than_today
