@@ -118,6 +118,7 @@ class Issue < ActiveRecord::Base
   after_destroy :update_parent_attributes
   after_create :send_notification
   # Keep it at the end of after_save callbacks
+  after_save :update_parent_status
   after_save :clear_assigned_to_was
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -1619,7 +1620,6 @@ class Issue < ActiveRecord::Base
     if parent_id
       recalculate_attributes_for(parent_id)
       association(:parent).reset
-      update_parent_status
     end
   end
 
@@ -1798,6 +1798,7 @@ class Issue < ActiveRecord::Base
   def clear_assigned_to_was
     @assigned_to_was = nil
     @previous_assigned_to_id = nil
+    #raise parent.status
   end
 
   def clear_disabled_fields
