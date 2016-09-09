@@ -4,21 +4,22 @@
 
 
 <fieldset>
-<p>
-  <legend><%= t("evm.fieldset") %></legend>
-  <%= f.number_field @issue.project.issue_evm_field %>
-</p>
-</fieldset>
+<% if !@issue.milestone? %>
+  <p>
+    <legend><%= t("evm.fieldset") %></legend>
+    <%= f.number_field @issue.project.issue_evm_field %>
+  </p>
+  </fieldset>
 
-<% @issue.project.visible_fields.each do |field| %>
-  <p><%= f.number_field Project.issue_field(field) %></p>
+  <% @issue.project.visible_fields.each do |field| %>
+    <p><%= f.number_field Project.issue_field(field) %></p>
+  <% end %>
+
 <% end %>
-
-
 
 <div class="splitcontent">
 <div class="splitcontentleft">
-<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
+<% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && !@issue.milestone? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
 <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
@@ -30,8 +31,8 @@
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true} %></p>
 <% end %>
 
-<% if @issue.safe_attribute? 'assigned_to_id' %>
-<p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
+<% if @issue.safe_attribute?('assigned_to_id') && !@issue.milestone? %>
+<p id='assigned_to_line'><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
 <% end %>
 
 <% if false #@issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
@@ -66,37 +67,42 @@
 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
 <% end %>
 
-<% if @issue.safe_attribute? 'start_date' %>
-<p id="start_date_area">
-  <%= f.text_field(:start_date, :size => 10, :required => @issue.required_attribute?('start_date')) %>
-  <%= calendar_for('issue_start_date') %>
-</p>
-<% end %>
+<% if !@issue.milestone? %>
+  <% if @issue.safe_attribute? 'start_date' %>
+    <p id="start_date_area">
+      <%= f.text_field(:start_date, :size => 10, :required => @issue.required_attribute?('start_date')) %>
+      <%= calendar_for('issue_start_date') %>
+    </p>
+    <% end %>
 
-<% if @issue.safe_attribute? 'due_date' %>
-<p id="due_date_area">
-  <%= f.text_field(:due_date, :size => 10, :required => @issue.required_attribute?('due_date')) %>
-  <%= calendar_for('issue_due_date') %>
-</p>
-<% end %>
+    <% if @issue.safe_attribute? 'due_date' %>
+    <p id="due_date_area">
+      <%= f.text_field(:due_date, :size => 10, :required => @issue.required_attribute?('due_date')) %>
+      <%= calendar_for('issue_due_date') %>
+    </p>
+    <% end %>
 
-<% if @issue.safe_attribute? 'actual_start_date' %>
-<p id="actual_start_date_area">
-  <%= f.text_field(:actual_start_date, :size => 10, :required => @issue.required_attribute?('actual_start_date')) %>
-  <%= calendar_for('issue_actual_start_date') %>
-</p>
-<% end %>
+    <% if @issue.safe_attribute? 'actual_start_date' %>
+    <p id="actual_start_date_area">
+      <%= f.text_field(:actual_start_date, :size => 10, :required => @issue.required_attribute?('actual_start_date')) %>
+      <%= calendar_for('issue_actual_start_date') %>
+    </p>
+    <% end %>
 
-<% if @issue.safe_attribute? 'actual_due_date' %>
-<p id="actual_due_date_area">
-  <%= f.text_field(:actual_due_date, :size => 10, :required => @issue.required_attribute?('actual_due_date')) %>
-  <%= calendar_for('issue_actual_due_date') %>
-</p>
-<% end %>
+    <% if @issue.safe_attribute? 'actual_due_date' %>
+    <p id="actual_due_date_area">
+      <%= f.text_field(:actual_due_date, :size => 10, :required => @issue.required_attribute?('actual_due_date')) %>
+      <%= calendar_for('issue_actual_due_date') %>
+    </p>
+    <% end %>
 
-<% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
-<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></p>
-<% end %>
+    <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
+    <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></p>
+    <% end %>
+
+<% else %>
+  <p> Dates and state will be updated with information from tasks included on milestone TODO translate this! Checklist and assignee are not allowed for Milestones.</p>
+<% end %>  <!-- end if not milestone -->
 </div>
 </div>
 

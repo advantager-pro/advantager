@@ -248,6 +248,8 @@ es:
   default_tracker_bug: Errores
   default_tracker_feature: Tareas
   default_tracker_support: Soporte
+  default_tracker_task: Tarea
+  default_tracker_milestone: Hito
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
   enumeration_issue_priorities: Prioridad de las peticiones

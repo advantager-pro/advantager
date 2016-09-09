@@ -118,6 +118,7 @@ class Issue < ActiveRecord::Base
   after_destroy :update_parent_attributes
   after_create :send_notification
   # Keep it at the end of after_save callbacks
+  after_save :update_parent_status
   after_save :clear_assigned_to_was
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -1637,8 +1638,13 @@ class Issue < ActiveRecord::Base
         # start/due dates = lowest/highest dates of children
         p.start_date = p.children.minimum(:start_date)
         p.due_date = p.children.maximum(:due_date)
+        p.actual_start_date = p.children.minimum(:actual_start_date)
+        p.actual_due_date = p.children.maximum(:actual_due_date)
         if p.start_date && p.due_date && p.due_date < p.start_date
           p.start_date, p.due_date = p.due_date, p.start_date
+        end
+        if p.actual_start_date && p.actual_due_date && p.actual_due_date < p.actual_start_date
+          p.actual_start_date, p.actual_due_date = p.actual_due_date, p.actual_start_date
         end
       end
 
