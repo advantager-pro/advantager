@@ -82,8 +82,7 @@ module Advantager::Issue
         childs_rejected = childs.where(status: rej_status)
         childs_in_pro = childs.where(status: ip_status)
         childs_new = childs.where(status: new_status)
-        #raise ({ ip_status: ip_status, closed_status: closed_status, new_status: new_status, rej_status: rej_status, childs: childs, childs_new: childs_new, childs_in_pro: childs_in_pro, childs_closed: childs_closed, childs_rejected: childs_rejected }).inspect
-
+        
         if childs_in_pro.count > 0
           self.parent.status = ip_status
         elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
@@ -93,7 +92,7 @@ module Advantager::Issue
         elsif childs_new.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count + childs_new.count)
           self.parent.status = new_status
         end
-        self.parent.save(:validate => false)
+        self.parent.save(:validate => false) #this has to be validate false because it doesnt update if not
       end
 
       def milestone?

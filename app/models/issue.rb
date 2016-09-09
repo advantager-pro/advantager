@@ -1798,7 +1798,6 @@ class Issue < ActiveRecord::Base
   def clear_assigned_to_was
     @assigned_to_was = nil
     @previous_assigned_to_id = nil
-    #raise parent.status
   end
 
   def clear_disabled_fields
