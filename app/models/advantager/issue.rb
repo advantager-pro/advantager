@@ -22,6 +22,7 @@ module Advantager::Issue
       before_save :binding_status, :binding_actual_dates, :binding_done_ratio
 
       def binding_status
+        return if milestone?
         return unless (status_was.present? && self.status != status_was)
         if was_closed? && status.in_progress?
           self.actual_due_date = nil
@@ -36,6 +37,7 @@ module Advantager::Issue
       end
 
       def binding_actual_dates
+        return if milestone?
         if self.actual_start_date_changed? &&
           self.actual_start_date.present?
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
@@ -52,9 +54,10 @@ module Advantager::Issue
       end
 
       def binding_done_ratio
+        return if milestone?
         return unless done_ratio_changed?
         if done_ratio_closed?
-          closed_status = ::IssueStatus.where(is_closed: true).first
+          closed_status = ::IssueStatus.where(is_closed: true).first #check if having rejected as is_closed true doesnt affect to this
           self.status = closed_status
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
         elsif done_ratio_in_progress?
@@ -65,6 +68,38 @@ module Advantager::Issue
         end
       end
 
+      def update_parent_status
+        return if self.parent_id.nil?
+        #for some reason when using find_by this gives nil
+        ip_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first
+        closed_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first
+        new_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
+        rej_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first
+
+        childs = ::Issue.where(parent_id: self.parent_id)
+
+        childs_closed = childs.where(status: closed_status)
+        childs_rejected = childs.where(status: rej_status)
+        childs_in_pro = childs.where(status: ip_status)
+        childs_new = childs.where(status: new_status)
+        
+        if childs_in_pro.count > 0
+          self.parent.status = ip_status
+        elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
+          self.parent.status = closed_status
+        elsif childs_rejected.count == childs.count
+          self.parent.status = rej_status
+        elsif childs_new.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count + childs_new.count)
+          self.parent.status = new_status
+        end
+        self.parent.save(:validate => false) #this has to be validate false because it doesnt update if not
+      end
+
+      def milestone?
+        self.tracker.name == I18n.t!("default_tracker_milestone")
+      end
+
+      #handle_asynchronously :update_parent_status
 
       validate :planned_to_put_in_progress,
         :actual_dates_cannot_be_greater_than_today
@@ -90,7 +125,7 @@ module Advantager::Issue
          errors.add(:actual_start_date,
           I18n.t!("activerecord.errors.messages.cannot_be_greater_than_today"))
         end
-       end
+      end
 
     end
 

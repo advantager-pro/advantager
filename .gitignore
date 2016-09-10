@@ -44,8 +44,6 @@
 
 /.bundle
 
-.remote-sync.json
-.DS_Store
 
 # We have example files for docker-compose.yml so let's ignore it
 /docker-compose.yml
