@@ -22,6 +22,7 @@ gem "turbolinks"
 gem 'whenever', require: false
 
 # Background job
+gem 'daemons'
 gem 'delayed_job_active_record'
 
 # Money gem to manage currencies
