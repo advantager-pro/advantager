@@ -135,6 +135,10 @@ module Advantager::Issue
 
     module ClassMethods
 
+      def tasks
+        self.where(tracker_id: ::Tracker.where(name: I18n.t!("default_tracker_task")).first.id)
+      end
+
       def not_rejected
         rejected_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
         tbn = self.table_name
@@ -146,5 +150,8 @@ module Advantager::Issue
         self.where("#{tbn}.due_date IS NOT NULL AND #{tbn}.start_date IS NOT NULL")
       end
 
+      def for_evm
+        not_rejected.planned_only.tasks
+      end
     end
 end
