@@ -41,7 +41,7 @@
 #
 #
 # #Worker - Realizador
-# wk = Role.create(name: "Realizador", permissions: [:view_files,:view_calendar,:comment_news, :view_issues,:add_issues, :edit_issues, :manage_issue_relations, :manage_subtasks,
+# wk = Role.create(name: "Realizador", permissions: [:view_files,:view_calendar,:comment_news, :view_issues,:add_issues, :manage_issue_relations, :manage_subtasks,
 #   :add_issue_notes, :edit_own_issue_notes],issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: false)
 #
 # wk.attributes = {name: "Worker", locale: :en}
