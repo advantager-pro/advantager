@@ -21,6 +21,7 @@ redmine:
     - DB_PORT= 5432
     - DB_USER=postgres
     - DB_PASS=postgres
+    - DB_ADAPTER=postgresql
     - DB_NAME=redmine
     - DB_ENCODING=UTF-8
 
