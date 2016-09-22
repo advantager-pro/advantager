@@ -39,15 +39,6 @@ COPY assets/build/ ${REDMINE_BUILD_DIR}/
 # This will create the /home/redmine folder
 RUN bash ${REDMINE_BUILD_DIR}/preinstall.sh
 
-####### Copy this repo code to /home/redmine
-# Create dir for sources
-# WORKDIR $REDMINE_INSTALL_DIR
-# Install Gemfile so its cache doesn't get invalidated by copying the rest of the sources
-# COPY Gemfile Gemfile.lock $REDMINE_INSTALL_DIR/
-# ENV BUNDLE_PATH=/home/app/bundle \
-#	BUNDLE_GEMFILE=$REDMINE_INSTALL_DIR/Gemfile \
-#   BUNDLE_JOBS=2
-# RUN bundle install
 # Copy sources
 COPY . $REDMINE_INSTALL_DIR
 ########
