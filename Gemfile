@@ -31,6 +31,9 @@ gem 'money'
 #to translate model data
 gem 'globalize', '~> 5.0.0'
 
+#for default data
+gem 'seed-fu', '~> 2.3'
+
 # Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"
 
