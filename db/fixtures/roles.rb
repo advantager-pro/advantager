@@ -46,36 +46,3 @@ roles.each do |translation, model|
   end
   model.save!
 end
-
-# I18n.locales.each |loc| do
-#   man.attribute name: I18n.t!(:default_role_manager, locale: loc). locale: loc
-#   hr.attribute name: I18n.t!(:default_role_hhrr, locale: loc). locale: loc
-# end
-# man.save!
-# hr.save!
-
-
-# #
-# # #Stakeholder - Interesado
-# # stk = Role.create(name: "Interesado",permissions: [:view_calendar,:comment_news, :view_issues],issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: false)
-# #
-# # stk.attributes = {name: "Stakeholder", locale: :en}
-# # stk.attributes = {name: "Interesado", locale: :es}
-# # stk.save!
-# # #Supervisor - Supervisor
-# # sup = Role.create(name: "Supervisor", permissions: [:edit_issues,:manage_boards, :add_messages,:comment_news, :view_wiki_pages,:edit_wiki_pages, :protect_wiki_pages,:edit_own_messages,
-# #   :delete_own_messages, :view_calendar, :manage_subtasks, :view_issue_watchers, :add_issue_watchers, :delete_issue_watchers,:view_documents,
-# #   :manage_files, :view_files, :view_gantt,:add_issue_notes, :edit_own_issue_notes, :view_private_notes],issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: true)
-# #
-# # sup.attributes = {name: "Supervisor", locale: :en}
-# # sup.attributes = {name: "Supervisor", locale: :es}
-# # sup.save!
-# #
-# #
-# # #Worker - Realizador
-# # wk = Role.create(name: "Realizador", permissions: [:view_files,:view_calendar,:comment_news, :view_issues,:add_issues, :manage_issue_relations, :manage_subtasks,
-# #   :add_issue_notes, :edit_own_issue_notes, :edit_own_time_entries],issues_visibility: "own", users_visibility: "members_of_visible_projects", time_entries_visibility: "all", all_roles_managed: false)
-# #
-# # wk.attributes = {name: "Worker", locale: :en}
-# # wk.attributes = {name: "Realizador", locale: :es}
-# # wk.save!
