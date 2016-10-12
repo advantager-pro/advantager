@@ -1250,7 +1250,9 @@ en:
   default_activity_documentation: Documentation
   default_activity_planification: Planification
   default_activity_evaluation: Evaluation
-  default_activity_Investigation: Investigation
+  default_activity_investigation: Investigation
+  default_activity_testing: Testing
+
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
