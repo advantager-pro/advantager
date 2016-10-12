@@ -1247,6 +1247,10 @@ en:
   default_priority_immediate: Immediate
   default_activity_design: Design
   default_activity_development: Development
+  default_activity_documentation: Documentation
+  default_activity_planification: Planification
+  default_activity_evaluation: Evaluation
+  default_activity_Investigation: Investigation
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories

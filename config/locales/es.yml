@@ -254,6 +254,11 @@ es:
   default_tracker_support: Soporte
   default_tracker_task: Tarea
   default_tracker_milestone: Hito
+  default_activity_development: Desarrollo
+  default_activity_documentation: Documentación
+  default_activity_planification: Planificación
+  default_activity_evaluation: Evaluación
+  default_activity_Investigation: Investigación
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
   enumeration_issue_priorities: Prioridad de las peticiones
