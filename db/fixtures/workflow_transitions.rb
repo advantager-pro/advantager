@@ -1,15 +1,15 @@
 #WorkflowTransition
 
-ts = Tracker.where(name: I18n.t!("default_tracker_task").first
-mil = Tracker.where(name: I18n.t!("default_tracker_milestone").first
-man = Role.where(name: "Manager").first
-clo = IssueStatus.where(name: "Closed").first
-default_issue_status = IssueStatus.where(name: "New").first
-pro = IssueStatus.where(name: "In progress").first
-rej = IssueStatus.where(name: "Rejected").first
-wk = Role.where(name: "Worker").first
-hr = Role.where(name: "HHRR").first
-sup = Role.where(name: "Supervisor").first
+ts = Tracker.where(name: I18n.t!("default_tracker_task")).first
+mil = Tracker.where(name: I18n.t!("default_tracker_milestone")).first
+man = Role.where(name: I18n.t!("default_role_manager")).first
+clo = IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first
+default_issue_status = IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
+pro = IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first
+rej = IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first
+wk = Role.where(name: I18n.t!("default_role_worker")).first
+hr = Role.where(name: I18n.t!("default_role_hhrr")).first
+sup = Role.where(name: I18n.t!("default_role_supervisor")).first
 #WorkflowTransition.delete_all(}).first
 
 #manager attribution over task
