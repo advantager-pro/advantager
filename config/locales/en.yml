@@ -1221,6 +1221,7 @@ en:
   text_turning_multiple_off: "If you disable multiple values, multiple values will be removed in order to preserve only one value per item."
 
   default_role_manager: Manager
+  default_role_stakeholder: Stakeholder
   default_role_developer: Developer
   default_role_reporter: Reporter
   default_role_hhrr: HHRR

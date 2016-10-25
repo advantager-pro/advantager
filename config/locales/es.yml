@@ -244,6 +244,7 @@ es:
   default_priority_urgent: Urgente
   default_priority_critical: Critica
   default_role_developer: Desarrollador
+  default_role_stakeholder: Interesado
   default_role_manager: Director
   default_role_reporter: Informador
   default_role_hhrr: RRHH
@@ -260,6 +261,7 @@ es:
   default_activity_evaluation: Evaluación
   default_activity_Investigation: Investigación
   default_activity_testing: Pruebas
+  default_activity_investigation: Investigación
 
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
