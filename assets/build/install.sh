@@ -7,11 +7,11 @@ BUILD_DEPENDENCIES="libcurl4-openssl-dev libssl-dev \
                     libxslt1-dev libffi-dev libyaml-dev"
 
 if [[ ${DB_ADAPTER} == "postgresql" ]]; then
-  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} postgresql-clientlibpq-dev"
+  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} libpq-dev"
 fi
 
 if [[ ${DB_ADAPTER} == "mysql" ]]; then
-  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} mysql-client libmysqlclient-dev"
+  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} libmysqlclient-dev"
 fi
 
 
