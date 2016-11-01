@@ -68,7 +68,7 @@ module Advantager::Issue
         end
       end
 
-      def update_parent_status
+      def _update_parent_status
         return if self.parent_id.nil?
         #for some reason when using find_by this gives nil
         ip_status = ::IssueStatus.where(name: I18n.t!("default_issue_status_in_progress")).first
@@ -82,24 +82,28 @@ module Advantager::Issue
         childs_rejected = childs.where(status: rej_status)
         childs_in_pro = childs.where(status: ip_status)
         childs_new = childs.where(status: new_status)
-        
+
         if childs_in_pro.count > 0
           self.parent.status = ip_status
         elsif childs_closed.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count)
           self.parent.status = closed_status
         elsif childs_rejected.count == childs.count
           self.parent.status = rej_status
-        elsif childs_new.count == childs.count || childs.count == (childs_closed.count + childs_rejected.count + childs_new.count)
+        elsif childs_new.count == childs.count || childs.count == (childs_rejected.count + childs_new.count)
           self.parent.status = new_status
+        else
+          self.parent.status = ip_status
         end
         self.parent.save(:validate => false) #this has to be validate false because it doesnt update if not
+      end
+
+      def update_parent_status
+        self.delay._update_parent_status
       end
 
       def milestone?
         self.tracker.name == I18n.t!("default_tracker_milestone")
       end
-
-      #handle_asynchronously :update_parent_status
 
       validate :planned_to_put_in_progress,
         :actual_dates_cannot_be_greater_than_today
@@ -131,6 +135,10 @@ module Advantager::Issue
 
     module ClassMethods
 
+      def tasks
+        self.where(tracker_id: ::Tracker.where(name: I18n.t!("default_tracker_task")).first.id)
+      end
+
       def not_rejected
         rejected_status_id = ::IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first.id
         tbn = self.table_name
@@ -142,5 +150,8 @@ module Advantager::Issue
         self.where("#{tbn}.due_date IS NOT NULL AND #{tbn}.start_date IS NOT NULL")
       end
 
+      def for_evm
+        not_rejected.planned_only.tasks
+      end
     end
 end

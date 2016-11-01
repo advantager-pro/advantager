@@ -8,7 +8,7 @@ module Advantager::EVM::ProjectMethods
           endate = self.due_date || (Date.today + 1.day)
           # TODO: use SUM here. In the other methods you cannot
           #   use SUM because they use the date param
-          issues.not_rejected.planned_only.each{ |e| sum += e.planned_value(endate) }
+          issues.for_evm.each{ |e| sum += e.planned_value(endate) }
           sum
       end
 
@@ -16,9 +16,9 @@ module Advantager::EVM::ProjectMethods
           sum = 0.0
           # We don't need issues that we didn't planned to start
           if date.nil?
-            issues.not_rejected.planned_only.each{ |e| sum += e.planned_value }
+            issues.for_evm.each{ |e| sum += e.planned_value }
           else
-            issues.not_rejected.planned_only.where("#{::Issue.table_name}.start_date <= ?",
+            issues.for_evm.where("#{::Issue.table_name}.start_date <= ?",
               date).each{ |e| sum += e.planned_value(date) }
           end
           sum
@@ -28,7 +28,7 @@ module Advantager::EVM::ProjectMethods
           sum = 0.0
           date ||= Date.today
           # We only need issues that are in progress or finished
-          issues.not_rejected.planned_only.where("#{::Issue.table_name}.actual_start_date <= ?",
+          issues.for_evm.where("#{::Issue.table_name}.actual_start_date <= ?",
             date).each{ |e| sum += e.actual_cost(date) }
           sum
       end
@@ -37,7 +37,7 @@ module Advantager::EVM::ProjectMethods
           sum = 0.0
           date ||= ::Date.today
           # We only need issues that are in progress or finished
-          issues.not_rejected.planned_only.where("#{::Issue.table_name}.actual_start_date <= ?",
+          issues.for_evm.where("#{::Issue.table_name}.actual_start_date <= ?",
             date).each{ |e| sum += e.earned_value(date) }
           sum
       end

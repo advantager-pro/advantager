@@ -8,7 +8,8 @@ ENV REDMINE_VERSION=3.2.0 \
     REDMINE_CACHE_DIR="/etc/docker-redmine"
 
 ENV RAILS_ENV="production" \
-    DB_TYPE="postgresql"
+    DB_TYPE="postgresql" \
+    DB_ADAPTER="postgresql"
 
 ENV REDMINE_INSTALL_DIR="${REDMINE_HOME}/redmine" \
     REDMINE_DATA_DIR="${REDMINE_HOME}/data" \
@@ -24,7 +25,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45F
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor logrotate nginx mysql-client postgresql-client \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor logrotate nginx \
       imagemagick subversion git cvs bzr mercurial darcs rsync ruby2.3 locales openssh-client \
       gcc g++ make patch pkg-config gettext-base ruby2.3-dev libc6-dev zlib1g-dev libxml2-dev \
       libmysqlclient18 libpq5 libyaml-0-2 libcurl3 libssl1.0.0 \
@@ -38,15 +39,6 @@ COPY assets/build/ ${REDMINE_BUILD_DIR}/
 # This will create the /home/redmine folder
 RUN bash ${REDMINE_BUILD_DIR}/preinstall.sh
 
-####### Copy this repo code to /home/redmine
-# Create dir for sources
-# WORKDIR $REDMINE_INSTALL_DIR
-# Install Gemfile so its cache doesn't get invalidated by copying the rest of the sources
-# COPY Gemfile Gemfile.lock $REDMINE_INSTALL_DIR/
-# ENV BUNDLE_PATH=/home/app/bundle \
-#	BUNDLE_GEMFILE=$REDMINE_INSTALL_DIR/Gemfile \
-#   BUNDLE_JOBS=2
-# RUN bundle install
 # Copy sources
 COPY . $REDMINE_INSTALL_DIR
 ########

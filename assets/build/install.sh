@@ -3,15 +3,22 @@ set -e
 
 GEM_CACHE_DIR="${REDMINE_BUILD_DIR}/cache"
 
-BUILD_DEPENDENCIES="libcurl4-openssl-dev libssl-dev libmagickcore-dev libmagickwand-dev \
-                    libmysqlclient-dev libpq-dev libxslt1-dev libffi-dev libyaml-dev"
+BUILD_DEPENDENCIES="libcurl4-openssl-dev libssl-dev \
+                    libxslt1-dev libffi-dev libyaml-dev"
 
-## Execute a command as GITLAB_USER
+if [[ ${DB_ADAPTER} == "postgresql" ]]; then
+  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} postgresql-clientlibpq-dev"
+fi
+
+if [[ ${DB_ADAPTER} == "mysql" ]]; then
+  BUILD_DEPENDENCIES="${BUILD_DEPENDENCIES} mysql-client libmysqlclient-dev"
+fi
+
+
+## Execute a command as REDMINE_USER
 exec_as_redmine() {
   sudo -HEu ${REDMINE_USER} "$@"
 }
-
-# TODO: install pg & imagemagick dependencies
 
 # install gems
 cd ${REDMINE_INSTALL_DIR}
