@@ -1,7 +1,15 @@
 module Advantager::EarnedSchedule
 
+  def start_date
+    project.start_date
+  end
+
   def period_duration
     project.evm_frequency
+  end
+
+  def current_period
+    ( (Date.today - start_date) / period_duration ).to_i
   end
 
   def to_date(period)
@@ -13,13 +21,11 @@ module Advantager::EarnedSchedule
   end
 
   def BCWP(period)
-    date = to_date(period)
-    project.earned_value(date)
+    project.earned_value(to_date(period))
   end
 
   def BCWS(period)
-    date = to_date(period)
-    project.planned_value(date)
+    project.planned_value(to_date(period))
   end
 
   def find_period_x(period)
