@@ -3,6 +3,7 @@ class Advantager::EVM::Point < ActiveRecord::Base
   validates_presence_of :project, :day
 
   include ::Advantager::EVM::Methods
+  include ::Advantager::EarnedSchedule
 
   def self.update_current_point!(project)
     self.save_point!(project, Date.today)
