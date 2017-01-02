@@ -42,7 +42,6 @@ wk = Role.seed(:id,
 roles = {default_role_manager: man, default_role_hhrr: hr, default_role_stakeholder: stk, default_role_supervisor: sup, default_role_worker: wk}
 roles.each do |translation, model|
   I18n.available_locales.each  do |loc|
-    model.attributes = {name: I18n.t!(translation, locale: loc), locale: loc}
+    model.update_attributes(name: I18n.t!(translation, locale: loc), locale: loc)
   end
-  model.save!
 end

@@ -10,7 +10,6 @@ ts = Tracker.seed(:id,
 trackers = {default_tracker_task: ts, default_tracker_milestone: mt}
 trackers.each do |translation, model|
   I18n.available_locales.each  do |loc|
-    model.attributes = {name: I18n.t!(translation, locale: loc), locale: loc}
+    model.update_attributes(name: I18n.t!(translation, locale: loc), locale: loc)
   end
-  model.save!
 end

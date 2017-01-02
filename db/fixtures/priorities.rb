@@ -14,7 +14,6 @@ cri =IssuePriority.seed(:id,
 priorities = {default_priority_high: hi, default_priority_low: low, default_priority_critical: cri, default_priority_normal: nor}
 priorities.each do |translation, model|
   I18n.available_locales.each  do |loc|
-    model.attributes = {name: I18n.t!(translation, locale: loc), locale: loc}
+    model.update_attributes(name: I18n.t!(translation, locale: loc), locale: loc)
   end
-  model.save!
 end

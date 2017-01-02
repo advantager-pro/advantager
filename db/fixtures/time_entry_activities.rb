@@ -21,7 +21,6 @@ activities = {default_activity_development: dev, default_activity_documentation:
     default_activity_evaluation: evl, default_activity_investigation: inv, default_activity_testing: tst}
 activities.each do |translation, model|
   I18n.available_locales.each  do |loc|
-    model.attributes = {name: I18n.t!(translation, locale: loc), locale: loc}
+    model.update_attributes(name: I18n.t!(translation, locale: loc), locale: loc)
   end
-  model.save!
 end
