@@ -22,14 +22,14 @@ Rails.application.routes.draw do
   end
 
   namespace :evm do
-    resources :break_points, except: [:index] do
+    resources :break_points, except: [:index], controller: '/advantager/evm/break_points' do
       collection do
         get 'is_break_point_day'
         get ':project_id', to: "break_points#index"#, as: 'index'
 
       end
     end
-    resources :points, except: [:index] do
+    resources :points, except: [:index], controller: '/advantager/evm/points' do
       collection do
         get ':project_id', to: "points#index"#, as: 'index'
       end
