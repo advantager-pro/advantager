@@ -17,6 +17,10 @@
 
 Rails.application.routes.draw do
 
+  namespace :advantager do
+    get 'default_configs/load'
+  end
+
   namespace :evm do
     resources :break_points, except: [:index] do
       collection do
