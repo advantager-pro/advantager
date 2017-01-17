@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
   include Redmine::NestedSet::ProjectNestedSet
 
-  include ::Advantager::Project
+  include ::Advantager::ProjectUtils
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_CLOSED     = 5
