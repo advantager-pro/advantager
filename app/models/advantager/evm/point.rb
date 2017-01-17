@@ -1,5 +1,5 @@
 class Advantager::EVM::Point < ActiveRecord::Base
-  belongs_to :project
+  belongs_to :project, class_name: ::Project.to_s, foreign_key: "project_id"
   validates_presence_of :project, :day
 
   include ::Advantager::EVM::Methods
