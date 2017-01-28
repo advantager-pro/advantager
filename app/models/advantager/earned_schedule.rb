@@ -55,7 +55,7 @@ module Advantager::EarnedSchedule
 
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
-
+      # byebug
       period ||= current_period
       t = es_actual_time(period)
       x = find_period_x(t)
@@ -68,7 +68,7 @@ module Advantager::EarnedSchedule
       earned_schedule(period) - es_actual_time(period)
     end
 
-    def es_schedule_performance_index(period)
+    def es_schedule_performance_index(period=nil)
       earned_schedule(period) / es_actual_time(period)
     end
 
@@ -122,11 +122,11 @@ module Advantager::EarnedSchedule
       period ||= current_period
       # period ?
       es_planned_duration(period) / es_schedule_performance_index(period)
-      #  es_estimated_duration seems to be = es_independent_estimate_at_compete
+      #  es_estimated_duration seems to be = es_independent_time_estimate_at_compete
       # es_estimated_duration example value: 30 months
     end
 
-    def es_independent_estimate_at_compete(period)
+    def es_independent_time_estimate_at_compete(period=nil)
       es_planned_duration(period) / es_schedule_performance_index(period)
     end
 
@@ -136,8 +136,8 @@ module Advantager::EarnedSchedule
     end
 
     # ECD = Estimated Completion Date (Estimated project end date)
-    def estimated_completion_date
-      es_start_date + es_estimated_duration
+    def estimated_completion_date(period=nil)
+      es_start_date + es_independent_time_estimate_at_compete(period) #es_estimated_duration
     end
   end
   module ClassMethods
