@@ -189,9 +189,11 @@ RSpec.describe Project, type: :model do
         puts "es_independent_time_estimate_at_compete: #{point.es_independent_time_estimate_at_compete.ceil_to(2)} ==? #{12.90}", ""
 
 
+
+        # check earned_schedule calculus
         expect(point.current_period).to eq(7)
-        expect(point.earned_schedule).to eq(6.52)
-        expect(point.es_schedule_variance.ceil_to(2)).to eq(-0.48)
+        expect(point.earned_schedule.round(2)).to eq(6.52)
+        expect(point.es_schedule_variance.round(2)).to eq(-0.48)
         expect(point.es_schedule_performance_index.round(2)).to eq(0.93)
         expect(point.es_independent_time_estimate_at_compete.ceil_to(1)).to eq(12.9)
 

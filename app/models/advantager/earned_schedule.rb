@@ -59,9 +59,11 @@ module Advantager::EarnedSchedule
       period ||= current_period
       t = es_actual_time(period)
       x = find_period_x(t)
-      bCWSx = BCWS(x)
       y =  x + 1
-      return  x + ( (BCWP(t) - bCWSx) / (BCWP(y) - bCWSx)  )
+      bCWSx = BCWS(x)
+      pv_t = BCWP(t)
+      bCWSy = BCWS(y)
+      return  x + ( ( pv_t - bCWSx).to_f / (bCWSy - bCWSx).to_f  )
     end
 
     def es_schedule_variance(period=nil)
