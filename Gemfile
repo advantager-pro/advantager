@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
@@ -17,6 +17,19 @@ gem "roadie-rails"
 gem "unicorn"
 gem "dalli", "~> 2.7.0"
 gem "turbolinks"
+gem "byebug"
+
+# Time travel
+gem 'timecop'
+
+# Test
+# group :development, :test do
+gem 'rspec-rails', '~> 3.5'
+gem 'factory_girl_rails'
+#end
+
+# Get schema info
+gem 'annotate'
 
 # Cron job
 gem 'whenever', require: false
