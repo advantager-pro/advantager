@@ -19,14 +19,16 @@ gem "dalli", "~> 2.7.0"
 gem "turbolinks"
 gem "byebug"
 
-# Time travel
-gem 'timecop'
 
 # Test
 # group :development, :test do
-gem 'rspec-rails', '~> 3.5'
-gem 'factory_girl_rails'
-#end
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+
+  # Time travel
+  gem 'timecop'
+# end
 
 # Get schema info
 gem 'annotate'

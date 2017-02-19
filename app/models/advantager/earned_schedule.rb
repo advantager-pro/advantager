@@ -18,16 +18,12 @@ module Advantager::EarnedSchedule
     end
 
     def current_period
-      ( (Date.today - es_start_date) / period_duration ).to_i
+      ( (self.day - es_start_date) / period_duration ).to_i
     end
 
     def es_to_date(period)
       es_start_date + (period * period_duration).days
     end
-
-    # def to_period(date)
-    #   date / period_duration
-    # end
 
     def BCWP(period)
       self.project.earned_value(es_to_date(period))
@@ -144,4 +140,9 @@ module Advantager::EarnedSchedule
   end
   module ClassMethods
   end
+
+  # TODO: remove the period param given that it's a point so we already know what day is
+  # TODO: add a migration for earned_schedule to avoid calculating everything everytime 
+  # TODO: set a before save callback that sets the earned_schedule with the value from the current implemented #earned_schedule method
+
 end

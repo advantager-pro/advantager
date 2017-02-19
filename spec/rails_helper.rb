@@ -56,15 +56,18 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Reset database
-  # config.before(:suite) do
-  #   DatabaseCleaner.strategy = :truncation
-  # end
-  #
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-  #
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    load "#{Rails.root}/db/test_seeds.rb"
+  end
+
+  config.use_transactional_fixtures = false
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end

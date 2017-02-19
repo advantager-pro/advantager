@@ -24,9 +24,8 @@ class Advantager::EVM::Point < ActiveRecord::Base
   end
 
   def self.generate_from_project_begining(project, until_date=nil, from_date=nil)
-    # byebug
-    until_date ||= ::Date.today
-    last_date = from_date || project.created_on
+    until_date = (until_date || ::Date.today).to_date
+    last_date = (from_date || project.created_on).to_date
     until last_date > until_date
       self.save_point!(project, last_date)
       last_date += 1.day
