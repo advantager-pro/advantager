@@ -6,7 +6,7 @@ module Advantager::EarnedSchedule
     end
 
     def last_period
-      ( (es_planned_completion_date - es_start_date) / period_duration ).to_i
+      ( (planned_completion_date - es_start_date) / period_duration ).to_i
     end
 
     def periods
@@ -39,7 +39,7 @@ module Advantager::EarnedSchedule
     end
 
     # Point in period when current progress was planned to occur
-    def earned_schedule
+    def calculate_earned_schedule
       # Earned Schedule =
       # Whole months completed were Σ BCWP ≥ Σ BCWS + fractional month
       # completed
@@ -51,7 +51,6 @@ module Advantager::EarnedSchedule
 
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
-      # byebug
       t = current_period
       x = find_period_x(t)
       y =  x + 1
@@ -71,12 +70,6 @@ module Advantager::EarnedSchedule
 
     #  PD = Planned Duration (planned project duration)
     def es_planned_duration
-      # why would you use period here?
-
-      # Planned project duration
-      # Total PV or amount of periods?
-      # es_planned_completion_date # nd_date # this ?
-      # to_period(self.project.due_date) # or this?
       last_period
     end
 
@@ -109,8 +102,6 @@ module Advantager::EarnedSchedule
     #  ED = Estimated Duration (estimated project duration)
     def es_estimated_duration
       es_planned_duration / es_schedule_performance_index
-      #  es_estimated_duration seems to be = es_independent_time_estimate_at_compete
-      # es_estimated_duration example value: 30 months
     end
 
     def es_independent_time_estimate_at_compete
@@ -118,7 +109,7 @@ module Advantager::EarnedSchedule
     end
 
     # PCD = Planned Completion Date (Planned project end date)
-    def es_planned_completion_date
+    def planned_completion_date
       self.project.due_date
     end
 
@@ -126,11 +117,21 @@ module Advantager::EarnedSchedule
     def estimated_completion_date
       es_start_date + es_independent_time_estimate_at_compete #es_estimated_duration
     end
+
+    def earned_schedule(date=nil)
+      set_earned_schedule if self.read_attribute(:earned_schedule).nil?
+      self.class.find_and_read(self, :earned_schedule, date)
+    end
+
+    def set_earned_schedule
+      self.earned_schedule = calculate_earned_schedule
+    end
+
+    before_save do
+      set_earned_schedule
+    end
   end
+
   module ClassMethods
   end
-
-  # TODO: add a migration for earned_schedule to avoid calculating everything everytime
-  # TODO: set a before save callback that sets the earned_schedule with the value from the current implemented #earned_schedule method
-
 end
