@@ -48,9 +48,10 @@ RSpec.describe Project, type: :model do
             end
 
             it "returns the expected values" do
+              # Start the project
               issue1 = FactoryGirl.create(:issue, project: project, start_date: Time.now)
-              errors = []
               puts "", "  Period      |       planned value      |    earned value"
+
               periods.each do |period, values|
                 # time travel to that specific period
                 Timecop.travel(initial_time + (period.to_i*evm_frequency).days )
@@ -60,16 +61,8 @@ RSpec.describe Project, type: :model do
                 project.reload
                 # check
                 puts "     #{period}#{period.to_i < 10 ? ' ' : ''}       |           #{values[:planned_value]}           |      #{values[:earned_value]}"
-                begin
-                  expect(project.planned_value).to eq(values[:planned_value])
-                rescue => e
-                  errors << e
-                end
-                begin
-                  expect(project.earned_value.round).to eq(values[:earned_value]) if values[:earned_value].present?
-                rescue => e
-                  errors << e
-                end
+                expect(project.planned_value).to eq(values[:planned_value])
+                expect(project.earned_value.round).to eq(values[:earned_value]) if values[:earned_value].present?
               end
 
               # go a bit after 7 periods
@@ -80,18 +73,12 @@ RSpec.describe Project, type: :model do
 
               # check earned_schedule calculus
               earned_schedule_expectations.each do |field, value|
-                begin
-                  puts "", "Expected #{field}: #{point.send(field)} to be #{value}"
-                  precision = field == :es_independent_time_estimate_at_compete ? 1 : 2
-                  expect(point.send(field).round(precision)).to eq(value)
-                rescue => e
-                  errors << e
-                end
+                puts "", "Expected #{field}: #{point.send(field)} to be #{value}"
+                precision = field == :es_independent_time_estimate_at_compete ? 1 : 2
+                expect(point.send(field).round(precision)).to eq(value)
               end
-
-              raise errors.inspect if errors.any?
-            end
           end
+        end
     end
   end
 end

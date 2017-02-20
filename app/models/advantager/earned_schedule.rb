@@ -124,13 +124,12 @@ module Advantager::EarnedSchedule
 
     # ECD = Estimated Completion Date (Estimated project end date)
     def estimated_completion_date
-      es_start_date + es_independent_time_estimate_at_compete(period) #es_estimated_duration
+      es_start_date + es_independent_time_estimate_at_compete #es_estimated_duration
     end
   end
   module ClassMethods
   end
 
-  # TODO: remove the period param given that it's a point so we already know what day is
   # TODO: add a migration for earned_schedule to avoid calculating everything everytime
   # TODO: set a before save callback that sets the earned_schedule with the value from the current implemented #earned_schedule method
 
