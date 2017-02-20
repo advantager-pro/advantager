@@ -39,7 +39,7 @@ module Advantager::EarnedSchedule
     end
 
     # Point in period when current progress was planned to occur
-    def earned_schedule(period=nil)
+    def earned_schedule
       # Earned Schedule =
       # Whole months completed were Σ BCWP ≥ Σ BCWS + fractional month
       # completed
@@ -47,13 +47,12 @@ module Advantager::EarnedSchedule
       # (X = whole month earned; Y = month following X; T = Actual TIme)
       # x = whole_month_earned
       # y = next_month
-      # t = es_actual_time
+      # t = current_period
 
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
       # byebug
-      period ||= current_period
-      t = es_actual_time(period)
+      t = current_period
       x = find_period_x(t)
       y =  x + 1
       bCWSx = BCWS(x)
@@ -62,24 +61,16 @@ module Advantager::EarnedSchedule
       return  x + ( ( pv_t - bCWSx).to_f / (bCWSy - bCWSx).to_f  )
     end
 
-    def es_schedule_variance(period=nil)
-      earned_schedule(period) - es_actual_time(period)
+    def es_schedule_variance
+      earned_schedule - current_period
     end
 
-    def es_schedule_performance_index(period=nil)
-      earned_schedule(period) / es_actual_time(period)
+    def es_schedule_performance_index
+      earned_schedule / current_period
     end
-
-    def es_actual_time(period)
-      # AT is “Actual Time” – the duration from start to the duration
-      #  from start to period now
-      period || current_period
-      #  for example: 10 months
-    end
-
 
     #  PD = Planned Duration (planned project duration)
-    def es_planned_duration(period)
+    def es_planned_duration
       # why would you use period here?
 
       # Planned project duration
@@ -90,42 +81,40 @@ module Advantager::EarnedSchedule
     end
 
     # Remaining work
-    def es_es_planned_duration_work_remaining(period)
+    def es_es_planned_duration_work_remaining
       # PDWR= PD-EScum
-      es_planned_duration(period) - earned_schedule(period)
+      es_planned_duration - earned_schedule
     end
 
-    def es_estimate_at_complete1(period) # basic
+    def es_estimate_at_complete1 # basic
       # EAC(t) = PD/SPI(t)
-      es_planned_duration / es_schedule_performance_index(period)
+      es_planned_duration / es_schedule_performance_index
     end
 
-    def es_estimate_at_complete2(period) # complex (?)
+    def es_estimate_at_complete2 # complex (?)
       # EAC(t)(2) = AT+(PD-ES)/SPI(t)
-      es_actual_time + (es_planned_duration - earned_schedule) / es_schedule_performance_index(period)
+      current_period + (es_planned_duration - earned_schedule) / es_schedule_performance_index
     end
 
     def es_to_complete_performance_index1 #
       # TSPI = (PD-ES)/(PD-AT)
-      (es_planned_duration - earned_schedule) / (es_planned_duration - es_actual_time)
+      (es_planned_duration - earned_schedule) / (es_planned_duration - current_period)
     end
 
     def es_to_complete_performance_index2
       # TSPI= (PD-ES)/(ED-AT)
-      (es_planned_duration - earned_schedule) / (es_estimated_duration - es_actual_time)
+      (es_planned_duration - earned_schedule) / (es_estimated_duration - current_period)
     end
 
     #  ED = Estimated Duration (estimated project duration)
-    def es_estimated_duration(period=nil)
-      period ||= current_period
-      # period ?
-      es_planned_duration(period) / es_schedule_performance_index(period)
+    def es_estimated_duration
+      es_planned_duration / es_schedule_performance_index
       #  es_estimated_duration seems to be = es_independent_time_estimate_at_compete
       # es_estimated_duration example value: 30 months
     end
 
-    def es_independent_time_estimate_at_compete(period=nil)
-      es_planned_duration(period) / es_schedule_performance_index(period)
+    def es_independent_time_estimate_at_compete
+      es_planned_duration / es_schedule_performance_index
     end
 
     # PCD = Planned Completion Date (Planned project end date)
@@ -134,7 +123,7 @@ module Advantager::EarnedSchedule
     end
 
     # ECD = Estimated Completion Date (Estimated project end date)
-    def estimated_completion_date(period=nil)
+    def estimated_completion_date
       es_start_date + es_independent_time_estimate_at_compete(period) #es_estimated_duration
     end
   end
@@ -142,7 +131,7 @@ module Advantager::EarnedSchedule
   end
 
   # TODO: remove the period param given that it's a point so we already know what day is
-  # TODO: add a migration for earned_schedule to avoid calculating everything everytime 
+  # TODO: add a migration for earned_schedule to avoid calculating everything everytime
   # TODO: set a before save callback that sets the earned_schedule with the value from the current implemented #earned_schedule method
 
 end

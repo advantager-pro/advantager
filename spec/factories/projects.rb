@@ -18,6 +18,6 @@ FactoryGirl.define do
     currency "MyString"
     custom_unity "MyString"
     evm_frequency 1
-    trackers {  Tracker.where(name: "Task").first }
+    trackers { Tracker.where(name: "Task") }
   end
 end
