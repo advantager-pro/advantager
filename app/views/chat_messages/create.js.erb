@@ -1,0 +1,18 @@
+<% publish_to @path do %>
+    var id = "<%= @conversation.id %>";
+    var chatbox = $("#chatbox_" + id + " .chatboxcontent");
+    var sender_id = "<%= @message.user.id %>";
+    var reciever_id = $('meta[name=user-id]').attr("content");
+    var newMessage = "<%= j render( partial: 'chat_messages/message', locals: { message: @message }  ) %>";
+    console.log(newMessage, chatBox);
+    <% puts j(render( partial: 'chat_messages/message', locals: { message: @message }  )).to_s  %>
+    chatbox.append(newMessage);
+    chatbox.scrollTop(chatbox[0].scrollHeight);
+
+    if(sender_id != reciever_id){
+    	chatBox.chatWith(id);
+        chatbox.children().last().removeClass("self").addClass("other");
+    	chatbox.scrollTop(chatbox[0].scrollHeight);
+        chatBox.notify();
+    }
+<% end %>

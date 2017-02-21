@@ -30,6 +30,11 @@ gem "byebug"
   gem 'timecop'
 # end
 
+# Chat related gems
+gem 'private_pub'
+gem 'thin'
+
+
 # Get schema info
 gem 'annotate'
 
