@@ -7,11 +7,10 @@
  *
  */
 
-
 var chatboxFocus = new Array();
 var chatBoxes = new Array();
 
-var ready = function () {
+var chatReady = function () {
 
     chatBox = {
 
@@ -23,7 +22,6 @@ var ready = function () {
          */
 
         chatWith: function (conversation_id) {
-
             chatBox.createChatBox(conversation_id);
             $("#chatbox_" + conversation_id + " .chatboxtextarea").focus();
         },
@@ -44,8 +42,9 @@ var ready = function () {
          */
 
         notify: function () {
-            var audioplayer = $('#chatAudio')[0];
-            audioplayer.play();
+            console.error('TODO: notify');
+            // var audioplayer = $('#chatAudio')[0];
+            // audioplayer.play();
         },
 
         /**
@@ -55,7 +54,7 @@ var ready = function () {
          */
 
         restructure: function () {
-            align = 0;
+            align = 1;
             for (x in chatBoxes) {
                 chatbox_id = chatBoxes[x];
 
@@ -85,6 +84,7 @@ var ready = function () {
          */
 
         createChatBox: function (conversation_id, minimizeChatBox) {
+            window.convTest = $("#chatbox_" + conversation_id);
             if ($("#chatbox_" + conversation_id).length > 0) {
                 if ($("#chatbox_" + conversation_id).css('display') == 'none') {
                     $("#chatbox_" + conversation_id).css('display', 'block');
@@ -96,14 +96,17 @@ var ready = function () {
 
             $("body").append('<div id="chatbox_' + conversation_id + '" class="chatbox"></div>')
 
-            $.get("conversations/" + conversation_id, function (data) {
+
+            $.get("/conversations/" + conversation_id + ".html").done(function (data) {
                 $('#chatbox_' + conversation_id).html(data);
                 $("#chatbox_" + conversation_id + " .chatboxcontent").scrollTop($("#chatbox_" + conversation_id + " .chatboxcontent")[0].scrollHeight);
-            }, "html");
+            }).fail(function(){
+              console.error("TODO: show a message")
+            });
 
             $("#chatbox_" + conversation_id).css('bottom', '0px');
 
-            chatBoxeslength = 0;
+            chatBoxeslength = 1;
 
             for (x in chatBoxes) {
                 if ($("#chatbox_" + chatBoxes[x]).css('display') != 'none') {
@@ -178,6 +181,28 @@ var ready = function () {
 
                 if (message != '') {
                     $('#conversation_form_' + conversation_id).submit();
+
+                    var chatbox = $("#chatbox_" + conversation_id + " .chatboxcontent");
+                    var now = new Date();
+                    var time = now.getHours()%12 + ':' +  now.getMinutes() + ' '+ (now.getHours() >= 12 ? 'PM' : 'AM')
+
+                    var newMessage = ''+
+                    '<li class="self message-to-be-loaded">'+
+                      '<div class="avatar">'+
+                        '<img src="http://placehold.it/50x50" />'+
+                      '</div>'+
+                      '<div class="chatboxmessagecontent">'+
+                        '<p>'+message+'</p>'+
+                        '<time datetime="'+ now +'" title="' + now +'">'+
+                          '...'+
+                        '</time>'+
+                      '</div>'+
+                    '</li> '
+
+
+                    chatbox.append(newMessage);
+                    chatbox.scrollTop(chatbox[0].scrollHeight);
+
                     $(chatboxtextarea).val('');
                     $(chatboxtextarea).focus();
                     $(chatboxtextarea).css('height', '44px');
@@ -206,6 +231,7 @@ var ready = function () {
          */
 
         toggleChatBoxGrowth: function (conversation_id) {
+            conversation_id = conversation_id || 'users_list';
             if ($('#chatbox_' + conversation_id + ' .chatboxcontent').css('display') == 'none') {
 
                 var minimizedChatBoxes = new Array();
@@ -305,8 +331,6 @@ var ready = function () {
 
 }
 
-$(document).ready(ready);
-$(document).on("page:load", ready);
 
 
 
@@ -327,21 +351,21 @@ User js logic
 
 ***/
 
-var ready = function () {
+var conversationReady = function () {
 
     /**
      * When the send message link on our home page is clicked
      * send an ajax request to our rails app with the sender_id and
      * recipient_id
      */
-
-    $('.start-conversation').click(function (e) {
+    $(document).on('click', '.start-conversation', function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         var sender_id = $(this).data('sid');
         var recipient_id = $(this).data('rip');
 
-        $.post("/conversations", { sender_id: sender_id, recipient_id: recipient_id }, function (data) {
+        $.post("/conversations.js", { sender_id: sender_id, recipient_id: recipient_id }, function (data) {
             chatBox.chatWith(data.conversation_id);
         });
     });
@@ -384,8 +408,7 @@ var ready = function () {
      * When a conversation link is clicked show up the respective
      * conversation chatbox
      */
-
-    $('a.conversation').click(function (e) {
+    $(document).on('click', 'a.conversation', function (e) {
         e.preventDefault();
 
         var conversation_id = $(this).data('cid');
@@ -395,5 +418,25 @@ var ready = function () {
 
 }
 
-$(document).ready(ready);
-$(document).on("page:load", ready);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(chatReady);
+$(document).on("page:load", chatReady);
+
+
+
+$(document).ready(conversationReady);
+$(document).on("page:load", conversationReady);

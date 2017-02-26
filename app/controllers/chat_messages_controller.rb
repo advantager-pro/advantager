@@ -1,10 +1,9 @@
 class ChatMessagesController < ChatBaseController
-
+  
   def create
     @conversation = Conversation.find(params[:conversation_id])
-    @message = @conversation.messages.build(message_params.merge({ user_id: User.current.id }))
+    @message = ChatMessage.new(message_params.merge({ user: User.current, conversation: @conversation }))
     @message.save!
-
     @path = conversation_path(@conversation)
   end
 

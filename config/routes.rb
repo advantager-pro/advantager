@@ -38,6 +38,9 @@ Rails.application.routes.draw do
 
   resources :conversations do
     resources :chat_messages
+    collection do
+      get 'unread/:user_id', to: 'conversations#unread'
+    end
   end
 
   root :to => 'welcome#index', :as => 'home'

@@ -10,4 +10,14 @@ module ChatMessagesHelper
   def conversation_interlocutor(conversation)
     conversation.recipient == User.current ? conversation.sender : conversation.recipient
   end
+
+  def render_chat
+    puts '', '', '',  User.current.logged?, '', '', ''
+    return unless User.current.logged?
+    javascript_tag("$.get('/conversations.js').done(function(data){
+      console.log('conversation loaded')
+    }).fail(function(){
+      console.error('TODO: load message asking to reload or something')
+    });")
+  end
 end

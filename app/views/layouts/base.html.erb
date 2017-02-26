@@ -39,6 +39,7 @@
             <% if Setting.gravatar_enabled? %>
                 <%= link_to(avatar(User.current, :size => "80"), user_path(User.current)) %>
             <% end %>
+            <%= User.current.inspect %>
             <%= link_to_user(User.current, :format => :username) %>
         </div>
     <% end %>
@@ -110,7 +111,7 @@
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
 
-        <%= render 'conversations/index' %>
+        <div id='chat-conversations'></div>
     </div>
 </div>
 </div>
@@ -125,6 +126,7 @@
 </div>
 </div>
 </div>
+<%= render_chat %>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>
