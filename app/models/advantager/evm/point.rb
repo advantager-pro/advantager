@@ -1,8 +1,9 @@
 class Advantager::EVM::Point < ActiveRecord::Base
-  belongs_to :project
+  belongs_to :project, class_name: ::Project.to_s, foreign_key: "project_id"
   validates_presence_of :project, :day
 
   include ::Advantager::EVM::Methods
+  include ::Advantager::EarnedSchedule
 
   def self.update_current_point!(project)
     self.save_point!(project, Date.today)
@@ -23,8 +24,8 @@ class Advantager::EVM::Point < ActiveRecord::Base
   end
 
   def self.generate_from_project_begining(project, until_date=nil, from_date=nil)
-    until_date ||= ::Date.today
-    last_date = from_date || project.created_on
+    until_date = (until_date || ::Date.today).to_date
+    last_date = (from_date || project.created_on).to_date
     until last_date > until_date
       self.save_point!(project, last_date)
       last_date += 1.day

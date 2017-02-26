@@ -62,5 +62,5 @@ redmine:
     - "10083:80"
   volumes:
     - ../redmine_data:/home/redmine/data
-  #   - .:/home/redmine/redmine
-  #   - ./vendor/bundle:/home/redmine/data/tmp/bundle
+    - .:/home/redmine/redmine
+    - ./vendor/bundle:/home/redmine/data/tmp/bundle

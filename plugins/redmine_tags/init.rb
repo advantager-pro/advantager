@@ -39,5 +39,6 @@ Rails.application.config.after_initialize do
         "Redmine Tags depends on plugin: #{plugin} version: #{version}"
     end
   end
-  test_dependencies.each(&check_dependencies) if Rails.env.test?
+  # We are not using redmine tags in our tests
+  # test_dependencies.each(&check_dependencies) if Rails.env.test?
 end
