@@ -1,7 +1,5 @@
 <span class="checklist-item <%= new_or_show(f) %>" id = "<%=f.object.id%>">
-  <% if @issue.planned? %>
-    <span class = "checklist-show-only checklist-checkbox"><%= f.check_box :is_done %></span>
-  <% end %>
+  <span class = "checklist-show-only checklist-checkbox"><%= f.check_box :is_done %></span>
   <span class = "checklist-show checklist-subject <%= done_css(f) %>">
     <%= f.object.subject %>
   </span>
