@@ -2,7 +2,7 @@
   <%= link_to  "#", class: "toggleChatBox", "data-cid" => 'users_list' do %>
     <div class="chatboxhead">
         <div class="chatboxtitle users">
-          <h2> Conversations </h2>
+          <h2> <%= I18n.t!('conversations') %> </h2>
         </div>
       <br clear="all"/>
     </div>
@@ -21,13 +21,12 @@
                     <%= link_to "javascript:void(0)", { class: "btn btn-success btn-xs start-conversation",
                                 "data-sid" => User.current.try(:id), "data-rip" => user.id, "data-cid" => conversation.try(:id), 'data-no-turbolink' => true} do %>
                       <div class="avatar">
-                        <img src="http://placehold.it/50x50" />
+                        <%= avatar_image user  %>
                       </div>
                       <div class="username">
                         <p><%= user.name %> </p>
                       </div>
-
-                      <%= subscribe_to conversation_path(conversation) if conversation.present? %>
+                      <%= turbolinks_escaped_subscribe_to conversation_path(conversation) if conversation.present? %>
 
                       <% if conversation.present? %>
                         <% last_message = conversation.messages.last %>

@@ -5,12 +5,13 @@
     var newMessage = "<%= j render( partial: 'chat_messages/message', locals: { message: @message }  ) %>";
 
     if('<%= self_or_other(@message) %>' == 'self' && toReplace.length > 0){
-        toReplace.html(newMessage).removeClass('message-to-be-loaded');
+        toReplace.removeClass('message-to-be-loaded').html(newMessage);
         chatbox.scrollTop(chatbox[0].scrollHeight);
     }else{
       if(chatbox.length > 0){
-          chatbox.append(newMessage);
-          chatbox.scrollTop(chatbox[0].scrollHeight);
+            chatbox.append(newMessage);
+            chatbox.scrollTop(chatbox[0].scrollHeight);
+        
       }else{
           $('.start-conversation[data-sid="<%= @message.conversation.id %>"]').click();
       }

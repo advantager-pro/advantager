@@ -89,12 +89,12 @@ module Advantager::EarnedSchedule
       current_period + (es_planned_duration - earned_schedule) / es_schedule_performance_index
     end
 
-    def es_to_complete_performance_index1 #
+    def es_to_complete_performance_index #
       # TSPI = (PD-ES)/(PD-AT)
       (es_planned_duration - earned_schedule) / (es_planned_duration - current_period)
     end
 
-    def es_to_complete_performance_index2
+    def es_estimated_to_complete_performance_index
       # TSPI= (PD-ES)/(ED-AT)
       (es_planned_duration - earned_schedule) / (es_estimated_duration - current_period)
     end

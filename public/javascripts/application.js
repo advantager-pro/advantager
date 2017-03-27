@@ -684,6 +684,16 @@ function keepAnchorOnSignIn(form){
   return true;
 }
 
+function displayFlash(message, kind){
+  var defaultTime = 8000;
+  var hideAgain = function(n) { $(this).slideUp(); n(); };
+  if(kind == 'error'){
+    $("#flash_error_js").text(message).slideDown().delay(defaultTime).queue(hideAgain);
+  }else{
+    $("#flash_notice_js").text(message).slideDown().delay(defaultTime).queue(hideAgain);
+  }
+}
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);

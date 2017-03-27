@@ -10,7 +10,7 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
-<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', :media => 'all' %>
+<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', 'chat', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
@@ -106,12 +106,13 @@
     </div>
 
     <div id="content">
+        <%= content_tag('div', '', class: "flash error js", id: "flash_error_js", style: "display: none") %>
+        <%= content_tag('div', '', class: "flash notice js", id: "flash_notice_js", style: "display: none") %>
+        <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>
         <%= render_flash_messages %>
         <%= yield %>
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
-
-        <div id='chat-conversations'></div>
     </div>
 </div>
 </div>
@@ -126,6 +127,8 @@
 </div>
 </div>
 </div>
+<audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
+<div id='chat-conversations'></div>
 <%= render_chat %>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
