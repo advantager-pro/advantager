@@ -19,6 +19,9 @@ gem "dalli", "~> 2.7.0"
 gem "turbolinks"
 gem "byebug"
 
+# Get gravatar images
+gem 'gravatar_image_tag'
+
 
 # Test
 # group :development, :test do
