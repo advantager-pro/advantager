@@ -23,13 +23,14 @@ Chat styles
 }
 
 .chatboxhead {
-    background: #666;
+    background: #392c5e;
     color: white;
     padding: 0.5rem;
     overflow: hidden;
-
     border-right: 1px solid rgba(85, 85, 85, 0.87);
     border-left: 1px solid rgba(85, 85, 85, 0.87);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
 }
 
 .chatboxhead h1 {
@@ -53,7 +54,7 @@ Chat styles
     border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
     border-bottom: 1px solid #eeeeee;
-    background: #e5e5e5;
+    background: #f5f5f5;
     line-height: 1.3em;
     list-style: none;
 }
@@ -72,6 +73,12 @@ Chat styles
 .chatboxcontent .avatar img {
     display: block;
     width: 100%;
+    border-radius: 99px;
+    box-shadow: 1px 1px 1px 1px #bbb;
+}
+
+a.start-conversation{
+    margin: 5px;
 }
 
 .other .avatar:after {
@@ -190,7 +197,7 @@ Chat styles
   height: 5px;
 }
 .users.chatboxtitle h2{
-  color: white;
+  color: rgba(85, 85, 85, 0.87);
 }
 #chatbox_users_list a.toggleChatBox{
   text-decoration: none!important;
@@ -214,18 +221,49 @@ Chat styles
 }
 
 .closeChat{
-  border-radius: 2px;
-  float: right;
+    float: right;
+    background: #ff4d4d!important;
+    border-radius: 11px;
+}
+.closeChat:hover{
+    background: #faa!important;
 }
 
 .toggleChatBox{
   color: white;
 }
 
-.closeChat{
-  background: red;
+#chatbox_users_list .chatboxcontent{
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    box-shadow: 1px 1px 5px 0px lightgrey;
+}
+#chat-button{
+    background: url(/images/chat.png);
+    height: 72px;
+    width: 72px;
+    margin: auto;
+    background-size: 73px;
+    background-repeat: no-repeat;
+    box-shadow: 1px 1px 4px 1px grey;
+    border-radius: 99px;
+    margin-bottom: 10px;
+    margin-top: 12px;
 }
 
-#chatbox_users_list .chatboxcontent{
-  height: 300px;
+.chatboxcontent .chatboxhead{
+    background:none;
+    border:none;
+    margin: auto;   
 }
+
+#chatbox_users_list .chatboxcontent, #chatbox_users_list .chatboxcontent .chat-wrapper{
+    height: 350px;
+    overflow-y: auto;
+}
+
+li.self li.self{
+    padding: 0!important;
+    overflow: visible!important;
+}
+

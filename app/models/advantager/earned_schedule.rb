@@ -52,7 +52,7 @@ module Advantager::EarnedSchedule
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
       t = current_period
-      x = find_period_x(t)
+      x = find_period_x(t) || 0
       y =  x + 1
       bCWSx = BCWS(x)
       pv_t = BCWP(t)
