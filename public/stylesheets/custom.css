@@ -12,10 +12,16 @@
 }
 
 .turbolinks-progress-bar{
-  height: 10px!important;
-  opacity: 0.8!important;
+  height: 8px!important;
+  background: #a691fd;
+  box-shadow: 0px 0px 2px 1px #a691fd;
+  opacity: 0.4!important;
 }
 
 #top-menu{
   padding-top: 12px;
+}
+
+.chart-container{
+  display: none;
 }

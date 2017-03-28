@@ -10,8 +10,8 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
-<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', 'chat', :media => 'all' %>
-<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', 'chat', :media => 'all', 'data-turbolinks-track': 'reload' %>
+<%= (stylesheet_link_tag 'rtl', :media => 'all', 'data-turbolinks-track': 'reload') if l(:direction) == 'rtl' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
 <%= call_hook :view_layouts_base_html_head %>
@@ -110,7 +110,7 @@
         <%= content_tag('div', '', class: "flash notice js", id: "flash_notice_js", style: "display: none") %>
         <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>
         <%= render_flash_messages %>
-        <%= yield %>
+        <%= yield %> 
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
     </div>

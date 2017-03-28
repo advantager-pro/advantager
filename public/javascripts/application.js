@@ -609,12 +609,18 @@ function warnLeavingUnsaved(message) {
   };
 }
 
+function strIncludes(str, substr){
+  return str.indexOf(substr) != -1;
+}
+
 function setupAjaxIndicator() {
   $(document).bind('ajaxSend', function(event, xhr, settings) {
-    var isChatCreated = settings.url.indexOf("/conversations/") != -1 && settings.url.indexOf("chat_messages") != -1;
+    var url = settings.url
+    var isChatCreated = strIncludes(url, "/conversations/") && strIncludes(url, "chat_messages");
     if(isChatCreated) return;
-    var isChatMarkAsRead = settings.url.indexOf("/conversations/") != -1 && settings.url.indexOf("mark_as_read") != -1;
+    var isChatMarkAsRead = strIncludes(url, "/conversations/") && strIncludes(url, "mark_as_read");
     if(isChatMarkAsRead) return;
+    if(url == "/conversations.js") return;
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
@@ -692,6 +698,14 @@ function displayFlash(message, kind){
   }else{
     $("#flash_notice_js").text(message).slideDown().delay(defaultTime).queue(hideAgain);
   }
+}
+
+function getEVMPoints(project_id, callback){
+  $.get('/advantager/evm/points/charts/'+project_id+'.json').done(function(data){
+      callback(data);
+  }).fail(function(response){
+    displayFlash(response.error, 'error');
+  });
 }
 
 $(document).ready(setupAjaxIndicator);
