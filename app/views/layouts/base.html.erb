@@ -119,12 +119,15 @@
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 <div id="ajax-modal" style="display:none;"></div>
-
+<!-- 
 <div id="footer">
   <div class="bgl"><div class="bgr">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2015 Jean-Philippe Lang
+    <% if false %>
+        Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2015 Jean-Philippe Lang
+    <% end %>
   </div></div>
 </div>
+ -->
 </div>
 </div>
 <audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
