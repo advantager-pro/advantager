@@ -52,7 +52,7 @@ module Advantager::EarnedSchedule
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
       t = current_period
-      x = find_period_x(t)
+      x = find_period_x(t) || 0
       y =  x + 1
       bCWSx = BCWS(x)
       pv_t = BCWP(t)
@@ -89,12 +89,12 @@ module Advantager::EarnedSchedule
       current_period + (es_planned_duration - earned_schedule) / es_schedule_performance_index
     end
 
-    def es_to_complete_performance_index1 #
+    def es_to_complete_performance_index #
       # TSPI = (PD-ES)/(PD-AT)
       (es_planned_duration - earned_schedule) / (es_planned_duration - current_period)
     end
 
-    def es_to_complete_performance_index2
+    def es_estimated_to_complete_performance_index
       # TSPI= (PD-ES)/(ED-AT)
       (es_planned_duration - earned_schedule) / (es_estimated_duration - current_period)
     end

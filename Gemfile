@@ -19,6 +19,9 @@ gem "dalli", "~> 2.7.0"
 gem "turbolinks"
 gem "byebug"
 
+# Get gravatar images
+gem 'gravatar_image_tag'
+
 
 # Test
 # group :development, :test do
@@ -29,6 +32,11 @@ gem "byebug"
   # Time travel
   gem 'timecop'
 # end
+
+# Chat related gems
+gem 'private_pub'
+gem 'thin'
+
 
 # Get schema info
 gem 'annotate'

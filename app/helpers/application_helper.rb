@@ -30,6 +30,7 @@ module ApplicationHelper
   include Redmine::Hook::Helper
 
   include EVMHelper
+  include ChatMessagesHelper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -1273,7 +1274,7 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'turbolinks', 'application', 'responsive', 'raphael.min', 'morris')
+    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'chat', 'user_chat', 'private_pub', 'turbolinks', 'application', 'responsive', 'raphael.min', 'morris')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end

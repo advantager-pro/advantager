@@ -1,4 +1,6 @@
 en:
+  chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
+  conversation_load_error: There was an error while loading the conversation
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:

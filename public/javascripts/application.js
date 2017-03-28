@@ -611,6 +611,10 @@ function warnLeavingUnsaved(message) {
 
 function setupAjaxIndicator() {
   $(document).bind('ajaxSend', function(event, xhr, settings) {
+    var isChatCreated = settings.url.indexOf("/conversations/") != -1 && settings.url.indexOf("chat_messages") != -1;
+    if(isChatCreated) return;
+    var isChatMarkAsRead = settings.url.indexOf("/conversations/") != -1 && settings.url.indexOf("mark_as_read") != -1;
+    if(isChatMarkAsRead) return;
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
@@ -678,6 +682,16 @@ function keepAnchorOnSignIn(form){
     form.action = form.action + hash;
   }
   return true;
+}
+
+function displayFlash(message, kind){
+  var defaultTime = 8000;
+  var hideAgain = function(n) { $(this).slideUp(); n(); };
+  if(kind == 'error'){
+    $("#flash_error_js").text(message).slideDown().delay(defaultTime).queue(hideAgain);
+  }else{
+    $("#flash_notice_js").text(message).slideDown().delay(defaultTime).queue(hideAgain);
+  }
 }
 
 $(document).ready(setupAjaxIndicator);

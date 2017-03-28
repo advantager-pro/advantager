@@ -36,6 +36,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :conversations do
+    resources :chat_messages
+    collection do
+      get 'unread/:user_id', to: 'conversations#unread'
+    end
+  end
+
   root :to => 'welcome#index', :as => 'home'
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
