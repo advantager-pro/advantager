@@ -240,14 +240,15 @@ a.start-conversation{
 }
 #chat-button{
     background: url(/images/chat.png);
-    height: 72px;
-    width: 72px;
-    margin: auto;
-    background-size: 73px;
+    height: 60px;
+    width: 60px;
+    background-size: 61px;
     background-repeat: no-repeat;
     box-shadow: 1px 1px 4px 1px grey;
     border-radius: 99px;
-    margin-bottom: 10px;
+    margin-left: auto;
+    margin-bottom: 25px;
+    margin-right: 20px;
     margin-top: 12px;
 }
 
