@@ -1,0 +1,52 @@
+// Form control focus state
+//
+@mixin form-control-focus($color: $input-border-focus) {
+  &:focus {
+    border-color: rgba($input-border-focus, $input-border-focus-alpha);
+    outline: 0;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .075), 0 0 0 2px rgba($input-border-focus, $input-shadow-focus-alpha);
+  }
+}
+
+// Placeholder text
+//
+@mixin placeholder($color: $input-color-placeholder) {
+  &::placeholder {
+    color: $color;
+    opacity: 1; // See https://github.com/twbs/bootstrap/pull/11526
+  }
+}
+
+
+// Form control sizing
+//
+@mixin input-size($parent, $input-height, $padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  #{$parent} {
+    height: $input-height;
+    padding: $padding-vertical $padding-horizontal;
+    border-radius: $border-radius;
+    font-size: $font-size;
+    line-height: $line-height;
+  }
+
+  select#{$parent} {
+    height: $input-height;
+    line-height: $input-height;
+  }
+
+  textarea#{$parent},
+  select[multiple]#{$parent} {
+    height: auto;
+  }
+}
+
+@mixin checkbox() {
+  @extend %clearfix;
+  padding-left: 20px;
+  user-select: none;
+
+  input[type="checkbox"] {
+    margin-left: -20px;
+    float: left;
+  }
+}

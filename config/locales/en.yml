@@ -1,4 +1,8 @@
 en:
+  advanced_search: Advanced search
+  activities: Activities
+  chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
+  conversation_load_error: There was an error while loading the conversation
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
@@ -1221,8 +1225,12 @@ en:
   text_turning_multiple_off: "If you disable multiple values, multiple values will be removed in order to preserve only one value per item."
 
   default_role_manager: Manager
+  default_role_stakeholder: Stakeholder
   default_role_developer: Developer
   default_role_reporter: Reporter
+  default_role_hhrr: HHRR
+  default_role_supervisor: Supervisor
+  default_role_worker: Worker
   default_tracker_bug: Bug
   default_tracker_feature: Feature
   default_tracker_support: Support
@@ -1239,10 +1247,17 @@ en:
   default_priority_low: Low
   default_priority_normal: Normal
   default_priority_high: High
+  default_priority_critical: Critical
   default_priority_urgent: Urgent
   default_priority_immediate: Immediate
   default_activity_design: Design
   default_activity_development: Development
+  default_activity_documentation: Documentation
+  default_activity_planification: Planification
+  default_activity_evaluation: Evaluation
+  default_activity_investigation: Investigation
+  default_activity_testing: Testing
+
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
@@ -1267,3 +1282,4 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  alert_planned_first: The task must be planned first to allow modifications on checklists item.

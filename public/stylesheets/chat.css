@@ -1,0 +1,271 @@
+/*****
+Chat styles
+*****/
+
+
+/**
+ * GMAIL Like chat css
+ * CREDITS: http://css-tricks.com/replicating-google-hangouts-chat/
+ *
+ */
+
+.chatbox {
+  position: fixed;
+  position: expression("absolute");
+  width: 280px;
+  display: none;
+  z-index: 10;
+}
+
+
+.chatbox * {
+  box-sizing: content-box!important;
+}
+
+.chatboxhead {
+    background: #392c5e;
+    color: white;
+    padding: 0 0.5rem;
+    overflow: hidden;
+    border-right: 1px solid rgba(85, 85, 85, 0.87);
+    border-left: 1px solid rgba(85, 85, 85, 0.87);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.chatboxhead h1 {
+    display: inline;
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.chatboxblink {
+    background-color: #176689;
+    border-right: 1px solid #176689;
+    border-left: 1px solid #176689;
+}
+
+.chatboxcontent {
+    font-family: arial, sans-serif;
+    height: 280px;
+    width: 264px;
+    overflow-y: auto;
+    padding: 7px;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-bottom: 1px solid #eeeeee;
+    background: #f5f5f5;
+    line-height: 1.3em;
+    list-style: none;
+}
+
+.chatboxcontent li {
+    padding: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+
+.chatboxcontent .avatar {
+    width: 40px;
+    position: relative;
+}
+
+.chatboxcontent .avatar img {
+    display: block;
+    width: 100%;
+    border-radius: 99px;
+    box-shadow: 1px 1px 1px 1px #bbb;
+}
+
+a.start-conversation{
+    margin: 5px;
+}
+
+.other .avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.self .chatboxmessagecontent {
+    order: 1;
+    border-bottom-right-radius: 0;
+}
+
+.self .avatar {
+    order: 2;
+}
+
+.self .avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.chatboxmessagecontent {
+    background: white;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.chatboxmessagecontent p {
+    font-size: 12px;
+    margin: 0 0 0.2rem 0;
+    -ms-word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.chatboxmessagecontent time {
+    font-size: 9px;
+    color: #ccc;
+}
+
+.chatboxinput {
+    padding: 5px;
+    background-color: #ffffff;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+
+.chatboxtextarea {
+    width: 262px;
+    height: 44px;
+    padding: 3px 0pt 3px 3px;
+    border: 1px solid #eeeeee;
+    margin: 1px;
+    overflow: hidden;
+    resize: none !important;
+}
+
+.chatboxtextareaselected {
+    border: 2px solid #878787;
+    margin: 0;
+}
+
+.chatboxmessage {
+    margin-left: 1em;
+}
+
+.chatboxinfo {
+    margin-left: -1em;
+    color: #666666;
+
+}
+
+.chatboxoptions {
+    float: right;
+}
+
+.chatboxoptions a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.chatboxtitle {
+    float: left;
+}
+.users.chatboxtitle {
+  float: none;
+  text-align: center;
+  height: 5px;
+}
+.users.chatboxtitle h2{
+  color: rgba(85, 85, 85, 0.87);
+}
+#chatbox_users_list a.toggleChatBox{
+  text-decoration: none!important;
+}
+#chatbox_users_list ul{
+  margin: 0;
+  padding: 0;
+}
+#chatbox_users_list .avatar{
+  float: left;
+}
+#chatbox_users_list .username{
+  float: left;
+  line-height: 35px;
+  margin-left: 10px;
+  font-size: 14px;
+  color: black;
+}
+#chatbox_users_list li{
+  padding: 0;
+}
+
+.closeChat{
+    float: right;
+    background: #ff4d4d!important;
+    border-radius: 11px;
+    margin-top: 8px!important;
+}
+.closeChat:hover{
+    background: #faa!important;
+}
+
+.toggleChatBox{
+  color: white;
+}
+
+#chatbox_users_list .chatboxcontent{
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    box-shadow: 1px 1px 5px 0px lightgrey;
+}
+#chat-button{
+    background: url(/images/chat.png);
+    height: 60px;
+    width: 60px;
+    background-size: 61px;
+    background-repeat: no-repeat;
+    box-shadow: 1px 1px 4px 1px grey;
+    border-radius: 99px;
+    margin-left: auto;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    margin-top: 12px;
+}
+
+.chatboxcontent .chatboxhead{
+    background:none;
+    border:none;
+    margin: auto;   
+}
+
+#chatbox_users_list .chatboxcontent, #chatbox_users_list .chatboxcontent .chat-wrapper{
+    height: 350px;
+    overflow-y: auto;
+}
+
+li.self li.self{
+    padding: 0!important;
+    overflow: visible!important;
+}
+

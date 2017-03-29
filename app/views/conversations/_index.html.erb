@@ -1,0 +1,46 @@
+<div id="chatbox_users_list" class="chatbox users" style="bottom: 0px; right: 20px; display: block;">
+
+
+  <div class="chatboxcontent" style="display: none;">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="chat-wrapper" style="">
+          <div class="panel panel-default">
+              <div>
+                <ul>
+                <% @users.each_with_index do |user, index| %>
+                  <li class="">
+                    <% conversation = Conversation.between(User.current.id, user.id).first %>
+                    <%= link_to "javascript:void(0)", { class: "btn btn-success btn-xs start-conversation",
+                                "data-sid" => User.current.try(:id), "data-rip" => user.id, "data-cid" => conversation.try(:id), 'data-no-turbolink' => true} do %>
+                      <div class="avatar">
+                        <%= avatar_image user  %>
+                      </div>
+                      <div class="username">
+                        <p><%= user.name %> </p>
+                      </div>
+                      <%= turbolinks_escaped_subscribe_to conversation_path(conversation) if conversation.present? %>
+
+                      <% if conversation.present? %>
+                        <% last_message = conversation.messages.last %>
+                        <% if last_message.present? && last_message.unread? && last_message.user.id != User.current.id %>
+                          <%= javascript_tag("chatBox.chatWith('#{conversation.id}')") %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </li>
+                <% end %>
+                </ul>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="">
+<%= link_to  "#", class: "toggleChatBox", "data-cid" => 'users_list' do %>
+  <div id="chat-button"></div>
+<% end %>
+</div>

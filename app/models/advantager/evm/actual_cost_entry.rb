@@ -19,7 +19,6 @@ module Advantager::EVM::ActualCostEntry
         self.send(project.entry_evm_field) || 0.0
       end
 
-
       def recalculate_project_evm_points
         project.recalculate_evm_points
       end

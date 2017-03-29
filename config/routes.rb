@@ -17,18 +17,31 @@
 
 Rails.application.routes.draw do
 
-  namespace :evm do
-    resources :break_points, except: [:index] do
-      collection do
-        get 'is_break_point_day'
-        get ':project_id', to: "break_points#index"#, as: 'index'
+  namespace :advantager do
+    get 'default_configs/load'
+    
+    namespace :evm do
+      resources :break_points, except: [:index], controller: '/advantager/evm/break_points' do
+        collection do
+          get 'is_break_point_day'
+          get ':project_id', to: "break_points#index"#, as: 'index'
 
+        end
+      end
+      resources :points, except: [:index], controller: '/advantager/evm/points' do
+        collection do
+          get ':project_id', to: "points#index"
+          get 'charts/:project_id', to: "points#charts"
+        end
       end
     end
-    resources :points, except: [:index] do
-      collection do
-        get ':project_id', to: "points#index"#, as: 'index'
-      end
+  end
+
+
+  resources :conversations do
+    resources :chat_messages
+    collection do
+      get 'unread/:user_id', to: 'conversations#unread'
     end
   end
 

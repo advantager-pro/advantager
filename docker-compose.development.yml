@@ -60,7 +60,8 @@ redmine:
 
   ports:
     - "10083:80"
+    - "9292:9292" # bundle exec thin start -R private_pub.ru -e production -a 0.0.0.0 -p 9292
   volumes:
     - ../redmine_data:/home/redmine/data
-  #   - .:/home/redmine/redmine
-  #   - ./vendor/bundle:/home/redmine/data/tmp/bundle
+    - .:/home/redmine/redmine
+    - ./vendor/bundle:/home/redmine/data/tmp/bundle

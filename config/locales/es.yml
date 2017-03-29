@@ -5,6 +5,10 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  advanced_search: Búsqueda avanzada
+  activities: Actividades
+  chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
+  conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
   number:
     # Used in number_with_delimiter()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
@@ -242,14 +246,27 @@ es:
   default_priority_low: Baja
   default_priority_normal: Normal
   default_priority_urgent: Urgente
+  default_priority_critical: Critica
   default_role_developer: Desarrollador
-  default_role_manager: Jefe de proyecto
+  default_role_stakeholder: Interesado
+  default_role_manager: Director
   default_role_reporter: Informador
+  default_role_hhrr: RRHH
+  default_role_supervisor: Supervisor
+  default_role_worker: Realizador
   default_tracker_bug: Errores
   default_tracker_feature: Tareas
   default_tracker_support: Soporte
   default_tracker_task: Tarea
   default_tracker_milestone: Hito
+  default_activity_development: Desarrollo
+  default_activity_documentation: Documentación
+  default_activity_planification: Planificación
+  default_activity_evaluation: Evaluación
+  default_activity_Investigation: Investigación
+  default_activity_testing: Pruebas
+  default_activity_investigation: Investigación
+
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
   enumeration_issue_priorities: Prioridad de las peticiones
@@ -1312,3 +1329,4 @@ es:
     receives notifications.
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
+  alert_planned_first: La tarea debe ser planificada para permitir la edición de items de la lista.

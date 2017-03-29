@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
@@ -17,6 +17,29 @@ gem "roadie-rails"
 gem "unicorn"
 gem "dalli", "~> 2.7.0"
 gem "turbolinks"
+gem "byebug"
+
+# Get gravatar images
+gem 'gravatar_image_tag'
+
+
+# Test
+# group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+
+  # Time travel
+  gem 'timecop'
+# end
+
+# Chat related gems
+gem 'private_pub'
+gem 'thin'
+
+
+# Get schema info
+gem 'annotate'
 
 # Cron job
 gem 'whenever', require: false
@@ -30,6 +53,9 @@ gem 'money'
 
 #to translate model data
 gem 'globalize', '~> 5.0.0'
+
+#for default data
+gem 'seed-fu', '~> 2.3'
 
 # Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"

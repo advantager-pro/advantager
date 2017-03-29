@@ -1,0 +1,28 @@
+<% publish_to @path do %>
+    var id = "<%= @conversation.id %>";
+    var chatbox = $("#chatbox_" + id + " .chatboxcontent");
+    var toReplace = chatbox.find('.message-to-be-loaded:first');
+    var newMessage = "<%= j render( partial: 'chat_messages/message', locals: { message: @message }  ) %>";
+
+    if('<%= self_or_other(@message) %>' == 'self' && toReplace.length > 0){
+        toReplace.removeClass('message-to-be-loaded').html(newMessage);
+        chatbox.scrollTop(chatbox[0].scrollHeight);
+    }else{
+      if(chatbox.length > 0){
+            chatbox.append(newMessage);
+            chatbox.scrollTop(chatbox[0].scrollHeight);
+        
+      }else{
+          $('.start-conversation[data-sid="<%= @message.conversation.id %>"]').click();
+      }
+    }
+
+    var sender_id = "<%= @message.user.id %>";
+    var reciever_id = $('meta[name=user-id]').attr("content");
+    if(sender_id != reciever_id){
+    	chatBox.chatWith(id);
+      chatbox.children().last().removeClass("self").addClass("other");
+    	if(chatbox.length > 0) chatbox.scrollTop(chatbox[0].scrollHeight);
+      chatBox.notify();
+    }
+<% end %>

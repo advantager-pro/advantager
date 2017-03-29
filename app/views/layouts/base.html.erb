@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta content='<%= User.current.logged? ? User.current.id : "" %>' name='user-id'/>
 <title><%= html_title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
-<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', :media => 'all' %>
-<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+<%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'morris', 'responsive', 'custom', 'chat', :media => 'all', 'data-turbolinks-track': 'reload' %>
+<%= (stylesheet_link_tag 'rtl', :media => 'all', 'data-turbolinks-track': 'reload') if l(:direction) == 'rtl' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
 <%= call_hook :view_layouts_base_html_head %>
@@ -33,14 +34,6 @@
         </div>
     <% end %>
 
-    <% if User.current.logged? %>
-        <div class="flyout-menu__avatar <% if !Setting.gravatar_enabled? %>flyout-menu__avatar--no-avatar<% end %>">
-            <% if Setting.gravatar_enabled? %>
-                <%= link_to(avatar(User.current, :size => "80"), user_path(User.current)) %>
-            <% end %>
-            <%= link_to_user(User.current, :format => :username) %>
-        </div>
-    <% end %>
 
     <% if display_main_menu?(@project) %>
         <h3><%= l(:label_project) %></h3>
@@ -60,17 +53,41 @@
 <div id="wrapper2">
 <div id="wrapper3">
 <div id="top-menu">
-    <div id="account">
-        <%= render_menu :account_menu -%>
+    <%= link_to '', home_path, id: 'advantager-logo' %>
+
+    <div id="account" class="my-dropdown">
+        <% if User.current.logged? %>
+            <%= content_tag('div', User.current.name, id: 'loggedas') %>
+            <div id="user-arrow"></div>
+            <div class="account-avatar">
+                <%= avatar_image User.current  %>
+            </div>
+            <%= render_menu :account_menu -%>
+        <% end %>
     </div>
-    <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
+
+
+    <% if (User.current.logged? || !Setting.login_required?) && @is_search_enabled %>
+    <div id="quick-search">
+        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+        <label for='q'>
+          <%= link_to I18n.t!('advanced_search'), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>
+        </label>
+        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search), placeholder: l(:label_search) %>
+        <% end %>
+        <%= render_project_jump_box %>
+    </div>
+    <% end %>    
+
     <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
 
 <div id="header">
 
-    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button"></a>
+    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button" data-no-turbolinks="true"></a>
 
+<!-- 
     <% if (User.current.logged? || !Setting.login_required?) && @is_search_enabled %>
     <div id="quick-search">
         <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
@@ -86,6 +103,8 @@
 
     <h1><%= page_header_title %></h1>
 
+-->
+
     <% if display_main_menu?(@project) %>
     <div id="main-menu" class="tabs">
         <%= render_main_menu(@project) %>
@@ -97,6 +116,7 @@
     <% end %>
 </div>
 
+
 <div id="main" class="<%= sidebar_content? ? '' : 'nosidebar' %>">
     <div id="sidebar">
         <%= yield :sidebar %>
@@ -104,8 +124,11 @@
     </div>
 
     <div id="content">
+        <%= content_tag('div', '', class: "flash error js", id: "flash_error_js", style: "display: none") %>
+        <%= content_tag('div', '', class: "flash notice js", id: "flash_notice_js", style: "display: none") %>
+        <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>
         <%= render_flash_messages %>
-        <%= yield %>
+        <%= yield %> 
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
     </div>
@@ -114,14 +137,20 @@
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 <div id="ajax-modal" style="display:none;"></div>
-
+<!-- 
 <div id="footer">
   <div class="bgl"><div class="bgr">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2015 Jean-Philippe Lang
+    <% if false %>
+        Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2015 Jean-Philippe Lang
+    <% end %>
   </div></div>
 </div>
+ -->
 </div>
 </div>
+<audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
+<div id='chat-conversations'></div>
+<%= render_chat %>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

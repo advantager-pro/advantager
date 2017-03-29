@@ -11,11 +11,103 @@
   text-align: center;
 }
 
-.turbolinks-progress-bar{
-  height: 10px!important;
-  opacity: 0.8!important;
+#top-menu{
+  padding: 0;
+  line-height: 43px;
+  padding-left: 16px;
+  padding-right: 16px;  
 }
 
-#top-menu{
-  padding-top: 12px;
+#quick-search{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.chart-container{
+  display: none;
+}
+#top-menu a{
+  font-weight: normal;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+.account-avatar img{
+  border-radius: 99px;
+  height: 30px;
+  width: 30px;
+}
+
+#top-menu .account-avatar{
+  float: left;
+}
+#top-menu #account{
+  margin-top: 6px;
+  margin-bottom: -14px;
+  margin-right: 13px;
+  margin-left: 13px;
+}
+
+#top-menu #loggedas{
+  line-height: 30px;
+  margin-left: 2px;
+  float: left;
+  margin-right: 8px;
+}
+
+#top-menu #user-arrow{
+  background-image: url(/images/arrow_down.png);
+  width: 8px;
+  height: 8px;
+  float: left;
+  display: inline;
+  background-repeat: no-repeat;
+  margin-top: 12px;
+  margin-right: 7px;
+}
+
+@media (max-width: 2899px){
+  #top-menu #account ul{
+    position: absolute;
+    background: #392c5e;
+    z-index: 9;
+    margin-top: 33px;
+    padding: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px; 
+    display: none;
+  }
+  #top-menu #account ul li{
+    padding: 5px;
+    display: block;
+    padding-left: 18px;
+    padding-right: 18px;  
+  }
+}
+
+.tag-label-color a{
+  color: white!important;
+}
+
+.tag-label-color a:hover{
+  text-decoration: none;
+  text-shadow: 0px 0px 15px white;
+}
+.tag-label-color{
+  border: none!important;
+  padding: 4px 6px;
+}
+
+#quick-search form input[name="q"], #quick-search>select{
+  background: #584c79;
+  color: white;
+}
+
+#advantager-logo{
+  float: left;
+  width: 35px;
+  height: 35px;
+  margin-top: 4px;
+  background-size: 35px;
+  background-repeat: no-repeat;
+  background-image: url('/images/advantager-logo.png');
 }

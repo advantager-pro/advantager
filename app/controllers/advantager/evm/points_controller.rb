@@ -1,6 +1,6 @@
 class Advantager::EVM::PointsController < ApplicationController
   before_action :set_evm_point, only: [:show, :edit, :update, :destroy]
-  before_action :set_project, only: [:index]
+  before_action :set_project, only: [:index, :charts]
 
   # GET /evm/points
   def index
@@ -10,6 +10,18 @@ class Advantager::EVM::PointsController < ApplicationController
       format.json { render json: @evm_points }
     end
   end
+
+  def charts
+    @evm_points = @project.evm_points
+    last_point = @evm_points.last
+    json_response = Rails.cache.fetch("#{last_point.try(:id)}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
+      BuildChartResponse.(@evm_points).to_json
+    end
+    respond_to do |format|
+      format.json { render json: json_response }
+    end
+  end
+
 
   # GET /evm/points/1
   def show
