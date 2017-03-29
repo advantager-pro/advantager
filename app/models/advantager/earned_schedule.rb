@@ -115,7 +115,7 @@ module Advantager::EarnedSchedule
 
     # ECD = Estimated Completion Date (Estimated project end date)
     def estimated_completion_date
-      es_start_date + es_independent_time_estimate_at_compete #es_estimated_duration
+      es_start_date + (es_independent_time_estimate_at_compete * period_duration).days
     end
 
     def earned_schedule(date=nil)
