@@ -53,7 +53,8 @@
 <div id="wrapper2">
 <div id="wrapper3">
 <div id="top-menu">
-   
+    <%= link_to '', home_path, id: 'advantager-logo' %>
+
     <div id="account" class="my-dropdown">
         <% if User.current.logged? %>
             <%= content_tag('div', User.current.name, id: 'loggedas') %>

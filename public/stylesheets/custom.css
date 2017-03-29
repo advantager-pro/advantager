@@ -101,3 +101,13 @@
   background: #584c79;
   color: white;
 }
+
+#advantager-logo{
+  float: left;
+  width: 35px;
+  height: 35px;
+  margin-top: 4px;
+  background-size: 35px;
+  background-repeat: no-repeat;
+  background-image: url('/images/advantager-logo.png');
+}
