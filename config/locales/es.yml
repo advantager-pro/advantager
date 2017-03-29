@@ -1329,3 +1329,4 @@ es:
     receives notifications.
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
+  alert_planned_first: La tarea debe ser planificada para permitir la edición de items de la lista.

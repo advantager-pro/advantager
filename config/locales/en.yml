@@ -1282,3 +1282,4 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  alert_planned_first: The task must be planned first to allow modifications on checklists item.
