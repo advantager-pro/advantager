@@ -5,6 +5,6 @@ test:
   server: "http://localhost:9292/faye"
   secret_token: "secret"
 production:
-  server: "http://localhost:9292/faye"
+  server: "http://advantager.pro:9292/faye"
   secret_token: "51631295086d62ee6bc3fa157950c0f6660d644ecb269efabd9c3fbc1eb6b006"
   signature_expiration: 3600 # one hour
