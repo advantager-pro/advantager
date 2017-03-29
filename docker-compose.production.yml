@@ -59,5 +59,6 @@ redmine:
 
   ports:
     - "80:80"
+    - "9292:9292" # bundle exec thin start -R private_pub.ru -e production -a 0.0.0.0 -p 9292
   volumes:
     - /srv/docker/redmine/redmine:/home/redmine/data
