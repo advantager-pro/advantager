@@ -96,3 +96,8 @@
   border: none!important;
   padding: 4px 6px;
 }
+
+#quick-search form input[name="q"], #quick-search>select{
+  background: #584c79;
+  color: white;
+}
