@@ -5,6 +5,8 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  advanced_search: Búsqueda avanzada
+  activities: Actividades
   chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
   conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
   number:

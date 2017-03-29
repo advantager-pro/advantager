@@ -25,7 +25,7 @@ Chat styles
 .chatboxhead {
     background: #392c5e;
     color: white;
-    padding: 0.5rem;
+    padding: 0 0.5rem;
     overflow: hidden;
     border-right: 1px solid rgba(85, 85, 85, 0.87);
     border-left: 1px solid rgba(85, 85, 85, 0.87);
@@ -36,7 +36,7 @@ Chat styles
 .chatboxhead h1 {
     display: inline;
     font-size: 17px;
-    font-weight: 700;
+    font-weight: normal;
 }
 
 .chatboxblink {
@@ -224,6 +224,7 @@ a.start-conversation{
     float: right;
     background: #ff4d4d!important;
     border-radius: 11px;
+    margin-top: 8px!important;
 }
 .closeChat:hover{
     background: #faa!important;

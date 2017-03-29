@@ -713,3 +713,23 @@ $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
 $(document).ready(setupTabs);
+
+/* Anything that gets to the document
+  will hide the dropdown */
+$(document).on('click', function(e){
+  $(".my-dropdown ul").hide();
+});
+
+/* Clicks within the dropdown won't make
+  it past the dropdown itself */
+$(document).on('click', ".my-dropdown", function(e){
+  $(".my-dropdown ul").toggle();
+  e.stopPropagation();
+});
+
+$(document).on('turbolinks:click', function() {
+  $("#chat-conversations").hide();
+});
+$(document).on('turbolinks:render', function() {
+  // custom scripts on render page
+});
