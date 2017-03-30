@@ -72,7 +72,8 @@ Chat styles
 
 .chatboxcontent .avatar img {
     display: block;
-    width: 100%;
+    width: 40px!important;
+    height: 40px!important;
     border-radius: 99px;
     box-shadow: 1px 1px 1px 1px #bbb;
 }

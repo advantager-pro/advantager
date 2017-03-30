@@ -111,3 +111,30 @@
   background-repeat: no-repeat;
   background-image: url('/images/advantager-logo.png');
 }
+
+.chart-container{
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgb(154, 112, 255);
+}
+
+.dark-chart{
+  background: #42316b;
+  color: white;
+}
+
+.light-chart{
+  background: #e8deff;
+  color: #513e69;
+  border-color: #42316b;
+}
+
+.project-description{
+  margin-bottom: 20px;
+}
+
+.chart-container.cost{
+    background: #006737;
+    border-color: #e1fbe2;
+    color: white;
+}
