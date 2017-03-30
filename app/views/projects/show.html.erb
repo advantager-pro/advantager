@@ -12,20 +12,31 @@
 </div>
 
 <h2><%=l(:label_overview)%></h2>
+<% estimated_completion_date = @project.evm_points.last.try(:estimated_completion_date) %>
 
 <% unless @project.active? %>
   <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
 <% end %>
 
 <div>
+  <%= content_tag :h1, @project.name %>
+  
+  <% if estimated_completion_date.present? %>
+    <legend  style="float:left"><%= I18n.t!('es_estimated_completion_date') %></legend>
+    <h3>
+      <%= localize estimated_completion_date, format: :long %>
+    </h3>
+  <% end %>
+
+
   <% if @project.description.present? %>
-  <div class="wiki">
+  <div class="wiki project-description">
     <%= textilizable @project.description %>
   </div>
   <% end %>
-  <div class="chart-container">
-    <h3 class="chart-title"><%= t("evm.charts.full") %></h3>
-    <div id="full-chart" class="chart"></div>
+  <div class="chart-container dark-chart">
+    <h3 class="chart-title"><%=t("evm.charts.evm") %></h3>
+    <div id="evm-chart"  class="chart"></div>
   </div>
 </div>
 
@@ -50,7 +61,7 @@
     <% if @trackers.present? %>
       <% @trackers.each do |tracker| %>
         <h4 class="text-center"> <%= tracker.name %></h4>
-        <div id="issues-chart-<%= tracker.id %>" style="width: 100%; height: 250px; margin: auto;"></div>
+        <div id="issues-chart-<%= tracker.id %>"  class="chart circle-chart" style="width: 100%; height: 250px; margin: auto;"></div>
       <% end %>
     <% end %>
   </div>
@@ -118,31 +129,53 @@
 
   <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
+
+
+
 <div>
   <br style="clear: both" />
   <div class="chart-container">
     <h3 class="chart-title"><%= t("evm.charts.planning") %></h3>
-    <div id="planning-chart"></div>
+    <div id="planning-chart"  class="chart"></div>
   </div>
+</div>
 
-  <div class="chart-container">
+<div>
+  <br style="clear: both" />
+  <div class="splitcontentright">
+    <div class="chart-container">
+      <h3 class="chart-title"><%= t("evm.charts.estimate") %></h3>
+      <div id="estimate-chart"  class="chart"></div>
+    </div>
+  </div>
+  <div class="splitcontentright">
+    <div class="chart-container cost">
+      <h3 class="chart-title"><%= t("evm.charts.cost_variance") %></h3>
+      <div id="cost_variance-chart"  class="chart"></div>
+    </div>
+  </div>
+</div>
+<br style="clear: both" />
+
+<div>
+  <div class="chart-container light-chart">
     <h3 class="chart-title"><%= t("evm.charts.performance") %></h3>
-    <div id="performance-chart"></div>
+    <div id="performance-chart"  class="chart"></div>
   </div>
 </div>
 <br style="clear: both" />
 
 <div class="splitcontentright">
-  <div class="chart-container">
+  <div class="chart-container dark-chart">
     <h3 class="chart-title"><%= t("evm.elements.to_complete_performance_index_bac") %></h3>
-    <div id="tcpi-bac-chart"></div>
+    <div id="tcpi-bac-chart"  class="chart"></div>
   </div>
 </div>
 
 <div class="splitcontentleft">
-  <div class="chart-container">
-    <h3 class="chart-title"><%=t("evm.charts.evm") %></h3>
-    <div id="evm-chart"></div>
+  <div class="chart-container ">
+    <h3 class="chart-title"><%= t("evm.charts.schedule_variance") %></h3>
+    <div id="schedule_variance-chart" class="chart"></div>
   </div>
 </div>
 
@@ -158,7 +191,9 @@
 
 
 <script type="text/javascript">
-
+  $('.chart').empty();
+  var $charts = $('.chart-container');
+  $charts.hide();
   $(document).ready(function () {
     var dateFormater = function(x){
       function pad(s) { return (s < 10) ? '0' + s : s; };
@@ -169,7 +204,7 @@
     getEVMPoints('<%= @project.id %>', function(response){
 
       window.evm_response = response;
-      // if(response.evm_points_length > 0){
+      if(response.evm_points_length > 0){
         var break_points_events = response.break_points_events;
 
         var getLabels = function(keys){ 
@@ -184,7 +219,7 @@
           return y.toFixed(2); 
         }
 
-        var $charts = $('.chart-container');
+        
         $charts.show();
         
         Morris.Line({
@@ -214,6 +249,7 @@
             hideHover: 'auto',
             dateFormat: dateFormater,
             yLabelFormat: fixDec,
+            lineColors: ['#c41252', '#D1D2FF'],
             events: break_points_events
           });
 
@@ -247,6 +283,54 @@
             events: break_points_events
           });
 
+          Morris.Line({
+            element: 'estimate-chart',
+            behaveLikeLine: true,
+            data: response.estimate_data,
+            xkey: 'day',
+            ykeys: response.estimate_fields, 
+            labels: getLabels(response.estimate_fields),
+            resize: true,
+            pointSize: 4,
+            hideHover: 'auto',
+            dateFormat: dateFormater,
+            yLabelFormat: fixDec,
+            events: break_points_events
+          });
+
+           Morris.Area({
+            element: 'schedule_variance-chart',
+            behaveLikeLine: true,
+            data: response.schedule_variance_data,
+            xkey: 'day',
+            ykeys: response.schedule_variance_fields, 
+            labels: getLabels(response.schedule_variance_fields),
+            resize: true,
+            pointSize: 4,
+            hideHover: 'auto',
+            dateFormat: dateFormater,
+            yLabelFormat: fixDec,
+            lineColors: ['#005b73', '#fcab8c'],
+            events: break_points_events
+          });
+
+          Morris.Area({
+            element: 'cost_variance-chart',
+            behaveLikeLine: true,
+            data: response.cost_variance_data,
+            xkey: 'day',
+            ykeys: response.cost_variance_fields, 
+            labels: getLabels(response.cost_variance_fields),
+            resize: true,
+            pointSize: 4,
+            hideHover: 'auto',
+            dateFormat: dateFormater,
+            yLabelFormat: fixDec,
+            lineColors: ['#12c45b'],
+            events: break_points_events
+          });
+
+          /*
         Morris.Line({
             element: 'full-chart',
             behaveLikeLine: true,
@@ -260,10 +344,10 @@
             dateFormat: dateFormater,
             yLabelFormat: fixDec,
             events: break_points_events
-          });
+          });*/
 
         $charts.hide().fadeIn(1500);
-      //}
+      }
   });
   
   <% if @trackers.present? %>

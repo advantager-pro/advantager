@@ -23,11 +23,11 @@
   <fieldset>
     <p>
     <legend><%= t("evm.fieldset") %></legend>
-    <%= f.number_field @time_entry.issue.project.entry_evm_field, required: true %>
+    <%= f.number_field @time_entry.project.entry_evm_field, required: true %>
     </p>
   </fieldset>
 
-  <% @time_entry.issue.project.visible_fields.each do |field| %>
+  <% @time_entry.project.visible_fields.each do |field| %>
     <p><%= f.number_field Project.entry_field(field) %></p>
   <% end %>
 
