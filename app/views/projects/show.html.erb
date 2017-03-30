@@ -249,7 +249,7 @@
             hideHover: 'auto',
             dateFormat: dateFormater,
             yLabelFormat: fixDec,
-            lineColors: ['#3438B4', '#c41252'],
+            lineColors: ['#c41252', '#D1D2FF'],
             events: break_points_events
           });
 
@@ -298,7 +298,7 @@
             events: break_points_events
           });
 
-           Morris.Line({
+           Morris.Area({
             element: 'schedule_variance-chart',
             behaveLikeLine: true,
             data: response.schedule_variance_data,
@@ -310,6 +310,7 @@
             hideHover: 'auto',
             dateFormat: dateFormater,
             yLabelFormat: fixDec,
+            lineColors: ['#005b73', '#fcab8c'],
             events: break_points_events
           });
 
