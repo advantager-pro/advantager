@@ -1,4 +1,9 @@
 en:
+  es_estimated_completion_date: Estimated Completion Date (Earned Schedule)
+  advanced_search: Advanced search
+  activities: Activities
+  chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
+  conversation_load_error: There was an error while loading the conversation
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
@@ -396,7 +401,19 @@ en:
       performance: Performance charts
       evm: EVM chart
       full: Full information charts
+      estimate: Estimate Charts
+      schedule_variance: Schedule Variance Charts
+      cost_variance: Cost Variance Charts
     elements:
+      schedule_variance: Schedule Variance
+      cost_variance: Cost Variance
+      earned_schedule: Earned Schedule
+      es_schedule_variance: Schedule Variance (ES)
+      es_estimate_at_complete1: Estimate at complete (ES)
+      es_estimate_at_complete2: Estimate at complete (ES) (AT based)
+      es_independent_time_estimate_at_compete: Independent EAC (ES)
+      es_to_complete_performance_index: To complete performance index (ES)
+      es_schedule_performance_index: Schedule Performance Index (ES)
       to_complete_performance_index_bac: To Complete Performance Index (BAC based)
       planned_value: Planned Value
       earned_value: Earned Value
@@ -1278,5 +1295,4 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
-
   alert_planned_first: The task must be planned first to allow modifications on checklists item.

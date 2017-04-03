@@ -5,6 +5,11 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
+  advanced_search: Búsqueda avanzada
+  activities: Actividades
+  chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
+  conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
   number:
     # Used in number_with_delimiter()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
@@ -387,7 +392,19 @@ es:
       performance: Medidas del desempeño
       evm: Gestión del Valor Ganado
       full: Gráfico Integral
+      estimate: Gráfico de estimativas
+      schedule_variance: Variaciones del cronograma
+      cost_variance: Variaciones de Costo
     elements:
+      schedule_variance: Variación del Cronograma
+      cost_variance: Variación del Presupuesto
+      earned_schedule: Programación Ganada (ES)
+      es_schedule_variance: Variación del Cronograma (ES)
+      es_estimate_at_complete1: Estimación a la conclusión (ES)
+      es_estimate_at_complete2: Estimación a la conclusión (ES) (basada en el AT)
+      es_independent_time_estimate_at_compete: EAC Independiente (ES)
+      es_to_complete_performance_index: Índice de desempeño del trabajo por completar (ES)
+      es_schedule_performance_index: Índice del desempeño del cronograma (ES)
       to_complete_performance_index_bac: Índice de desempeño del trabajo por completar (TCPI) basado en el BAC
       planned_value: Valor Planificado (PV)
       earned_value: Valor Ganado (EV)
@@ -1325,6 +1342,4 @@ es:
     receives notifications.
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
-
-
   alert_planned_first: La tarea debe ser planificada para permitir la edición de items de la lista.
