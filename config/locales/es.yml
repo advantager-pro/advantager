@@ -383,7 +383,7 @@ es:
   field_estimated_custom: Valor estimado
   field_estimated_value: Valor estimado
   field_cost: Costo
-  field_custom: Valor
+  field_custom: Valor personalizado
   field_time: Horas
   field_point: Puntos
   evm:
