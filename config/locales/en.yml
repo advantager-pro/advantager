@@ -248,12 +248,9 @@ en:
 
   field_name: Name
   field_cost: Cost
-  field_time: Tiempo
-  field_point: Point
-  field_custom: Custom
-  field_custom: Value
-  field_time: Hours
+  field_time: Time
   field_point: Points
+  field_custom: Custom Value
   field_description: Description
   field_summary: Summary
   field_is_required: Required
