@@ -27,9 +27,9 @@ stk = Role.seed(:id,
 
 #  Supervisor - Supervisor
 sup = Role.seed(:id,
-  { id: 5, name: I18n.t!("default_role_supervisor"), permissions: [:edit_issues,:manage_boards, :add_messages,:comment_news, :view_wiki_pages,:edit_wiki_pages,
-    :protect_wiki_pages,:edit_own_messages, :delete_own_messages, :view_calendar, :manage_subtasks, :view_issue_watchers, :add_issue_watchers,
-      :delete_issue_watchers,:view_documents, :manage_files, :view_files, :view_gantt,:add_issue_notes, :edit_own_issue_notes, :view_private_notes],
+  { id: 5, name: I18n.t!("default_role_supervisor"), permissions: [:edit_issues, :manage_boards, :add_messages, :comment_news, :view_wiki_pages, 
+    :edit_wiki_pages, :protect_wiki_pages, :edit_own_messages, :delete_own_messages, :view_calendar, :manage_subtasks, :view_issue_watchers, :add_issue_watchers, 
+      :delete_issue_watchers, :view_documents, :manage_files, :view_files, :view_gantt, :add_issue_notes, :edit_own_issue_notes, :view_private_notes],
         issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: true }).first
 
 #Worker - Realizador
