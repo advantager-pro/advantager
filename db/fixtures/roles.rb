@@ -14,9 +14,10 @@ man = Role.seed(:id,
 
 #HHRR - RRHH
 hr =  Role.seed(:id,
-  { id: 3, name: I18n.t!("default_role_hhrr"), permissions: [:manage_boards, :manage_subtasks, :add_messages,:manage_members, :comment_news, :view_wiki_pages,:edit_wiki_pages,
-     :protect_wiki_pages,:edit_own_messages, :delete_own_messages, :view_calendar, :view_issue_watchers, :add_issue_watchers, :delete_issue_watchers,
-      :add_issue_notes, :edit_own_issue_notes, :view_private_notes,:view_documents, :manage_files, :view_files, :view_gantt, :edit_issues],
+  { id: 3, name: I18n.t!("default_role_hhrr"), permissions: [:manage_members, :manage_boards, :add_messages, :edit_own_messages, :delete_own_messages,
+      :view_calendar, :view_documents, :manage_files, :view_files, :view_gantt, :manage_categories, :view_issues, :add_issues, :edit_issues, :manage_issue_relations,
+       :manage_subtasks, :add_issue_notes, :edit_own_issue_notes, :view_private_notes, :view_issue_watchers, :add_issue_watchers, :delete_issue_watchers, :view_checklists, 
+        :comment_news, :view_wiki_pages, :edit_wiki_pages, :protect_wiki_pages],
         issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: true }).first
 
 #Stakeholder - Interesado
