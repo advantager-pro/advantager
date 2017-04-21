@@ -16,10 +16,26 @@
 }
 
 #top-menu{
-  padding: 0;
+  padding: 8px;
   line-height: 43px;
   padding-left: 16px;
   padding-right: 16px;  
+  box-shadow: 0px 0px 9px 1px #949494;
+  z-index: 1;
+  color: white;
+  font-size: 13px;
+  background: #4f3f7d;
+}
+#top-menu a{
+  color: white;
+  font-size: 13px;
+}
+#quick-search>form>input, #quick-search>select{
+  border-width: 0;
+}
+
+#quick-search>form>input:focus, #quick-search>select:focus{
+  border-width: 1px!important;
 }
 
 #quick-search{
@@ -72,7 +88,7 @@
 @media (max-width: 2899px){
   #top-menu #account ul{
     position: absolute;
-    background: #392c5e;
+    background: #4f3f7d;
     z-index: 9;
     margin-top: 33px;
     padding: 5px;
