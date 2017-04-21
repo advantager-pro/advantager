@@ -150,8 +150,8 @@ es:
         negative: El desempeño del cronograma es desfavorable, se estiman dificultades para que el proyecto se termine según el cronograma.
         neutral_rule: TSPI = 1
         neutral: El desempeño del cronograma es neutro para que el proyecto se termine según el cronograma.
-        critial_rule: TSPI > 1.1
-        critial: Se estima que la estimativa respecto al cronograma no es alcanzable 
+        critical_rule: TSPI > 1.1
+        critical: Se estima que la estimativa respecto al cronograma no es alcanzable 
     estimates:
       estimates_to_complete:
         acronym: ETC
