@@ -2,7 +2,15 @@
   <div class="members box">
     <h3><%=l(:label_member_plural)%></h3>
     <% @users_by_role.keys.sort.each do |role| %>
-      <p><span class="label"><%= role %>:</span> <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ").html_safe %></p>
+      <div class="role-box">
+        <label class="label"><%= role %></label> 
+        <% @users_by_role[role].sort.each do |u|  %>
+            <%= link_to user_path(u), title: u.name, class: 'avatar' do %>
+              <%= avatar_image u  %>
+            <% end %>
+        <% end %>
+      </div>
     <% end %>
+    <div class="clearfix"></div>
   </div>
   <% end %>
