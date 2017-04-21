@@ -700,10 +700,10 @@ function displayFlash(message, kind){
   }
 }
 
-function getEVMPoints(project_id, callback){
-  $.get('/advantager/evm/points/charts/'+project_id+'.json').done(function(data){
+function getEVMPoints(project_params, callback){
+  $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
       callback(data);
-  }).fail(function(response){
+  }, "json").fail(function(response){
     displayFlash(response.error, 'error');
   });
 }
