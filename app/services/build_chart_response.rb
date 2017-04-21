@@ -1,6 +1,7 @@
 class BuildChartResponse
 
-  def self.call(evm_points)
+  def self.call(evm_points, user_language)
+    lang = user_language
     project = evm_points.first.project
 
     response = {breaking_points_events:  [project.due_date.to_s], evm_points_length: evm_points.length }
@@ -11,13 +12,13 @@ class BuildChartResponse
     response[:evm_fields] = evm_fields
     response[:evm_chart_data] = data_for_morris(evm_points, fields: evm_fields)
     response[:evm_labels] = {}
-    evm_fields.each{|f| response[:evm_labels][f] = t(f) }
+    evm_fields.each{|f| response[:evm_labels][f] = t(f, lang) }
 
     single_fields = ["es_schedule_performance_index", "cost_performance_index", "es_schedule_variance",
       "cost_variance", "variance_at_conclusion", "to_complete_schedule_performance_index_pd",
       "to_complete_schedule_performance_index_ieac", "to_complete_cost_performance_index_bac",
       "to_complete_cost_performance_index_cpi"]
-    single_fields.each{ |field| response = add_single_field(field, evm_points, response) } 
+    single_fields.each{ |field| response = add_single_field(field, evm_points, response, lang) } 
 
     response[:charts]  = single_fields + %w(evm)
     response
@@ -52,15 +53,16 @@ class BuildChartResponse
     pts
   end  
 
-  def self.add_single_field(field, evm_points, response)
+  def self.add_single_field(field, evm_points, response, lang)
     fields = [field]
     response[:"#{field}_fields"] = fields
     response[:"#{field}_data"] = data_for_morris(evm_points, fields: fields)
-    fields.each{|f| response[:evm_labels][f] = t(f) }
+    fields.each{|f| response[:evm_labels][f] = t(f, lang) }
     response
   end
 
-  def self.t(key)
-    I18n.t!("evm.elements.#{key}")
+  def self.t(key, lang="")
+    lang = lang.empty? ? I18n.config.available_locales.first : lang
+    I18n.t!("evm.elements.#{key}", locale: lang)
   end
 end
