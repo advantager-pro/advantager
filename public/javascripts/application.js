@@ -720,6 +720,12 @@ $(document).on('click', function(e){
   $(".my-dropdown ul").hide();
 });
 
+var onReadyAndRender = function(){
+  $('.chart').empty();
+}
+$(document).on('turbolinks:render', onReadyAndRender);
+$(document).ready(onReadyAndRender);
+
 /* Clicks within the dropdown won't make
   it past the dropdown itself */
 $(document).on('click', ".my-dropdown", function(e){
@@ -727,9 +733,17 @@ $(document).on('click', ".my-dropdown", function(e){
   e.stopPropagation();
 });
 
+$(document).on('click', '.sidebar-toggler', function(){
+  $(document).resize();
+});
+
 $(document).on('turbolinks:click', function() {
   $("#chat-conversations").hide();
 });
-$(document).on('turbolinks:render', function() {
-  // custom scripts on render page
+
+$(document).on('click', '#evm-help', function(){
+  $("[tooltip]").addClass('hover').delay(2000).queue(function(next){
+      $(this).removeClass('hover');
+      next();
+  });
 });
