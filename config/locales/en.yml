@@ -374,6 +374,7 @@ en:
   field_users_visibility: Users visibility
   field_time_entries_visibility: Time logs visibility
   field_total_estimated_hours: Total estimated time
+  field_total_estimated_time: Total estimated time
   field_total_estimated_custom: Total estimated value
   field_total_estimated_cost: Total estimated cost
   field_total_estimated_point: Total estimated point
@@ -396,6 +397,9 @@ en:
   field_estimated_custom: Estimated value
   field_estimated_value: Estimated value
   evm:
+    titles:
+      cpi: Desempeño del Presupuesto (Costos)
+      spi: Desempeño del Cronograma
     charts:
       planning: Planning charts
       performance: Performance charts
@@ -405,6 +409,14 @@ en:
       schedule_variance: Schedule Variance Charts
       cost_variance: Cost Variance Charts
     elements:
+      variance_at_conclusion: Variance At Conclusion
+      to_complete_schedule_performance_index_pd: To Complete Schedule Performance Index (PD based)
+      to_complete_schedule_performance_index_ieac: To Complete Schedule Performance Index (IEAC based)
+      to_complete_cost_performance_index_bac: To Complete Performance Index (BAC based)
+      to_complete_cost_performance_index_cpi: To Complete Performance Index (CPI based)
+      accumulated_costs: Accumulated Costs
+      remaining_budget: Remaining Budget
+      accumulated_earned_value: Accumulated Earned Value
       schedule_variance: Schedule Variance
       cost_variance: Cost Variance
       earned_schedule: Earned Schedule
@@ -708,6 +720,7 @@ en:
   label_news_comment_added: Comment added to a news
   label_settings: Settings
   label_overview: Overview
+  label_earned_value: Earned Value
   label_version: Version
   label_version_new: New version
   label_version_plural: Versions
