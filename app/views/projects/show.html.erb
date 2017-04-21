@@ -16,13 +16,14 @@
           <%= textilizable @project.description %>
         </div>
         <% end %>
-
-        <div class="estimated-date">
-          <legend  style="float:left"><%= I18n.t!('field_due_date') %></legend>
-          <h3>
-            <%= localize @project.due_date, format: :long %>
-          </h3>
-        </div>
+        <% if @project.due_date.present? %>
+          <div class="estimated-date">
+            <legend  style="float:left"><%= I18n.t!('field_due_date') %></legend>
+            <h3>
+              <%= localize @project.due_date, format: :long %>
+            </h3>
+          </div>
+        <% end %>
 
         <% estimated_completion_date = @project.evm_points.last.try(:estimated_completion_date) %>
         <% if estimated_completion_date.present? %>
@@ -109,13 +110,17 @@
               </div>
               <div class="clearfix"></div>
               <div class="value">
-                <% if field == 'remaining_budget' %>
-                  <%= (last_point.planned_value - last_point.actual_cost).round(3) %>
+                <% if last_point.present? %>
+                  <% if field == 'remaining_budget' %>
+                    <%= (last_point.planned_value - last_point.actual_cost).round(3) %>
+                  <% else %>
+                    <% method = field %>
+                    <% method = 'actual_cost' if field == 'accumulated_costs' %>
+                    <% method = 'earned_value' if field == 'accumulated_earned_value' %>
+                    <%= last_point.send(method).round(3) %>                
+                  <% end %>
                 <% else %>
-                  <% method = field %>
-                  <% method = 'actual_cost' if field == 'accumulated_costs' %>
-                  <% method = 'earned_value' if field == 'accumulated_earned_value' %>
-                  <%= last_point.send(method).round(3) %>                
+                  -
                 <% end %>
                 <div class='unity'><%= evm_unity(@project) %></div>
               </div>
