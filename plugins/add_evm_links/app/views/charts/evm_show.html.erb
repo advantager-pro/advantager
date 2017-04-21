@@ -160,7 +160,7 @@
                             <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.description") %>
                         </div>
                         <% bac_explanation =  I18n.t!('charts_explanations.records.bacs.explanation', evm_field: I18n.t!("field_estimated_#{@project.evm_field}")) %>
-                        <div class="bac-desc"  tooltip="<%= %>" >
+                        <div class="bac-desc"  tooltip="<%= bac_explanation %>" >
                             <%= "#{I18n.t!('charts_explanations.records.bacs.description')} (#{I18n.t!('charts_explanations.records.bacs.acronym')})" %>
                             <br/>
                             <%= bac.round(1) %>
@@ -388,8 +388,6 @@
         </div> <!-- /section-content -->
     </div><!-- /costs-estimations -->
 
-
-
     <% content_for :sidebar do %>
         <%= render :partial => 'projects/sidebar' %>
     <% end %>
@@ -414,7 +412,7 @@
                 return y.toFixed(2); 
             };
 
-            getEVMPoints('<%= @project.id %>', function(response){
+            getEVMPoints('<%= @project.id %>?lang=<%= User.current.language %>', function(response){
                 var getLabels = function(keys){ 
                     var labels = [];
                     for(var i = 0; i < keys.length; i++)
