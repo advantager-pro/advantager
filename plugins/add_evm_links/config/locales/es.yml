@@ -1,0 +1,170 @@
+es:
+  evm_section: EVM
+  evm_section_titles:
+    project_performance_status: Estado del desempeño del proyecto
+    schedule_estimations: Estimaciones del cronograma
+    costs_estimations: Estimaciones de costos
+    records_and_trends: Historial y Tendencias
+    possible_trends: Posibles tendencias
+    records: Historial
+    trends: Tendencias
+  charts_explanations:
+    statuses:
+      positive: Favorable
+      negative: Desfavorable
+      neutral: Neutral o Equilibrado/a
+      critical: Critico/a
+    records:
+      evms:
+        acronym: EVM
+        description: Gestión del Valor Ganado (Earned Value Management, en inglés)
+        record: Hisotiral de EVM
+        explanation: EVM consiste en una metodología que describe el estado del proyecto, evaluando el avance y desempeño del mismo, al procesar informaciones obtenidas de las medidas de alcance, cronograma y recursos.
+      evs:
+        acronym: EV
+        description: Valor Ganado (Earned Value, en inglés)
+        record: Historial del Valor Ganado
+        explanation: EV es la medida del progreso del trabajo en un punto del cronograma en términos del presupuesto autorizado para dicho trabajo. 
+      pvs:
+        acronym: PV
+        description: Valor Planificado (Planned Value, en inglés)
+        record: Historial del Valor Planificado
+        explanation: PV es una medida de que tan avanzado se supone que esté el trabajo del proyecto dado cualquier punto del cronograma del proyecto.
+      acs:
+        acronym: AC
+        description: Costo Real (Actual Cost, en inglés)
+        record: Historial del Costo Real
+        explanation: AC es una medida del costo incurrido para la realización del trabajo medido por el EV.
+      ess:
+        acronym: ES
+        description: Programación Ganada (Earned Schedule, en inglés)
+        record: Historial de la Programación Ganada
+        explanation: La Programación Ganada es una medida de desempeño del cronograma derivada del tiempo, comparando el Valor Ganado de un proyecto en el momento actual (AT) al punto de la línea base de la medida del desempeño (la curva del Valor Planificado, PV) donde debería haber sido ganado dicho valor.
+      bacs:
+        acronym: BAC
+        description: Presupuesto a la Conclusión
+        explanation: Es el presupuesto del proyecto, basado en la sumatoria de los valores del campo %{evm_field} de las tareas planeadas
+    variances:
+      schedule_variances: 
+        acronym: SV
+        description: Variación del Cronograma
+        explanation: La Variación del cronograma, SV (Schedule Variance, en inglés), es una medida de la variación del desempeño del cronograma del proyecto. 
+        purpose: La variación del cronograma sirve para determinar la situación del proyecto respecto al cronograma, es decir, si el proyecto está atrasado o adelantado en relación a una fecha de entrega, en un momento específico.
+        positive_rule: SV > 0
+        positive: Las condiciones respecto al cronograma son favorables.
+        negative_rule: SV < 0
+        negative: Las condiciones son desfavorables en lo que respecta al cronograma.
+        neutral_rule: SV = 0
+        neutral: Las condiciones respecto al cronograma son neutrales o equilibradas.
+      es_schedule_variances: 
+        acronym: SV(t)
+        description: Variación del Cronograma respecto al tiempo
+        explanation: La Variación del cronograma respecto al tiempo, SV (Schedule Variance, en inglés), es una medida del desempeño del cronograma del proyecto. 
+        purpose: La variación del cronograma sirve para determinar la situación del proyecto respecto al cronograma, es decir, si el proyecto está atrasado o adelantado en relación a una fecha de entrega, en un momento específico.
+        positive_rule: SV > 0
+        positive: Las condiciones respecto al cronograma son favorables.
+        negative_rule: SV < 0
+        negative: Las condiciones son desfavorables en lo que respecta al cronograma.
+        neutral_rule: SV = 0
+        neutral: Las condiciones respecto al cronograma son neutrales o equilibradas.        
+      cost_variances:
+        acronym: CV
+        description: Variación del Costo
+        explanation: La variación del costo, CV (Cost Variance, en inglés), es una medida del desempeño de los costos del proyecto.
+        purpose: La variación del costo, indica la relación entre el desempeño real y los costos incurridos.
+        positive_rule: CV > 0
+        positive: Las condiciones respecto a los costos, la relación entre el desempeño real y los costos incurridos es favorable.
+        negative_rule: CV < 0
+        negative: Los costos incurridos son superiores en relación a las actividades completadas o en su defecto que las actividades completadas tuvieron un costo superior al planificado.
+        neutral_finished: Las condiciones respecto al presupuesto son neutrales o equilibradas. 
+        neutral_rule: CV = 0
+        neutral: Las condiciones respecto al presupuesto son nuetrales. Esto sirve como alerta para evitar situaciones desfavorables respecto al presupuesto.
+      variances_at_conclusion:
+        acronym: VAC
+        description: Variación a la conclusión
+        explanation: La variación a la conclusión, VAC (Variance At Conclusion, en inglés), es una medida del desempeño de los costos, teniendo en cuenta la Estimación a la Conclusión.
+        purpose: La variación a la conclusión es muy similar a la variación de costos pero que vista desde una perspectiva más global, es el déficit o superávit presupuestario
+        positive_rule: VAC > 0
+        positive: Si se sigue con el desempeño actual respecto a los costos al concluir el proyecto, los costos estarán por debajo del presupuesto aprobado.
+        negative_rule: VAC < 0
+        negative: Según la proyección realizada se gastará más de lo planificado para que el proyecto alcance su completitud.
+        neutral_rule: VAC = 0
+        neutral: En promedio el desempeño de costos está igualado al presupuesto aprobado.
+    indexes:
+      schedule_performance_indexes:
+        acronym: SPI
+        description: Índice de desempeño del cronograma
+        explanation: El índice de desempeño del cronograma, SPI (Schedule Performance Index, en inglés).
+        purpose: El índice de desempeño del cronograma, indica el nivel de eficiencia del cronograma del proyecto.
+        positive_rule: SPI > 1
+        positive: Situación favorable respecto al cronograma. Se ha estimado que el trabajo a realizar llevaría más tiempo del incurrido.
+        negative_rule: SPI < 1
+        negative: Situación desfavorable respecto al cronograma. El trabajo realizado es menor a lo que se había previsto en este momento del cronograma.
+        neutral_rule: SPI = 1
+        neutral: Hay equilibrio entre el desempeño y el trabajo planificado.
+      cost_performance_indexes:
+        acronym: CPI
+        description: Índice de desempeño del costo
+        explanation: El índice de desempeño del costo, CPI (Cost Performance Index, en inglés) una de las métricas más críticas del EVM, mide la eficiencia del costo para el trabajo completado.
+        purpose: El índice de desempeño del costo, es una medida que evalúa y determina que tan eficientemente se están gestionando los costos de los recursos presupuestados.
+        positive_rule: CPI > 1
+        positive: Situación favorable en la que el costo incurrido es inferior al desempeño hasta la fecha.
+        negative_rule: CPI < 1
+        negative: Situación desfavorable en la que el costo incurrido es superior  al planificado con respecto al trabajo completado.
+        neutral_rule: CPI = 1
+        neutral: Hasta el momento los costos incurridos y el desempeño para efectuar las actividades se han equilibrado.
+      to_complete_performance_indexes:
+        acronym: TCPI
+        description: Índice de desempeño del trabajo por completar
+        explanation: El índice de desempeño del trabajo por completar, TCPI (To-Complete Performance Index, en inglés), es una medida del desempeño del costo que tiene en cuenta los recursos remanentes  con la finalidad de consumar con un determinado objetivo de gestión.
+        purpose: El índice de desempeño del trabajo por completar, establece si el presupuesto restante será suficiente para cubrir el costo del trabajo no completado. 
+        positive_rule: TCPI < 1
+        positive: Situación favorable respecto al desempeño del costo del trabajo remanente en relación al presupuesto dado.
+        negative_rule: TCPI > 1
+        negative: Situación desfavorable respecto al desempeño del costo del trabajo remanente en relación al presupuesto dado.
+        neutral_rule: TCPI = 1
+        neutral: Situación neutra respecto al desempeño del costo del trabajo remanente en relación al presupuesto dado.
+      es_schedule_performance_indexes:
+        acronym: SPI(t)
+        description: Índice de desempeño del cronograma basado en el tiempo
+        explanation: El índice de desempeño del cronograma, SPI (Schedule Performance Index, en inglés).
+        purpose: El índice de desempeño del cronograma, representación de que tan eficientemente un proyecto o programa se desempeña respecto al cronograma.
+        positive_rule: SPI > 1
+        positive: Situación favorable respecto al cronograma. Se ha estimado que el trabajo a realizar llevaría más tiempo del incurrido.
+        negative_rule: SPI < 1
+        negative: Situación desfavorable respecto al cronograma. El trabajo realizado es menor a lo que se había previsto en este momento del cronograma.
+        neutral_rule: SPI = 1
+        neutral: Hay equilibrio entre el desempeño y el trabajo planificado.
+      to_complete_schedule_performance_indexes:
+        planned_duration: Basado en la duración del proyecto
+        planned_duration_explanation: La duración del proyecto (PD) es calculada en base a la estimación de duración de las tareas planificadas
+        ieac: Basado en la IEAC
+        ieac_explanation: La Estimación Independiente a la Completitud basada en el Tiempo (IEAC) es la fecha de completitud del proyecto estimada por la Programación Ganada
+        acronym: TSPI 
+        description: Índice de Desempeño del Cronograma a la Completitud
+        explanation: El Índice de Desempeño del Cronograma a la Completitud, TSPI (To Complete Schedule Performance Index, en inglés).
+        purpose: El Índice de Desempeño del Cronograma a la Completitud sirve para determinar la eficiencia requerida para completar el proyecto o programa de acuerdo con el plan respecto a la duración estimada. 
+        positive_rule: TSPI < 1
+        positive: El desempeño del cronograma es favorable para que el proyecto se termine según el cronograma.
+        negative_rule: TSPI > 1
+        negative: El desempeño del cronograma es desfavorable, se estiman dificultades para que el proyecto se termine según el cronograma.
+        neutral_rule: TSPI = 1
+        neutral: El desempeño del cronograma es neutro para que el proyecto se termine según el cronograma.
+        critial_rule: TSPI > 1.1
+        critial: Se estima que la estimativa respecto al cronograma no es alcanzable 
+    estimates:
+      estimates_to_complete:
+        acronym: ETC
+        description: Estimación hasta la conclusión
+        explanation: La estimación hasta la conclusión, ETC (Estimate To Complete, en inglés), es el costo previsto para completar todo el trabajo restante del proyecto.
+        purpose: La estimación hasta la conclusión, sirve para estimar cuánto costará el trabajo restante.
+      estimates_at_completion:
+        acronym: EAC
+        description: Estimación a la conclusión
+        explanation: La estimación a la conclusión, EAC (Estimate At Completion, en inglés), es un pronóstico del trabajo necesario para llevar a cabo el proyecto de forma general.
+        purpose: La estimación a la conclusión, estima el trabajo a la conclusión, teniendo en cuenta el costo incurrido del trabajo realizado (AC) y lo que aún falta para terminar el proyecto. 
+      independent_estimates_at_completion:
+        acronym: IEAC
+        description: Estimación Independiente a la Completitud basada en el Tiempo
+        explanation: La Estimación Independiente a la Completitud basada en el Tiempo, IEAC (Independent Estimate at Completion for Time, en inglés), es un pronóstico del trabajo necesario para llevar a cabo el proyecto de forma general, en el cual se tiene en cuenta el momento en el que se calcula el pronóstico.
+        purpose: La Estimación Independiente a la Completitud basada en el Tiempo, sirve estimar una fecha de finalización del proyecto.
