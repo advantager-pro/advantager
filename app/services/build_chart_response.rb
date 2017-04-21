@@ -7,49 +7,19 @@ class BuildChartResponse
 
     return response if evm_points.length < 1
     
-    evm_fields = %w(planned_value earned_value actual_cost earned_schedule)
+    evm_fields = %w(planned_value earned_value actual_cost budget_at_conclusion)
     response[:evm_fields] = evm_fields
-    response[:evm_chart_data] = data_for_morris(evm_points, fields: %w(day) + evm_fields)
+    response[:evm_chart_data] = data_for_morris(evm_points, fields: evm_fields)
     response[:evm_labels] = {}
-    evm_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
+    evm_fields.each{|f| response[:evm_labels][f] = t(f) }
 
+    single_fields = ["es_schedule_performance_index", "cost_performance_index", "es_schedule_variance",
+      "cost_variance", "variance_at_conclusion", "to_complete_schedule_performance_index_pd",
+      "to_complete_schedule_performance_index_ieac", "to_complete_cost_performance_index_bac",
+      "to_complete_cost_performance_index_cpi"]
+    single_fields.each{ |field| response = add_single_field(field, evm_points, response) } 
 
-    cost_variance_fields = %w(cost_variance)
-    response[:cost_variance_fields] = cost_variance_fields
-    response[:cost_variance_data] = data_for_morris(evm_points, fields: %w(day) + cost_variance_fields)
-    cost_variance_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-    schedule_variance_fields = %w(es_schedule_variance schedule_variance)
-    response[:schedule_variance_fields] = schedule_variance_fields
-    response[:schedule_variance_data] = data_for_morris(evm_points, fields: %w(day) + schedule_variance_fields)
-    schedule_variance_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-
-    estimate_fields = %w(es_estimate_at_complete1 es_estimate_at_complete2 es_independent_time_estimate_at_compete estimate_at_completion_calculated  estimate_at_completion_cpi  estimate_at_completion_cpi_and_spi)
-    response[:estimate_fields] = estimate_fields
-    response[:estimate_data] = data_for_morris(evm_points, fields: %w(day) + estimate_fields)
-    estimate_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-    tcpi_fields = %w(to_complete_performance_index_bac es_to_complete_performance_index)
-    response[:tcpi_fields] = tcpi_fields
-    response[:tcpi_data] = data_for_morris(evm_points, fields: %w(day) + tcpi_fields)
-    tcpi_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-    performance_fields = %w(es_schedule_performance_index schedule_performance_index cost_performance_index performance_index)
-    response[:performance_fields] = performance_fields
-    response[:performance_data] = data_for_morris(evm_points, fields: %w(day) + performance_fields )
-    performance_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-    planning_fields = %w(budget_at_conclusion planned_value  estimate_to_complete)
-    response[:planning_fields] = planning_fields
-    response[:planning_data] = data_for_morris(evm_points, fields: %w(day) + planning_fields)
-    planning_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
-    # full_fields = evm_fields + planning_fields
-    # response[:full_fields] = full_fields
-    # response[:full_data] = data_for_morris(evm_points, fields: %w(day) + full_fields)
-    # full_fields.each{|f| response[:evm_labels][f] = t("evm.elements.#{f}") }
-
+    response[:charts]  = single_fields + %w(evm)
     response
   end
 
@@ -57,6 +27,7 @@ class BuildChartResponse
 
   def self.data_for_morris(evm_points, options)
     fields = options[:fields]
+    fields += %w(day) unless options[:no_day]
     project = evm_points.first.project
     n = project.evm_frequency
 
@@ -81,7 +52,15 @@ class BuildChartResponse
     pts
   end  
 
+  def self.add_single_field(field, evm_points, response)
+    fields = [field]
+    response[:"#{field}_fields"] = fields
+    response[:"#{field}_data"] = data_for_morris(evm_points, fields: fields)
+    fields.each{|f| response[:evm_labels][f] = t(f) }
+    response
+  end
+
   def self.t(key)
-    I18n.t!(key)
+    I18n.t!("evm.elements.#{key}")
   end
 end
