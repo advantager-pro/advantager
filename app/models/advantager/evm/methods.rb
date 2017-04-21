@@ -16,7 +16,8 @@ module Advantager::EVM::Methods
         earned_value(date) - actual_cost(date)
       end
 
-      def variance_at_conclusion(eac, date=nil)
+      def variance_at_conclusion(eac=nil, date=nil)
+        eac ||= estimate_at_completion_cpi
         budget_at_conclusion(date) - eac
       end
 
@@ -66,6 +67,15 @@ module Advantager::EVM::Methods
       def to_complete_performance_index(eac, date=nil)
         # TCPI = ( BAC - EV ) / ( EAC- AC )  # Teniendo en cuenta la estimación a la conclusión
         ( budget_at_conclusion(date) - earned_value(date) ) / ( eac - actual_cost(date) )
+      end
+
+      def to_complete_cost_performance_index_bac
+        to_complete_performance_index_bac
+      end
+
+      def to_complete_cost_performance_index_cpi
+        eac_cpi = estimate_at_completion_cpi
+        to_complete_performance_index(eac_cpi)
       end
   end
 end
