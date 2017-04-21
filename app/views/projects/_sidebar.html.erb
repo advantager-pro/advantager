@@ -2,16 +2,20 @@
   <h3><%= l(:label_logs) %></h3>
 
   <% if @total_cost.present? %>
-    <p>
-      <%= @total_cost %> <i><%= evm_unity(@project) %></i>
-    </p>
+    <div class="total">
+      <%= @total_cost %> <div class="unity"><%= evm_unity(@project) %></div>
+    </div>
   <% end %>
-  <p>
   <% if User.current.allowed_to?(:log_time, @project) %>
-    <%= link_to l(:button_log), new_project_time_entry_path(@project), class: 'icon icon-add' %> |
+    <div class="button-log">
+      <%= link_to l(:button_log), new_project_time_entry_path(@project), class: 'icon icon-add' %> 
+    </div>
   <% end %>
-  <%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
-  <%= link_to(l(:label_report), report_project_time_entries_path(@project)) %>
-  </p>
+  <div class="details">
+    <%= link_to(l(:label_details), project_time_entries_path(@project)) %> 
+  </div>
+  <div class="report">
+    <%= link_to(l(:label_report), report_project_time_entries_path(@project)) %>
+  </div>
 <% end %>
 <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
