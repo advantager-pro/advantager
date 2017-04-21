@@ -1,3 +1,7 @@
+.icon-schedule::before {
+  content: "\f017";
+}
+
 .chart-container{
   margin-bottom: 50px;
 }
