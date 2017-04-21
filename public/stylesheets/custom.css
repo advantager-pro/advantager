@@ -522,12 +522,12 @@
 .index .icon::before{
     font-size: 34px;
 }
-.index:not(.neutral) .icon::before{
+.index .icon::before{
     color: white;
 }
-.index .neutral{
+/*.index .neutral{
   color: gray;
-}
+}*/
 
 .index .title{
   text-align: center;
@@ -544,51 +544,29 @@
   height: 150px;
 }
 
-.index.negative .chart-wrapper, .index.negative .ic{
-  background: #e46551;
-}
+.index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
+.index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
+.index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
+.index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
+.index.neutral  .chart-wrapper, .index.neutral .ic{ background: #4f3f7d; }
 
-.index.critical .chart-wrapper, .index.critical .ic{
-  background: #6d1c1c;
-}
-
-.index.positive .chart-wrapper, .index.positive .ic{
-  background: #4ec7db;
-}
-.index.positive.cost .chart-wrapper, .index.positive.cost .ic{
-  background: #2eab7d;
-}
-
-.neutral .ic{
-  border: 1px solid #e2e2e2;
-}
-
-.index:not(.neutral)  .chart-wrapper{ color: white; }
-.index.neutral  .chart-wrapper{ 
-  color: gray;
-  border: 1px solid #e2e2e2;
-  border-bottom: none;
-}
+.index  .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
-.index:not(.neutral) .morris-hover.morris-default-style{ border: none; background: rgba(0,0,0,0.6)!important; }
-.index:not(.neutral) .morris-hover.morris-default-style .morris-hover-row-label,
+.index .morris-hover.morris-default-style{ border: none; background: rgba(0,0,0,0.6)!important; }
+.index .morris-hover.morris-default-style .morris-hover-row-label,
 .trends.evm .morris-hover.morris-default-style .morris-hover-row-label,
-.index:not(.neutral) .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
-.trends.evm text, .index:not(.neutral) text{ fill: white!important; }
-.index:not(.neutral) path{ stroke: white!important; }
+.index .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
+.trends.evm text, .index text{ fill: white!important; }
+.index path{ stroke: white!important; }
 .trends.evm circle{ stroke: rgba(103, 103, 103, 0.4)!important; }
-.index:not(.neutral) circle{ fill: rgba(255, 255, 255, 0.63)!important; }
-
-.index.neutral text{ fill: gray!important; }
-.index.neutral path{ stroke: gray!important; }
-.index.neutral circle{ fill: rgba(255, 255, 255, 0.63)!important; }
+.index circle{ fill: rgba(255, 255, 255, 0.63)!important; }
 
 .trends.evm .morris-hover.morris-default-style{
   background: rgba(40, 32, 64, 0.81)!important;
 }
 
-#content.chart-evm_management{ background: #f7f7f7; }
-#content.chart-evm_management .section{ 
+#content.chart-evm_show{ background: #f7f7f7; }
+#content.chart-evm_show .section{ 
   padding: 10px;
   background: white;
   margin: 20px;
@@ -596,7 +574,7 @@
   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
   padding-bottom: 24px;
 }
-#content.chart-evm_management{ padding: 0; }
+#content.chart-evm_show{ padding: 0; }
 
 #project-evm .section-title h3{
   color: #666;
