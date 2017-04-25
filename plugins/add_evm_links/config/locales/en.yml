@@ -1,0 +1,170 @@
+en:
+  evm_section: EVM
+  evm_section_titles:
+    project_performance_status: Project Performance Statuses
+    schedule_estimations: Schedule Estimations
+    costs_estimations: Costs Estimations
+    records_and_trends: Records and Trends
+    possible_trends: Possible trends
+    records: Records
+    trends: Trends
+  charts_explanations:
+    statuses:
+      positive: Favorable
+      negative: Unfavorable
+      neutral: Neutral/Balanced
+      critical: Critical
+    records:
+      evms:
+        acronym: EVM
+        description: Earned Value Management
+        record: EVM Records
+        explanation: EVM is a methodology that describes the project status, evaluating its progress and preformance, by processing scope metric, schedule and resouces informations.
+      evs:
+        acronym: EV
+        description: Earned Value
+        record: Earned Value Records
+        explanation: EV is the project progress measurement in a schedule moment in terms of the approved bugdget.
+      pvs:
+        acronym: PV
+        description: Planned Value
+        record: Planned Value Records
+        explanation: PV is a measurement of how advanced the work is suposed to be in comparison to the project schedule.
+      acs:
+        acronym: AC
+        description: Actual Cost
+        record: Actual Cost Records
+        explanation: AC is a measurement of the inccurred costs to complete a work mesured by the EV.
+      ess:
+        acronym: ES
+        description: Earned Schedule
+        record: Earned Schedule Records
+        explanation: The ES is a measurement of the schedule performance derivated by the time, by comparing the Earned Value of a project in the current moment (Actual Time - AT) to the point of the PV curve where it should have been earned.
+      bacs:
+        acronym: BAC
+        description: Budget at Conclusion
+        explanation: It's the project's budget based on the sum of the planned issues %{evm_field} field
+    variances:
+      schedule_variances: 
+        acronym: SV
+        description: Schedule Variance
+        explanation: The  Schedule Variance (SV) is a measurement of the variance of the project schedule performance. 
+        purpose: The  Schedule Variance is used to determine the project schedule status. Either if the project before or after the schedule due date, in any specific moment.
+        positive_rule: SV > 0
+        positive: The schedule conditions are favorable.
+        negative_rule: SV < 0
+        negative: The schedule conditions are unfavorable.
+        neutral_rule: SV = 0
+        neutral: The schedule conditions are neutral.
+      es_schedule_variances: 
+        acronym: SV(t)
+        description: Time based Schedule Variance
+        explanation: The time based Schedule Variance (SV), is a measurement of the project schedule performance. 
+        purpose: The time based Schedule Variance is used to determine the project schedule status, either if the project is before or after the schedule due date.
+        positive_rule: SV > 0
+        positive: The schedule conditions are favorable.
+        negative_rule: SV < 0
+        negative: The schedule conditions are unfavorable.
+        neutral_rule: SV = 0
+        neutral: The schedule conditions are neutral.
+      cost_variances:
+        acronym: CV
+        description: Cost Variance
+        explanation: The Cost Variance (CV) is a measurement of the project costs performance.
+        purpose: The Cost Variance, indicates the relation between the real performance and the incurred costs.
+        positive_rule: CV > 0
+        positive: The costs and budget conditions are favorable.
+        negative_rule: CV < 0
+        negative: Either the incurred costs are higher in comparison the completed activities or the completed activities had a higher cost than the planned/expected costs.
+        neutral_finished: The costs and budget conditions are neutral or balanced.
+        neutral_rule: CV = 0
+        neutral: The costs and budget conditions are neutral or balanced. Which is a warning to avoid unfavorable statuses related to the budget.
+      variances_at_conclusion:
+        acronym: VAC
+        description: Variance At Conclusion
+        explanation: The Variance At Conclusion (VAC) is a measurement of the costs performance, taking into account the Estimate at Conclusion.
+        purpose: The Variance At Conclusion (VAC) is very similar to the Cost Variance but from a global view, it is the budget deficit or surplus.
+        positive_rule: VAC > 0
+        positive: If the current costs performance is kept until the project conclusion, the costs will be lower than the approved budget.
+        negative_rule: VAC < 0
+        negative: At project conclusion the costs will be higher than what was planned according to the projection.
+        neutral_rule: VAC = 0
+        neutral: On average the costs performance matches to the approved budget.
+    indexes:
+      schedule_performance_indexes:
+        acronym: SPI
+        description: Schedule Performance Index
+        explanation: The Schedule Performance Index (SPI) is a mesurement of the schedule performance.
+        purpose: The Schedule Performance Index, is used to indicate the level of eficiency of the project schedule.
+        positive_rule: SPI > 1
+        positive: The status is favorable regarding the schedule. It was initially estimated that the work to be performed would take more time than incurred.
+        negative_rule: SPI < 1
+        negative: The status is unfavorable regarding the schedule. The work done is less than what was expected at this time in the schedule.
+        neutral_rule: SPI = 1
+        neutral: There is a balance between performance and planned work.
+      cost_performance_indexes:
+        acronym: CPI
+        description: Cost Performance Index
+        explanation: The Cost Performance Index (CPI) is one of the most critical metrics in the EVM. It measures the cost efficiency for the completed work.
+        purpose: The Cost Performance Index is a measurement that evaluates and determines how efficiently the costs of budgeted resources are being managed.
+        positive_rule: CPI > 1
+        positive: It is a favorable status in which the cost incurred is lower than the performance to date.
+        negative_rule: CPI < 1
+        negative: Unfavorable status in which the cost incurred is higher than planned with respect to the completed work.
+        neutral_rule: CPI = 1
+        neutral: So far the costs incurred and the performance to perform out the activities have been balanced.
+      to_complete_performance_indexes:
+        acronym: TCPI
+        description: To Complete Performance Index
+        explanation: The To Complete Performance Index (TCPI) is a measurement of cost performance that takes into account the remaining resources in order to consummate with a specific management objective.
+        purpose: The To Complete Performance Index, establishes whether the remaining budget will be sufficient to cover the cost of unfinished work.
+        positive_rule: TCPI < 1
+        positive: Favorable status regarding the performance of the cost of the remaining work in relation to the given budget.
+        negative_rule: TCPI > 1
+        negative: Unfavorable status regarding the performance of the cost of the remaining work in relation to the given budget.
+        neutral_rule: TCPI = 1
+        neutral: Neutral or balanced status regarding the performance of the remaining work cost in relation to the given budget.
+      es_schedule_performance_indexes:
+        acronym: SPI(t)
+        description: Time based Schedule Performance Index
+        explanation: The time based Schedule Performance Index SPI(t) is a measurement of the schedule performance.
+        purpose: The time based Schedule Performance Index, is a representation of how efficiently a project or program performs with respect to the schedule.
+        positive_rule: SPI > 1
+        positive: Favorable status regarding the schedule. It has been estimated that the work to be performed would take more time than incurred.
+        negative_rule: SPI < 1
+        negative: Unfavorable status regarding the schedule. The work done is less than had been anticipated at this time in the schedule.
+        neutral_rule: SPI = 1
+        neutral: There is a balance between performance and planned work.
+      to_complete_schedule_performance_indexes:
+        planned_duration: Based on the PD
+        planned_duration_explanation: The project planned duration (PD) is calculated based on the planned tasks estimated duration
+        ieac: Based on the IEAC
+        ieac_explanation: The Independent Estimate at Completion for Time (IEAC) is the Earned Schedule estimated project's completation date
+        acronym: TSPI 
+        description: To Complete Schedule Performance Index
+        explanation: The To Complete Schedule Performance Index (TSPI) is a measurement of the schedule performance of the remaning work.
+        purpose: The To Complete Schedule Performance Index is used to determine the efficiency required to complete the project or program in accordance with the plan with respect to the estimated duration.
+        positive_rule: TSPI < 1
+        positive: The performance of the schedule is favorable for the work to be completed according to the schedule.
+        negative_rule: TSPI > 1
+        negative: The performance of the schedule is unfavorable, it is considered that there will be difficulties for the project to be completed according to the schedule.
+        neutral_rule: TSPI = 1
+        neutral: El desempeño del cronograma es neutro para que el proyecto se termine según el cronograma.
+        critical_rule: TSPI > 1.1
+        critical: It is estimated that the schedule estimate is not achievable.
+    estimates:
+      estimates_to_complete:
+        acronym: ETC
+        description: Estimate To Complete
+        explanation: The Estimate To Complete (ETC) is the expected cost to complete all remaining work on the project.
+        purpose: The Estimate To Complete, is used to estimate how much the remaining work will cost.
+      estimates_at_completion:
+        acronym: EAC
+        description: Estimate At Completion
+        explanation: The Estimate At Completion (EAC) is a forecast of the work needed to perform the project in general.
+        purpose: The Estimate At Completion, estimates the work to the conclusion, taking into account the cost incurred of the work done (AC) and what is still missing to finish the project.
+      independent_estimates_at_completion:
+        acronym: IEAC
+        description: Independent Estimate at Completion for Time
+        explanation: The Independent Estimate at Completion for Time, (IEAC) is a forecast of the work needed to perform the project in general, taking into account the time the forecast is calculated.
+        purpose: The Independent Estimate at Completion for Time, is useful to estimate a project end date.

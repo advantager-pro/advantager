@@ -61,6 +61,16 @@ module Advantager::EarnedSchedule
       return  x + ( ( pv_t - bCWSx).to_f / (bCWSy - bCWSx).to_f  )
     end
 
+
+    def to_complete_schedule_performance_index_pd
+      es_to_complete_performance_index
+    end
+  
+    def to_complete_schedule_performance_index_ieac
+      es_estimated_to_complete_performance_index
+    end
+
+
     def es_schedule_variance
       earned_schedule - current_period
     end

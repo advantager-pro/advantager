@@ -14,8 +14,9 @@ class Advantager::EVM::PointsController < ApplicationController
   def charts
     @evm_points = @project.evm_points
     last_point = @evm_points.last
-    json_response = Rails.cache.fetch("#{last_point.try(:id)}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
-      BuildChartResponse.(@evm_points).to_json
+    lang = params[:lang]
+    json_response = Rails.cache.fetch("#{last_point.try(:id)}-#{lang}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
+      BuildChartResponse.(@evm_points, lang).to_json
     end
     respond_to do |format|
       format.json { render json: json_response }

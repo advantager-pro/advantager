@@ -40,4 +40,71 @@ module EVMHelper
     bps.to_json.html_safe
   end
 
+  def positive_status
+    "positive"
+  end
+
+  def negative_status
+    "negative"
+  end
+
+  def neutral_status
+    "neutral"
+  end
+
+  def critical_status
+    "critical"
+  end
+
+  
+  def sv_status(sv)
+    return positive_status if sv > 0 
+    return negative_status if sv < 0 
+    neutral_status
+  end
+
+  def es_sv_status(sv)
+    sv_status(sv)
+  end
+
+  def cv_status(cv)
+    return positive_status if cv > 0 
+    return negative_status if cv < 0 
+    neutral_status
+  end
+
+  def vac_status(vac)
+    return positive_status if vac > 0 
+    return negative_status if vac < 0 
+    neutral_status
+  end
+
+  def spi_status(spi)
+    return positive_status if spi > 1
+    return negative_status if spi < 1
+    neutral_status
+  end
+
+  def cpi_status(cpi)
+    return positive_status if cpi > 1
+    return negative_status if cpi < 1
+    neutral_status
+  end
+
+  def tcpi_status(tcpi)
+    return positive_status if tcpi < 1
+    return negative_status if tcpi > 1
+    neutral_status
+  end
+
+  def es_spi_status(spi)
+    spi_status(spi)
+  end
+
+  def tspi_status(tspi)
+    return critical_status if tspi > 1.1
+    return negative_status if tspi > 1
+    return positive_status if tspi < 1
+    neutral_status
+  end
 end

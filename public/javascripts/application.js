@@ -700,10 +700,10 @@ function displayFlash(message, kind){
   }
 }
 
-function getEVMPoints(project_id, callback){
-  $.get('/advantager/evm/points/charts/'+project_id+'.json').done(function(data){
+function getEVMPoints(project_params, callback){
+  $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
       callback(data);
-  }).fail(function(response){
+  }, "json").fail(function(response){
     displayFlash(response.error, 'error');
   });
 }
@@ -720,6 +720,12 @@ $(document).on('click', function(e){
   $(".my-dropdown ul").hide();
 });
 
+var onReadyAndRender = function(){
+  $('.chart').empty();
+}
+$(document).on('turbolinks:render', onReadyAndRender);
+$(document).ready(onReadyAndRender);
+
 /* Clicks within the dropdown won't make
   it past the dropdown itself */
 $(document).on('click', ".my-dropdown", function(e){
@@ -727,9 +733,17 @@ $(document).on('click', ".my-dropdown", function(e){
   e.stopPropagation();
 });
 
+$(document).on('click', '.sidebar-toggler', function(){
+  $(document).resize();
+});
+
 $(document).on('turbolinks:click', function() {
   $("#chat-conversations").hide();
 });
-$(document).on('turbolinks:render', function() {
-  // custom scripts on render page
+
+$(document).on('click', '#evm-help', function(){
+  $("[tooltip]").addClass('hover').delay(2000).queue(function(next){
+      $(this).removeClass('hover');
+      next();
+  });
 });
