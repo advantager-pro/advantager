@@ -1,12 +1,5 @@
 <h2><%= l(:label_home) %></h2>
 
-<div class="splitcontentleft">
-  <div class="wiki">
-    <%= textilizable Setting.welcome_text %>
-  </div>
-  <%= call_hook(:view_welcome_index_left) %>
-</div>
-
 <div class="splitcontentright">
   <% if @news.any? %>
   <div class="news box">

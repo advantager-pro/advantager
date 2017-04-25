@@ -123,7 +123,7 @@
         <%= view_layouts_base_sidebar_hook_response %>
     </div>
 
-    <div id="content">
+    <div id="content" class="<%= controller.controller_name.classify.underscore %>-<%= params[:action] %>">
         <%= content_tag('div', '', class: "flash error js", id: "flash_error_js", style: "display: none") %>
         <%= content_tag('div', '', class: "flash notice js", id: "flash_notice_js", style: "display: none") %>
         <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>

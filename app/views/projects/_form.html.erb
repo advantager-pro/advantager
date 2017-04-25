@@ -21,23 +21,36 @@
       <% Project.available_fields.each do | field | %>
         <tr>
           <td>
-            <%= field %>
+            <%= t("field_#{field}") %>
           </td>
-          <td>
-            <% if @project.evm_field == field %>
-              <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field }, class: evm_checked_css_class %>
-            <% else %>
-              <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
-            <% end %>
-          </td>
-          <td>
-            <%= f.radio_button :evm_field, field, checked: @project.evm_field == field, data: { evm_field: field }  %>
-          </td>
+          <% if @project.id.nil? && field == 'cost' %>
+             <td>
+                <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field } %>
+            </td>
+            <td>
+              <%= f.radio_button :evm_field, field, checked: true, data: { evm_field: field }  %>
+            </td>
+          <% else %>
+            <td>
+              <% if @project.evm_field == field %>
+                <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field }, class: evm_checked_css_class %>
+              <% else %>
+                <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
+              <% end %>
+            </td>
+            <td>
+              <%= f.radio_button :evm_field, field, checked: @project.evm_field == field, data: { evm_field: field }  %>
+            </td>
+          <% end %>
 
           <td>
             <% if field == 'custom' %>
               <div id="custom_field_container" style="display: <%= @project.using_custom_unity? ? 'block' : 'none' %>;">
                 <%= f.text_field :custom_unity, label: "", size: 60 %>
+              </div>
+            <% elsif @project.id.nil? && field == 'cost' %>
+              <div id="cost_field_container" style="display: <%= @project.using_currency? ? 'block' : 'none' %>;">
+                <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: "", selected: 'usd' %></p>
               </div>
             <% elsif field == 'cost' %>
               <div id="cost_field_container" style="display: <%= @project.using_currency? ? 'block' : 'none' %>;">

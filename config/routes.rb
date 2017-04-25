@@ -21,6 +21,11 @@ Rails.application.routes.draw do
     get 'default_configs/load'
     
     namespace :evm do
+      resources :projects, controller: '/advantager/evm/projects' do
+        collection do 
+          get 'evm_show/:project_id', to: 'projects#evm_show'
+        end
+      end
       resources :break_points, except: [:index], controller: '/advantager/evm/break_points' do
         collection do
           get 'is_break_point_day'

@@ -369,6 +369,7 @@ es:
   field_visible_fields: Campos opcionales
   field_custom_unity: Unidad personalizada
   field_evm_frequency: Frequencia de cortes para EVM (en días)
+  field_total_estimated_time:  Total de Tiempo Estimado
   field_total_estimated_custom: Valor estimado total
   field_total_estimated_cost: Costo total estimado
   field_total_estimated_point: Total de puntos estimados
@@ -383,10 +384,13 @@ es:
   field_estimated_custom: Valor estimado
   field_estimated_value: Valor estimado
   field_cost: Costo
-  field_custom: Valor
+  field_custom: Valor personalizado
   field_time: Horas
   field_point: Puntos
   evm:
+    titles:
+      cpi: Desempeño del Presupuesto (Costos)
+      spi: Desempeño del Cronograma
     charts:
       planning: Medidas de la planificación
       performance: Medidas del desempeño
@@ -396,6 +400,15 @@ es:
       schedule_variance: Variaciones del cronograma
       cost_variance: Variaciones de Costo
     elements:
+      variance_at_conclusion: Variación a la Conclusión
+      to_complete_schedule_performance_index: Índice de Desempeño del Cronograma a la Completitud
+      to_complete_schedule_performance_index_pd: Índice de Desempeño del Cronograma a la Completitud (basado en la PD)
+      to_complete_schedule_performance_index_ieac: Índice de Desempeño del Cronograma a la Completitud (basado en la IEAC)
+      to_complete_cost_performance_index_bac: Índice de desempeño del trabajo por completar (basado en el BAC)
+      to_complete_cost_performance_index_cpi: Índice de desempeño del trabajo por completar (basado en el CPI)
+      accumulated_costs: Costos Acumulados
+      remaining_budget: Presupuesto Restante
+      accumulated_earned_value: Valor Ganado Acumulado
       schedule_variance: Variación del Cronograma
       cost_variance: Variación del Presupuesto
       earned_schedule: Programación Ganada (ES)
@@ -630,7 +643,7 @@ es:
   label_options: Opciones
   label_overall_activity: Actividad global
   label_overview: Vistazo
-
+  label_earned_value: Valor Ganado
   label_spent_point: Puntos dedicados
   label_total_spent_point: Puntos totales dedicados
   label_overall_spent_point: Puntos dedicados en general
