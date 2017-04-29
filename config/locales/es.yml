@@ -267,6 +267,7 @@ es:
   default_activity_Investigation: Investigación
   default_activity_testing: Pruebas
   default_activity_investigation: Investigación
+  default_configs: Configuraciones por defecto
 
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
