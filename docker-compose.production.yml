@@ -16,7 +16,7 @@ redmine:
     - DB_TYPE=postgresql
     - DB_POOL=5
     - DB_HOST=postgresql
-    - DB_PORT= 5432
+    - DB_PORT=5432
     - DB_USER=postgres
     - DB_PASS=postgres
     - DB_ADAPTER=postgresql
