@@ -1286,6 +1286,8 @@ en:
   default_configs: Default configurations
 
   label_default_configs: Default configurations
+  default_configs_warning: Caution! The application of these configurations is of global scope on all the projects, the changes made on the states, workflows and other initial data will be overwritten, the new data will not be eliminated.
+  button_default_configs: Reestablish default configs.
 
 
   enumeration_issue_priorities: Issue priorities
