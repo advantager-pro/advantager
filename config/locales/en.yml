@@ -1285,6 +1285,8 @@ en:
   default_activity_testing: Testing
   default_configs: Default configurations
 
+  label_default_configs: Default configurations
+
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories

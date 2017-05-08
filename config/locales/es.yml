@@ -267,7 +267,11 @@ es:
   default_activity_Investigation: Investigación
   default_activity_testing: Pruebas
   default_activity_investigation: Investigación
+
   default_configs: Configuraciones por defecto
+  label_default_configs: Configuraciones por defecto
+  default_configs_warning: Atención! La aplicación de estas configuraciones es de alcance global sobre todos los proyectos, los cambios realizados sobre los estados, flujos de trabajo y demás datos iniciales serán sobreescritos, los nuevos datos no se eliminaran. 
+  button_default_configs: Reestablecer configuraciones por defecto.
 
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
