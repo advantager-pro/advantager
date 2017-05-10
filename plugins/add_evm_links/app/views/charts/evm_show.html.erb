@@ -2,7 +2,7 @@
 <% last_point = @project.evm_points.last %>
 <div id="project-evm">
     <div class="performance-statuses section">
-        <button class="success-btn left" id="evm-help">Ayuda</button>
+        <button class="success-btn left" id="evm-help"><%=l(:label_help) %></button>
         <div class="section-title">
             <h3><%= I18n.t!("evm_section_titles.project_performance_status") %></h3>
         </div>
