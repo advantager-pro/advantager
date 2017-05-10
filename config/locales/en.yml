@@ -1283,7 +1283,13 @@ en:
   default_activity_evaluation: Evaluation
   default_activity_investigation: Investigation
   default_activity_testing: Testing
+  default_configs: Default configurations
 
+  label_default_configs: Default configurations
+  default_configs_warning: Caution! The application of these configurations is of global scope on all the projects, the changes made on the states, workflows and other initial data will be overwritten, the new data will not be eliminated.
+  button_default_configs: Reestablish default configs.
+  default_configs_confirm: Are you sure you want to reestablish default configs?
+  default_configs_succes: Default configs have been reestablished. 
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories

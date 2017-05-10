@@ -2,6 +2,12 @@
   content: "\f017";
 }
 
+.button-warning{
+   background: rgb(223, 117, 20) !important;
+   border-color: rgb(223, 117, 20) !important;
+   box-shadow: 0 1px 0 rgb(223, 117, 20)  !important;
+}
+
 .chart-container{
   margin-bottom: 50px;
 }
