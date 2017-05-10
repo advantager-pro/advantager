@@ -1,7 +1,7 @@
 #Default roles
 #Project Manager - Director de proyecto
 man = Role.seed(:id,
-  { id: 2, name: I18n.t!("default_role_manager"), permissions: [:add_project, :edit_project, :close_project, :select_project_modules, :manage_members, :manage_versions,
+  { id: 2, name: I18n.t!("default_role_manager"), permissions: [:add_project,  :view_evm_budget, :view_evm_schedule_info, :edit_project, :close_project, :select_project_modules, :manage_members, :manage_versions,
     :add_subprojects, :manage_boards, :add_messages, :edit_messages, :edit_own_messages, :delete_messages, :delete_own_messages, :view_calendar, :edit_checklists,
      :add_documents, :edit_documents, :delete_documents, :view_documents, :manage_files, :view_files, :view_gantt, :manage_categories, :view_issues,
      :add_issues, :edit_issues, :copy_issues, :manage_issue_relations, :manage_subtasks, :set_issues_private, :set_own_issues_private, :add_issue_notes,
@@ -14,7 +14,7 @@ man = Role.seed(:id,
 
 #HHRR - RRHH
 hr =  Role.seed(:id,
-  { id: 3, name: I18n.t!("default_role_hhrr"), permissions: [:manage_members, :manage_boards, :add_messages, :edit_own_messages, :delete_own_messages,
+  { id: 3, name: I18n.t!("default_role_hhrr"), permissions: [:manage_members,  :view_evm_budget, :view_evm_schedule_info, :manage_boards, :add_messages, :edit_own_messages, :delete_own_messages,
       :view_calendar, :view_documents, :manage_files, :view_files, :view_gantt, :manage_categories, :view_issues, :add_issues, :edit_issues, :manage_issue_relations,
        :manage_subtasks, :add_issue_notes, :edit_own_issue_notes, :view_private_notes, :view_issue_watchers, :add_issue_watchers, :delete_issue_watchers, :view_checklists, 
         :comment_news, :view_wiki_pages, :edit_wiki_pages, :protect_wiki_pages],
@@ -22,19 +22,19 @@ hr =  Role.seed(:id,
 
 #Stakeholder - Interesado
 stk = Role.seed(:id,
-  { id: 4,name: I18n.t!("default_role_stakeholder"),permissions: [:view_calendar,:comment_news, :view_issues],issues_visibility: "all", users_visibility: "all",
+  { id: 4,name: I18n.t!("default_role_stakeholder"),permissions: [:view_calendar, :view_evm_budget, :view_evm_schedule_info, :comment_news, :view_issues],issues_visibility: "all", users_visibility: "all",
      time_entries_visibility: "all", all_roles_managed: false}).first
 
 #  Supervisor - Supervisor
 sup = Role.seed(:id,
-  { id: 5, name: I18n.t!("default_role_supervisor"), permissions: [:edit_issues, :manage_boards, :add_messages, :comment_news, :view_wiki_pages, 
+  { id: 5, name: I18n.t!("default_role_supervisor"), permissions: [:edit_issues,  :view_evm_budget, :view_evm_schedule_info, :manage_boards, :add_messages, :comment_news, :view_wiki_pages, 
     :edit_wiki_pages, :protect_wiki_pages, :edit_own_messages, :delete_own_messages, :view_calendar, :manage_subtasks, :view_issue_watchers, :add_issue_watchers, 
       :delete_issue_watchers, :view_documents, :manage_files, :view_files, :view_gantt, :add_issue_notes, :edit_own_issue_notes, :view_private_notes],
         issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: true }).first
 
 #Worker - Realizador
 wk = Role.seed(:id,
-  { id: 6, name: I18n.t!("default_role_worker"), permissions: [:view_files,:view_calendar,:comment_news, :view_issues,:add_issues, :manage_issue_relations, :manage_subtasks,
+  { id: 6, name: I18n.t!("default_role_worker"), permissions: [:view_files,:view_calendar, :view_evm_budget, :view_evm_schedule_info, :comment_news, :view_issues,:add_issues, :manage_issue_relations, :manage_subtasks,
     :add_issue_notes, :edit_own_issue_notes, :edit_own_time_entries],issues_visibility: "own", users_visibility: "members_of_visible_projects",
       time_entries_visibility: "all", all_roles_managed: false }).first
 

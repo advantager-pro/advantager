@@ -1,3 +1,4 @@
+<% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
 <% last_point = @project.evm_points.last %>
 <div id="project-show">
@@ -93,6 +94,7 @@
 
 </div> <!-- / splitcontentright -->
 
+  <% if allowed_to_view_budget %>
   <div class="splitcontentright">
     <div>
       <div>
@@ -134,16 +136,26 @@
       <div class="clearfix"></div>
     </div>
   </div>
-
-  <div class="clearfix"></div> 
-  <% if @news.any? && authorize_for('news', 'index') %>
-  <div class="news box">
-    <h3><%=l(:label_news_latest)%></h3>
-    <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
-  </div>
   <% end %>
+
   
+  <% if @news.any? && authorize_for('news', 'index') %>
+    <% if allowed_to_view_budget %>
+      <div class="clearfix"></div> 
+      <div class="news box">
+    <% else %>
+      <div class="splitcontentright">
+        <div class="news box">
+    <% end %>
+      <h3><%=l(:label_news_latest)%></h3>
+      <%= render :partial => 'news/news', :collection => @news %>
+      <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
+    </div>
+    <% end %>
+  <% if ! allowed_to_view_budget %>
+    </div>
+    <div class="clearfix"></div> 
+  <% end %>
   <div class="splitcontentleft">
 
     <% if @project.homepage.present? || @subprojects.any? || @project.visible_custom_field_values.any?(&:present?) %>
