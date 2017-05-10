@@ -4,6 +4,7 @@ RedmineApp::Application.load_tasks
 class DefaultConfigsController < ApplicationController
 
   def show
+    require_login
     @current_user = User.current
   end
 
