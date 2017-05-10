@@ -10,8 +10,10 @@ class DefaultConfigsController < ApplicationController
   def load
     if check_current_user params[:username], params[:password]
       Rake::Task['db:seed_fu'].execute
+      redirect_to default_configs_path
       flash[:success] = "Default configs loaded." # add to locales
     else
+      redirect_to default_configs_path
       flash[:error] = "The credentials are wrong"
     end
   end
@@ -20,8 +22,7 @@ class DefaultConfigsController < ApplicationController
 
   def check_current_user username, password
     current_user = User.current
-    return false if current_user.login != params[:username]
-    return if current_user.check_password?(password)
+    return current_user.login == username && current_user.check_password?(password)
   end
 
 end
