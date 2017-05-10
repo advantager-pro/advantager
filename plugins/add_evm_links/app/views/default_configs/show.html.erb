@@ -1,3 +1,9 @@
+<% unless controller_name == 'admin' && action_name == 'index' %>
+  <% content_for :sidebar do %>
+    <h3><%=l(:label_administration)%></h3>
+    <%= render :partial => 'admin/menu' %>
+  <% end %>
+<% end %>
 <div id="default_configs">
   <h2><%=l(:label_default_configs)%></h2>
   <%= form_tag(load_default_configs_path) do %>
