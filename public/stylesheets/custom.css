@@ -715,3 +715,18 @@
 .trends.evm.loaded .chart{
   height: 321px;
 }
+
+.milestone-other-fields{
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.icon-info-circle::before{
+  font: normal normal normal 14px/1 FontAwesome;
+  content: "\f05a";
+}
+
+.milestone-other-fields .icon-info-circle::before{
+  font-size: 18px;
+  color: #5840af;
+}

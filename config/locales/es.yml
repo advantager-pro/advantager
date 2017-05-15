@@ -5,6 +5,10 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  milestones:
+    status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
+    dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
+    other_fields_not_allowed: Campos como Checklist y el usuario asignado no están disponibles para Hitos.
   es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
@@ -120,7 +124,7 @@ es:
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
         cannot_be_greater_than_today: "no puede ser mayor a la fecha de hoy"
-        cannot_start_issue_if_not_planned: " - No se puede poner en progreso o cerrar un issue si el mismo no ha sido planificado"
+        cannot_change_status_if_blank: "no puede estar en blanco para pasar el estado a '%{status}'"
         inclusion: "no está incluido en la lista"
         exclusion: "está reservado"
         invalid: "no es válido"

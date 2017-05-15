@@ -1,4 +1,8 @@
 en:
+  milestones:
+    status_update_explanation: Status will be updated with information from tasks included in this milestone
+    dates_update_explanation: Dates will be updated with information from tasks included in this milestone
+    other_fields_not_allowed: Fields such as Checklist and Assignee are not allowed for Milestones.
   es_estimated_completion_date: Estimated Completion Date (Earned Schedule)
   advanced_search: Advanced search
   activities: Activities
@@ -111,7 +115,7 @@ en:
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         cannot_be_greater_than_today: "cannot be greater than today"
-        cannot_start_issue_if_not_planned: " - An issue cannot be set in progress or closed it was not planned"
+        cannot_change_status_if_blank: "cannot be blank to change status to '%{status}'"
         inclusion: "is not included in the list"
         exclusion: "is reserved"
         invalid: "is invalid"
