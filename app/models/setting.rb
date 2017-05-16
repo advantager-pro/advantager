@@ -104,8 +104,15 @@ class Setting < ActiveRecord::Base
     write_attribute(:value, v.to_s)
   end
 
+  UI_THEME_VALUE = "PurpleMine2"
+
+  def self.ui_theme
+    UI_THEME_VALUE
+  end
+
   # Returns the value of the setting named name
   def self.[](name)
+    return UI_THEME_VALUE if name.to_sym == :ui_theme
     v = @cached_settings[name]
     v ? v : (@cached_settings[name] = find_or_default(name).value)
   end
