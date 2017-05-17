@@ -114,6 +114,7 @@ module Advantager::Issue
         :actual_dates_cannot_be_greater_than_today
 
       def required_fields_to_put_in_progress_or_close
+        return if milestone?
         will_be_in_progress_or_closed = done_ratio_in_progress? ||
           (actual_start_date.present? && actual_start_date <= Date.today) ||
           status.in_progress? || status.is_closed?
