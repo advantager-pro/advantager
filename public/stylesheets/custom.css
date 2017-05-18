@@ -131,7 +131,7 @@ button{
 }
 
 #quick-search form input[name="q"], #quick-search>select{
-  background: #584c79;
+  background: rgba(88, 76, 121, 0.3);
   color: white;
 }
 
@@ -540,9 +540,6 @@ button{
 .index .icon::before{
     color: white;
 }
-/*.index .neutral{
-  color: gray;
-}*/
 
 .index .title{
   text-align: center;
@@ -563,7 +560,7 @@ button{
 .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
 .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
 .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
-.index.neutral  .chart-wrapper, .index.neutral .ic{ background: #4f3f7d; }
+.index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
 
 .index  .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
@@ -672,7 +669,6 @@ button{
 }
 .records-row .minus{
   color: white;
-  background: #6c3ec1;
 }
 
 .records-row .equal{
@@ -769,4 +765,97 @@ button{
 .milestone-other-fields .icon-info-circle::before{
   font-size: 18px;
   color: #5840af;
+}
+
+#assigned_to_line select{
+  width: 62%!important;
+}
+.self-select{
+  display: inline;
+  padding: 7px 20px;
+}
+
+
+#top-menu, .records-row .minus{
+  background: -webkit-linear-gradient(left, #330854, #00b6c7)!important;
+  background: -moz-linear-gradient(left, #330854, #00b6c7)!important;
+  background: -o-linear-gradient(left, #330854, #00b6c7)!important;
+  background: linear-gradient(to right, #330854, #00b6c7)!important;
+}
+
+#header{
+  background-image: -webkit-linear-gradient(left, #330854, #007884)!important;
+  background-image: -moz-linear-gradient(left, #330854, #007884)!important;
+  background-image: -o-linear-gradient(left, #330854, #007884)!important;
+  background-image: linear-gradient(to right, #330854, #007884)!important;
+}
+
+
+.pagination .page.current, .pagination .current>span, .ui-datepicker .ui-datepicker-header{
+  background-image: -webkit-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -moz-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -o-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: linear-gradient(to right, #584492, rgba(11, 121, 154, 0.77))!important;
+}
+
+#account ul{
+  width: 156px;
+  background: rgba(12, 180, 195, 0.88)!important;
+  margin-top: 44px!important;
+}
+#top-menu #loggedas{
+  width: 96px;
+}
+
+input[type="button"], input[type="submit"], button{
+  background-color: #40b6e3;
+}
+
+.pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
+    border-radius: 90px;
+    border: none;
+    background: white;
+}
+
+ul.tagit, select, textarea, input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="url"], input[type="tel"], input[type="color"], input[type="search"], input[type="email"], input[type="text"], input[type="password"], .drdn-trigger{
+    border-color: #d6d6d6!important;
+    border-radius: 3px!important;
+}
+ul.tagit li.tagit-new input{
+  margin-left:10px!important;
+}
+
+ul.tagit li.tagit-choice, ul.tagit li.tagit-new input{
+  font-size: 13px!important;
+}
+
+ul.tagit li.tagit-choice{
+  padding: 6px 14px!important;
+}
+
+ul.tagit li.tagit-choice .tagit-label{
+  padding: 5px!important;
+  margin-right: 8px!important;
+}
+
+ul.tagit li.tagit-choice a.tagit-close{
+  top:47%!important;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{
+    background: rgba(40, 25, 82, 0.36)!important;
+    color: white!important;
+    border: none!important;
+    font-weight: normal!important;
+}
+
+#content.activity-index{
+  padding-right: 82px;
+}
+
+.contextual a{
+  margin-right: 22px!important;
+}
+.contextual{
+  margin-bottom:14px!important;
 }

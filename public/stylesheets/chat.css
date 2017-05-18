@@ -23,7 +23,6 @@ Chat styles
 }
 
 .chatboxhead {
-    background: #392c5e;
     color: white;
     padding: 0 0.5rem;
     overflow: hidden;
@@ -200,6 +199,9 @@ a.start-conversation{
 .users.chatboxtitle h2{
   color: rgba(85, 85, 85, 0.87);
 }
+
+#chatbox_users_list{ bottom: 82px!important; }
+
 #chatbox_users_list a.toggleChatBox{
   text-decoration: none!important;
 }
@@ -240,18 +242,31 @@ a.start-conversation{
     border: 1px solid lightgrey;
     box-shadow: 1px 1px 5px 0px lightgrey;
 }
+
+.chat-icon::before {
+    font-family: 'FontAwesome';
+    content: "\f086";
+}
+#chat-button .chat-icon::before {
+    padding-left: 10px;
+}
+
+#chat-button-container > a, #chat-button-container > a:hover{
+    text-decoration: none;
+    color: white;
+}
+
 #chat-button{
-    background: url(/images/chat.png);
+    font-size: 40px;
     height: 60px;
     width: 60px;
     background-size: 61px;
     background-repeat: no-repeat;
     box-shadow: 1px 1px 4px 1px grey;
     border-radius: 99px;
-    margin-left: auto;
-    margin-bottom: 25px;
-    margin-right: 20px;
-    margin-top: 12px;
+    bottom: 10px;
+    right: 10px;
+    position: fixed;
 }
 
 .chatboxcontent .chatboxhead{
@@ -270,3 +285,6 @@ li.self li.self{
     overflow: visible!important;
 }
 
+#chat-button, .chatboxhead{ background: #392c5e; }
+
+#flash_chat_error_js{ margin-bottom: 0; }

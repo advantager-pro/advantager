@@ -700,6 +700,13 @@ function displayFlash(message, kind){
   }
 }
 
+var displayChatError = function(message){
+  $("#chatbox_users_list .panel.panel-default").remove();
+  $("#chatbox_users_list .chat-wrapper").attr("style", 'height: auto');
+  $("#chatbox_users_list .chatboxcontent").attr("style", 'height: auto');
+  $("#flash_chat_error_js").text(message).slideDown();
+}
+
 function getEVMPoints(project_params, callback){
   $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
       callback(data);
@@ -789,3 +796,5 @@ $(document).on('click', '.help-navigation .previous', function(){
     showCurrentHelp();
   }
 });
+
+$(document).on('click', '.self-select', function(){ $('option[data-self-select]').prop('selected', true); });
