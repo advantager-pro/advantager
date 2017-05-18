@@ -120,7 +120,8 @@ module Advantager::Issue
           status.in_progress? || status.is_closed?
         if will_be_in_progress_or_closed
           message = I18n.t!("activerecord.errors.messages.cannot_change_status_if_blank", status: status.name)
-          required_fields = %w(start_date due_date actual_start_date actual_due_date)
+          required_fields = %w(start_date actual_start_date due_date)
+          required_fields << 'actual_due_date' if status.is_closed?
           required_fields << project.issue_evm_field
           required_fields.each do |field|
             errors.add(field, message) if self.send(field).nil?
