@@ -148,6 +148,19 @@
  -->
 </div>
 </div>
+
+<div id="help-buttons">
+    <div class="help-navigation">
+        <div style="float: left">
+            <button class="cancel"><%= I18n.t!('button_cancel') %></button>
+        </div>
+        <div style="float: rigth">
+            <button class="next"><span class="icon next-arrow"></span></button> 
+            <button class="previous"><span class="icon previous-arrow"></span></button> 
+        </div>
+    </div>
+</div>
+
 <audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
 <div id='chat-conversations'></div>
 <%= render_chat %>

@@ -741,9 +741,51 @@ $(document).on('turbolinks:click', function() {
   $("#chat-conversations").hide();
 });
 
+window.HELP_TOOLTIP_INDEX = 0;
+
+var hideCurrentHelp = function(){ 
+  $("[tooltip].hover .help-navigation").remove();
+  $("[tooltip].hover").removeClass('hover'); 
+}
+var showCurrentHelp = function(){ 
+  hideCurrentHelp();
+  var current = $($("[tooltip]")[HELP_TOOLTIP_INDEX]);
+  current.addClass('hover').addClass('help').append($("#help-buttons").html()); 
+  $('html, body').animate({ scrollTop: current.offset().top - 300 }, 500);
+}
+
 $(document).on('click', '#evm-help', function(){
-  $("[tooltip]").addClass('hover').delay(2000).queue(function(next){
-      $(this).removeClass('hover');
-      next();
-  });
+  window.HELP_TOOLTIP_INDEX = 0;
+  showCurrentHelp();
+});
+
+var onFinishHelpTooltips = function(){
+  window.HELP_TOOLTIP_INDEX = 0;
+  hideCurrentHelp();
+  $('html, body').animate({ scrollTop: 0 });
+};
+
+$(document).on('click', '.help-navigation .cancel', onFinishHelpTooltips);
+
+$(document).on('click', '.help-navigation .next', function(){
+  var maxValue = $("[tooltip]").length - 1;
+  console.log('next.before', HELP_TOOLTIP_INDEX)
+  if(HELP_TOOLTIP_INDEX + 1 > maxValue){
+    onFinishHelpTooltips();
+  }else{
+    window.HELP_TOOLTIP_INDEX++;
+    console.log('next.after', HELP_TOOLTIP_INDEX)
+    showCurrentHelp();
+  }
+});
+
+$(document).on('click', '.help-navigation .previous', function(){
+  console.log('previous.before', HELP_TOOLTIP_INDEX);
+  if(HELP_TOOLTIP_INDEX - 1 < 0){
+    onFinishHelpTooltips();
+  }else{
+    window.HELP_TOOLTIP_INDEX--;
+    console.log('previous.after', HELP_TOOLTIP_INDEX)
+    showCurrentHelp();
+  }
 });

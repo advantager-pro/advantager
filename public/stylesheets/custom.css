@@ -1,3 +1,10 @@
+button{
+  background: #4f3f7d;
+  border-color: #4f3f7d #4f3f7d #47347d;
+  box-shadow: 0 1px 0 #351c7d;
+  color: white;
+}
+
 .icon-schedule::before {
   content: "\f017";
 }
@@ -480,7 +487,7 @@
     bottom: 26px;
     color: #fff;
     content: attr(tooltip);
-    left: 20%;
+    left: 13%;
     position: absolute;
     z-index: 98;
     width: 220px;
@@ -489,8 +496,10 @@
     font-size: 16px;
     font-weight: normal;
 }
-
-
+[tooltip].hover.help:after{
+  padding-bottom: 54px;
+  bottom: 14px;
+}
 
 /* EVM show styles  */
 
@@ -594,8 +603,39 @@
 
 #evm-help{
   float: right;
-  margin-top: -10px;
-  margin-right: -10px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+#help-buttons{ display: none; }
+.help-navigation{
+  position: absolute;
+  left: 13%;
+  bottom: 14px;
+  z-index: 99;
+  width: 220px;
+  padding: 13px;
+  width: 230px;
+}
+.help-navigation .next, .help-navigation .previous{
+  padding: 4px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: none;
+  border: none;
+  font-weight: bold;
+}
+.icon.next-arrow::before{
+  content: "\f061";
+}
+
+.icon.previous-arrow::before{
+  content: "\f060";
+}
+.help-navigation .icon::before{
+  font-size: 18px;
 }
 
 .records-row .element, .records-row .minus, .records-row .equal{
