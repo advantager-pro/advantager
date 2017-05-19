@@ -3,13 +3,12 @@
 
 
 
-<fieldset>
 <% if !@issue.milestone? %>
   <p>
-    <legend><%= t("evm.fieldset") %></legend>
     <%= f.number_field @issue.project.issue_evm_field %>
+    <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
   </p>
-  </fieldset>
+
 
   <% @issue.project.visible_fields.each do |field| %>
     <p><%= f.number_field Project.issue_field(field) %></p>
@@ -116,7 +115,7 @@
 </div>
 <% if @issue.milestone? %>
   <p class="milestone-other-fields">
-    <span class="icon-info-circle"  tooltip="<%= I18n.t!('milestones.other_fields_not_allowed') %>"></span>
+    <span class="icon-info-circle large-explanation"  tooltip="<%= I18n.t!('milestones.other_fields_not_allowed') %>"></span>
   </p>
 <% end %>
 </div>

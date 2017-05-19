@@ -1,8 +1,24 @@
-button{
-  background: #4f3f7d;
-  border-color: #4f3f7d #4f3f7d #47347d;
-  box-shadow: 0 1px 0 #351c7d;
-  color: white;
+.progress .value table.progress *, .progress .value table.progress{
+  border: none!important;
+  border-radius: 4px!important;
+}
+.progress .value table.progress td.closed{
+  background: #01cb6c;
+  background: linear-gradient(to right, #01cb6c, #00b6c7)!important;
+  border-radius: 4px 0px 0px 4px!important;
+}
+
+.progress .value table.progress td.todo{
+  background: #e0e0e0;
+  border-radius: 0px 4px 4px 0px!important;
+}
+
+.progress .value table.progress.progress-100 td.closed, .progress .value table.progress.progress-0 td.todo{
+  border-radius: 4px!important;
+}
+
+input[type="button"], input[type="submit"], button{
+  background-color: #40b6e3;
 }
 
 .icon-schedule::before {
@@ -490,12 +506,17 @@ button{
     left: 13%;
     position: absolute;
     z-index: 98;
-    width: 220px;
+    max-width: 220px;
     text-transform: none;
     padding: 25px;
     font-size: 16px;
     font-weight: normal;
 }
+[tooltip].large-explanation:hover:after, [tooltip].hover.large-explanation:after{
+  min-width: 266px;
+  padding: 10px;
+}
+
 [tooltip].hover.help:after{
   padding-bottom: 54px;
   bottom: 14px;
@@ -807,10 +828,6 @@ button{
   width: 96px;
 }
 
-input[type="button"], input[type="submit"], button{
-  background-color: #40b6e3;
-}
-
 .pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
     border-radius: 90px;
     border: none;
@@ -858,4 +875,8 @@ ul.tagit li.tagit-choice a.tagit-close{
 }
 .contextual{
   margin-bottom:14px!important;
+}
+
+legend.info{
+  float: left!important;
 }

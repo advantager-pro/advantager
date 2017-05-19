@@ -7,13 +7,6 @@ entries = timelog_items
 entries_by_day = entries.group_by(&:spent_on)
 %>
 
-<% if User.current.allowed_to?(:log_time, nil, :global => true) %>
-<div class="contextual">
-  <%= link_to l(:button_log), new_time_entry_path, :class => "icon icon-add" %>
-</div>
-<% end %>
-
-
 
 <% Project.available_fields.each do |field|  %>
   <% if field == 'time' %>
@@ -59,11 +52,9 @@ entries_by_day = entries.group_by(&:spent_on)
     <% Project.available_fields.each do |field| %>
       <% if field == entry.project.evm_field %>
       <td class="actual-cost">
-        <strong title="<%= t('evm.fieldset') %>">
-          <%= entry_field_value(entry.send(Project.entry_field(field))) %>
-          <cursive><%= evm_entry_unity(entry, field) %></cursive>
-          *
-        </strong>
+        <%= entry_field_value(entry.send(Project.entry_field(field))) %>
+        <cursive><%= evm_entry_unity(entry, field) %></cursive>
+        <span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span>
       </td>
       <% else %>
       <td class="actual-<=% field %>">

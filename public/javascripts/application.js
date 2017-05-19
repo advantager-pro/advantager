@@ -776,23 +776,19 @@ $(document).on('click', '.help-navigation .cancel', onFinishHelpTooltips);
 
 $(document).on('click', '.help-navigation .next', function(){
   var maxValue = $("[tooltip]").length - 1;
-  console.log('next.before', HELP_TOOLTIP_INDEX)
   if(HELP_TOOLTIP_INDEX + 1 > maxValue){
     onFinishHelpTooltips();
   }else{
     window.HELP_TOOLTIP_INDEX++;
-    console.log('next.after', HELP_TOOLTIP_INDEX)
     showCurrentHelp();
   }
 });
 
 $(document).on('click', '.help-navigation .previous', function(){
-  console.log('previous.before', HELP_TOOLTIP_INDEX);
   if(HELP_TOOLTIP_INDEX - 1 < 0){
     onFinishHelpTooltips();
   }else{
     window.HELP_TOOLTIP_INDEX--;
-    console.log('previous.after', HELP_TOOLTIP_INDEX)
     showCurrentHelp();
   }
 });

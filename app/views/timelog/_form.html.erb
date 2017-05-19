@@ -19,13 +19,10 @@
   </p>
   <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 
-
-  <fieldset>
-    <p>
-    <legend><%= t("evm.fieldset") %></legend>
+  <p>
     <%= f.number_field @time_entry.project.entry_evm_field, required: true %>
-    </p>
-  </fieldset>
+    <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
+  </p>
 
   <% @time_entry.project.visible_fields.each do |field| %>
     <p><%= f.number_field Project.entry_field(field) %></p>
