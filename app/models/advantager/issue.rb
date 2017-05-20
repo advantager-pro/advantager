@@ -19,7 +19,20 @@ module Advantager::Issue
         done_ratio == 100
       end
 
-      before_validation :binding_status, :binding_actual_dates, :binding_done_ratio
+      before_validation :binding_status,
+                        :binding_actual_dates,
+                        :binding_done_ratio,
+                        :reset_milestone_values
+                        
+      before_save :reset_milestone_values
+
+      def reset_milestone_values
+        if self.milestone?
+          ( ::Project.available_fields  ).each do |field|
+            self.send(:"#{::Project.issue_field(field)}=", nil)
+          end
+        end
+      end
 
       def binding_status
         return if milestone?
