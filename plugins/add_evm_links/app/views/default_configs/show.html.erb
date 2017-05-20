@@ -1,0 +1,26 @@
+<% unless controller_name == 'admin' && action_name == 'index' %>
+  <% content_for :sidebar do %>
+    <h3><%=l(:label_administration)%></h3>
+    <%= render :partial => 'admin/menu' %>
+  <% end %>
+<% end %>
+<div id="default_configs">
+  <h2><%=l(:label_default_configs)%></h2>
+  <%= form_tag(load_default_configs_path) do %>
+    <div class="section-content">
+      <h3> <%=l(:default_configs_warning) %> </h3>
+      <table>
+      <tr>
+        <td style="text-align:right;"><label for="username"><%=l(:field_login)%>:</label></td>
+        <td style="text-align:left;"><%= text_field_tag 'username', params[:username], :tabindex => '1' %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><label for="password"><%=l(:field_password)%>:</label></td>
+        <td style="text-align:left;"><%= password_field_tag 'password', nil, :tabindex => '2' %></td>
+      </tr>
+      <table>
+      </br>
+      <input type="submit" onclick="return confirm('<%=l(:default_configs_confirm)%>')" class="button-warning" name="default_configs" value="<%=l(:button_default_configs) %>" tabindex="5"/>
+    </div>
+  <% end %>
+</div>

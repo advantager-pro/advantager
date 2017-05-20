@@ -19,20 +19,37 @@ module Advantager::Issue
         done_ratio == 100
       end
 
-      before_save :binding_status, :binding_actual_dates, :binding_done_ratio
+      before_validation :binding_status,
+                        :binding_actual_dates,
+                        :binding_done_ratio,
+                        :reset_milestone_values
+                        
+      before_save :reset_milestone_values
+
+      def reset_milestone_values
+        if self.milestone?
+          ( ::Project.available_fields  ).each do |field|
+            self.send(:"#{::Project.issue_field(field)}=", nil)
+          end
+        end
+      end
 
       def binding_status
         return if milestone?
-        return unless (status_was.present? && self.status != status_was)
-        if was_closed? && status.in_progress?
-          self.actual_due_date = nil
-          self.done_ratio = in_progress_done_ratio
-        elsif status_was.initial? && status.in_progress?
-          self.actual_start_date = Date.today
-          self.done_ratio = in_progress_done_ratio
-        elsif status.is_closed?
+        if status.present? && status.is_closed? && self.status != status_was
+          self.actual_start_date = ::Date.today if self.actual_start_date.nil?
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
           self.done_ratio = 100
+        else
+          return unless (status_was.present? && self.status != status_was)
+          if was_closed? && status.in_progress?
+            self.actual_due_date = nil
+            self.actual_start_date = ::Date.today if self.actual_start_date.nil?
+            self.done_ratio = in_progress_done_ratio
+          elsif status_was.initial? && status.in_progress?
+            self.actual_start_date = Date.today if self.actual_start_date.nil?
+            self.done_ratio = in_progress_done_ratio
+          end
         end
       end
 
@@ -43,7 +60,7 @@ module Advantager::Issue
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
             self.status = ::IssueStatus.find_in_progress_status
           end
-          self.done_ratio = in_progress_done_ratio
+          self.done_ratio = in_progress_done_ratio if self.done_ratio == 0
         end
         if self.actual_due_date_changed? &&
           self.actual_due_date.present? && self.actual_due_date <= ::Date.today
@@ -59,6 +76,7 @@ module Advantager::Issue
         if done_ratio_closed?
           closed_status = ::IssueStatus.where(is_closed: true).first #check if having rejected as is_closed true doesnt affect to this
           self.status = closed_status
+          self.actual_start_date = ::Date.today if self.actual_start_date.nil?
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
         elsif done_ratio_in_progress?
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
@@ -105,18 +123,22 @@ module Advantager::Issue
         self.tracker.name == I18n.t!("default_tracker_milestone")
       end
 
-      validate :planned_to_put_in_progress,
+      validate :required_fields_to_put_in_progress_or_close,
         :actual_dates_cannot_be_greater_than_today
 
-      def planned_to_put_in_progress
-        will_be_in_progress = done_ratio_in_progress? ||
+      def required_fields_to_put_in_progress_or_close
+        return if milestone?
+        will_be_in_progress_or_closed = done_ratio_in_progress? ||
           (actual_start_date.present? && actual_start_date <= Date.today) ||
           status.in_progress? || status.is_closed?
-        if (!planned?) && will_be_in_progress
-          message = I18n.t!("activerecord.errors.messages.cannot_start_issue_if_not_planned")
-          errors.add(:start_date, message)
-          errors.add(:due_date, message)
-          errors.add(project.issue_evm_field, message)
+        if will_be_in_progress_or_closed
+          message = I18n.t!("activerecord.errors.messages.cannot_change_status_if_blank", status: status.name)
+          required_fields = %w(start_date actual_start_date due_date)
+          required_fields << 'actual_due_date' if status.is_closed?
+          required_fields << project.issue_evm_field
+          required_fields.each do |field|
+            errors.add(field, message) if self.send(field).nil?
+          end
         end
       end
 

@@ -389,7 +389,7 @@ module ApplicationHelper
   def principals_options_for_select(collection, selected=nil)
     s = ''
     if collection.include?(User.current)
-      s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id)
+      s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id, data: { "self-select" => true  })
     end
     groups = ''
     collection.sort.each do |element|
@@ -1287,7 +1287,8 @@ module ApplicationHelper
 
   # Returns the path to the favicon
   def favicon_path
-    icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
+    # icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
+    icon = '/favicon.ico'
     image_path(icon)
   end
 

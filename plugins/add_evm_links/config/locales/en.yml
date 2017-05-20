@@ -1,4 +1,6 @@
 en:
+  permission_view_evm_budget: View budget (EVM)
+  permission_view_evm_schedule_info: View schedule information (EVM)
   evm_section: EVM
   evm_section_titles:
     project_performance_status: Project Performance Statuses

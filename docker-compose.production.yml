@@ -8,7 +8,7 @@ postgresql:
     - /srv/docker/redmine/postgresql:/var/lib/postgresql
 
 redmine:
-  image: redevm:0.1.6
+  image: redevm:0.1.7
   mem_limit: 650m
   links:
     - postgresql:postgresql
@@ -16,7 +16,7 @@ redmine:
     - DB_TYPE=postgresql
     - DB_POOL=5
     - DB_HOST=postgresql
-    - DB_PORT= 5432
+    - DB_PORT=5432
     - DB_USER=postgres
     - DB_PASS=postgres
     - DB_ADAPTER=postgresql

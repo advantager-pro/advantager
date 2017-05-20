@@ -1,5 +1,34 @@
+.progress .value table.progress *, .progress .value table.progress{
+  border: none!important;
+  border-radius: 4px!important;
+}
+.progress .value table.progress td.closed{
+  background: #01cb6c;
+  background: linear-gradient(to right, #01cb6c, #00b6c7)!important;
+  border-radius: 4px 0px 0px 4px!important;
+}
+
+.progress .value table.progress td.todo{
+  background: #e0e0e0;
+  border-radius: 0px 4px 4px 0px!important;
+}
+
+.progress .value table.progress.progress-100 td.closed, .progress .value table.progress.progress-0 td.todo{
+  border-radius: 4px!important;
+}
+
+input[type="button"], input[type="submit"], button{
+  background-color: #40b6e3;
+}
+
 .icon-schedule::before {
   content: "\f017";
+}
+
+.button-warning{
+   background: rgb(223, 117, 20) !important;
+   border-color: rgb(223, 117, 20) !important;
+   box-shadow: 0 1px 0 rgb(223, 117, 20)  !important;
 }
 
 .chart-container{
@@ -118,7 +147,7 @@
 }
 
 #quick-search form input[name="q"], #quick-search>select{
-  background: #584c79;
+  background: rgba(88, 76, 121, 0.3);
   color: white;
 }
 
@@ -474,17 +503,24 @@
     bottom: 26px;
     color: #fff;
     content: attr(tooltip);
-    left: 20%;
+    left: 13%;
     position: absolute;
     z-index: 98;
-    width: 220px;
+    max-width: 220px;
     text-transform: none;
     padding: 25px;
     font-size: 16px;
     font-weight: normal;
 }
+[tooltip].large-explanation:hover:after, [tooltip].hover.large-explanation:after{
+  min-width: 266px;
+  padding: 10px;
+}
 
-
+[tooltip].hover.help:after{
+  padding-bottom: 54px;
+  bottom: 14px;
+}
 
 /* EVM show styles  */
 
@@ -525,9 +561,6 @@
 .index .icon::before{
     color: white;
 }
-/*.index .neutral{
-  color: gray;
-}*/
 
 .index .title{
   text-align: center;
@@ -548,7 +581,7 @@
 .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
 .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
 .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
-.index.neutral  .chart-wrapper, .index.neutral .ic{ background: #4f3f7d; }
+.index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
 
 .index  .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
@@ -588,8 +621,39 @@
 
 #evm-help{
   float: right;
-  margin-top: -10px;
-  margin-right: -10px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+#help-buttons{ display: none; }
+.help-navigation{
+  position: absolute;
+  left: 13%;
+  bottom: 14px;
+  z-index: 99;
+  width: 220px;
+  padding: 13px;
+  width: 230px;
+}
+.help-navigation .next, .help-navigation .previous{
+  padding: 4px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: none;
+  border: none;
+  font-weight: bold;
+}
+.icon.next-arrow::before{
+  content: "\f061";
+}
+
+.icon.previous-arrow::before{
+  content: "\f060";
+}
+.help-navigation .icon::before{
+  font-size: 18px;
 }
 
 .records-row .element, .records-row .minus, .records-row .equal{
@@ -626,7 +690,6 @@
 }
 .records-row .minus{
   color: white;
-  background: #6c3ec1;
 }
 
 .records-row .equal{
@@ -708,4 +771,112 @@
 }
 .trends.evm.loaded .chart{
   height: 321px;
+}
+
+.milestone-other-fields{
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.icon-info-circle::before{
+  font: normal normal normal 14px/1 FontAwesome;
+  content: "\f05a";
+}
+
+.milestone-other-fields .icon-info-circle::before{
+  font-size: 18px;
+  color: #5840af;
+}
+
+#assigned_to_line select{
+  width: 62%!important;
+}
+.self-select{
+  display: inline;
+  padding: 7px 20px;
+}
+
+
+#top-menu, .records-row .minus{
+  background: -webkit-linear-gradient(left, #330854, #00b6c7)!important;
+  background: -moz-linear-gradient(left, #330854, #00b6c7)!important;
+  background: -o-linear-gradient(left, #330854, #00b6c7)!important;
+  background: linear-gradient(to right, #330854, #00b6c7)!important;
+}
+
+#header{
+  background-image: -webkit-linear-gradient(left, #330854, #007884)!important;
+  background-image: -moz-linear-gradient(left, #330854, #007884)!important;
+  background-image: -o-linear-gradient(left, #330854, #007884)!important;
+  background-image: linear-gradient(to right, #330854, #007884)!important;
+}
+
+
+.pagination .page.current, .pagination .current>span, .ui-datepicker .ui-datepicker-header{
+  background-image: -webkit-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -moz-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -o-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: linear-gradient(to right, #584492, rgba(11, 121, 154, 0.77))!important;
+}
+
+#account ul{
+  width: 156px;
+  background: rgba(12, 180, 195, 0.88)!important;
+  margin-top: 44px!important;
+}
+#top-menu #loggedas{
+  width: 96px;
+}
+
+.pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
+    border-radius: 90px;
+    border: none;
+    background: white;
+}
+
+ul.tagit, select, textarea, input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="url"], input[type="tel"], input[type="color"], input[type="search"], input[type="email"], input[type="text"], input[type="password"], .drdn-trigger{
+    border-color: #d6d6d6!important;
+    border-radius: 3px!important;
+}
+ul.tagit li.tagit-new input{
+  margin-left:10px!important;
+}
+
+ul.tagit li.tagit-choice, ul.tagit li.tagit-new input{
+  font-size: 13px!important;
+}
+
+ul.tagit li.tagit-choice{
+  padding: 6px 14px!important;
+}
+
+ul.tagit li.tagit-choice .tagit-label{
+  padding: 5px!important;
+  margin-right: 8px!important;
+}
+
+ul.tagit li.tagit-choice a.tagit-close{
+  top:47%!important;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{
+    background: rgba(40, 25, 82, 0.36)!important;
+    color: white!important;
+    border: none!important;
+    font-weight: normal!important;
+}
+
+#content.activity-index{
+  padding-right: 82px;
+}
+
+.contextual a{
+  margin-right: 22px!important;
+}
+.contextual{
+  margin-bottom:14px!important;
+}
+
+legend.info{
+  float: left!important;
 }

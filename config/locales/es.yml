@@ -5,10 +5,15 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  milestones:
+    status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
+    dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
+    other_fields_not_allowed: Campos como Checklist y el usuario asignado no están disponibles para Hitos.
   es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
   chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
+  charts_load_error: Hubo un error al cargar los gráficos. Por favor recarga la página o contacta al administrador.
   conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
   number:
     # Used in number_with_delimiter()
@@ -120,7 +125,7 @@ es:
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
         cannot_be_greater_than_today: "no puede ser mayor a la fecha de hoy"
-        cannot_start_issue_if_not_planned: " - No se puede poner en progreso o cerrar un issue si el mismo no ha sido planificado"
+        cannot_change_status_if_blank: "no puede estar en blanco para pasar el estado a '%{status}'"
         inclusion: "no está incluido en la lista"
         exclusion: "está reservado"
         invalid: "no es válido"
@@ -267,6 +272,13 @@ es:
   default_activity_Investigation: Investigación
   default_activity_testing: Pruebas
   default_activity_investigation: Investigación
+
+  default_configs: Configuraciones por defecto
+  label_default_configs: Configuraciones por defecto
+  default_configs_warning: Atención! La aplicación de estas configuraciones es de alcance global sobre todos los proyectos, los cambios realizados sobre los estados, flujos de trabajo y demás datos iniciales serán sobreescritos, los nuevos datos no se eliminaran. 
+  button_default_configs: Reestablecer configuraciones por defecto.
+  default_configs_confirm: Está seguro que desea reestablecer las configuraciones por defecto?
+  default_configs_succes: Se han reestablecido las configuraciones por defecto.
 
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento

@@ -700,6 +700,13 @@ function displayFlash(message, kind){
   }
 }
 
+var displayChatError = function(message){
+  $("#chatbox_users_list .panel.panel-default").remove();
+  $("#chatbox_users_list .chat-wrapper").attr("style", 'height: auto');
+  $("#chatbox_users_list .chatboxcontent").attr("style", 'height: auto');
+  $("#flash_chat_error_js").text(message).slideDown();
+}
+
 function getEVMPoints(project_params, callback){
   $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
       callback(data);
@@ -741,9 +748,49 @@ $(document).on('turbolinks:click', function() {
   $("#chat-conversations").hide();
 });
 
+window.HELP_TOOLTIP_INDEX = 0;
+
+var hideCurrentHelp = function(){ 
+  $("[tooltip].hover .help-navigation").remove();
+  $("[tooltip].hover").removeClass('hover'); 
+}
+var showCurrentHelp = function(){ 
+  hideCurrentHelp();
+  var current = $($("[tooltip]")[HELP_TOOLTIP_INDEX]);
+  current.addClass('hover').addClass('help').append($("#help-buttons").html()); 
+  $('html, body').animate({ scrollTop: current.offset().top - 300 }, 500);
+}
+
 $(document).on('click', '#evm-help', function(){
-  $("[tooltip]").addClass('hover').delay(2000).queue(function(next){
-      $(this).removeClass('hover');
-      next();
-  });
+  window.HELP_TOOLTIP_INDEX = 0;
+  showCurrentHelp();
 });
+
+var onFinishHelpTooltips = function(){
+  window.HELP_TOOLTIP_INDEX = 0;
+  hideCurrentHelp();
+  $('html, body').animate({ scrollTop: 0 });
+};
+
+$(document).on('click', '.help-navigation .cancel', onFinishHelpTooltips);
+
+$(document).on('click', '.help-navigation .next', function(){
+  var maxValue = $("[tooltip]").length - 1;
+  if(HELP_TOOLTIP_INDEX + 1 > maxValue){
+    onFinishHelpTooltips();
+  }else{
+    window.HELP_TOOLTIP_INDEX++;
+    showCurrentHelp();
+  }
+});
+
+$(document).on('click', '.help-navigation .previous', function(){
+  if(HELP_TOOLTIP_INDEX - 1 < 0){
+    onFinishHelpTooltips();
+  }else{
+    window.HELP_TOOLTIP_INDEX--;
+    showCurrentHelp();
+  }
+});
+
+$(document).on('click', '.self-select', function(){ $('option[data-self-select]').prop('selected', true); });

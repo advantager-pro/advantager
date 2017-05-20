@@ -17,9 +17,13 @@
         <div class="splitcontentleft">
 
         <% project = @issue.project %>
-        <fieldset class=""><legend><%= t('evm.fieldset') %></legend>
-          <p><%= time_entry.text_field project.entry_evm_field, size: 6, label: :"label_spent_#{project.evm_field}" %></p>
-        </fieldset>
+
+
+          <p>
+            <%= time_entry.text_field project.entry_evm_field, size: 6, label: :"label_spent_#{project.evm_field}" %>
+            <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
+          </p>
+
 
         <% @issue.project.visible_fields.each do |field| %>
           <p><%= time_entry.text_field Project.entry_field(field), size: 6, label: :"label_spent_#{field}"  %> </p>

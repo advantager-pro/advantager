@@ -13,10 +13,8 @@ module ChatMessagesHelper
 
   def render_chat
     return unless User.current.logged?
-    javascript_tag("$.get('/conversations.js').done(function(data){
-      console.log('conversation loaded')
-    }).fail(function(){
-      displayFlash('#{I18n.t!('chat_load_error')}', 'error');
+    javascript_tag("$.get('/conversations.js').fail(function(){
+      displayChatError('#{I18n.t!('chat_load_error')}');
     });")
   end
 

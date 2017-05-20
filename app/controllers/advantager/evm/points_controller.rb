@@ -12,14 +12,22 @@ class Advantager::EVM::PointsController < ApplicationController
   end
 
   def charts
-    @evm_points = @project.evm_points
-    last_point = @evm_points.last
-    lang = params[:lang]
-    json_response = Rails.cache.fetch("#{last_point.try(:id)}-#{lang}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
-      BuildChartResponse.(@evm_points, lang).to_json
+    error = nil
+    built_response = {}
+    begin
+      @evm_points = @project.evm_points
+      last_point = @evm_points.last
+      lang = params[:lang]
+      built_response = Rails.cache.fetch("#{last_point.try(:id)}-#{lang}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
+        BuildChartResponse.(@evm_points, lang)
+      end
+    rescue 
+      # There seems to be a very uncommon error probably due to Rails cache cleanup or network timeout
+      error = I18n.t!('charts_load_error')
     end
+    request.format = "json"
     respond_to do |format|
-      format.json { render json: json_response }
+      format.json { render json: built_response.merge(error: error).to_json }
     end
   end
 

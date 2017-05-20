@@ -1,231 +1,233 @@
+<% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
+<% allowed_to_view_schedule_info = User.current.allowed_to?(:view_evm_schedule_info, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
 <% last_point = @project.evm_points.last %>
 <div id="project-evm">
     <div class="performance-statuses section">
-        <button class="success-btn left" id="evm-help">Ayuda</button>
+        <button class="left" id="evm-help"><%=l(:label_help) %></button>
         <div class="section-title">
             <h3><%= I18n.t!("evm_section_titles.project_performance_status") %></h3>
         </div>
         <div class="section-content">
-            <% spi = last_point.es_schedule_performance_index.round(1) %>
-            <% status_spi = spi_status(spi) %>
-            <div class="splitcontentleft">
-                <div class="index spi <%= status_spi %>">
-                    <div class="chart-wrapper">
-                      <div class="title" tooltip="<%= I18n.t!('charts_explanations.indexes.es_schedule_performance_indexes.explanation') %>">
-                        <%= I18n.t!("charts_explanations.indexes.es_schedule_performance_indexes.description") %>
-                      </div>
+            <% if allowed_to_view_schedule_info %>
+                <% spi = last_point.es_schedule_performance_index.round(1) %>
+                <% status_spi = spi_status(spi) %>
+                <div class="<%= allowed_to_view_budget ? 'splitcontentleft' : '' %>">
+                    <div class="index spi <%= status_spi %>">
+                        <div class="chart-wrapper">
+                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.indexes.es_schedule_performance_indexes.explanation') %>">
+                            <%= I18n.t!("charts_explanations.indexes.es_schedule_performance_indexes.description") %>
+                        </div>
 
-                      <div id="es_schedule_performance_index-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-schedule"></span>
+                        <div id="es_schedule_performance_index-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-schedule"></span>
+                            </span>
+                            <span class="value"><%= spi %></span>
                         </span>
-                        <span class="value"><%= spi %></span>
-                      </span>
 
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.es_schedule_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.es_schedule_performance_indexes.#{status_spi}") %> 
-                      </span>
-                      <div class="clearfix"></div>
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.es_schedule_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.es_schedule_performance_indexes.#{status_spi}") %> 
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <% end %>
+            <% if allowed_to_view_budget %>
+                <% cpi = last_point.cost_performance_index.round(1) %>
+                <% status_cpi = cpi_status(cpi) %>
+                <div class="<%= allowed_to_view_schedule_info ? 'splitcontentright' : '' %>">
+                    <div class="index cpi <%= status_cpi %> cost">
+                        <div class="chart-wrapper">
+                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.indexes.cost_performance_indexes.explanation') %>">
+                            <%= I18n.t!("charts_explanations.indexes.cost_performance_indexes.description") %>
+                        </div>
 
-            <% cpi = last_point.cost_performance_index.round(1) %>
-            <% status_cpi = cpi_status(cpi) %>
-            <div class="splitcontentright">
-                <div class="index cpi <%= status_cpi %> cost">
-                    <div class="chart-wrapper">
-                      <div class="title" tooltip="<%= I18n.t!('charts_explanations.indexes.cost_performance_indexes.explanation') %>">
-                        <%= I18n.t!("charts_explanations.indexes.cost_performance_indexes.description") %>
-                      </div>
-
-                      <div id="cost_performance_index-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-money"></span>
+                        <div id="cost_performance_index-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-money"></span>
+                            </span>
+                            <span class="value"><%= cpi %></span>
                         </span>
-                        <span class="value"><%= cpi %></span>
-                      </span>
 
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.cost_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.cost_performance_indexes.#{status_cpi}") %>
-                      </span>
-                      <div class="clearfix"></div>
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.cost_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.cost_performance_indexes.#{status_cpi}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <% end %>
         </div> <!-- /section-content -->
         <div class="clearfix"></div>
     </div><!-- /performance-statuses -->
 
 
     <div class="clearfix"></div>
-    
-    <div class="schedule-estimations section">
-        <div class="section-title">
-            <h3><%= I18n.t!("evm_section_titles.schedule_estimations") %></h3>
-        </div>
-        <div class="section-content">
-            <% tspi = last_point.to_complete_schedule_performance_index_pd.round(1) %>
-            <% status_tspi = tspi_status(tspi) %>
-            <div class="splitcontentleft">
-                <div class="index tspi <%= status_tspi %>">
-                    <div class="chart-wrapper">
-                      <div class="title">
-                        <div class="tspi-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.explanation') %>">
-                            <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.description") %>
-                        </div>
-                        <div class="pd-desc" tooltip='<%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration_explanation") %>'>
-                            <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration") %>
-                            <br/>
-                            <%= last_point.es_to_date last_point.es_planned_duration %>
-                        </div>
-                      </div>
-
-                      <div id="to_complete_schedule_performance_index_pd-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-calendar"></span>
-                        </span>
-                        <span class="value"><%= tspi %></span>
-                      </span>
-
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_tspi}") %>
-                      </span>
-                      <div class="clearfix"></div>
-                    </div>
-                </div>
+    <% if allowed_to_view_schedule_info %>
+        <div class="schedule-estimations section">
+            <div class="section-title">
+                <h3><%= I18n.t!("evm_section_titles.schedule_estimations") %></h3>
             </div>
-
-            <% es_tspi = last_point.to_complete_schedule_performance_index_ieac.round(1) %>
-            <% status_es_tspi = tspi_status(es_tspi) %>
-            <div class="splitcontentright">
-                <div class="index es_tspi <%= status_es_tspi %>">
-                    <div class="chart-wrapper">
+            <div class="section-content">
+                <% tspi = last_point.to_complete_schedule_performance_index_pd.round(1) %>
+                <% status_tspi = tspi_status(tspi) %>
+                <div class="splitcontentleft">
+                    <div class="index tspi <%= status_tspi %>">
+                        <div class="chart-wrapper">
                         <div class="title">
-                            <div class="tsp-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.explanation') %>">
+                            <div class="tspi-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.explanation') %>">
                                 <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.description") %>
                             </div>
-                            <div class="ieac-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac_explanation')%> ">
-                                <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac") %>
+                            <div class="pd-desc" tooltip='<%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration_explanation") %>'>
+                                <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration") %>
                                 <br/>
-                                <%= last_point.es_to_date last_point.es_estimated_duration %>
+                                <%= last_point.es_to_date last_point.es_planned_duration %>
                             </div>
-                        </div>                    
-                        <div id="to_complete_schedule_performance_index_ieac-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-calendar-o"></span>
-                        </span>
-                        <span class="value"><%= es_tspi %></span>
-                      </span>
+                        </div>
 
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_es_tspi}") %>
-                      </span>
-                      <div class="clearfix"></div>
+                        <div id="to_complete_schedule_performance_index_pd-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-calendar"></span>
+                            </span>
+                            <span class="value"><%= tspi %></span>
+                        </span>
+
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_tspi}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- /section-content -->
-        <div class="clearfix"></div>
-    </div><!-- /schedule-estimations -->
 
+                <% es_tspi = last_point.to_complete_schedule_performance_index_ieac.round(1) %>
+                <% status_es_tspi = tspi_status(es_tspi) %>
+                <div class="splitcontentright">
+                    <div class="index es_tspi <%= status_es_tspi %>">
+                        <div class="chart-wrapper">
+                            <div class="title">
+                                <div class="tsp-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.explanation') %>">
+                                    <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.description") %>
+                                </div>
+                                <div class="ieac-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac_explanation')%> ">
+                                    <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac") %>
+                                    <br/>
+                                    <%= last_point.es_to_date last_point.es_estimated_duration %>
+                                </div>
+                            </div>                    
+                            <div id="to_complete_schedule_performance_index_ieac-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-calendar-o"></span>
+                            </span>
+                            <span class="value"><%= es_tspi %></span>
+                        </span>
+
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_es_tspi}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /section-content -->
+            <div class="clearfix"></div>
+        </div><!-- /schedule-estimations -->
+    <% end %>
     <div class="clearfix"></div>
-    
-    <div class="costs-estimations section">
-        <div class="section-title">
-            <h3><%= I18n.t!("evm_section_titles.costs_estimations") %></h3>
-        </div>
-        <div class="section-content">
-            <% bac = last_point.budget_at_conclusion %>
-            <% tcpi_bac = last_point.to_complete_performance_index_bac.round(1) %>
-            <% status_tcpi_bac = tcpi_status(tcpi_bac) %>
-            <div class="splitcontentleft">
-                <div class="index tcpi_bac <%= status_tcpi_bac %> cost">
-                    <div class="chart-wrapper">
-                      <div class="title">
-                        <div class="tcpi-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.explanation') %>" >
-                            <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.description") %>
+    <% if allowed_to_view_budget %>
+        <div class="costs-estimations section">
+            <div class="section-title">
+                <h3><%= I18n.t!("evm_section_titles.costs_estimations") %></h3>
+            </div>
+            <div class="section-content">
+                <% bac = last_point.budget_at_conclusion %>
+                <% tcpi_bac = last_point.to_complete_performance_index_bac.round(1) %>
+                <% status_tcpi_bac = tcpi_status(tcpi_bac) %>
+                <div class="splitcontentleft">
+                    <div class="index tcpi_bac <%= status_tcpi_bac %> cost">
+                        <div class="chart-wrapper">
+                        <div class="title">
+                            <div class="tcpi-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.explanation') %>" >
+                                <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.description") %>
+                            </div>
+                            <% bac_explanation =  I18n.t!('charts_explanations.records.bacs.explanation', evm_field: I18n.t!("field_estimated_#{@project.evm_field}")) %>
+                            <div class="bac-desc"  tooltip="<%= bac_explanation %>" >
+                                <%= "#{I18n.t!('charts_explanations.records.bacs.description')} (#{I18n.t!('charts_explanations.records.bacs.acronym')})" %>
+                                <br/>
+                                <%= bac.round(1) %>
+                            </div>
                         </div>
-                        <% bac_explanation =  I18n.t!('charts_explanations.records.bacs.explanation', evm_field: I18n.t!("field_estimated_#{@project.evm_field}")) %>
-                        <div class="bac-desc"  tooltip="<%= bac_explanation %>" >
-                            <%= "#{I18n.t!('charts_explanations.records.bacs.description')} (#{I18n.t!('charts_explanations.records.bacs.acronym')})" %>
-                            <br/>
-                            <%= bac.round(1) %>
-                        </div>
-                      </div>
 
-                      <div id="to_complete_cost_performance_index_bac-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-tasks"></span>
+                        <div id="to_complete_cost_performance_index_bac-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-tasks"></span>
+                            </span>
+                            <span class="value"><%= tcpi_bac %></span>
                         </span>
-                        <span class="value"><%= tcpi_bac %></span>
-                      </span>
 
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.#{status_tcpi_bac}") %>
-                      </span>
-                      <div class="clearfix"></div>
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.#{status_tcpi_bac}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <% eac_cpi = last_point.estimate_at_completion_cpi %>
-            <% tcpi_cpi = last_point.to_complete_cost_performance_index_cpi.round(1) %>
-            <% status_tcpi_cpi = tcpi_status(tcpi_cpi) %>
-            <div class="splitcontentleft">
-                <div class="index tcpi_cpi <%= status_tcpi_cpi %> cost">
-                    <div class="chart-wrapper">
-                      <div class="title">
-                        <div class="tcpi-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.explanation') %>">
-                            <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.description") %>
+                <% eac_cpi = last_point.estimate_at_completion_cpi %>
+                <% tcpi_cpi = last_point.to_complete_cost_performance_index_cpi.round(1) %>
+                <% status_tcpi_cpi = tcpi_status(tcpi_cpi) %>
+                <div class="splitcontentleft">
+                    <div class="index tcpi_cpi <%= status_tcpi_cpi %> cost">
+                        <div class="chart-wrapper">
+                        <div class="title">
+                            <div class="tcpi-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.explanation') %>">
+                                <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.description") %>
+                            </div>
+                            <div class="eac-desc"  tooltip="<%= I18n.t!('charts_explanations.estimates.estimates_at_completion.explanation') %>">
+                                <%= "#{I18n.t!('charts_explanations.estimates.estimates_at_completion.description')} (#{I18n.t!('charts_explanations.estimates.estimates_at_completion.acronym')})" %>
+                                <br/>
+                                <%= eac_cpi.round(1) %>
+                            </div>
                         </div>
-                        <div class="eac-desc"  tooltip="<%= I18n.t!('charts_explanations.estimates.estimates_at_completion.explanation') %>">
-                            <%= "#{I18n.t!('charts_explanations.estimates.estimates_at_completion.description')} (#{I18n.t!('charts_explanations.estimates.estimates_at_completion.acronym')})" %>
-                            <br/>
-                            <%= eac_cpi.round(1) %>
-                        </div>
-                      </div>
 
-                      <div id="to_complete_cost_performance_index_cpi-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-tasks"></span>
+                        <div id="to_complete_cost_performance_index_cpi-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-tasks"></span>
+                            </span>
+                            <span class="value"><%= tcpi_cpi %></span>
                         </span>
-                        <span class="value"><%= tcpi_cpi %></span>
-                      </span>
 
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.#{status_tcpi_cpi}") %>
-                      </span>
-                      <div class="clearfix"></div>
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.#{status_tcpi_cpi}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- /section-content -->
-        <div class="clearfix"></div>
-    </div><!-- /costs-estimations -->
-
-
-
-
+            </div> <!-- /section-content -->
+            <div class="clearfix"></div>
+        </div><!-- /costs-estimations -->
+    <% end %>
 
     <div class="clearfix"></div>
     
@@ -234,156 +236,162 @@
             <h3><%= I18n.t!("evm_section_titles.records_and_trends") %></h3>
         </div>
         <div class="section-content">
-            <% bac = last_point.budget_at_conclusion %>
-            <% ac = last_point.actual_cost %>
-            <% diff = bac - ac %>
-            <div class="records-row">
-                <div class="element bac">
-                    <div class="title"><%= I18n.t!('evm.elements.budget_at_conclusion')  %></div>
-                    <div class="value">
-                        <%= bac.round(1) %>
+            <% if allowed_to_view_budget %>
+                <% bac = last_point.budget_at_conclusion %>
+                <% ac = last_point.actual_cost %>
+                <% diff = bac - ac %>
+                <div class="records-row">
+                    <div class="element bac">
+                        <div class="title"><%= I18n.t!('evm.elements.budget_at_conclusion')  %></div>
+                        <div class="value">
+                            <%= bac.round(1) %>
+                        </div>
                     </div>
-                </div>
-                <span class="minus">-</span>
-                <div class="element ac">
-                    <div class="title"><%= I18n.t!('evm.elements.accumulated_costs')  %></div>
-                    <div class="value">
-                        <%= ac.round(1) %>
+                    <span class="minus">-</span>
+                    <div class="element ac">
+                        <div class="title"><%= I18n.t!('evm.elements.accumulated_costs')  %></div>
+                        <div class="value">
+                            <%= ac.round(1) %>
+                        </div>
                     </div>
-                </div>
-                <span class="equal">=</span>
-                <div class="element diff">
-                    <div class="title"><%= I18n.t!('evm.elements.remaining_budget')  %></div>
-                    <div class="value">
-                        <%= diff.round(1) %>
+                    <span class="equal">=</span>
+                    <div class="element diff">
+                        <div class="title"><%= I18n.t!('evm.elements.remaining_budget')  %></div>
+                        <div class="value">
+                            <%= diff.round(1) %>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
+
+                <% eac = last_point.estimate_at_completion_cpi %>
+                <% ev = last_point.earned_value %>
+                <% etc = last_point.estimate_to_complete %>
+                <div class="records-row estimates">
+                    <div class="element eac ">
+                        <div class="title"><%= I18n.t!('charts_explanations.estimates.estimates_at_completion.description')  %></div>
+                        <div class="value">
+                            <%= eac.round(1) %>
+                        </div>
+                    </div>
+                    <div class="element ev ">
+                        <div class="title"><%= I18n.t!('evm.elements.earned_value')  %></div>
+                        <div class="value">
+                            <%= ev.round(1) %>
+                        </div>
+                    </div>
+                    <div class="element etc ">
+                        <div class="title"><%= I18n.t!('charts_explanations.estimates.estimates_to_complete.description')  %></div>
+                        <div class="value">
+                            <%= etc.round(1) %>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>            
+
+
                 <div class="clearfix"></div>
-            </div>
 
-            <% eac = last_point.estimate_at_completion_cpi %>
-            <% ev = last_point.earned_value %>
-            <% etc = last_point.estimate_to_complete %>
-            <div class="records-row estimates">
-                <div class="element eac ">
-                    <div class="title"><%= I18n.t!('charts_explanations.estimates.estimates_at_completion.description')  %></div>
-                    <div class="value">
-                        <%= eac.round(1) %>
-                    </div>
-                </div>
-                <div class="element ev ">
-                    <div class="title"><%= I18n.t!('evm.elements.earned_value')  %></div>
-                    <div class="value">
-                        <%= ev.round(1) %>
-                    </div>
-                </div>
-                <div class="element etc ">
-                    <div class="title"><%= I18n.t!('charts_explanations.estimates.estimates_to_complete.description')  %></div>
-                    <div class="value">
-                        <%= etc.round(1) %>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>            
-
-
-            <div class="clearfix"></div>
-
-            <% cv = last_point.cost_variance.round(1) %>
-            <% status_cv = cv_status(cv) %>
-            <div class="splitcontentleft">
-                <div class="index trends variance cv cost <%= status_cv %>">
-                    <div class="chart-wrapper">
-                      <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.cost_variances.explanation') %>">
-                        <%= I18n.t!("charts_explanations.variances.cost_variances.description") %>
-                      </div>
-
-                      <div id="cost_variance-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                      <span>
-                        <span class="ic">
-                          <span class="icon icon-money"></span>
-                        </span>
-                        <span class="value"><%= cv %></span>
-                      </span>
-
-                      <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.cost_variances.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.variances.cost_variances.#{status_cv}") %>
-                      </span>
-                      <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <% vac = last_point.variance_at_conclusion(eac_cpi).round(1) %>
-            <% status_vac = vac_status(vac) %>
-            <div class="splitcontentright">
-                <div class="index trends variance vac <%= status_vac %> cost">
-                    <div class="chart-wrapper">
-                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.variances_at_conclusion.explanation') %>">
-                            <%= I18n.t!("charts_explanations.variances.variances_at_conclusion.description") %>
+                <% cv = last_point.cost_variance.round(1) %>
+                <% status_cv = cv_status(cv) %>
+                <div class="splitcontentleft">
+                    <div class="index trends variance cv cost <%= status_cv %>">
+                        <div class="chart-wrapper">
+                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.cost_variances.explanation') %>">
+                            <%= I18n.t!("charts_explanations.variances.cost_variances.description") %>
                         </div>
 
-                        <div id="variance_at_conclusion-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
+                        <div id="cost_variance-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
                         <span>
-                        <span class="ic">
-                            <span class="icon icon-tasks"></span>
-                        </span>
-                        <span class="value"><%= vac %></span>
+                            <span class="ic">
+                            <span class="icon icon-money"></span>
+                            </span>
+                            <span class="value"><%= cv %></span>
                         </span>
 
-                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.variances_at_conclusion.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.variances.variances_at_conclusion.#{status_vac}") %>
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.cost_variances.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.variances.cost_variances.#{status_cv}") %>
                         </span>
                         <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="splitcontentleft">
-                <div class="trends evm">
-                    <div class="chart-wrapper">
-                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.records.evms.explanation') %>">
-                            <%= I18n.t!("charts_explanations.records.evms.description") %>
                         </div>
-
-                        <div id="evm-chart" class="chart"></div>
                     </div>
                 </div>
-            </div>
 
+                <% vac = last_point.variance_at_conclusion(eac_cpi).round(1) %>
+                <% status_vac = vac_status(vac) %>
+                <div class="splitcontentright">
+                    <div class="index trends variance vac <%= status_vac %> cost">
+                        <div class="chart-wrapper">
+                            <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.variances_at_conclusion.explanation') %>">
+                                <%= I18n.t!("charts_explanations.variances.variances_at_conclusion.description") %>
+                            </div>
 
-
-            <% sv = last_point.es_schedule_variance.round(1) %>
-            <% status_sv = sv_status(sv) %>
-            <div class="splitcontentright">
-                <div class="index trends variance sv <%= status_sv %>">
-                    <div class="chart-wrapper">
-                        <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.es_schedule_variances.explanation') %>">
-                            <%= I18n.t!("charts_explanations.variances.es_schedule_variances.description") %>
+                            <div id="variance_at_conclusion-chart" class="chart"></div>
                         </div>
+                        <div class="bottom">
+                            <span>
+                            <span class="ic">
+                                <span class="icon icon-tasks"></span>
+                            </span>
+                            <span class="value"><%= vac %></span>
+                            </span>
 
-                        <div id="es_schedule_variance-chart" class="chart"></div>
-                    </div>
-                    <div class="bottom">
-                        <span>
-                        <span class="ic">
-                            <span class="icon icon-calendar"></span>
-                        </span>
-                        <span class="value"><%= sv %></span>
-                        </span>
-
-                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.es_schedule_variances.purpose') %>"> 
-                        <%= I18n.t!("charts_explanations.variances.es_schedule_variances.#{status_sv}") %>
-                        </span>
-                        <div class="clearfix"></div>
+                            <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.variances_at_conclusion.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.variances.variances_at_conclusion.#{status_vac}") %>
+                            </span>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+                
+                <div class="clearfix"></div>
+                <% if allowed_to_view_schedule_info %>
+                    <div class="splitcontentleft">
+                <% else %>
+                    <div class="">
+                <% end %>
+                        <div class="trends evm">
+                            <div class="chart-wrapper">
+                                <div class="title" tooltip="<%= I18n.t!('charts_explanations.records.evms.explanation') %>">
+                                    <%= I18n.t!("charts_explanations.records.evms.description") %>
+                                </div>
+
+                                <div id="evm-chart" class="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+            <% end %>
+        
+            <% if allowed_to_view_schedule_info %>
+                <% sv = last_point.es_schedule_variance.round(1) %>
+                <% status_sv = sv_status(sv) %>
+                <div class="<%= allowed_to_view_budget ? 'splitcontentright' : ''%>">
+                    <div class="index trends variance sv <%= status_sv %>">
+                        <div class="chart-wrapper">
+                            <div class="title" tooltip="<%= I18n.t!('charts_explanations.variances.es_schedule_variances.explanation') %>">
+                                <%= I18n.t!("charts_explanations.variances.es_schedule_variances.description") %>
+                            </div>
+
+                            <div id="es_schedule_variance-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                            <span>
+                            <span class="ic">
+                                <span class="icon icon-calendar"></span>
+                            </span>
+                            <span class="value"><%= sv %></span>
+                            </span>
+
+                            <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.variances.es_schedule_variances.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.variances.es_schedule_variances.#{status_sv}") %>
+                            </span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
             <div class="clearfix"></div>
         </div> <!-- /section-content -->
     </div><!-- /costs-estimations -->
@@ -420,6 +428,16 @@
                     return labels;
                 }
 
+                var userAllowedTo = function(id){
+                    var allowedToViewBudget = <%= allowed_to_view_budget  %>;
+                    var allowedToViewSchedule = <%= allowed_to_view_schedule_info %>;
+                    if(id.indexOf("cost") != -1 && allowedToViewBudget) return true;
+                    if(id.indexOf("evm") != -1 && allowedToViewBudget) return true;
+                    if(id.indexOf("variance_at_conclusion") != -1 && allowedToViewBudget) return true;
+                    if(id.indexOf("schedule") != -1 && allowedToViewSchedule) return true;
+                    return false;
+                }
+
                 var colorsFor = function(fields){
                     availableColors = ['#cf4d4d', '#9c2b7d', '#792b9c', '#472b9c', '#5d8e1e', '#ae6e1b', '#d75b29', '#1670ff', '#2493ce'];
                     var colors = [];
@@ -434,8 +452,6 @@
                     return colors;
                 }
                 
-
-                window.evm_response = response;
                 if(response.evm_points_length > 0){
                     var break_points_events = response.break_points_events;
 
@@ -470,23 +486,25 @@
                                 options.lineColors =['black'];
                             }
                         }
-                        if( id == 'evm-chart' ){
-                            Morris.Line({
-                                element: 'evm-chart',
-                                behaveLikeLine: true,
-                                data: response.evm_chart_data,
-                                xkey: 'day',
-                                ykeys: response.evm_fields,
-                                labels: getLabels(response.evm_fields),
-                                resize: true,
-                                pointSize: 2,
-                                dateFormat: dateFormater,
-                                hideHover: 'auto',
-                                yLabelFormat: fixDec,
-                                lineColors: colorsFor(response.evm_fields),
-                                events: break_points_events
-                            });
-                        }else{ new Morris.Area(options); }
+                        if(userAllowedTo(id)){
+                            if( id == 'evm-chart' ){
+                                Morris.Line({
+                                    element: 'evm-chart',
+                                    behaveLikeLine: true,
+                                    data: response.evm_chart_data,
+                                    xkey: 'day',
+                                    ykeys: response.evm_fields,
+                                    labels: getLabels(response.evm_fields),
+                                    resize: true,
+                                    pointSize: 2,
+                                    dateFormat: dateFormater,
+                                    hideHover: 'auto',
+                                    yLabelFormat: fixDec,
+                                    lineColors: colorsFor(response.evm_fields),
+                                    events: break_points_events
+                                });
+                            }else{ new Morris.Area(options); }
+                        }
                     }
                 }
             });

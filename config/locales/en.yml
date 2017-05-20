@@ -1,8 +1,13 @@
 en:
+  milestones:
+    status_update_explanation: Status will be updated with information from tasks included in this milestone
+    dates_update_explanation: Dates will be updated with information from tasks included in this milestone
+    other_fields_not_allowed: Fields such as Checklist and Assignee are not allowed for Milestones.
   es_estimated_completion_date: Estimated Completion Date (Earned Schedule)
   advanced_search: Advanced search
   activities: Activities
   chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
+  charts_load_error: There was an error while loading the charts. Please reload the page or contact the administrator.
   conversation_load_error: There was an error while loading the conversation
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
@@ -111,7 +116,7 @@ en:
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         cannot_be_greater_than_today: "cannot be greater than today"
-        cannot_start_issue_if_not_planned: " - An issue cannot be set in progress or closed it was not planned"
+        cannot_change_status_if_blank: "cannot be blank to change status to '%{status}'"
         inclusion: "is not included in the list"
         exclusion: "is reserved"
         invalid: "is invalid"
@@ -1283,7 +1288,13 @@ en:
   default_activity_evaluation: Evaluation
   default_activity_investigation: Investigation
   default_activity_testing: Testing
+  default_configs: Default configurations
 
+  label_default_configs: Default configurations
+  default_configs_warning: Caution! The application of these configurations is of global scope on all the projects, the changes made on the states, workflows and other initial data will be overwritten, the new data will not be eliminated.
+  button_default_configs: Reestablish default configs.
+  default_configs_confirm: Are you sure you want to reestablish default configs?
+  default_configs_succes: Default configs have been reestablished. 
 
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
