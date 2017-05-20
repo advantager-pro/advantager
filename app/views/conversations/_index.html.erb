@@ -5,6 +5,8 @@
     <div class="row">
       <div class="col-md-4">
         <div class="chat-wrapper" style="">
+          <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>
+          <%= content_tag('div', '', class: "flash error js", id: "flash_chat_error_js", style: "display: none") %>
           <div class="panel panel-default">
               <div>
                 <ul>
@@ -34,13 +36,19 @@
               </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </div>
 
 
-<div id="">
+<div id="chat-button-container">
 <%= link_to  "#", class: "toggleChatBox", "data-cid" => 'users_list' do %>
-  <div id="chat-button"></div>
+  <div id="chat-button"><span class="chat-icon"></span></div>
 <% end %>
 </div>
+<script>
+  <% # reset chat boxes length given that we are not keeping the windows open after a page is loaded %>
+  window.chatBoxeslength = 1;
+  window.chatBoxes = new Array();
+</script>

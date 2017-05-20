@@ -700,6 +700,13 @@ function displayFlash(message, kind){
   }
 }
 
+var displayChatError = function(message){
+  $("#chatbox_users_list .panel.panel-default").remove();
+  $("#chatbox_users_list .chat-wrapper").attr("style", 'height: auto');
+  $("#chatbox_users_list .chatboxcontent").attr("style", 'height: auto');
+  $("#flash_chat_error_js").text(message).slideDown();
+}
+
 function getEVMPoints(project_params, callback){
   $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
       callback(data);
@@ -769,23 +776,21 @@ $(document).on('click', '.help-navigation .cancel', onFinishHelpTooltips);
 
 $(document).on('click', '.help-navigation .next', function(){
   var maxValue = $("[tooltip]").length - 1;
-  console.log('next.before', HELP_TOOLTIP_INDEX)
   if(HELP_TOOLTIP_INDEX + 1 > maxValue){
     onFinishHelpTooltips();
   }else{
     window.HELP_TOOLTIP_INDEX++;
-    console.log('next.after', HELP_TOOLTIP_INDEX)
     showCurrentHelp();
   }
 });
 
 $(document).on('click', '.help-navigation .previous', function(){
-  console.log('previous.before', HELP_TOOLTIP_INDEX);
   if(HELP_TOOLTIP_INDEX - 1 < 0){
     onFinishHelpTooltips();
   }else{
     window.HELP_TOOLTIP_INDEX--;
-    console.log('previous.after', HELP_TOOLTIP_INDEX)
     showCurrentHelp();
   }
 });
+
+$(document).on('click', '.self-select', function(){ $('option[data-self-select]').prop('selected', true); });

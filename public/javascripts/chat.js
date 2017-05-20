@@ -8,7 +8,7 @@
  */
 
 var chatboxFocus = new Array();
-var chatBoxes = new Array();
+window.chatBoxes = new Array();
 
 var chatReady = function () {
     window.CONVERSATIONS = [];
@@ -106,7 +106,7 @@ var chatReady = function () {
 
             $("#chatbox_" + conversation_id).css('bottom', '0px');
 
-            chatBoxeslength = 1;
+            window.chatBoxeslength = 1;
 
             for (x in chatBoxes) {
                 if ($("#chatbox_" + chatBoxes[x]).css('display') != 'none') {

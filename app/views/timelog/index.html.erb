@@ -1,8 +1,10 @@
-<div class="contextual">
-<%= link_to l(:button_log),
+<% if @project.present? %>
+  <div class="contextual">
+    <%= link_to l(:button_log),
             _new_time_entry_path(@project, @issue),
             :class => 'icon icon-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
-</div>
+  </div>
+<% end %>
 
 <%= render_timelog_breadcrumb %>
 
