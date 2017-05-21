@@ -35,6 +35,14 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_action :avoid_atom_format
+
+  def avoid_atom_format
+    if request.format.symbol == :atom
+      render(:file => File.join(Rails.root, 'public/404.html'), :status => 404, :layout => false)
+    end
+  end
+
   def verify_authenticity_token
     unless api_request?
       super
