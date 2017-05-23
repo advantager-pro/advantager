@@ -1,99 +1,95 @@
 <%= error_messages_for 'project' %>
 <% evm_checked_css_class = "last-visible_field-checked-because-of-evm_field" %>
-<div class="box tabular">
 <!--[form:project]-->
-<p><%= f.text_field :name, :required => true, :size => 60 %></p>
 
-
-
-<p><%= f.number_field :evm_frequency, required: true, size: 60 %></p>
-
-  <table>
-    <thead>
-      <tr>
-        <th> <%= t("evm.field") %> </th>
-        <th> <%= t("evm.visible_field") %> </th>
-        <th> <%= t("evm.evm_field") %> </th>
-        <th> <%= t("evm.customize") %> </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Project.available_fields.each do | field | %>
-        <tr>
-          <td>
-            <%= t("field_#{field}") %>
-          </td>
-          <% if @project.id.nil? && field == 'cost' %>
-             <td>
-                <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field } %>
-            </td>
-            <td>
-              <%= f.radio_button :evm_field, field, checked: true, data: { evm_field: field }  %>
-            </td>
-          <% else %>
-            <td>
-              <% if @project.evm_field == field %>
-                <%= check_box_tag '', field, true, id: "visible_fields_#{field}", data: { visible_field: field }, class: evm_checked_css_class %>
-              <% else %>
-                <%= check_box_tag '', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
-              <% end %>
-            </td>
-            <td>
-              <%= f.radio_button :evm_field, field, checked: @project.evm_field == field, data: { evm_field: field }  %>
-            </td>
-          <% end %>
-
-          <td>
-            <% if field == 'custom' %>
-              <div id="custom_field_container" style="display: <%= @project.using_custom_unity? ? 'block' : 'none' %>;">
-                <%= f.text_field :custom_unity, label: "", size: 60 %>
-              </div>
-            <% elsif @project.id.nil? && field == 'cost' %>
-              <div id="cost_field_container" style="display: <%= @project.using_currency? ? 'block' : 'none' %>;">
-                <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: "", selected: 'usd' %></p>
-              </div>
-            <% elsif field == 'cost' %>
-              <div id="cost_field_container" style="display: <%= @project.using_currency? ? 'block' : 'none' %>;">
-                <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: "" %></p>
-              </div>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-<%= f.hidden_field :visible_fields, id: :visible_fields %>
-
-
-
-<p><%= f.text_area :description, :rows => 8, :class => 'wiki-edit' %></p>
-<p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
-<% unless @project.identifier_frozen? %>
-  <em class="info"><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
-<% end %></p>
-<p><%= f.text_field :homepage, :size => 60 %></p>
-<p><%= f.check_box :is_public %></p>
-
-<% unless @project.allowed_parents.compact.empty? %>
-    <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
-<% end %>
-
-<% if @project.safe_attribute? 'inherit_members' %>
-<p><%= f.check_box :inherit_members %></p>
-<% end %>
-
-<% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
-  <p><%= f.select :default_version_id, project_default_version_options(@project), :include_blank => true %></p>
-<% end %>
-
-<%= wikitoolbar_for 'project_description' %>
-
-<% @project.custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :project, value %></p>
-<% end %>
-<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+<div class="float-label">
+  <%= f.text_field :name, placeholder: req_field(:name), label: false, :required => true, :size => 60 %>
+  <%= f.label :name, req_field(:name) %>
 </div>
+<div class="float-label">
+  <%= f.text_field :identifier, placeholder: req_field(:identifier), label: false, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
+  <%= f.label :identifier, req_field(:identifier) %>
+</div>
+
+<% unless @project.identifier_frozen? %>
+  <em id="identifier-info" class="info"><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
+<% end %>
+
+<div class="">
+  <%= f.text_area :description, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
+</div>
+
+<div id="project_inner_fields"  class="tabular float box">
+  <p><%= f.check_box :is_public %></p>
+
+  <% unless @project.allowed_parents.compact.empty? %>
+      <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
+  <% end %>
+
+  <% if @project.safe_attribute? 'inherit_members' %>
+  <p><%= f.check_box :inherit_members %></p>
+  <% end %>
+
+  <% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
+    <p><%= f.select :default_version_id, project_default_version_options(@project), :include_blank => true %></p>
+  <% end %>
+
+  <%= wikitoolbar_for 'project_description' %>
+
+  <% @project.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :project, value %></p>
+  <% end %>
+  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+
+  <div class="float-label">
+    <%= f.text_field :homepage, placeholder: :homepage, label: false, :size => 60 %>
+    <%= f.label :homepage %>
+  </div>
+</div>
+
+<fieldset class="tabular float"><legend><%= l(:label_earned_value) %></legend>
+  <div id="evm_field_selector">
+    <%= f.select :evm_field, options_for_select(Project.available_fields.map{|field| [t("field_#{field}"), field] }, selected: (@project.evm_field || 'cost' )), id: 'project_evm_field' %>
+  </div>
+
+  <div class="float-label">
+    <%= f.number_field :evm_frequency, placeholder: req_field(:evm_frequency), label: false, required: true, size: 60 %>
+    <%= f.label :evm_frequency, req_field(:evm_frequency) %>
+  </div>
+</fieldset>
+
+<fieldset class="tabular float">
+  <legend>
+    <%= I18n.t!('evm.other_fields_to_keep_log') %>
+    <span class="icon-info-circle large-explanation"  tooltip='<%= I18n.t!('evm.other_fields_to_keep_log_info') %>'></span>
+  </legend>
+  <div>
+    <% Project.available_fields.each do | field | %>
+      <p class="visible-field-container" data-visible-field-container="<%= field %>">
+        <label>
+          <%= t("field_#{field}") %>
+          <% if @project.evm_field == field %>
+            <%= check_box_tag 'project[visible_fields][]', field, true, id: "visible_fields_#{field}", data: { visible_field: field }, class: evm_checked_css_class %>
+          <% else %>
+            <%= check_box_tag 'project[visible_fields][]', field, @project.visible_fields.include?(field), id: "visible_fields_#{field}", data: { visible_field: field } %>
+          <% end %>
+        </label>
+      </p>
+    <% end %>
+  </div>
+
+  <div id="custom_field_container" >
+    <div class="float-label">
+      <%= f.text_field :custom_unity, placeholder: :custom_unity, label: "", size: 60 %>
+      <%= f.label :custom_unity %>
+    </div>
+  </div>
+  <div id="cost_field_container" >
+    <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: false, selected: @project.currency || 'usd' %></p>
+  </div>
+
+  <%#= f.hidden_field :visible_fields, id: :visible_fields %>
+  </fieldset>
 
 <% if @project.new_record? %>
 <fieldset class="box tabular"><legend><%= l(:label_module_plural) %></legend>
@@ -167,34 +163,56 @@ $(document).ready(function() {
   }).trigger('change');
 
 
-  var togleContainer = function(field){
-    // if(field != 'custom' && field != 'cost') return;
-    var fields = ['custom', 'cost'];
-    $.each(fields, function(k, f){
-      var evmChecked = $("[data-evm-field='"+f+"']").is(':checked');
-      var visibleChecked = $("[data-visible-field='"+f+"']").is(':checked');
-      if(evmChecked || visibleChecked){
-        $("#"+f+"_field_container").slideDown();
-      }else if(!(evmChecked || visibleChecked)){
-        $("#"+f+"_field_container").slideUp();
-      }
-    });
+  var toggleVisibleFields = function(){
+    var field = $("#project_evm_field").find('option:selected').val();
+    
+    $("[data-visible-field='"+field+"']").prop('checked', false);
 
+    $('[data-visible-field-container="'+field+'"]').hide();
+
+    var fields  = <%= Project.available_fields.to_json.html_safe %>;
+    fields.splice( <%= Project.available_fields.to_json.html_safe %>.indexOf(field), 1);
+    for(var i = 0 ; i < fields.length; i ++)
+      $('[data-visible-field-container="'+fields[i]+'"]').show();
   }
 
-  $(document).on('change', "[data-evm-field]", function(e){
-    var checkedClass = "<%= evm_checked_css_class %>";
-    $("[data-visible-field]."+checkedClass).prop("checked", false).removeClass(checkedClass);
-    var field = $(this).data('evm-field');
-    $("[data-visible-field='"+field+"']").prop("checked", true).addClass(checkedClass);
-    togleContainer(field);
+  var toggleVisibleFieldContainer = function(){
+    var evmField = $("#project_evm_field").find('option:selected').val();
+    $("#evm_field_selector").append($("#"+evmField+"_field_container"));
+
+    $.each(['custom', 'cost'], function(k, f){
+      var visibleChecked = $("[data-visible-field='"+f+"']").is(':checked');
+      if(visibleChecked)
+        $("[data-visible-field-container='"+f+"']").append($("#"+f+"_field_container"));
+    });
+
+
+    $.each(['custom', 'cost'], function(k, f){
+      var evmChecked = $("#project_evm_field").find('option:selected').val() == f;
+      var visibleChecked = $("[data-visible-field='"+f+"']").is(':checked');
+      if(evmChecked || visibleChecked){
+        $("#"+f+"_field_container").show();
+      }else if(!(evmChecked || visibleChecked)){
+        $("#"+f+"_field_container").hide();
+      }
+    });
+  }
+  
+  $("#custom_field_container, #cost_field_container, #cost_field_container").hide();
+  $("#project_evm_field").trigger('change');
+  toggleVisibleFieldContainer();
+  toggleVisibleFields();
+
+  $(document).on('change', "#project_evm_field", function(e){
+    toggleVisibleFields();
+    toggleVisibleFieldContainer();
   });
 
   $(document).on('change', "[data-visible-field]", function(e){
-    var visibleFields = [];
+    /*var visibleFields = [];
     $("[data-visible-field]:checked").each(function(){ visibleFields.push($(this).data("visible-field")); });
-    $("#visible_fields").val(visibleFields.join(','));
-    togleContainer($(this).data('visible-field'));
+    $("#visible_fields").val(visibleFields.join(','));*/
+    toggleVisibleFieldContainer();
   });
 });
 <% end %>

@@ -446,6 +446,8 @@ es:
       time: hora/s
       point: punto/s
     fieldset: Campo utilizado para calcular EVM
+    other_fields_to_keep_log: Otros campos de registros
+    other_fields_to_keep_log_info: Estos campos no serán utilizados para calcular EVM
     field: Campo
     visible_field: Campo visible
     evm_field: Campo para EVM
