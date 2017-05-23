@@ -35,6 +35,17 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_action :avoid_advantager_unsupported_formats
+
+  def avoid_advantager_unsupported_formats
+    unsupported_formats = [:atom, :csv, :pdf]
+    if unsupported_formats.include?(request.format.symbol)
+      render(:file => File.join(Rails.root, 'public/404.html'),
+             :status => 404,
+             :layout => false)
+    end
+  end
+
   def verify_authenticity_token
     unless api_request?
       super
