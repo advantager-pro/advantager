@@ -120,4 +120,9 @@ module ProjectsHelper
     end if include_in_api_response?('enabled_modules')
 
   end
+
+  def req_field(field_key)
+    label = I18n.t("field_#{field_key}") || I18n.t("label_#{field_key}")
+    "#{label}  *"
+  end
 end
