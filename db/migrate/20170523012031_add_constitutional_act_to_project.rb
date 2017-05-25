@@ -1,9 +1,9 @@
 class AddConstitutionalActToProject < ActiveRecord::Migration
   def up
-    add_column :projects, :constitutional_act, :text
+    add_attachment :projects, :constitutional_act
   end
 
   def down
-    remove_column :projects, :constitutional_act, :text
+    remove_attachment :projects, :constitutional_act
   end
 end

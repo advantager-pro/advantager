@@ -28,6 +28,10 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
+  # paperclip
+  has_attached_file :constitutional_act
+  do_not_validate_attachment_file_type :constitutional_act
+
   # Specific overridden Activities
   has_many :time_entry_activities
   has_many :memberships, :class_name => 'Member', :inverse_of => :project
@@ -696,7 +700,11 @@ class Project < ActiveRecord::Base
     'tracker_ids',
     'issue_custom_field_ids',
     'parent_id',
-    'default_version_id'
+    'default_version_id',
+    'constitutional_act',
+    '@original_filename',
+    '@content_type',
+    '@headers'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }

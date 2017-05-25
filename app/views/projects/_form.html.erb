@@ -19,6 +19,11 @@
   <%= f.text_area :description, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
 </div>
 
+<div class="float-label">
+  <%= f.label :constitutional_act, I18n.t!('field_constitutional_act')  %>
+  <%= f.file_field :constitutional_act %>
+</div>
+
 <div id="project_inner_fields"  class="tabular float box">
   <p><%= f.check_box :is_public %></p>
 
