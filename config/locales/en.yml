@@ -251,6 +251,7 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
   field_time: Time
