@@ -291,6 +291,7 @@ es:
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
   error_ldap_bind_credentials: Cuenta/Contraseña LDAP incorrecta
   field_constitutional_act: Acta de Constitución
+  ield_constitutional_act_current: Acta de Constitución Actual
   field_account: Cuenta
   field_activity: Actividad
   field_actual_due_date: Fecha fin real
