@@ -22,7 +22,6 @@
 <fieldset id="constitutional-act"><legend><%= l(:field_constitutional_act) %></legend>
 <div class="constitutional-act-form">
   <% if @project.constitutional_act_file_name.nil? %>
-    <%= f.label :constitutional_act, I18n.t!('field_constitutional_act')  %>
     <%= f.file_field :constitutional_act %>
   <% else %>
     <%= f.label :constitutional_act_current, I18n.t!('field_constitutional_act_current')  %>
