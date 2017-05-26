@@ -19,17 +19,19 @@
   <%= f.text_area :description, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
 </div>
 
+<fieldset id="constitutional-act"><legend><%= l(:field_constitutional_act) %></legend>
 <div class="constitutional-act-form">
   <% if @project.constitutional_act_file_name.nil? %>
     <%= f.label :constitutional_act, I18n.t!('field_constitutional_act')  %>
     <%= f.file_field :constitutional_act %>
   <% else %>
     <%= f.label :constitutional_act_current, I18n.t!('field_constitutional_act_current')  %>
-    <a href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %></a>
+    <a target="_blank" href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %></a>
     </br>
     <%= f.file_field :constitutional_act %>
   <% end %>
 </div>
+</fieldset>
 
 <div id="project_inner_fields"  class="tabular float box">
   <p><%= f.check_box :is_public %></p>

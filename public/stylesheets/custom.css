@@ -25,6 +25,24 @@ input[type="button"], input[type="submit"], button{
   content: "\f017";
 }
 
+.constitutional-act-form{
+  line-height: 35px;
+}
+
+.constitutional-act-form label {
+    width: 160px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-align: right;
+}
+#constitutional-act div{
+  margin-top: 0px !important;
+}
+
+#constitutional-act legend{
+  margin-bottom: 5px !important;
+}
+
 .button-warning{
    background: rgb(223, 117, 20) !important;
    border-color: rgb(223, 117, 20) !important;
@@ -999,6 +1017,7 @@ fieldset > *{
     width: 90%;
     text-align: left;
 }
+
 #project_evm_frequency{
   width: 330px!important;
 }
