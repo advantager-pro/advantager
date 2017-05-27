@@ -22,12 +22,11 @@
 <fieldset id="constitutional-act"><legend><%= l(:field_constitutional_act) %></legend>
 <div class="constitutional-act-form">
   <% if @project.constitutional_act_file_name.nil? %>
-    <%= f.file_field :constitutional_act %>
+    <%= f.file_field :constitutional_act, label: I18n.t!('button_add')  %>
   <% else %>
-    <%= f.label :constitutional_act_current, I18n.t!('field_constitutional_act_current')  %>
     <a target="_blank" href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %></a>
     </br>
-    <%= f.file_field :constitutional_act %>
+    <%= f.file_field :constitutional_act, label: I18n.t!('button_update') %>
   <% end %>
 </div>
 </fieldset>
