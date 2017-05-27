@@ -15,7 +15,15 @@ module Advantager::EVM::ProjectFields
         end
       end
 
-      safe_attributes 'evm_field', 'visible_fields', 'currency', 'evm_frequency', 'custom_unity'
+      safe_attributes 'evm_field',
+                      'visible_fields',
+                      'currency',
+                      'evm_frequency',
+                      'custom_unity',
+                      'constitutional_act',
+                      '@original_filename',
+                      '@content_type',
+                      '@headers'
     end
 
     def issue_evm_field

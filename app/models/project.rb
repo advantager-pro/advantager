@@ -700,11 +700,7 @@ class Project < ActiveRecord::Base
     'tracker_ids',
     'issue_custom_field_ids',
     'parent_id',
-    'default_version_id',
-    'constitutional_act',
-    '@original_filename',
-    '@content_type',
-    '@headers'
+    'default_version_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
