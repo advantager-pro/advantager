@@ -251,6 +251,7 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
   field_time: Time
@@ -447,6 +448,8 @@ en:
       time: hour/s
       point: point/s
     fieldset: Field used to calculate EVM
+    other_fields_to_keep_log: Other fields for to keep log
+    other_fields_to_keep_log_info: Those fields will not be used to calculate EVM
     field: Field
     visible_field: Visible field
     evm_field: EVM field

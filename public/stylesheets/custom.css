@@ -25,6 +25,24 @@ input[type="button"], input[type="submit"], button{
   content: "\f017";
 }
 
+.constitutional-act-form{
+  line-height: 35px;
+}
+
+.constitutional-act-form label {
+    width: 160px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-align: right;
+}
+#constitutional-act div{
+  margin-top: 0px !important;
+}
+
+#constitutional-act legend{
+  margin-bottom: 5px !important;
+}
+
 .button-warning{
    background: rgb(223, 117, 20) !important;
    border-color: rgb(223, 117, 20) !important;
@@ -879,4 +897,141 @@ ul.tagit li.tagit-choice a.tagit-close{
 
 legend.info{
   float: left!important;
+}
+
+
+
+
+
+.float-label {
+	position: relative;
+	display: block;
+}
+.float-label label {
+	position: absolute;
+	top: 5px;
+	left: 1em;
+	font-size: .8rem;
+	opacity: 0;
+}
+.float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'] {
+	height: 2.5rem;
+	vertical-align: baseline;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+}
+.float-label input, .float-label label {
+	-webkit-transition: 0.2s ease-in-out;
+	-moz-transition: 0.2s ease-in-out;
+	-o-transition: 0.2s ease-in-out;
+	transition: 0.2s ease-in-out;
+}
+.float-label input:focus + label, .float-label input:not(:placeholder-shown) + label{
+	color: #ccc;
+	opacity: 1;
+	display: inline-block;
+	height: 10px;
+	padding-bottom: 5px;
+}
+
+.float-label input:disabled:focus + label, .float-label input:disabled:not(:placeholder-shown) + label{
+    color: white;
+}
+
+.float-label input:focus + label{
+  color: #00dbf1;
+  font-weight: bold;
+}
+
+.float-label input:focus, .float-label input:not(:placeholder-shown){
+  padding-top: 36px;
+  padding-bottom: 17px;
+  padding-left: 13px;
+}
+ .float-label input:focus::-webkit-input-placeholder {
+	opacity: 0;
+}
+.float-label input:focus:-moz-placeholder {
+	opacity: 0;
+}
+.float-label input:focus::-moz-placeholder {
+	opacity: 0;
+}
+.float-label input:focus:-ms-input-placeholder {
+	opacity: 0;
+}
+
+#content.project-new{
+  padding: 20px 50px;
+}
+
+.float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"]{
+    margin-bottom: 21px!important;
+    width: 95%!important;
+}
+
+.project-new .jstElements, .project-edit .jstElements, .project-show .jstElements{
+   margin-bottom: 0px!important; 
+}
+
+.float-label input, .float-label label , .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"]{
+    margin-left: 2%!important;
+}
+#project_identifier{
+  margin-bottom: 10px!important;
+}
+
+#identifier-info{
+  width: 96%;
+  display: block;
+  margin: auto;
+  margin-bottom: 18px;
+}
+
+fieldset{
+  border: 1px solid #e5e5e5!important;
+  width: 95%!important;
+  margin: auto!important;
+  border-radius: 4px!important;
+  margin-bottom: 24px!important;
+  margin-left: 2%!important;
+}
+fieldset > *{
+  margin: 20px!important;
+}
+
+.float.tabular label{
+  margin-left: 0;
+  margin-right: 11px;
+  width: 200px;
+}
+
+.float.tabular p{
+  padding-left: 0;
+  padding-top: 15px;
+}
+
+.float.tabular .float-label label {
+    width: 90%;
+    text-align: left;
+}
+
+#project_evm_frequency{
+  width: 330px!important;
+}
+
+#custom_field_container{
+  padding-top: 8px;
+  margin-top: 10px;
+}
+.visible-field-container #custom_field_container .float-label{
+    margin: 20px;
+}
+
+#project_inner_fields{ padding-top: 0; }
+
+.visible-field-container label[for='project_currency']{
+  width: 182px;
 }

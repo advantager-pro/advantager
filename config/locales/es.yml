@@ -290,6 +290,7 @@ es:
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
   error_ldap_bind_credentials: Cuenta/Contraseña LDAP incorrecta
+  field_constitutional_act: Acta de Constitución
   field_account: Cuenta
   field_activity: Actividad
   field_actual_due_date: Fecha fin real
@@ -446,6 +447,8 @@ es:
       time: hora/s
       point: punto/s
     fieldset: Campo utilizado para calcular EVM
+    other_fields_to_keep_log: Otros campos de registros
+    other_fields_to_keep_log_info: Estos campos no serán utilizados para calcular EVM
     field: Campo
     visible_field: Campo visible
     evm_field: Campo para EVM
