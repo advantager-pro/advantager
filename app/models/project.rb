@@ -28,10 +28,6 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
-  # paperclip
-  has_attached_file :constitutional_act
-  do_not_validate_attachment_file_type :constitutional_act
-
   # Specific overridden Activities
   has_many :time_entry_activities
   has_many :memberships, :class_name => 'Member', :inverse_of => :project
