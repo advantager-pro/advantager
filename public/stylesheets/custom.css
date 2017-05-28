@@ -1,11 +1,15 @@
-.progress .value table.progress *, .progress .value table.progress{
+.progress .value table.progress *, .progress .value table.progress, .ui-progressbar-value, .ui-progressbar{
   border: none!important;
   border-radius: 4px!important;
 }
-.progress .value table.progress td.closed{
+.progress .value table.progress td.closed, .ui-progressbar-value, .ui-progressbar{
   background: #01cb6c;
   background: linear-gradient(to right, #01cb6c, #00b6c7)!important;
   border-radius: 4px 0px 0px 4px!important;
+}
+
+.ui-progressbar-value, .ui-progressbar{
+  border-radius: 4px 4px 4px 4px!important;
 }
 
 .progress .value table.progress td.todo{
@@ -1186,11 +1190,12 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
 
 fieldset.issue{
   width:auto!important; 
-  margin-left: 0!important;
+  /*margin-left: 0!important;*/
   padding: 10px 30px;
   padding-top: 0;
   text-align: center;
   padding-bottom: 30px!important;
+  display: inline-block;
 }
 fieldset.issue .floating-field input{
   width: 198px;
@@ -1225,3 +1230,124 @@ fieldset.issue .floating-field img.ui-datepicker-trigger{
 .issue-small input, .issue-small select{
   width: 98%!important;
 }
+
+#users_for_watcher label input[type="checkbox"]{
+  float: none;
+  margin-left: 6px;
+  margin-top: 13px;
+}
+#users_for_watcher .avatar{
+  display: block;
+  float: left;
+}
+
+#users_for_watcher label{
+  margin-bottom: 12px;
+}
+
+#users_for_watcher .avatar img, #watchers_inputs .avatar img{
+  border-radius: 99px;
+}
+
+
+#watchers_inputs label{
+  margin: 8px;
+  text-align: left;
+  display: block;
+  position: relative;
+  float: left;
+  margin-right: 26px;
+}
+#watchers_inputs label input{
+  float: left;
+  margin: 8px;
+  position: absolute;
+  margin-left: 15px;
+}
+
+#watchers_inputs label.title{
+  display: block;
+  margin-bottom: 20px;
+}
+
+.search_for_watchers{
+  display: block;
+  clear: left;
+  padding-top: 16px;
+}
+
+#issue-form fieldset.issue p{
+  margin-bottom: 0;
+}
+
+.floating-field.issue-subject{
+  float: left;
+  width: 80%;
+}
+
+.floating-field.issue-tracker{
+  float: left;
+  width: 15%;
+}
+
+#issue_is_private_wrap{
+    margin-top: -20px;
+    margin-right: 22px!important;
+}
+.add_attachment legend{
+  font-size: 11px;
+}
+
+.add_attachment [type="file"]{
+  display: none;
+}
+
+a.button, label.button{
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.428571429;
+  box-sizing: border-box;
+  padding: 3px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 0;
+  transition: background-color ease-in-out .07s, border-color ease-in-out .07s, box-shadow ease-in-out .07s;
+  border: 1px solid;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #409ae3;
+  color: #fff;
+  border-color: #409ae3 #409ae3 #1d7cc8;
+  box-shadow: 0 1px 0 #1d7cc8;
+  background-color: #40b6e3;
+}
+
+
+.milestone-status{
+  margin: 14px 6px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  border: 1px solid rgb(214, 214, 214);
+}
+.milestone-status, input[disabled]{
+  background: rgba(211, 211, 211, 0.4)!important;
+}
+
+/*
+#update #issue-form .box{
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background: white;
+  border-radius: 3px;
+  padding-bottom: 20px;
+}*/

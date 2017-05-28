@@ -5,6 +5,7 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  choose_files: Seleccionar Archivos
   estimated_dates: Fechas estimadas
   actual_dates: Fechas reales
   no_parent_project: Sin proyecto padre
