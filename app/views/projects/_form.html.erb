@@ -20,7 +20,21 @@
   <%= f.text_area :description, no_label: true, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
 </div>
 
+
 <div id="project_inner_fields"  class="box">
+
+  <fieldset id="constitutional-act"><legend><%= l(:field_constitutional_act) %></legend>
+  <div class="constitutional-act-form">
+    <% if @project.constitutional_act_file_name.nil? %>
+      <%= f.file_field :constitutional_act, label: I18n.t!('button_add')  %>
+    <% else %>
+      <a target="_blank" href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %></a>
+      </br>
+      <%= f.file_field :constitutional_act, label: I18n.t!('button_update') %>
+    <% end %>
+  </div>
+  </fieldset>
+
 
   <% unless @project.allowed_parents.compact.empty? %>
       <div id="parent_id_container" class="floating-field">

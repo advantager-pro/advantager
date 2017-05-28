@@ -22,6 +22,10 @@ gem "byebug"
 # Get gravatar images
 gem 'gravatar_image_tag'
 
+# Uploads
+gem "paperclip", "~> 5.0.0"
+gem 'fog'
+
 
 # Test
 # group :development, :test do
