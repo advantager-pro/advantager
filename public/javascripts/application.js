@@ -704,7 +704,7 @@ var displayChatError = function(message){
   $("#chatbox_users_list .panel.panel-default").remove();
   $("#chatbox_users_list .chat-wrapper").attr("style", 'height: auto');
   $("#chatbox_users_list .chatboxcontent").attr("style", 'height: auto');
-  $("#flash_chat_error_js").text(message).slideDown();
+  $("#flash_chat_error_js").slideDown();
 }
 
 function getEVMPoints(project_params, callback){
@@ -726,12 +726,6 @@ $(document).ready(setupTabs);
 $(document).on('click', function(e){
   $(".my-dropdown ul").hide();
 });
-
-var onReadyAndRender = function(){
-  $('.chart').empty();
-}
-$(document).on('turbolinks:render', onReadyAndRender);
-$(document).ready(onReadyAndRender);
 
 /* Clicks within the dropdown won't make
   it past the dropdown itself */
@@ -794,3 +788,81 @@ $(document).on('click', '.help-navigation .previous', function(){
 });
 
 $(document).on('click', '.self-select', function(){ $('option[data-self-select]').prop('selected', true); });
+
+var getFloatingLabel = function(element){ 
+  var label = $(element).prev('label');
+  label = label.length == 0 ? $(element).next('label') : label;
+  return label.length == 0 ? $('label[for="'+$(element).attr('id')+'"]') : label ;
+  // return label.length == 0 ? $('label[for="'+$(element).attr('id')+'"]') : label ;
+}
+
+var floatingFieldSelector = '.floating-field input, .floating-field textarea, .floating-field select';
+
+var showFloatingLabel = function(label, callback){
+
+  // label.removeClass('hidden'); 
+  if(label.hasClass('hidden')){
+    label.removeClass('hidden');
+    label.css("opacity", "0.0").animate({opacity: 1.0}, 400, function(){
+        // $('.class').css("visibility", "hidden");
+        if(callback) callback();
+    });
+  }
+
+  // if(label.closest('.floating-field').hasClass('textarea')){
+  //   label.css('visibility', 'visible');
+  // }else{
+  //   if( !label.is(":visible") ) label.css('visibility', 'visible').slideDown();
+  // }
+};
+
+$.datepicker.setDefaults({ 
+  onSelect: function(date) { 
+    var field = $(this);
+    field.trigger('change').delay(600).queue(function() { field.focus(); });
+  } 
+});
+
+var hideFloatingLabel = function(label){
+  label.css("opacity", "1.0").animate({opacity: 0}, 600, function(){
+      // $('.class').css("visibility", "hidden");
+      label.addClass('hidden');
+  });
+  // label.addClass('hidden');
+  
+  
+  // if(label.closest('.floating-field').hasClass('textarea')){
+  //   label.css('visibility', 'hidden');
+  // }else{
+  //   label.css('visibility', 'hidden').slideUp().show();
+  // }
+};
+
+$(document).on('change', floatingFieldSelector, function(){
+  var field = $(this);
+  var label = getFloatingLabel(field);
+  if(field.val() == ""){
+    hideFloatingLabel(label);
+  }else{
+    showFloatingLabel(label);
+  }
+});
+
+$(document).on('focus', floatingFieldSelector, function(){ 
+  var label = getFloatingLabel(this);
+  label.addClass('focused');
+  showFloatingLabel(label);
+}); 
+$(document).on('blur', floatingFieldSelector, function(){ 
+  var label = getFloatingLabel(this);
+  label.removeClass('focused'); 
+  if($(this).val() == "") hideFloatingLabel(label)
+});
+
+
+
+var onReadyAndRender = function(){
+  $('.chart').empty();
+}
+$(document).on('turbolinks:render', onReadyAndRender);
+$(document).ready(onReadyAndRender);

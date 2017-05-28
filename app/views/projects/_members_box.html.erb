@@ -5,7 +5,7 @@
       <div class="role-box">
         <label class="label"><%= role %></label> 
         <% @users_by_role[role].sort.each do |u|  %>
-            <%= link_to user_path(u), title: u.name, class: 'avatar' do %>
+            <%= link_to user_path(u), tooltip: u.name, class: 'avatar medium-explanation' do %>
               <%= avatar_image u  %>
             <% end %>
         <% end %>

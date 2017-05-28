@@ -516,6 +516,11 @@ input[type="button"], input[type="submit"], button{
   min-width: 266px;
   padding: 10px;
 }
+[tooltip].medium-explanation:hover:after, [tooltip].hover.medium-explanation:after{
+  min-width: 150px;
+  padding: 10px;
+  max-width: 300px;
+}
 
 [tooltip].hover.help:after{
   padding-bottom: 54px;
@@ -792,8 +797,8 @@ input[type="button"], input[type="submit"], button{
   width: 62%!important;
 }
 .self-select{
-  display: inline;
-  padding: 7px 20px;
+  padding: 10px 20px;
+  float: left;
 }
 
 
@@ -878,25 +883,29 @@ ul.tagit li.tagit-choice a.tagit-close{
 }
 
 legend.info{
-  float: left!important;
+  position: relative;
+  bottom: -16px;
+  z-index: 3;
+  right: -41px;
 }
 
 
 
 
 
+/*
 .float-label {
 	position: relative;
 	display: block;
 }
-.float-label label {
+.float-label label, .floating-label {
 	position: absolute;
-	top: 5px;
-	left: 1em;
+  top: -19px;
+  left: 0em;
 	font-size: .8rem;
 	opacity: 0;
 }
-.float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'] {
+.float-label #issue_subject, .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'] {
 	height: 2.5rem;
 	vertical-align: baseline;
 	-webkit-appearance: none;
@@ -904,12 +913,14 @@ legend.info{
 	appearance: none;
 	outline: none;
 }
-.float-label input, .float-label label {
+
+.float-label #issue_subject, .float-label input, .float-label label {
 	-webkit-transition: 0.2s ease-in-out;
 	-moz-transition: 0.2s ease-in-out;
 	-o-transition: 0.2s ease-in-out;
 	transition: 0.2s ease-in-out;
 }
+
 .float-label input:focus + label, .float-label input:not(:placeholder-shown) + label{
 	color: #ccc;
 	opacity: 1;
@@ -927,7 +938,7 @@ legend.info{
   font-weight: bold;
 }
 
-.float-label input:focus, .float-label input:not(:placeholder-shown){
+.float-label #issue_subject:focus, .float-label input:focus, .float-label input:not(:placeholder-shown), .float-label #issue_subject:not(:placeholder-shown), .float-label select:focus{
   padding-top: 36px;
   padding-bottom: 17px;
   padding-left: 13px;
@@ -944,32 +955,45 @@ legend.info{
 .float-label input:focus:-ms-input-placeholder {
 	opacity: 0;
 }
-
+*/
 #content.project-new{
   padding: 20px 50px;
 }
 
-.float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"]{
+/*
+
+#issue_subject, .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"], textarea#issue_description, .jstElements, label[for="issue_description"]{
     margin-bottom: 21px!important;
     width: 95%!important;
 }
+*/
 
-.project-new .jstElements, .project-edit .jstElements, .project-show .jstElements{
+.project-new .jstElements, .project-edit .jstElements, .project-show .jstElements, .jstElements{
    margin-bottom: 0px!important; 
 }
-
-.float-label input, .float-label label , .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"]{
+/*
+#issue_subject, .float-label input, .float-label label , .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"], textarea#issue_description,  label[for="issue_description"]{
     margin-left: 2%!important;
+    margin-top: 0;
 }
-#project_identifier{
+*/
+
+/*#project_identifier{
   margin-bottom: 10px!important;
+}*/
+
+/*label[for="issue_description"],  .float-label label{
+  text-align: left;
+  margin-bottom: 4px!important;
 }
+*/
 
 #identifier-info{
   width: 96%;
   display: block;
   margin: auto;
-  margin-bottom: 18px;
+  margin-top:-10px;
+  margin-bottom: 10px;
 }
 
 fieldset{
@@ -980,19 +1004,22 @@ fieldset{
   margin-bottom: 24px!important;
   margin-left: 2%!important;
 }
-fieldset > *{
+fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
   margin: 20px!important;
 }
 
 .float.tabular label{
   margin-left: 0;
   margin-right: 11px;
-  width: 200px;
+  /*width: 200px;*/
 }
 
 .float.tabular p{
   padding-left: 0;
   padding-top: 15px;
+}
+.float.tabular p.floating-field{
+  padding-top: 0;
 }
 
 .float.tabular .float-label label {
@@ -1002,17 +1029,199 @@ fieldset > *{
 #project_evm_frequency{
   width: 330px!important;
 }
-
-#custom_field_container{
-  padding-top: 8px;
-  margin-top: 10px;
-}
+/*
 .visible-field-container #custom_field_container .float-label{
     margin: 20px;
 }
+*/
 
 #project_inner_fields{ padding-top: 0; }
 
 .visible-field-container label[for='project_currency']{
   width: 182px;
+}
+
+.ui-dialog-titlebar{
+  background-image: -webkit-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -moz-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: -o-linear-gradient(left, #584492, rgba(11, 121, 154, 0.77))!important;
+  background-image: linear-gradient(to right, #584492, rgba(11, 121, 154, 0.77))!important; 
+}
+
+.ui-dialog-titlebar-close{
+  background: none!important;
+  border: none!important;
+}
+.ui-icon-closethick{
+  border-radius: 99px;
+  width: 14px;
+  height: 14px;
+}
+.ui-icon-closethick:hover{
+  background: #faa!important;
+}
+
+.floating-field{
+  width: 95%;
+  /*padding: 10px;*/
+  margin-left: 2%;
+  position: relative;
+  margin-bottom: 10px;
+}
+.floating-field:not(.textarea){
+  height: 64px;
+}
+/*
+.floating-field.textarea{
+  height:auto;
+}*/
+
+.floating-field label{
+  color: #ccc;
+  font-size: .8rem;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: auto;
+  float: none;
+}
+
+.floating-field input, .floating-field select, .floating-field textarea{
+  display: block;
+  width: 100%;
+}
+.floating-field input, .floating-field select{
+  padding: 10px;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+}
+.floating-field.mid input, .floating-field.mid select, .floating-field.mid textarea{
+  width: 90%;
+}
+
+.floating-field.mid{
+  width: 50%;
+}
+.floating-field.auto{
+  width: auto;
+}
+.floating-field.left{
+  float: left;
+}
+#cost_field_container{
+  float: left;
+  width: 114px;
+}
+
+.floating-field.auto input, .floating-field.auto select, .floating-field.auto textarea{
+  width: auto!important;
+}
+
+.floating-field label.focused{
+  color: #00dbf1;
+  font-weight: bold;
+}
+
+.floating-field label.hidden{
+  /*display: none;*/
+  visibility: hidden;
+}
+
+
+/*
+.floating-label{
+  color: #ccc;
+  font-size: .8rem;
+}
+
+.floating-label.focused{
+  color: #00dbf1;
+  font-weight: bold;
+}
+*/
+
+
+.visible-field-container .floating-field{
+    bottom: 30px;
+    left: 0;
+    margin: 0;
+    padding-left: 0;
+}
+
+#cost_field_container, .visible-field-container #custom_field_container .floating-field{
+  margin-left: 38px;
+}
+
+.floating-option{
+  width: 270px;
+  text-align: center;
+  float: left;
+  margin: 20px;
+  margin-top: 32px;
+}
+.floating-option label{
+    text-align: right;
+    margin-right: 10px;
+}
+
+#parent_id_container{
+  min-width: 190px;
+  float: left;
+  margin-right: 50px;
+  width: auto;
+}
+
+.issue-evm-field{
+  margin-right: 15px!important;
+  width: auto!important;
+  float: left!important;
+}
+
+/*@media screen and (min-width: 768px){
+  .floating-field input, .floating-field select, .floating-field textarea{
+    width: 100%!important;
+  }
+}*/
+
+fieldset.issue{
+  width:auto!important; 
+  margin-left: 0!important;
+  padding: 10px 30px;
+  padding-top: 0;
+  text-align: center;
+  padding-bottom: 30px!important;
+}
+fieldset.issue .floating-field input{
+  width: 198px;
+  position: static;
+  float: left;
+  border-right: none;
+}
+
+fieldset.issue /*>*/ .splitcontent .splitcontentleft, fieldset.issue /*>*/ .splitcontent .splitcontentright{
+  min-width: 250px!important;
+}
+
+fieldset.issue .floating-field img.ui-datepicker-trigger{
+  float: left;
+  background-size: 14px;
+  padding: 19px!important;
+  border: 1px solid rgb(214, 214, 214);
+  background-position: 11px;
+  border-radius: 0px 4px 4px 0px;
+  margin-left: -1px;
+  margin-top: 1px;
+}
+
+#issue_assigned_to_id{
+  position: static;
+  float: left;
+}
+
+.issue-small{
+  min-width: 268px!important;
+}
+.issue-small input, .issue-small select{
+  width: 98%!important;
 }

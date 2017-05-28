@@ -1,4 +1,8 @@
 en:
+  estimated_dates: Estimated dates
+  actual_dates: Actual dates
+  no_parent_project: No parent project
+  not_assigned: Not assigned
   milestones:
     status_update_explanation: Status will be updated with information from tasks included in this milestone
     dates_update_explanation: Dates will be updated with information from tasks included in this milestone

@@ -163,6 +163,7 @@
 <audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
 <div id='chat-conversations'></div>
 <%= render_chat %>
+<script>$.getScript('/faye.js').fail(displayChatError);</script>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

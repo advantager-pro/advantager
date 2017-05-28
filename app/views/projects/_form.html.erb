@@ -2,59 +2,74 @@
 <% evm_checked_css_class = "last-visible_field-checked-because-of-evm_field" %>
 <!--[form:project]-->
 
-<div class="float-label">
-  <%= f.text_field :name, placeholder: req_field(:name), label: false, :required => true, :size => 60 %>
-  <%= f.label :name, req_field(:name) %>
+<div class="floating-field">
+  <%= f.label :name, req_field(:name), class: "#{@project.name.present? ? '' : 'hidden'}" %>
+  <%= f.text_field :name, placeholder: req_field(:name), no_label: true, :required => true, :size => 60, class: '' %>
 </div>
-<div class="float-label">
-  <%= f.text_field :identifier, placeholder: req_field(:identifier), label: false, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
-  <%= f.label :identifier, req_field(:identifier) %>
+<div class="floating-field">
+  <%= f.label :identifier, req_field(:identifier), class: "#{@project.identifier.present? ? '' : 'hidden'}" %>
+  <%= f.text_field :identifier, placeholder: req_field(:identifier), no_label: true, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
 </div>
 
 <% unless @project.identifier_frozen? %>
   <em id="identifier-info" class="info"><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
 <% end %>
 
-<div class="">
-  <%= f.text_area :description, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
+<div class="floating-field textarea">
+  <%= f.label :description, placeholder: I18n.t!('field_description'), class: "#{@project.identifier.present? ? '' : 'hidden'}" %>
+  <%= f.text_area :description, no_label: true, placeholder: :description, :rows => 8, :class => 'wiki-edit' %>
 </div>
 
-<div id="project_inner_fields"  class="tabular float box">
-  <p><%= f.check_box :is_public %></p>
+<div id="project_inner_fields"  class="box">
 
   <% unless @project.allowed_parents.compact.empty? %>
-      <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
+      <div id="parent_id_container" class="floating-field">
+        <%= label(:project, :parent_id, l(:field_parent)) %>
+        <%= parent_project_select_tag(@project) %>
+      </div>
   <% end %>
 
   <% if @project.safe_attribute? 'inherit_members' %>
-  <p><%= f.check_box :inherit_members %></p>
+  <p class="floating-option"><%= f.check_box :inherit_members %></p>
   <% end %>
 
+  <p class="floating-option"><%= f.check_box :is_public %></p>
+
   <% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
-    <p><%= f.select :default_version_id, project_default_version_options(@project), :include_blank => true %></p>
+    <p class="floating-option"><%= f.select :default_version_id, project_default_version_options(@project), prompt: I18n.t!('field_default_version')  %></p>
   <% end %>
 
   <%= wikitoolbar_for 'project_description' %>
 
   <% @project.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :project, value %></p>
+    <p class="floating-option"><%= custom_field_tag_with_label :project, value %></p>
   <% end %>
   <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 
-  <div class="float-label">
-    <%= f.text_field :homepage, placeholder: :homepage, label: false, :size => 60 %>
-    <%= f.label :homepage %>
+  <div class="clearfix"></div>
+  <div class="floating-field">
+    <%= f.label :homepage, class: "#{@project.homepage.present? ? '' : 'hidden'}" %>
+    <%= f.text_field :homepage, placeholder: :homepage, no_label: true, :size => 60 %>
   </div>
 </div>
 
 <fieldset class="tabular float"><legend><%= l(:label_earned_value) %></legend>
-  <div id="evm_field_selector">
-    <%= f.select :evm_field, options_for_select(Project.available_fields.map{|field| [t("field_#{field}"), field] }, selected: (@project.evm_field || 'cost' )), id: 'project_evm_field' %>
-  </div>
-
-  <div class="float-label">
-    <%= f.number_field :evm_frequency, placeholder: req_field(:evm_frequency), label: false, required: true, size: 60 %>
-    <%= f.label :evm_frequency, req_field(:evm_frequency) %>
+  <div>
+    <div class="splitcontentleft">
+      <div id="evm_field_selector">
+        <div class="floating-field auto left">
+          <%= f.label :evm_field, req_field(:evm_field), class: "#{@project.evm_field.present? ? '' : 'hidden'}" %>
+          <%= f.select :evm_field, options_for_select(Project.available_fields.map{|field| [t("field_#{field}"), field] }, selected: (@project.evm_field || 'cost' )), no_label: true, id: 'project_evm_field' %>
+        </div>
+      </div>
+    </div>
+    <div class="splitcontentright">
+      <div class="floating-field left">
+        <%= f.label :evm_frequency, req_field(:evm_frequency), class: "#{@project.evm_frequency.present? ? '' : 'hidden'}" %>
+        <%= f.number_field :evm_frequency, placeholder: req_field(:evm_frequency), no_label: true, required: true, size: 60 %>
+      </div>
+    </div>
+    <div class="clearfix"></div>
   </div>
 </fieldset>
 
@@ -79,20 +94,23 @@
   </div>
 
   <div id="custom_field_container" >
-    <div class="float-label">
-      <%= f.text_field :custom_unity, placeholder: :custom_unity, label: "", size: 60 %>
+    <div class="floating-field left mid">
       <%= f.label :custom_unity %>
+      <%= f.text_field :custom_unity, placeholder: :custom_unity, no_label: true, size: 60 %>
     </div>
   </div>
   <div id="cost_field_container" >
-    <p><%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), label: false, selected: @project.currency || 'usd' %></p>
+    <p class="floating-field">
+      <%= f.label :currency, req_field(:currency) %>
+      <%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), no_label: true, selected: @project.currency || 'usd' %>
+    </p>
   </div>
 
   <%#= f.hidden_field :visible_fields, id: :visible_fields %>
   </fieldset>
 
 <% if @project.new_record? %>
-<fieldset class="box tabular"><legend><%= l(:label_module_plural) %></legend>
+<fieldset class="tabular"><legend><%= l(:label_module_plural) %></legend>
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
     <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m), :id => "project_enabled_module_names_#{m}" %>
@@ -105,7 +123,7 @@
 
 <% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
 <% unless @trackers.empty? %>
-<fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
+<fieldset class="tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
 <% @trackers.each do |tracker| %>
     <label class="floating">
     <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
@@ -117,7 +135,7 @@
 <% end %>
 
 <% unless @issue_custom_fields.empty? %>
-<fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
+<fieldset class="tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
 <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
   <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),

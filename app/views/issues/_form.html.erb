@@ -9,28 +9,35 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'tracker_id' %>
-<p><%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
+  <div class="floating-field auto">
+    <%= f.label :tracker, req_field(:tracker), class: "#{@issue.tracker.present? ? '' : 'hidden'}" %>
+    <%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, {:required => true, no_label: true}, 
+                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %>
+  </div>
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
-<p><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></p>
+<div class="floating-field">
+  <%= f.label :subject, req_field(:subject), class: "#{@issue.subject.present? ? '' : 'hidden'}" %>
+  <%= f.text_field :subject, placeholder: req_field(:subject), no_label: true, :size => 80, :maxlength => 255, :required => true %>
+</div>
 <% end %>
 
 <% if @issue.safe_attribute? 'description' %>
-<p>
-  <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
+<div class="floating-field textarea">
+  <%= f.label :description, :required => @issue.required_attribute?('description'), class: "#{@issue.subject.present? ? '' : 'hidden'}"  %>
   <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description,
                    :cols => 60,
+                   placeholder: :description,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit',
                    :no_label => true %>
   <% end %>
-</p>
-<%= wikitoolbar_for 'issue_description' %>
+  <%= wikitoolbar_for 'issue_description' %>
+</div>
 <% end %>
 
 <div id="attributes" class="attributes">

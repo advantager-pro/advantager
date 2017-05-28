@@ -5,6 +5,10 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  estimated_dates: Fechas estimadas
+  actual_dates: Fechas reales
+  no_parent_project: Sin proyecto padre
+  not_assigned: No asignado
   milestones:
     status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
     dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
