@@ -47,8 +47,9 @@
 <div id="attributes" class="attributes">
   <%= render :partial => 'issues/attributes' %>
 </div>
-
-<%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
+<div class="hooks details">
+  <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
+</div>
 <% end %>
 
 <% heads_for_wiki_formatter %>

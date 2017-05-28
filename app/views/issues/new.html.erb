@@ -30,29 +30,25 @@
     </p>
     <% end %>
 
-    <p id="attachments_form" class="box">
-      <label><%= l(:label_attachment_plural) %></label>
-      <br/>
-      <%= render :partial => 'attachments/form', :locals => {:container => @issue} %>
-    </p>
+    <div id="attachments_form" class="box">
+      <div class="box">
+        <%= render :partial => 'attachments/form', :locals => {:container => @issue} %>
+      </div>
+    </div>
 
     <% if @issue.safe_attribute? 'watcher_user_ids' -%>
-      <p id="watchers_form">
-        <p class="box">
-          <label class="title"><%= l(:label_issue_watchers) %></label>
-          <br/>
-          <span id="watchers_inputs">
+      <fieldset id="watchers_form">
+          <legend class=""><%= l(:label_issue_watchers) %></legend>
+          <div id="watchers_inputs">
             <%= watchers_checkboxes(@issue, users_for_new_issue_watchers(@issue)) %>
-          </span>
-          <br/>
-          <span class="search_for_watchers">
+          </div>
+          <div class="search_for_watchers">
             <%= link_to l(:label_search_for_watchers),
                       {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
                       :remote => true,
                       :method => 'get' %>
-          </span>
-        </p>
-      </p>
+          </div>
+      </fieldset>
     <% end %>
   </div>
 

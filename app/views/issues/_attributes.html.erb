@@ -91,7 +91,7 @@
               <% end %>
 
               <% if @issue.safe_attribute? 'parent_issue_id' %>
-                <p id="parent_issue" class="floating-field mid">
+                <p id="parent_issue" class="floating-field">
                   <%= f.label :parent_issue, class: @issue.parent.present? ? '' : 'hidden' %>
                   <%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), placeholder: :parent_issue, no_label: true %>
                 </p>

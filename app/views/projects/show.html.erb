@@ -17,7 +17,7 @@
           <%= textilizable @project.description %>
           <% if @project.constitutional_act_file_name.present? %>
             <%= label_tag :constitutional_act, I18n.t!('field_constitutional_act')  %>
-            <a target="_blank" href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %>
+            <a target="_blank" href="<%= @project.constitutional_act.url(:original, false)%>"><%= @project.constitutional_act_file_name %></a>
           <% end %>
         </div>
         <% end %>
