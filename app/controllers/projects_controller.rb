@@ -74,6 +74,7 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.sorted.to_a
     @project = Project.new
     @project.safe_attributes = params[:project]
+    @project.visible_fields = params[:project][:visible_fields] || []
     if @project.save
       unless User.current.admin?
         @project.add_default_member(User.current)
@@ -170,6 +171,7 @@ class ProjectsController < ApplicationController
 
   def update
     @project.safe_attributes = params[:project]
+    @project.visible_fields = params[:project][:visible_fields] || []
     if @project.save
       respond_to do |format|
         format.html {

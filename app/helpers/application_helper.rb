@@ -380,7 +380,7 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = ''
     principals.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false, :id => nil } #{h principal}</label>\n"
+      s << "<label><span class='avatar''>#{ avatar_image(principal) }</span>#{ check_box_tag name, principal.id, false, :id => nil } #{h principal}</label>\n"
     end
     s.html_safe
   end

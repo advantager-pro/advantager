@@ -50,7 +50,7 @@
                   </p>
               <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
               <% else %>
-                <p class="milestone-status" tooltip="<%= I18n.t!('milestones.status_update_explanation') %>"><label><%= l(:field_status) %></label> <%= @issue.status %></p>
+                <p class="milestone-status large-explanation" tooltip="<%= I18n.t!('milestones.status_update_explanation') %>"><label><%= l(:field_status) %></label> <%= @issue.status %></p>
               <% end %>
 
               <% if @issue.safe_attribute? 'priority_id' %>
@@ -81,7 +81,11 @@
 
 
                 <% @issue.project.visible_fields.each do |field| %>
-                  <p><%= f.number_field Project.issue_field(field) %></p>
+                  <p class="floating-field auto">
+                    <% issue_field = Project.issue_field(field) %>
+                    <%= f.label issue_field %>
+                    <%= f.number_field issue_field, placeholder: issue_field, no_label: true %>
+                  </p>
                 <% end %>
 
               <% end %>
@@ -89,7 +93,7 @@
               <% if @issue.safe_attribute? 'parent_issue_id' %>
                 <p id="parent_issue" class="floating-field mid">
                   <%= f.label :parent_issue, class: @issue.parent.present? ? '' : 'hidden' %>
-                  <%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), placeholder: I18n.t!('field_parent_issue'), no_label: true %>
+                  <%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), placeholder: :parent_issue, no_label: true %>
                 </p>
                 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
               <% end %>
@@ -100,15 +104,15 @@
 
 
       <% if !@issue.milestone? %>
-        <div class="splitcontentright">
-          <div class="box">
+        <div class="splitcontentright" style="float: none;margin: auto; text-align: center;">
+          <div class="">
             <fieldset class="issue"><legend><%= I18n.t!('estimated_dates') %></legend>
               <div class="splitcontent">
                 <div class="splitcontentleft">
                   <% if @issue.safe_attribute? 'start_date' %>
                     <p id="start_date_area" class="floating-field">
                       <%= f.label :start_date, class: (@issue.start_date.present? ? '' : 'hidden') %>
-                      <%= f.text_field(:start_date, :size => 10, placeholder: I18n.t!('field_start_date'), no_label: true, :required => @issue.required_attribute?('start_date'), class: '', placeholder: :start_date) %>
+                      <%= f.text_field(:start_date, :size => 10, placeholder: :start_date, no_label: true, :required => @issue.required_attribute?('start_date'), class: '') %>
                       <%= calendar_for('issue_start_date') %>
                     </p>
                   <% end %>
@@ -150,11 +154,13 @@
           </div> <!-- /box -->
         </div> <!-- /splitcontentright -->
       <% else %>
-        <div class="milestone-dates" tooltip="<%= I18n.t!('milestones.dates_update_explanation') %>" >
-          <% %w(start_date due_date actual_start_date actual_due_date).each do |dfield| %>
-            <p><label><%= l(:"field_#{dfield}") %></label> <%= @issue.send(dfield) %></p>
-          <% end %>
-        </div>
+        <div class="splitcontentright">
+          <div class="milestone-dates large-explanation" tooltip="<%= I18n.t!('milestones.dates_update_explanation') %>" >
+            <% %w(start_date due_date actual_start_date actual_due_date).each do |dfield| %>
+              <p><label><%= l(:"field_#{dfield}") %></label> <%= @issue.send(dfield) %></p>
+            <% end %>
+          </div>
+        </div> <!-- /splitcontentright -->
       <% end %>  
       <% # end if not milestone %>
 

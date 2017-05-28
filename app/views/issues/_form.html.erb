@@ -7,21 +7,25 @@
   <%= f.check_box :is_private, :no_label => true %><label class="inline" for="issue_is_private" id="issue_is_private_label"><%= l(:field_is_private) %></label>
 </p>
 <% end %>
+<div class="clearfix"></div>
+
+<% if @issue.safe_attribute? 'subject' %>
+<div class="floating-field issue-subject">
+  <%= f.label :subject, req_field(:subject), class: "#{@issue.subject.present? ? '' : 'hidden'}" %>
+  <%= f.text_field :subject, placeholder: req_field(:subject), no_label: true, :size => 80, :maxlength => 255, :required => true %>
+</div>
+<% end %>
 
 <% if @issue.safe_attribute? 'tracker_id' %>
-  <div class="floating-field auto">
+  <div class="floating-field issue-tracker">
     <%= f.label :tracker, req_field(:tracker), class: "#{@issue.tracker.present? ? '' : 'hidden'}" %>
     <%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, {:required => true, no_label: true}, 
                 :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %>
   </div>
 <% end %>
 
-<% if @issue.safe_attribute? 'subject' %>
-<div class="floating-field">
-  <%= f.label :subject, req_field(:subject), class: "#{@issue.subject.present? ? '' : 'hidden'}" %>
-  <%= f.text_field :subject, placeholder: req_field(:subject), no_label: true, :size => 80, :maxlength => 255, :required => true %>
-</div>
-<% end %>
+
+<div class="clearfix"></div>
 
 <% if @issue.safe_attribute? 'description' %>
 <div class="floating-field textarea">

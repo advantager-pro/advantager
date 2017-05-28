@@ -46,7 +46,7 @@ module WatchersHelper
   # Returns a comma separated list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    content = ''.html_safe
+    content = ''.html_safe 
     lis = object.watcher_users.collect do |user|
       s = ''.html_safe
       s << avatar(user, :size => "16").to_s
@@ -72,7 +72,8 @@ module WatchersHelper
     users.map do |user|
       c = checked.nil? ? object.watched_by?(user) : checked
       tag = check_box_tag 'issue[watcher_user_ids][]', user.id, c, :id => nil
-      content_tag 'label', "#{tag} #{h(user)}".html_safe,
+      user_avatar = "<span class='avatar'>#{ avatar_image(user) }</span>"
+      content_tag 'label', "#{user_avatar} #{tag} #{h(user)}".html_safe,
                   :id => "issue_watcher_user_ids_#{user.id}",
                   :class => "floating"
     end.join.html_safe
