@@ -34,7 +34,7 @@ input[type="button"], input[type="submit"], button{
 }
 
 .constitutional-act-form label {
-    width: 160px;
+    /*width: 160px;*/
     margin-top: 4px;
     margin-bottom: 4px;
     text-align: right;
@@ -817,6 +817,7 @@ input[type="button"], input[type="submit"], button{
 
 #assigned_to_line select{
   width: 62%!important;
+  width:73%!important;
 }
 .self-select{
   padding: 10px 20px;
@@ -911,104 +912,13 @@ legend.info{
   right: -41px;
 }
 
-
-
-
-
-/*
-.float-label {
-	position: relative;
-	display: block;
-}
-.float-label label, .floating-label {
-	position: absolute;
-  top: -19px;
-  left: 0em;
-	font-size: .8rem;
-	opacity: 0;
-}
-.float-label #issue_subject, .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'] {
-	height: 2.5rem;
-	vertical-align: baseline;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	outline: none;
-}
-
-.float-label #issue_subject, .float-label input, .float-label label {
-	-webkit-transition: 0.2s ease-in-out;
-	-moz-transition: 0.2s ease-in-out;
-	-o-transition: 0.2s ease-in-out;
-	transition: 0.2s ease-in-out;
-}
-
-.float-label input:focus + label, .float-label input:not(:placeholder-shown) + label{
-	color: #ccc;
-	opacity: 1;
-	display: inline-block;
-	height: 10px;
-	padding-bottom: 5px;
-}
-
-.float-label input:disabled:focus + label, .float-label input:disabled:not(:placeholder-shown) + label{
-    color: white;
-}
-
-.float-label input:focus + label{
-  color: #00dbf1;
-  font-weight: bold;
-}
-
-.float-label #issue_subject:focus, .float-label input:focus, .float-label input:not(:placeholder-shown), .float-label #issue_subject:not(:placeholder-shown), .float-label select:focus{
-  padding-top: 36px;
-  padding-bottom: 17px;
-  padding-left: 13px;
-}
- .float-label input:focus::-webkit-input-placeholder {
-	opacity: 0;
-}
-.float-label input:focus:-moz-placeholder {
-	opacity: 0;
-}
-.float-label input:focus::-moz-placeholder {
-	opacity: 0;
-}
-.float-label input:focus:-ms-input-placeholder {
-	opacity: 0;
-}
-*/
 #content.project-new{
   padding: 20px 50px;
 }
 
-/*
-
-#issue_subject, .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"], textarea#issue_description, .jstElements, label[for="issue_description"]{
-    margin-bottom: 21px!important;
-    width: 95%!important;
-}
-*/
-
 .project-new .jstElements, .project-edit .jstElements, .project-show .jstElements, .jstElements{
    margin-bottom: 0px!important; 
 }
-/*
-#issue_subject, .float-label input, .float-label label , .float-label input[type='text'], .float-label input[type='email'], .float-label input[type='tel'], .float-label input[type='password'], .float-label input, .float-label textarea, textarea#project_description, .jstElements, .project-edit label[for="project_description"], .project-show label[for="project_description"], .project-new label[for="project_description"], .project-settings label[for="project_description"], textarea#issue_description,  label[for="issue_description"]{
-    margin-left: 2%!important;
-    margin-top: 0;
-}
-*/
-
-/*#project_identifier{
-  margin-bottom: 10px!important;
-}*/
-
-/*label[for="issue_description"],  .float-label label{
-  text-align: left;
-  margin-bottom: 4px!important;
-}
-*/
 
 #identifier-info{
   width: 96%;
@@ -1028,6 +938,18 @@ fieldset{
 }
 fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
   margin: 20px!important;
+}
+
+fieldset.general-info > p.floating-option:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent),  .floating-option{
+  width: 270px;
+  text-align: right;
+  float: left;
+  margin: 20px!important;
+  margin-top: 52px!important;
+}
+fieldset.general-info > p.floating-option:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent) label, .floating-option label{
+    text-align: right;
+    margin-right: 10px;
 }
 
 .float.tabular label{
@@ -1052,11 +974,6 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
 #project_evm_frequency{
   width: 330px!important;
 }
-/*
-.visible-field-container #custom_field_container .float-label{
-    margin: 20px;
-}
-*/
 
 #project_inner_fields{ padding-top: 0; }
 
@@ -1094,13 +1011,9 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
 .floating-field:not(.textarea){
   height: 64px;
 }
-/*
-.floating-field.textarea{
-  height:auto;
-}*/
 
 .floating-field label{
-  color: #ccc;
+  color: #9a9a9a;
   font-size: .8rem;
   display: block;
   width: 100%;
@@ -1151,20 +1064,6 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
   visibility: hidden;
 }
 
-
-/*
-.floating-label{
-  color: #ccc;
-  font-size: .8rem;
-}
-
-.floating-label.focused{
-  color: #00dbf1;
-  font-weight: bold;
-}
-*/
-
-
 .visible-field-container .floating-field{
     bottom: 30px;
     left: 0;
@@ -1174,18 +1073,6 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
 
 #cost_field_container, .visible-field-container #custom_field_container .floating-field{
   margin-left: 38px;
-}
-
-.floating-option{
-  width: 270px;
-  text-align: center;
-  float: left;
-  margin: 20px;
-  margin-top: 32px;
-}
-.floating-option label{
-    text-align: right;
-    margin-right: 10px;
 }
 
 #parent_id_container{
@@ -1201,12 +1088,6 @@ fieldset > *:not(.splitcontentleft):not(.splitcontentright):not(.splitcontent){
   float: left!important;
 }
 
-/*@media screen and (min-width: 768px){
-  .floating-field input, .floating-field select, .floating-field textarea{
-    width: 100%!important;
-  }
-}*/
-
 fieldset.issue{
   width:auto!important; 
   /*margin-left: 0!important;*/
@@ -1216,7 +1097,7 @@ fieldset.issue{
   padding-bottom: 30px!important;
   display: inline-block;
 }
-fieldset.issue .floating-field input{
+fieldset.issue .floating-field input, .timelog-date.floating-field input{
   width: 198px;
   position: static;
   float: left;
@@ -1227,7 +1108,7 @@ fieldset.issue /*>*/ .splitcontent .splitcontentleft, fieldset.issue /*>*/ .spli
   min-width: 250px!important;
 }
 
-fieldset.issue .floating-field img.ui-datepicker-trigger{
+fieldset.issue .floating-field img.ui-datepicker-trigger, .timelog-date.floating-field  img.ui-datepicker-trigger{
   float: left;
   background-size: 14px;
   padding: 19px!important;
@@ -1264,10 +1145,18 @@ fieldset.issue .floating-field img.ui-datepicker-trigger{
   margin-bottom: 12px;
 }
 
+#watchers_inputs label{
+  margin-bottom: 16px!important;
+}
+
 #users_for_watcher .avatar img, #watchers_inputs .avatar img{
   border-radius: 99px;
 }
 
+#watchers_form label.floating .avatar{
+  float: left;
+  margin-right: 12px;
+}
 
 #watchers_inputs label{
   margin: 8px;
@@ -1278,10 +1167,10 @@ fieldset.issue .floating-field img.ui-datepicker-trigger{
   margin-right: 26px;
 }
 #watchers_inputs label input{
-  float: left;
-  margin: 8px;
-  position: absolute;
-  margin-left: 15px;
+  float: left!important;
+  position: absolute!important;
+  margin-left: 4px!important;
+  margin-top: 24px;
 }
 
 #watchers_inputs label.title{
@@ -1307,17 +1196,18 @@ fieldset.issue .floating-field img.ui-datepicker-trigger{
 .floating-field.issue-tracker{
   float: left;
   width: 15%;
+  max-width: 218px;
 }
 
 #issue_is_private_wrap{
-    margin-top: -20px;
-    margin-right: 22px!important;
+  margin-top: -32px!important;
+  margin-right: 3%!important;
 }
 .add_attachment legend{
   font-size: 11px;
 }
 
-.add_attachment [type="file"]{
+.add_attachment input[type="file"], .constitutional-act-form input[type="file"]{
   display: none;
 }
 
@@ -1361,12 +1251,33 @@ a.button, label.button{
   background: rgba(211, 211, 211, 0.4)!important;
 }
 
-/*
-#update #issue-form .box{
-  padding: 0px;
-  margin: 0px;
-  border: none;
-  background: white;
-  border-radius: 3px;
-  padding-bottom: 20px;
-}*/
+ul.tagit{
+  width: 92%;
+}
+
+.hooks.details .tabular{
+  padding-bottom: 16px;
+}
+.hooks.details .tabular label{
+  width: 160px;
+}
+
+.hooks.details .tabular p{
+  padding-left: 134px;
+}
+
+#attachments_form{
+  padding-left: 14px;
+}
+
+.floating-field.timelog-evm legend.info{
+  top: -3px;
+  right: -152px;
+}
+.floating-field.timelog-evm input{
+  width: 160px!important;
+}
+
+.floating-field.issue.timelog.comments{
+  margin-left: 1%;
+}
