@@ -25,6 +25,27 @@ input[type="button"], input[type="submit"], button{
   content: "\f017";
 }
 
+
+.default-configs::before {
+  width: 20px;
+  margin-left: -23px;
+  color: gray;
+  text-align: center;
+  font-family: FontAwesome;
+  content: "\f14e";
+  padding-right: 10px;
+}
+
+.default-configs{
+  hover::before {
+    color: $gray-darker;
+  }
+
+  &.selected::before {
+    color: $gray-darkest;
+  }
+}
+
 .constitutional-act-form{
   line-height: 35px;
 }
