@@ -407,7 +407,7 @@
 
 
     <script type="text/javascript">
-        $('.chart').empty();
+        $('.chart').empty(); // fix turbolinks issue
         
         $(document).ready(function () {
             var dateFormater = function(x){
@@ -421,6 +421,7 @@
             };
 
             getEVMPoints('<%= @project.id %>?lang=<%= User.current.language %>', function(response){
+                $('.chart').empty(); // fix turbolinks issue
                 var getLabels = function(keys){ 
                     var labels = [];
                     for(var i = 0; i < keys.length; i++)

@@ -859,10 +859,24 @@ $(document).on('blur', floatingFieldSelector, function(){
   if($(this).val() == "") hideFloatingLabel(label)
 });
 
-
+var removeDuplicatedElements = function(){
+  $('.chart').empty();
+  var dupSelectors = [
+    '.tagit.ui-widget.ui-widget-content.ui-corner-all',
+    '.jstElements'
+  ]
+  for(var i = 0; i < dupSelectors.length ; i++){
+    var selector = dupSelectors[i];
+    var j = 0;
+    while($(selector).length > 1){
+      $($(selector)[j++]).remove();
+    }
+  }
+  
+}
 
 var onReadyAndRender = function(){
-  $('.chart').empty();
+  removeDuplicatedElements();
 }
 $(document).on('turbolinks:render', onReadyAndRender);
 $(document).ready(onReadyAndRender);

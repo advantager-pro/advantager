@@ -195,6 +195,7 @@
   <script type="text/javascript">
   
     $(document).ready(function () {
+      $('.circle-chart').empty(); // fix turbolinks issue
       var dateFormater = function(x){
         function pad(s) { return (s < 10) ? '0' + s : s; };
         var d = new Date(x);
