@@ -9,8 +9,8 @@ module Advantager::EarnedSchedule
       ( (planned_completion_date - es_start_date) / period_duration ).to_i
     end
 
-    def periods
-      last_period.times.map{ |e| e+1 }
+    def periods(until_period = nil)
+      (until_period || last_period).times.map{ |e| e+1 }
     end
 
     def period_duration
@@ -25,17 +25,19 @@ module Advantager::EarnedSchedule
       es_start_date + (period * period_duration).days
     end
 
-    def BCWP(period)
+    def BCWP(period) # EV
+      # Do not get EV from periods > current.. you don't want EV from the future
+      return 0 if period.present? && period > current_period 
       self.project.earned_value(es_to_date(period))
     end
 
-    def BCWS(period)
+    def BCWS(period) # PV
       self.project.planned_value(es_to_date(period))
     end
 
     def find_period_x(period)
       period ||= current_period
-      periods.reverse.find{ |x| BCWP(period) >= BCWS(x) }
+      periods(period + 1).reverse.find{ |x| BCWP(period) > BCWS(x) }
     end
 
     # Point in period when current progress was planned to occur
@@ -52,13 +54,15 @@ module Advantager::EarnedSchedule
       t = current_period
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole_month_earned
-      x = find_period_x(t) || 0
+      x = find_period_x(t) || t
       # y = next_month
       y =  x + 1
       bCWSx = BCWS(x)
       pv_t = BCWP(t)
       bCWSy = BCWS(y)
-      return  x + ( ( pv_t - bCWSx).to_f / (bCWSy - bCWSx).to_f  )
+      div = (bCWSy - bCWSx).to_f
+      return 0 if div == 0.0 # avoid Infinity operation
+      return  x + ( ( pv_t - bCWSx).to_f / div )
     end
 
 

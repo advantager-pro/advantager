@@ -1119,7 +1119,8 @@ fieldset.issue{
   display: inline-block;
 }
 fieldset.issue .floating-field input, .timelog-date.floating-field input{
-  width: 198px;
+  /*width: 198px;*/
+  width: 82%;
   position: static;
   float: left;
   border-right: none;
@@ -1301,4 +1302,10 @@ ul.tagit{
 
 .floating-field.issue.timelog.comments{
   margin-left: 1%;
+}
+
+.issues-dates-container{
+  float: none!important;
+  margin: auto; 
+  text-align: center;
 }

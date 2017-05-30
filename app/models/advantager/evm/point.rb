@@ -24,6 +24,7 @@ class Advantager::EVM::Point < ActiveRecord::Base
   end
 
   def self.generate_from_project_begining(project, until_date=nil, from_date=nil)
+    project.evm_points.destroy_all
     until_date = (until_date || ::Date.today).to_date
     last_date = (from_date || project.created_on).to_date
     until last_date > until_date
