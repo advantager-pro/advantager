@@ -32,7 +32,10 @@ class BuildChartResponse
     project = evm_points.first.project
 
     response_points = []
-    (0..evm_points.length).step(project.evm_frequency).each do |index|
+    max_index = evm_points.length - 1
+    indexes = (0..max_index).step(project.evm_frequency)
+    indexes << max_index unless indexes.last == max_index
+    indexes.each do |index|
       e = evm_points[index]
       hash = {}
       fields.each do |field|
