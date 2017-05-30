@@ -33,8 +33,8 @@ class BuildChartResponse
 
     response_points = []
     max_index = evm_points.length - 1
-    indexes = (0..max_index).step(project.evm_frequency)
-    indexes << max_index unless indexes.to_a.last == max_index
+    indexes = (0..max_index).step(project.evm_frequency).to_a
+    indexes << max_index unless indexes.last == max_index
     indexes.each do |index|
       e = evm_points[index]
       hash = {}
