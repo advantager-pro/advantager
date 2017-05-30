@@ -30,10 +30,10 @@ class BuildChartResponse
     fields = options[:fields]
     fields += %w(day) unless options[:no_day]
     project = evm_points.first.project
-    n = project.evm_frequency
 
-    pts = (n - 1).step(evm_points.size - 1, n).map do |i|
-      e = evm_points[i]
+    response_points = []
+    (0..evm_points.length).step(project.evm_frequency).each do |index|
+      e = evm_points[index]
       hash = {}
       fields.each do |field|
         if field == 'day'
@@ -43,14 +43,15 @@ class BuildChartResponse
           hash[field] = e.send(field)
         end
       end
-      hash
+      response_points << hash
     end
-    d = project.due_date
-    if d > Date.today && (fields.include?('planned_value') || fields.include?(:planned_value))
-      lp = evm_points.last
-      pts << { planned_value: lp.budget_at_conclusion, day: "#{d.year}-#{d.month}-#{d.day}" }
+
+    due_date = project.due_date > Date.today ? project.due_date : Date.today
+    if due_date > Date.today && (fields.include?('planned_value') || fields.include?(:planned_value))
+      last_point = evm_points.last
+      response_points << { planned_value: last_point.budget_at_conclusion, day: "#{due_date.year}-#{due_date.month}-#{due_date.day}" }
     end
-    pts
+    response_points
   end  
 
   def self.add_single_field(field, evm_points, response, lang)
