@@ -29,6 +29,9 @@ input[type="button"], input[type="submit"], button{
   content: "\f017";
 }
 
+.hidden{
+  display: none;
+}
 
 .default-configs::before {
   width: 20px;
@@ -68,10 +71,29 @@ input[type="button"], input[type="submit"], button{
   margin-bottom: 5px !important;
 }
 
+#query_form_with_buttons{
+  margin-top: 10px;
+}
+
 .button-warning{
-   background: rgb(223, 117, 20) !important;
-   border-color: rgb(223, 117, 20) !important;
-   box-shadow: 0 1px 0 rgb(223, 117, 20)  !important;
+  background: rgb(223, 117, 20) !important;
+  border-color: rgb(223, 117, 20) !important;
+  box-shadow: 0 1px 0 rgb(223, 117, 20)  !important;
+  color: #fff;
+}
+
+.button-primary{
+  background-color: #40b6e3 !important;
+  border-color: #40b6e3 !important;
+  box-shadow: 0 1px 0 #40b6e3  !important;
+  color: #fff;
+}
+
+.button-secondary{
+  background-color: #019851 !important;
+  border-color: #019851 !important;
+  box-shadow: 0 1px 0 #019851  !important;
+  color: #fff;
 }
 
 .chart-container{

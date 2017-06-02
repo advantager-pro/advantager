@@ -6,20 +6,21 @@
 </div>
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : @query.name %></h2>
+  <button onclick="showAdvanceSearch()" id="show-advance-search"><%=l(:advanced_search) %></button>
+  <button class="hidden" onclick="hideAdvanceSearch()" id="hide-advance-search"><%=l(:button_cancel) %></button>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
-
 <%= form_tag({ :controller => 'issues', :action => 'index', :project_id => @project },
             :method => :get, :id => 'query_form') do %>
-  <div id="query_form_with_buttons" class="hide-when-print">
+  <div id="query_form_with_buttons" class="hide-when-print hidden">
     <%= hidden_field_tag 'set_filter', '1' %>
     <div id="query_form_content">
-    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <fieldset id="filters" class="collapsible">
       <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
       <div style="<%= @query.new_record? ? "" : "display: none;" %>">
         <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
       </div>
     </fieldset>
-    <fieldset class="collapsible collapsed">
+    <fieldset class="collapsible">
       <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
       <div style="display: none;">
         <table>
@@ -48,12 +49,12 @@
     </fieldset>
     </div>
     <p class="buttons">
-    <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
-    <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+    <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'button-primary', :id => 'apply-filters' %>
+    <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'button-warning'  %>
     <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
         <%= link_to_function l(:button_save),
                              "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
-                             :class => 'icon icon-save' %>
+                             :class => 'button-secondary' %>
     <% end %>
     </p>
   </div>
