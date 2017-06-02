@@ -1133,7 +1133,7 @@ en:
   button_add: Add
   button_change: Change
   button_apply: Apply
-  button_clear: Clear
+  button_clear: Reset
   button_lock: Lock
   button_unlock: Unlock
   button_download: Download
@@ -1301,7 +1301,7 @@ en:
 
   label_default_configs: Default configurations
   default_configs_warning: Caution! The application of these configurations is of global scope on all the projects, the changes made on the states, workflows and other initial data will be overwritten, the new data will not be eliminated.
-  button_default_configs: Reestablish default configs.
+  button_default_configs: Reestablish default configs
   default_configs_confirm: Are you sure you want to reestablish default configs?
   default_configs_succes: Default configs have been reestablished. 
 
