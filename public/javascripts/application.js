@@ -6,18 +6,12 @@ function checkAll(id, checked) {
 }
 
 function showAdvanceSearch(){
-  // $('#issue-advance-search').click(function() {
-  //   alert( "Handler for .click() called." );
-  // });
   $('#query_form_with_buttons').show();
   $('#show-advance-search').hide();
   $('#hide-advance-search').show();
 }
 
 function hideAdvanceSearch(){
-  // $('#issue-advance-search').click(function() {
-  //   alert( "Handler for .click() called." );
-  // });
   $('#query_form_with_buttons').hide();
   $('#show-advance-search').show();
   $('#hide-advance-search').hide();
