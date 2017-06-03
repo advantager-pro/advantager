@@ -58,17 +58,26 @@ module ProjectsHelper
       links << link_to(l(:label_overall_spent_time), time_entries_path)
     end
     links << link_to(l(:label_overall_activity), activity_path)
-    links.join(" | ").html_safe
+    links.join("  ").html_safe
   end
 
   # Renders the projects index
-  def render_project_hierarchy(projects)
+  def render_project_hierarchy(projects, my_projects=false)
     render_project_nested_lists(projects) do |project|
-      s = link_to_project(project, {}, :class => "#{project.css_classes} #{User.current.member_of?(project) ? 'my-project' : nil}")
-      if project.description.present?
-        s << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
+      klass = my_projects ? '' : "#{project.css_classes} #{User.current.member_of?(project) ? 'my-project' : nil}"
+      content_tag('div', class: 'splitcontent') do
+        splitcontent = content_tag('div', class: 'splitcontentleft') do
+          splitcontentleft = link_to_project(project, {}, :class => klass)
+          if project.description.present?
+            splitcontentleft << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
+          end
+          splitcontentleft
+        end
+        splitcontent << content_tag('div', class: 'splitcontentright') do
+          render('minidash', locals: { project: project })
+        end
+        splitcontent
       end
-      s
     end
   end
 

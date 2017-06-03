@@ -57,8 +57,12 @@ module Advantager::EVM::ProjectMethods
         end
       end
 
+      def last_point
+        self.evm_points.order("day ASC").last
+      end
+
       def last_point_day
-        self.evm_points.order("day ASC").last.day
+        last_point.day
       end
 
       def first_point_day
