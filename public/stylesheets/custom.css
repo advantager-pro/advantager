@@ -647,11 +647,11 @@ input[type="button"], input[type="submit"], button{
   height: 150px;
 }
 
-.index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
-.index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
-.index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
-.index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
-.index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
+.minidash .indicators .negative .icon::before, .index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
+.minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
+.minidash .indicators .positive .icon::before, .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
+.minidash .indicators .positive.cost .icon::before, .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
+.minidash .indicators .neutral .icon::before, .index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
 
 .index  .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
@@ -1331,3 +1331,116 @@ ul.tagit{
   margin: auto; 
   text-align: center;
 }
+
+
+/* Project index */
+
+#projects-index .indicators > div{
+  float: left;
+}
+
+#projects-index ul.projects li.root{
+  padding: 22px;
+  border: none;
+  background: white;
+  min-width: 374px;
+  max-width: 374px;
+}
+
+#projects-index .minidash .members .member-count, #projects-index .minidash .members .avatar img{
+  width: 25px;
+  height: 25px;
+  border-radius: 90px;
+  margin-right: -10px;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.75);
+}
+#projects-index .minidash .members .member-count{
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  line-height: 27px;
+  background: #6640c3;
+  background: linear-gradient(to right, #8500fd, rgb(0, 170, 187));
+}
+
+
+#projects-index .minidash .members{ text-align: center; }
+
+#projects-index .minidash .indicators{
+  float: right;
+}
+#projects-index .minidash .members, #projects-index .minidash .indicators{
+  min-width: 118px;
+  max-width: 118px;
+}
+#projects-index .minidash .members .list{
+  padding-right: 48px;
+}
+#projects-index .minidash .indicators .icon::before{
+  font-size: 27px;
+  margin-bottom: 9px;
+  width: 44px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  line-height: 42px;
+  color: white;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#projects-index ul.projects li.child{
+  padding-top: 10px;
+}
+#projects-index{ margin-bottom: 12px }
+#projects-index, .project-index h2{
+  padding: 20px;
+  background: #f1f1f1;
+}
+
+.project-index h2{
+  margin-bottom: 0;
+}
+
+#projects-index ul.projects ul.projects{
+ border: 1px solid rgba(128, 128, 128, 0.1); 
+ border-left: 2px solid #d9d9d9;
+  margin-top: 18px;
+}
+
+.minidash .members h3, .minidash .indicators h3{
+  margin-bottom: 6px;
+  text-align: right;
+  padding-right: 28px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.minidash .indicators h3{
+  padding-right: 11px;
+  margin-top: -7px;
+}
+
+#projects-index .projects .description p{
+  margin-top: 16px;
+  font-size: 12px;
+  color: #797979;
+  margin-left: 6px;
+  text-align: left;
+}
+#projects-index .projects a, #projects-index .projects a:hover, #projects-index .projects a:focus{
+  text-decoration: none!important;
+}
+
+
+#projects-index ul.projects a.project{
+  text-align: left;
+  float: left;
+  width: 100%;
+  clear: both;
+  margin-bottom: 10px;
+}
+
+/* Project index End */
