@@ -19,7 +19,11 @@ class WelcomeController < ApplicationController
   caches_action :robots
 
   def index
+    @projects = User.current.projects.first(4)
     @news = News.latest User.current
+    @author = User.current
+    params[:user_id] = @author.id
+    activity_index
   end
 
   def robots

@@ -4,7 +4,7 @@
         <div class="indicators splitcontentleft">
             <% last_point = project.last_point %>
             <% if last_point.present? %>
-                <h3><%= I18n.t!('indicators_evm') %></h3>
+                <h3><span class="icon icon-barcharts"></span><%= I18n.t!('indicators_evm') %></h3>
                 <% tcpi = last_point.to_complete_performance_index_bac.round(1) %>
                 <% status_tcpi = tcpi_status(tcpi) %>
                 <div class="tcpi cost <%= status_tcpi %>">

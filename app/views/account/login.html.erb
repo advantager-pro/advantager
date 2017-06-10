@@ -1,5 +1,17 @@
 <%= call_hook :view_account_login_top %>
-<div id="login-form">
+
+<button id="show-login" class="show-login" onclick="showLogin()"><%= I18n.t!('label_login') %></button>
+
+<% login_css_class = params[:username].present? ? '' : 'hidden' %>
+<% guide_css_class = params[:username].present? ? 'hidden' : '' %>
+
+<div id="guid-presentation-help" class="welcome-index <%= guide_css_class %>">
+  <%= render 'welcome/help'  %>
+</div>
+
+<div id="login-form" class="<%= login_css_class %>">
+<button class="show-guide" onclick="hideLogin()"><%= I18n.t!('show_guide') %></button>
+
 <%= form_tag(signin_path, onsubmit: 'return keepAnchorOnSignIn(this);') do %>
 <%= back_url_hidden_field_tag %>
 <table>

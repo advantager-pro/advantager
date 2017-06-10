@@ -1,4 +1,6 @@
 en:
+  show_guide: Show Guide
+  create_your_first_project: Create your first project efficiently using EVM and Earned Schedule integrating the management processes
   indicators_evm: Indicators EVM
   general_info: General Information
   choose_files: Choose Files
@@ -13,6 +15,7 @@ en:
   es_estimated_completion_date: Estimated Completion Date (Earned Schedule)
   advanced_search: Advanced search
   activities: Activities
+  latest_activities: Latest activities
   chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
   charts_load_error: There was an error while loading the charts. Please reload the page or contact the administrator.
   conversation_load_error: There was an error while loading the conversation
@@ -447,6 +450,7 @@ en:
       cost_performance_index: Cost Performance Index
       performance_index: Performance Index ( SPI * CPI )
       budget_at_conclusion: Budget At Conclusion
+      budget_at_conclusion_abbr: Budget At Conclusion
       estimate_at_completion_calculated: Estimate At Completion (Calculated)
       estimate_at_completion_cpi: Estimate At Completion (CPI based)
       estimate_at_completion_cpi_and_spi: Estimate At Completion (CPI and SPI based)
@@ -731,6 +735,8 @@ en:
   label_news_plural: News
   label_news_latest: Latest news
   label_news_view_all: View all news
+  label_activity_view_all: View all activities
+  label_project_view_all: View all projects
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
