@@ -1102,10 +1102,7 @@ fieldset.general-info > p.floating-option:not(.splitcontentleft):not(.splitconte
   font-weight: bold;
 }
 
-.floating-field label.hidden{
-  /*display: none;*/
-  visibility: hidden;
-}
+.floating-field label.hidden{ visibility: hidden; }
 
 .visible-field-container .floating-field{
     bottom: 30px;
@@ -1368,26 +1365,17 @@ ul.tagit{
   background: linear-gradient(to right, #8500fd, rgb(0, 170, 187));
 }
 
-
 #projects-index .minidash .members{ text-align: center; }
-
-#projects-index .minidash .indicators{
-  float: right;
-}
-#projects-index .minidash .indicators .tcpi .icon::before{
-  margin-left: -10px;
-}
+#projects-index .minidash .indicators{ float: right; }
+#projects-index .minidash .indicators .tcpi .icon::before{ margin-left: -10px; }
 
 #projects-index .minidash .members, #projects-index .minidash .indicators{
-  /*min-width: 118px;
-  max-width: 118px;*/
-
   min-width: 128px;
   max-width: 128px;
 }
-#projects-index .minidash .members .list{
-  padding-right: 48px;
-}
+
+#projects-index .minidash .members .list{ padding-right: 48px; }
+
 #projects-index .minidash .indicators .tcpi .icon::before, #projects-index .minidash .indicators .tspi .icon::before{
   font-size: 27px;
   margin-bottom: 9px;
@@ -1401,18 +1389,10 @@ ul.tagit{
   margin-right: 10px;
 }
 
-#projects-index ul.projects li.child{
-  padding-top: 10px;
-}
+#projects-index ul.projects li.child{ padding-top: 10px; }
 #projects-index{ margin-bottom: 12px }
-#projects-index, .project-index h2{
-  padding: 20px;
-  /*background: #f1f1f1;*/
-}
-
-.project-index h2{
-  margin-bottom: 0;
-}
+#projects-index, .project-index h2{ padding: 20px; }
+.project-index h2{ margin-bottom: 0; }
 
 #projects-index ul.projects ul.projects{
  border: 1px solid rgba(128, 128, 128, 0.1); 
@@ -1430,7 +1410,6 @@ ul.tagit{
 }
 
 .minidash .indicators h3{
-  /*padding-right: 11px;*/
   padding-right: 0;
   margin-top: -7px;
 }
@@ -1567,17 +1546,7 @@ ul.tagit{
 .study-trends .evm-example .box{
   background: rgba(255, 255, 255, 0.49);
 }
-
 /* end Welcome/Help styles */
-/*
-.study-trends .explanation{
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 3px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  margin: 10px;
-  padding: 28px;
-}*/
-
 
 
 .welcome-index .explanation-block{
