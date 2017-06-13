@@ -61,26 +61,6 @@ module ProjectsHelper
     links.join("  ").html_safe
   end
 
-  # Renders the projects index
-  def render_project_hierarchy(projects, my_projects=false)
-    render_project_nested_lists(projects) do |project|
-      klass = my_projects ? '' : "#{project.css_classes} #{User.current.member_of?(project) ? 'my-project' : nil}"
-      content_tag('div', class: 'splitcontent') do
-        splitcontent = content_tag('div', class: 'splitcontentleft') do
-          splitcontentleft = link_to_project(project, {}, :class => klass)
-          if project.description.present?
-            splitcontentleft << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
-          end
-          splitcontentleft
-        end
-        splitcontent << content_tag('div', class: 'splitcontentright') do
-          render('minidash', locals: { project: project })
-        end
-        splitcontent
-      end
-    end
-  end
-
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected=nil)
     grouped = Hash.new {|h,k| h[k] = []}

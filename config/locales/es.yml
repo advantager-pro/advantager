@@ -5,6 +5,8 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  show_guide: Mostrar guía
+  create_your_first_project: Crea tu primer proyecto utilizando EVM y Programación Ganada de forma eficientemente integrada a los procesos de gestión
   indicators_evm: Indicadores EVM
   general_info: Información General
   choose_files: Seleccionar Archivos
@@ -19,6 +21,7 @@ es:
   es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
+  latest_activities: Últimas actividades
   chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
   charts_load_error: Hubo un error al cargar los gráficos. Por favor recarga la página o contacta al administrador.
   conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
@@ -446,6 +449,7 @@ es:
       cost_performance_index: Índice del desempeño del costo (CPI)
       performance_index: Índice de desempeño ( SPI * CPI )
       budget_at_conclusion: Presupuesto a la conclusión (BAC)
+      budget_at_conclusion_abbr:  Ppto. a la conclusión (BAC)
       estimate_at_completion_calculated: Estimación a la conclusión (EAC) calculada
       estimate_at_completion_cpi: Estimación a la conclusión (EAC) basada en el CPI
       estimate_at_completion_cpi_and_spi: Estimación a la conclusión (EAC) basada en el CPI y SPI
@@ -652,6 +656,8 @@ es:
   label_news_new: Nueva noticia
   label_news_plural: Noticias
   label_news_view_all: Ver todas las noticias
+  label_activity_view_all: Ver todas las actividades
+  label_project_view_all: Ver todos los proyectos
   label_next: Siguiente
   label_no_change_option: (Sin cambios)
   label_no_data: Ningún dato disponible

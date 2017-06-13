@@ -153,7 +153,7 @@ en:
         neutral_rule: TSPI = 1
         neutral: El desempeño del cronograma es neutro para que el proyecto se termine según el cronograma.
         critical_rule: TSPI > 1.1
-        critical: It is estimated that the schedule estimate is not achievable.
+        critical: Based on the TSPI, the schedule estimate is not achievable.
     estimates:
       estimates_to_complete:
         acronym: ETC

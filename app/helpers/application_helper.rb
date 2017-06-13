@@ -28,6 +28,7 @@ module ApplicationHelper
   include Redmine::SudoMode::Helper
   include Redmine::Themes::Helper
   include Redmine::Hook::Helper
+  include ActivitiesHelper
 
   include EVMHelper
   include ChatMessagesHelper
@@ -345,6 +346,27 @@ module ApplicationHelper
 
       content_tag( :span, nil, :class => 'jump-box-arrow') +
       select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }')
+    end
+  end
+
+
+  # Renders the projects index
+  def render_project_hierarchy(projects, my_projects=false)
+    render_project_nested_lists(projects) do |project|
+      klass = my_projects ? '' : "#{project.css_classes} #{User.current.member_of?(project) ? 'my-project' : nil}"
+      content_tag('div', class: 'splitcontent') do
+        splitcontent = content_tag('div', class: 'splitcontentleft') do
+          splitcontentleft = link_to_project(project, {}, :class => klass)
+          if project.description.present?
+            splitcontentleft << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
+          end
+          splitcontentleft
+        end
+        splitcontent << content_tag('div', class: 'splitcontentright') do
+          render('/projects/minidash', locals: { project: project })
+        end
+        splitcontent
+      end
     end
   end
 

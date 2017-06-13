@@ -1,0 +1,257 @@
+<% @project = Project.new %>
+<% @project.evm_field = 'cost' %>
+<% @trackers = Tracker.sorted.to_a %>
+<% @issue = Issue.new %>
+<% bac = 220.0 %>
+<div class="create-project splitcontent  explanation-block">
+    <div class="splitcontentleft">
+        <div class="box disabled-example">
+            <h2><%= l(:label_project_new) %></h2>
+            <%= labelled_form_for @project do |f| %>
+                <div class="floating-field">
+                    <%= f.label :name, req_field(:name), class: "#{@project.name.present? ? '' : 'hidden'}" %>
+                    <%= f.text_field :name, placeholder: req_field(:name), no_label: true, :required => true, :size => 60, class: '' %>
+                </div>
+                <div class="clearfix"></div>
+                <div class="floating-field">
+                    <div class="textarea-tools"></div>
+                    <div class="description-example">
+                        <span><%= I18n.t!('field_description') %></span>
+                    </div>
+                </div>
+                <div class="continue">...</div>
+            <% end %>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="box disabled-example">
+            <%= labelled_form_for @project do |f| %>
+                <fieldset class="tabular float"><legend><%= l(:label_earned_value) %></legend>
+                <div>
+                    <div class="splitcontentleft">
+                    <div id="evm_field_selector">
+                        <div class="floating-field auto left">
+                        <%= f.label :evm_field, req_field(:evm_field), class: "#{@project.evm_field.present? ? '' : 'hidden'}" %>
+                        <%= f.select :evm_field, options_for_select(Project.available_fields.map{|field| [t("field_#{field}"), field] }, selected: (@project.evm_field || 'cost' )), no_label: true, id: 'project_evm_field' %>
+                        </div>
+                        <div id="cost_field_container" >
+                            <p class="floating-field">
+                            <%= f.label :currency, req_field(:currency) %>
+                            <%= f.select :currency, Money::Currency.table.map{ |k, v|  ["#{v[:iso_code]} - #{v[:symbol]}", k] }, prompt: t("evm.currency"), no_label: true, selected: @project.currency || 'usd' %>
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="splitcontentright">
+                    <div class="floating-field left">
+                        <%= f.label :evm_frequency, req_field(:evm_frequency), class: "#{@project.evm_frequency.present? ? '' : 'hidden'}" %>
+                        <%= f.number_field :evm_frequency, placeholder: req_field(:evm_frequency), no_label: true, required: true, size: 60 %>
+
+                    </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                </fieldset>
+
+            <% end %>
+            <div class="clearfix"></div>
+        </div>        
+    </div>
+    <div class="splitcontentright">
+        <div class="box burble arrow-left md-arrow-top">
+            <%= render 'welcome/create_project' %>
+        </div>
+    </div>
+</div>
+
+<div class="splitcontent add-issue  explanation-block">
+    <div class="splitcontentleft">
+        <div class="box burble arrow-right md-arrow-bottom">
+           <%= render 'welcome/add_issue' %>
+        </div>
+    </div>
+    <div class="splitcontentright">
+        <div class="box disabled-example">
+            <h2><%= l(:label_issue_new) %></h2>
+            <%= labelled_form_for @issue do |f| %>
+                <div class="floating-field issue-subject">
+                  <%= f.label :subject, req_field(:subject), class: "#{@issue.subject.present? ? '' : 'hidden'}" %>
+                  <%= f.text_field :subject, placeholder: req_field(:subject), no_label: true, :size => 80, :maxlength => 255, :required => true %>
+                </div>
+                <div class="floating-field issue-tracker">
+                  <%= f.label :tracker, req_field(:tracker), class: "#{@issue.tracker.present? ? '' : 'hidden'}" %>
+                  <%= f.select :tracker_id, @trackers.collect {|t| [t.name, t.id]}, {:required => true, no_label: true} %>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="floating-field">
+                    <div class="textarea-tools"></div>
+                    <div class="description-example">
+                      <span><%= I18n.t!('field_description') %></span>
+                    </div>
+                </div>
+                <div class="continue">...</div>
+            <% end %>
+        </div>
+        <div class="box enabled-example">
+            <% @trackers.each_with_index do |tracker, i| %>
+            <div class="float-left col-33">
+                <div class="panel tracker shadow">
+                <h4 class="text-center"> <%= tracker.name %>s</h4>
+                <div id="issues-chart-<%= tracker.id %>"  class="circle-chart" style="width: 100%; height: 250px; margin: auto;"></div>
+                </div>
+            </div>
+            <% end %>
+            <div class="float-left col-33 issue-chart-tags">
+                <div class="panel tracker shadow">
+                    <h4 class="text-center"><%= I18n.t!('label_tag') %>s </h4>
+                    <div id="issues-chart-tags"  class="circle-chart" style="width: 100%; height: 250px; margin: auto;">
+                    </div>
+                </div>
+            </div> 
+            <script>
+                <% @trackers.each_with_index do |tracker, index| %>
+                    Morris.Donut({
+                    element: 'issues-chart-<%= tracker.id %>',
+                    resize: true,
+                    data: [
+                        {value: <%= (10 / (index+1)).to_i  %>, label: '<%=l(:label_open_issues_plural)%>'},
+                        {value: <%= (5  / (index+1)).to_i %>, label: '<%=l(:label_closed_issues_plural)%>'},
+                        {value: <%= (15 / (index+1)).to_i  %>, label: '<%=l(:label_total)%>'},
+                    ],
+                    colors: [
+                    '#34d3eb',
+                    '#ebeff2',
+                    '#7266ba',
+                    ],
+                    })
+                <% end %>
+                
+                <% tags_data = [{value: 10, label: 'Development'}, {value: 15, label: 'Documentation'}, { value: 3, label: 'Research'}, { value: 8, label: 'Planning'} ] %>
+                var tags_data = <%= raw tags_data.to_json %>;
+                Morris.Donut({
+                    element: 'issues-chart-tags',
+                    resize: true,
+                    data: tags_data,
+                    colors: <%= raw tags_data.map{|t| "##{ Digest::MD5.hexdigest(t[:label])[0..5] }" }.to_json %>
+                })
+            </script>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="splitcontent use-indicators  explanation-block">
+    <div class="splitcontentleft">
+        <div class="box enabled-example top-less">
+            <div class="splitcontent">
+
+                <% es_tspi = 0.9 %>
+                <% status_es_tspi = tspi_status(es_tspi) %>
+                <div class="splitcontentright--">
+                    <div class="index es_tspi <%= status_es_tspi %>">
+                        <div class="chart-wrapper">
+                            <div class="title">
+                                <div class="tsp-desc"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.explanation') %>">
+                                    <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.description") %>
+                                </div>
+                                <div class="ieac-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac_explanation')%> ">
+                                    <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac") %>
+                                    <br/>
+                                    <%= Date.today %>
+                                </div>
+                            </div>                    
+                            <div id="to_complete_schedule_performance_index_ieac-chart" class="chart"></div>
+                        </div>
+                        <div class="bottom">
+                        <span>
+                            <span class="ic">
+                            <span class="icon icon-calendar-o"></span>
+                            </span>
+                            <span class="value"><%= es_tspi %></span>
+                        </span>
+
+                        <span class="explanation"  tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.purpose') %>"> 
+                            <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_es_tspi}") %>
+                        </span>
+                        <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="disabled-example">
+            <div class="records-row">
+                <div class="element bac">
+                    <div class="title"><%= I18n.t!('evm.elements.budget_at_conclusion_abbr')  %></div>
+                    <div class="value">
+                        <%= bac %> $
+                    </div>
+                </div>
+                <span class="minus">-</span>
+                <div class="element ac">
+                    <div class="title"><%= I18n.t!('evm.elements.accumulated_costs')  %></div>
+                    <div class="value">
+                        101.5 $
+                    </div>
+                </div>
+                <span class="equal">=</span>
+                <div class="element diff">
+                    <div class="title"><%= I18n.t!('evm.elements.remaining_budget')  %></div>
+                    <div class="value">
+                        118.5 $
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="splitcontentright">
+        <div class="box burble arrow-left md-arrow-top">
+            <div class="box bottom-less">      
+                <%= render 'welcome/use_indicators' %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="splitcontent create-your-first-project">
+    <div class="box">
+        <div style="margin-bottom: 20px">
+            <%= I18n.t!('create_your_first_project') %>
+        </div>
+        <% if User.current.logged? %>
+          <%= link_to l(:label_project_new), new_project_path, class: 'btn btn-success button' %>
+        <% else %>
+          <button onclick="showLogin()"><%= I18n.t!('label_login') %></button>
+        <% end %>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.chart').empty(); // fix turbolinks issue
+
+        <% tspi_values = [ 0.9, 0.8, 0.9, 1.0, 0.9] %>
+        <% tspi_data = [] %>
+        <% tspi_values.each_with_index{ |e, index| tspi_data << { day: (Date.today - ((tspi_values.length - index) * 7).days), value: e } } %>
+        new Morris.Line({
+            element: 'to_complete_schedule_performance_index_ieac-chart',
+            data: <%= tspi_data.to_json.html_safe %>,
+            xkey: 'day',
+            ykeys: ['value'],
+            labels: ['<%= I18n.t!("evm.elements.to_complete_schedule_performance_index_ieac") %>'],
+            fillOpacity: 0.2,
+            resize: true,
+            behaveLikeLine: true,
+            resize: true,
+            pointSize: 2,
+            hideHover: 'auto'
+        });
+
+        $('.index.tcpi_bac, .index.es_tspi').addClass('loaded').trigger('resize');
+    });
+</script>

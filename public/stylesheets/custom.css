@@ -1102,10 +1102,7 @@ fieldset.general-info > p.floating-option:not(.splitcontentleft):not(.splitconte
   font-weight: bold;
 }
 
-.floating-field label.hidden{
-  /*display: none;*/
-  visibility: hidden;
-}
+.floating-field label.hidden{ visibility: hidden; }
 
 .visible-field-container .floating-field{
     bottom: 30px;
@@ -1283,6 +1280,9 @@ a.button, label.button{
   background-color: #40b6e3;
 }
 
+a.button:hover, label.button:hover{
+  text-decoration: none;
+}
 
 .milestone-status{
   margin: 14px 6px;
@@ -1345,6 +1345,7 @@ ul.tagit{
   background: white;
   min-width: 374px;
   max-width: 374px;
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.24);
 }
 
 #projects-index .minidash .members .member-count, #projects-index .minidash .members .avatar img{
@@ -1364,20 +1365,18 @@ ul.tagit{
   background: linear-gradient(to right, #8500fd, rgb(0, 170, 187));
 }
 
-
 #projects-index .minidash .members{ text-align: center; }
+#projects-index .minidash .indicators{ float: right; }
+#projects-index .minidash .indicators .tcpi .icon::before{ margin-left: -10px; }
 
-#projects-index .minidash .indicators{
-  float: right;
-}
 #projects-index .minidash .members, #projects-index .minidash .indicators{
-  min-width: 118px;
-  max-width: 118px;
+  min-width: 128px;
+  max-width: 128px;
 }
-#projects-index .minidash .members .list{
-  padding-right: 48px;
-}
-#projects-index .minidash .indicators .icon::before{
+
+#projects-index .minidash .members .list{ padding-right: 48px; }
+
+#projects-index .minidash .indicators .tcpi .icon::before, #projects-index .minidash .indicators .tspi .icon::before{
   font-size: 27px;
   margin-bottom: 9px;
   width: 44px;
@@ -1390,18 +1389,10 @@ ul.tagit{
   margin-right: 10px;
 }
 
-#projects-index ul.projects li.child{
-  padding-top: 10px;
-}
+#projects-index ul.projects li.child{ padding-top: 10px; }
 #projects-index{ margin-bottom: 12px }
-#projects-index, .project-index h2{
-  padding: 20px;
-  background: #f1f1f1;
-}
-
-.project-index h2{
-  margin-bottom: 0;
-}
+#projects-index, .project-index h2{ padding: 20px; }
+.project-index h2{ margin-bottom: 0; }
 
 #projects-index ul.projects ul.projects{
  border: 1px solid rgba(128, 128, 128, 0.1); 
@@ -1419,7 +1410,7 @@ ul.tagit{
 }
 
 .minidash .indicators h3{
-  padding-right: 11px;
+  padding-right: 0;
   margin-top: -7px;
 }
 
@@ -1443,4 +1434,291 @@ ul.tagit{
   margin-bottom: 10px;
 }
 
+#projects-index.projects-box{
+    background: white;
+    margin-top: 20px;
+}
 /* Project index End */
+
+
+/* Welcome styles */
+
+@media (min-width: 900px){
+  #projects-index.projects-box{
+    margin-left: -10px;
+  }
+
+  .welcome-index .news.box{
+    margin-left: -10px;
+  }
+}
+
+/*#content.welcome-index{
+  background: #f1f1f1!important;
+}*/
+
+#content.welcome-index h2{
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.icon-history::before{
+  font-family: FontAwesome; 
+  content: "\f1da";
+}
+
+/* end Welcome */
+
+
+/* Welcome/Help styles */
+
+.disabled-example{ 
+  cursor: no-drop!important;
+}
+.enabled-example, .disabled-example{
+  margin-top: 20px;
+  box-shadow: 0px 0px 20px 2px white;
+}
+
+.enabled-example .panel.tracker{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.disabled-example *{
+  pointer-events: none!important;
+  -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;  
+}
+
+.textarea-tools{
+  background-image: url(/images/textarea-tools.png);
+  height: 40px;
+  background-repeat: no-repeat;
+  margin-left: -4px;
+}
+
+.description-example{
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+  padding: 3px 8px;
+  border-bottom: none;
+  height: 68px;
+}
+
+.description-example span{
+  color: #9e9e9e;
+  font-size: 13px;
+}
+
+.create-your-first-project{
+  text-align: center;
+}
+
+.welcome-index .burble, .welcome-index .burble .box{
+  background: #f9f9f9;
+}
+
+.welcome-index .study-trends .evm-example{
+  background-image: url(/images/evm-example.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  margin: 10px;
+  padding: 40px;
+}
+
+.shadow, .welcome-index .burble{
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.24);
+}
+
+.study-trends .evm-example .box{
+  background: rgba(255, 255, 255, 0.49);
+}
+/* end Welcome/Help styles */
+
+
+.welcome-index .explanation-block{
+  margin-bottom: 60px;
+}
+
+.welcome-index .disabled-example .continue{
+  font-size: 40px;
+  text-align: center;
+  margin-top: 36px;
+  margin-bottom: -66px;
+}
+
+.box.bottom-less{ padding-bottom: 0; }
+.box.top-less{ 
+  padding-top: 0;
+  margin-top: 9px;
+}
+
+#content.welcome-index .burble h2{
+  margin-left: 0;
+}
+
+.burble .box.bottom-less:nth-child(1){
+  padding-top: 0;
+}
+
+@media (max-width: 1260px){
+  .welcome-index .records-row .minus, .welcome-index .records-row .equal{
+    border-width: 1px;
+  }
+  .welcome-index .records-row .element{
+    width: 100%;
+    border: none!important;
+    margin: 30px 0px!important;
+  }
+  .welcome-index .records-row .minus, .welcome-index .records-row .equal{
+    margin-left: 48%;
+    margin-top: 0;
+  } 
+  .welcome-index .records-row .element .value{
+    font-size: 60px;
+  }
+  .welcome-index .records-row .element.ev, .welcome-index .records-row .element.etc {
+    padding-left: 0;
+  }
+}
+
+
+
+.burble {
+	position: relative;
+	background: #f9f9f9;
+	border: 4px solid #c2e1f5;
+}
+.burble.arrow-left:after, .burble.arrow-left:before {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.burble.arrow-left:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #f9f9f9;
+	border-width: 30px;
+	margin-top: -30px;
+}
+.burble.arrow-left:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-right-color: rgba(194, 225, 245, 0.59);
+	border-width: 36px;
+	margin-top: -36px;
+}
+
+.burble.arrow-right:after, .burble.arrow-right:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.burble.arrow-right:after {
+  border-color: rgba(136, 183, 213, 0);
+	border-left-color: #f9f9f9;
+	border-width: 30px;
+	margin-top: -30px;
+}
+.burble.arrow-right:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-left-color: rgba(194, 225, 245, 0.59);
+	border-width: 36px;
+	margin-top: -36px;
+}
+
+@media (max-width: 899px){
+  .burble.md-arrow-top:after, .burble.md-arrow-top:before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    /*top: -6.1%;*/
+    top: initial;
+  }
+
+  .burble.md-arrow-top:after {
+    border-color: rgba(249, 249, 249, 0);
+    border-bottom-color: #f9f9f9;
+    border-width: 30px;
+    margin: 0;
+    margin-left: -30px;
+  }
+  .burble.md-arrow-top:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: #c2e1f5;
+    border-width: 36px;
+    margin: 0;
+    margin-left: -36px;
+  }
+
+  .burble.md-arrow-bottom:after, .burble.md-arrow-bottom:before {
+    /*top: 105.5%;*/
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .burble.md-arrow-bottom:after {
+    border-color: rgba(249, 249, 249, 0);
+	  border-top-color: #f9f9f9;
+    border-width: 30px;
+    margin: 0;
+    margin-left: -30px;
+  }
+  .burble.md-arrow-bottom:before {
+    border-color: rgba(194, 225, 245, 0);
+	  border-top-color: #c2e1f5;
+    border-width: 36px;
+    margin: 0;
+    margin-left: -36px;
+  }
+
+  .welcome-index .use-indicators .burble{
+    margin-top: 60px;
+  }
+}
+
+
+.show-guide, .show-login{
+  position: absolute;
+  top: -43px;
+  right: 40px;
+  z-index: 1;
+}
+
+#guid-presentation-help{
+  margin-top: 28px;
+}
