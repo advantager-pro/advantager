@@ -1029,6 +1029,7 @@ es:
   version_status_locked: bloqueado
   version_status_open: abierto
   error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
+  spent_empty_confirm: Está seguro de cerrar sin registar gastos?
 
   label_user_anonymous: Anónimo
   button_move_and_follow: Mover y seguir

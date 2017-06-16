@@ -1,4 +1,5 @@
-<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue, :html => {:id => 'issue-form', class:'multiple-submit',
+     :multipart => true} do |f| %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
@@ -21,8 +22,8 @@
                     <% project = @issue.project %>
                     <p class="floating-field auto timelog-evm">
                       <% evm_field = project.entry_evm_field %>
-                      <%= time_entry.label evm_field, req_field( evm_field), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
-                      <%= time_entry.number_field evm_field, placeholder: req_field(evm_field), required: true, no_label: true %>
+                      <%= time_entry.label evm_field, I18n.t!("field_#{evm_field}"), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
+                      <%= time_entry.number_field evm_field, placeholder: evm_field, required: false, no_label: true %>
                       <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
                     </p>
                     <% project.visible_fields.each do |field| %>
@@ -77,3 +78,20 @@
 <% end %>
 
 <div id="preview" class="wiki"></div>
+
+<script>
+    $('#issue-form').on('submit',function(e){
+      var entriesEmpty = <%= @issue.time_entries.empty? %>;
+      var hasEndDate = $('#issue_actual_due_date').val() != '';
+      var closedStatusIds = <%= IssueStatus.where(is_closed: true).pluck(:id).to_json  %>;
+      var isClosed = closedStatusIds.indexOf($('#issue_status_id').val()) > -1;
+      var isDone = $('#issue_done_ratio').val() == '100';
+      var evmField = '<%= @issue.project.evm_field %>';
+      var spentEvmFieldId = '#time_entry_actual_' + evmField;
+      var spentFieldIsEmpty = $(spentEvmFieldId).val() == '';
+      if ((hasEndDate || isClosed || isDone) && (spentFieldIsEmpty && entriesEmpty)) {
+        var message = '<%= l(:spent_empty_confirm) %>';
+        return confirm(message);
+      }
+    });
+</script>

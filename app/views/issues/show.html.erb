@@ -68,14 +68,10 @@
 
   if User.current.allowed_to_view_all_time_entries?(@project)
     @issue.project.visible_fields.each do |field|
-      if @issue.send(:"total_spent_#{field}") > 0
-        rows.right l(:"label_spent_#{field}"), issue_spent_value_details(@issue), class: "spent-#{field}"
-      end
+      rows.right l(:"label_spent_#{field}"), issue_spent_value_details(@issue), class: "spent-#{field}"
     end
 
-    if @issue.send(:"total_spent_#{@issue.project.evm_field}") > 0
-      rows.right l(:"label_spent_#{@issue.project.evm_field}"), issue_spent_value_details(@issue), class: "spent-#{@issue.project.evm_field} actual-cost"
-    end
+    rows.right l(:"label_spent_#{@issue.project.evm_field}"), issue_spent_value_details(@issue), class: "spent-#{@issue.project.evm_field} actual-cost"
   end
 end %>
 <%= render_custom_fields_rows(@issue) %>
