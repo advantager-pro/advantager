@@ -22,8 +22,8 @@
                     <% project = @issue.project %>
                     <p class="floating-field auto timelog-evm">
                       <% evm_field = project.entry_evm_field %>
-                      <%= time_entry.label evm_field, req_field( evm_field), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
-                      <%= time_entry.number_field evm_field, placeholder: req_field(evm_field), required: false, no_label: true %>
+                      <%= time_entry.label evm_field, I18n.t!("field_#{evm_field}"), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
+                      <%= time_entry.number_field evm_field, placeholder: evm_field, required: false, no_label: true %>
                       <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
                     </p>
                     <% project.visible_fields.each do |field| %>
