@@ -1,4 +1,5 @@
-<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue, :html => {:id => 'issue-form', class:'multiple-submit',
+     :multipart => true} do |f| %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
@@ -77,3 +78,24 @@
 <% end %>
 
 <div id="preview" class="wiki"></div>
+
+<script>
+    console.error('error');
+    $('#issue-form').on('submit',function(e){
+      var entriesEmpty = <%= @issue.time_entries.empty? %>;
+      var hasEndDate = $('#issue_actual_due_date').val() != '';
+      var closedStatusIds = <%= IssueStatus.where(is_closed: true).pluck(:id).to_json  %>;
+      var isClosed = closedStatusIds.indexOf($('#issue_status_id').val()) > -1;
+      var isDone = $('#issue_done_ratio').val() == '100';
+      var evmField = '<%= @issue.project.evm_field %>';
+      var spentEvmFieldId = '#time_entry_actual_' + evmField;
+      var spentFieldIsEmpty = $(spentEvmFieldId).val() == '';
+      if ((hasEndDate || isClosed || isDone) && (spentFieldIsEmpty && entriesEmpty)) {
+        var message = '<%= l(:spent_empty_confirm) %>';
+        return confirm(message);
+      }
+
+      
+    });
+
+</script>
