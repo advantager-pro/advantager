@@ -80,7 +80,6 @@
 <div id="preview" class="wiki"></div>
 
 <script>
-    console.error('error');
     $('#issue-form').on('submit',function(e){
       var entriesEmpty = <%= @issue.time_entries.empty? %>;
       var hasEndDate = $('#issue_actual_due_date').val() != '';
@@ -94,8 +93,5 @@
         var message = '<%= l(:spent_empty_confirm) %>';
         return confirm(message);
       }
-
-      
     });
-
 </script>
