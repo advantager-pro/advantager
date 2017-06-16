@@ -30,7 +30,7 @@
   <p class="floating-field auto timelog-evm">
     <% evm_field = @time_entry.project.entry_evm_field %>
     <%= f.label evm_field, req_field( evm_field), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
-    <%= f.number_field evm_field, placeholder: req_field(evm_field), required: false, no_label: true %>
+    <%= f.number_field evm_field, placeholder: req_field(evm_field), required: true, no_label: true %>
     <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
   </p>
 
