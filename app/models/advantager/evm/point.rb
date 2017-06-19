@@ -34,9 +34,11 @@ class Advantager::EVM::Point < ActiveRecord::Base
   end
 
   def self.find_and_read(point, attr, date)
-    return point.read_attribute(attr) if date.nil? || date == point.day
-    p = self.find_by(project: point.project, day: point.day)
-    p.nil? ? self.save_point!(p.project, date).planned_value : p.planned_value
+    if date.nil? || date == point.day
+      point.read_attribute(attr) 
+    else
+      self.save_point!(p.project, date).send(attr, date)
+    end
   end
 
   def planned_value(date=nil)

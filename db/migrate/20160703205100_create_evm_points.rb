@@ -1,4 +1,4 @@
-class CreateEvmPoints < ActiveRecord::Migration
+class CreateEVMPoints < ActiveRecord::Migration
   def change
     create_table :evm_points do |t|
       t.references :project, index: true, foreign_key: true

@@ -13,7 +13,7 @@ man = Role.create(name: "Director", permissions: [:add_project, :edit_project, :
 
 man.attributes = {name: "Manager", locale: :en}
 man.attributes = {name: "Director", locale: :es}
-man.save!
+man.save
 
 #HHRR - RRHH
 hr = Role.create(name: "RRHH", permissions: [:manage_boards, :manage_subtasks, :add_messages,:manage_members, :comment_news, :view_wiki_pages,:edit_wiki_pages, :protect_wiki_pages,:edit_own_messages,
@@ -22,14 +22,14 @@ hr = Role.create(name: "RRHH", permissions: [:manage_boards, :manage_subtasks, :
 
 hr.attributes = {name: "HHRR", locale: :en}
 hr.attributes = {name: "RRHH", locale: :es}
-hr.save!
+hr.save
 
 #Stakeholder - Interesado
 stk = Role.create(name: "Interesado",permissions: [:view_calendar,:comment_news, :view_issues],issues_visibility: "all", users_visibility: "all", time_entries_visibility: "all", all_roles_managed: false)
 
 stk.attributes = {name: "Stakeholder", locale: :en}
 stk.attributes = {name: "Interesado", locale: :es}
-stk.save!
+stk.save
 #Supervisor - Supervisor
 sup = Role.create(name: "Supervisor", permissions: [:edit_issues,:manage_boards, :add_messages,:comment_news, :view_wiki_pages,:edit_wiki_pages, :protect_wiki_pages,:edit_own_messages,
   :delete_own_messages, :view_calendar, :manage_subtasks, :view_issue_watchers, :add_issue_watchers, :delete_issue_watchers,:view_documents,
@@ -37,7 +37,7 @@ sup = Role.create(name: "Supervisor", permissions: [:edit_issues,:manage_boards,
 
 sup.attributes = {name: "Supervisor", locale: :en}
 sup.attributes = {name: "Supervisor", locale: :es}
-sup.save!
+sup.save
 
 
 #Worker - Realizador
@@ -46,90 +46,90 @@ wk = Role.create(name: "Realizador", permissions: [:view_files,:view_calendar,:c
 
 wk.attributes = {name: "Worker", locale: :en}
 wk.attributes = {name: "Realizador", locale: :es}
-wk.save!
+wk.save
 
 #Default priorities
 low = IssuePriority.create(name: "Baja", position:1, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "lowest")
 low.attributes = {name: "Low", locale: :en}
 low.attributes = {name: "Baja", locale: :es}
-low.save!
+low.save
 
 nor = IssuePriority.create(name: "Normal", position:2, is_default: true, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "Default")
 nor.attributes = {name: "Normal", locale: :en}
 nor.attributes = {name: "Normal", locale: :es}
-nor.save!
+nor.save
 
 hi = IssuePriority.create(name: "Alta", position:3, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "high")
 hi.attributes = {name: "High", locale: :en}
 hi.attributes = {name: "Alta", locale: :es}
-hi.save!
+hi.save
 
 cri =IssuePriority.create(name: "Critica", position:4, type: "IssuePriority", active: true, project_id: nil, parent_id: nil, position_name: "highest")
 cri.attributes = {name: "Critical", locale: :en}
 cri.attributes = {name: "Crítica", locale: :es}
-cri.save!
+cri.save
 
 #Default TimeEntryActivity
 pl = TimeEntryActivity.create(name: "Planificacion", position: 1, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 pl.attributes = {name: "Planification", locale: :en}
 pl.attributes = {name: "Planificación", locale: :es}
-pl.save!
+pl.save
 
 dev = TimeEntryActivity.create(name: "Desarrollo", position: 2, is_default: true, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 dev.attributes = {name: "Development", locale: :en}
 dev.attributes = {name: "Desarrollo", locale: :es}
-dev.save!
+dev.save
 
 inv = TimeEntryActivity.create(name: "Investigacion", position: 3, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 inv.attributes = {name: "Investigation", locale: :en}
 inv.attributes = {name: "Investigación", locale: :es}
-inv.save!
+inv.save
 
 tst = TimeEntryActivity.create(name: "Pruebas", position: 4, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 tst.attributes = {name: "Testing", locale: :en}
 tst.attributes = {name: "Pruebas", locale: :es}
-tst.save!
+tst.save
 
 doc = TimeEntryActivity.create(name: "Documentacion", position: 5, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 doc.attributes = {name: "Documentation", locale: :en}
 doc.attributes = {name: "Documentación", locale: :es}
-doc.save!
+doc.save
 
 evl = TimeEntryActivity.create(name: "Evaluacion", position: 6, is_default: false, type: "TimeEntryActivity", active: true, project_id: nil, parent_id: nil, position_name: nil)
 evl.attributes = {name: "Evaluation", locale: :en}
 evl.attributes = {name: "Evaluación", locale: :es}
-evl.save!
+evl.save
 
 #Default Issue status
 default_issue_status = IssueStatus.create(name: "Nueva", is_closed: false, position: 1, default_done_ratio: nil)
 default_issue_status.attributes = {name: "New", locale: :en}
 default_issue_status.attributes = {name: "Nueva", locale: :es}
-default_issue_status.save!
+default_issue_status.save
 
 pro =IssueStatus.create(name: "En progreso", is_closed: false, position: 2, default_done_ratio: nil)
 pro.attributes = {name: "In progress", locale: :en}
 pro.attributes = {name: "En progreso", locale: :es}
-pro.save!
+pro.save
 
 clo = IssueStatus.create(name: "Cerrada", is_closed: true, position: 3, default_done_ratio: 100)
 clo.attributes = {name: "Closed", locale: :en}
 clo.attributes = {name: "Cerrada", locale: :es}
-clo.save!
+clo.save
 
 rej = IssueStatus.create(name: "Rechazada", is_closed: false, position: 4, default_done_ratio: nil)
 rej.attributes = {name: "Rejected", locale: :en}
 rej.attributes = {name: "Rechazada", locale: :es}
-rej.save!
+rej.save
 
 mt = Tracker.create(name: "Hito", position: 1, is_in_roadmap: true, default_status_id: default_issue_status.id)
 mt.attributes = {name: "Milestone", locale: :en}
 mt.attributes = {name: "Hito", locale: :es}
-mt.save!
+mt.save
 
 ts = Tracker.create(name: "Tarea", position: 2, is_in_roadmap: true, default_status_id: default_issue_status.id)
 ts.attributes = {name: "Task", locale: :en}
 ts.attributes = {name: "Tarea", locale: :es}
-ts.save!
+ts.save
 
 # tmp where queries for update existing data remove after running in production
 ts = Tracker.where(name: "Task").first
@@ -444,4 +444,4 @@ WorkflowTransition.create( tracker_id: mil.id, old_status_id: pro.id, new_status
 # Create a test user
 user = User.new(mail: "test@test.com", firstname: "teste", lastname: "asd")
 user.send(:login=, "test")
-user.save!
+user.save

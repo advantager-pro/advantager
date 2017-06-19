@@ -6,11 +6,11 @@ module Advantager::EarnedSchedule
     end
 
     def last_period
-      ( (planned_completion_date - es_start_date) / period_duration ).to_i
+      ( (planned_completion_date - es_start_date) / period_duration ).to_i #+ 1
     end
 
     def periods(until_period = nil)
-      (until_period || last_period).times.map{ |e| e+1 }
+      (until_period || last_period).times.map{ |e| e }
     end
 
     def period_duration
@@ -50,18 +50,24 @@ module Advantager::EarnedSchedule
 
       # x = whole month earned; y = month following x; t = Actual Time (Time Now)
 
+      return 0 if current_period == 0
       # t = Actual Time
       t = current_period
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
       # x = whole_month_earned
-      x = find_period_x(t) || t
+      x = find_period_x(t) #|| t
+      if x.nil? # current period 1? # 2? 
+        puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#{t}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        # byebug
+        return 0
+      end
       # y = next_month
       y =  x + 1
       bCWSx = BCWS(x)
       pv_t = BCWP(t)
       bCWSy = BCWS(y)
       div = (bCWSy - bCWSx).to_f
-      return 0 if div == 0.0 # avoid Infinity operation
+       # div == 0.0 # avoid Infinity operation
       return  x + ( ( pv_t - bCWSx).to_f / div )
     end
 
@@ -130,11 +136,17 @@ module Advantager::EarnedSchedule
 
     # ECD = Estimated Completion Date (Estimated project end date)
     def estimated_completion_date
-      es_start_date + (es_independent_time_estimate_at_compete * period_duration).days
+      result = es_start_date + (es_independent_time_estimate_at_compete * period_duration).days
+      earned_schedule.to_f
+      # byebug
+      result
+    end
+
+    def estimated_completion_date_es_to_date
+      es_to_date(es_independent_time_estimate_at_compete)
     end
 
     def earned_schedule(date=nil)
-      set_earned_schedule if self.read_attribute(:earned_schedule).nil?
       self.class.find_and_read(self, :earned_schedule, date)
     end
 

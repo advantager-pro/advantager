@@ -5,9 +5,9 @@ class BuildChartResponse
     project = evm_points.first.project
 
     response = {breaking_points_events:  [project.due_date.to_s], evm_points_length: evm_points.length }
-
+ 
     return response if evm_points.length < 1
-    
+   
     evm_fields = %w(planned_value earned_value actual_cost budget_at_conclusion)
     response[:evm_fields] = evm_fields
     response[:evm_chart_data] = data_for_morris(evm_points, fields: evm_fields)
@@ -31,11 +31,10 @@ class BuildChartResponse
     fields += %w(day) unless options[:no_day]
     project = evm_points.first.project
 
-    response_points = []
     max_index = evm_points.length - 1
     indexes = (0..max_index).step(project.evm_frequency).to_a
     indexes << max_index unless indexes.last == max_index
-    indexes.each do |index|
+    response_points = indexes.map do |index|
       e = evm_points[index]
       hash = {}
       fields.each do |field|
@@ -46,7 +45,7 @@ class BuildChartResponse
           hash[field] = e.send(field)
         end
       end
-      response_points << hash
+      hash
     end
 
     due_date = project.due_date > Date.today ? project.due_date : Date.today

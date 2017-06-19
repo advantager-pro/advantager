@@ -46,15 +46,16 @@ module Advantager::EVM::ProjectMethods
       end
 
       def create_minimum_break_points
-        ::Advantager::EVM::BreakPoint.create_minimum(self, self.created_on)
+        # ::Advantager::EVM::BreakPoint.create_minimum(self, self.created_on)
       end
+      
       def try_to_update_break_points
-        if evm_frequency_changed?
-          td = Date.today
-          evm_break_points.destroy_all
-          ::Advantager::EVM::BreakPoint.generate_until(self, td)
-          ::Advantager::EVM::BreakPoint.create_minimum(self, td)
-        end
+        # if evm_frequency_changed?
+        #   td = Date.today
+        #   evm_break_points.destroy_all
+        #   ::Advantager::EVM::BreakPoint.generate_until(self, td)
+        #   ::Advantager::EVM::BreakPoint.create_minimum(self, td)
+        # end
       end
 
       def last_point
