@@ -1,7 +1,7 @@
 <% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
 <% allowed_to_view_schedule_info = User.current.allowed_to?(:view_evm_schedule_info, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
-<% last_point = @project.evm_points.last %>
+<% last_point = @project.last_point %>
 <div id="project-evm">
     <div class="performance-statuses section">
         <button class="left" id="evm-help"><%=l(:label_help) %></button>
