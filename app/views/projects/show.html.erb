@@ -1,6 +1,6 @@
 <% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
-<% last_point = @project.evm_points.last %>
+<% last_point = @project.last_point %>
 <div id="project-show">
   <div class="splitcontentleft">
     <div class="panel project">
