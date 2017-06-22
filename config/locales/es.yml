@@ -252,9 +252,9 @@ es:
   default_doc_category_tech: Documentación técnica
   default_doc_category_user: Documentación de usuario
   default_issue_status_in_progress: En progreso
-  default_issue_status_closed: Cerrada
+  default_issue_status_closed: Completada
   default_issue_status_feedback: Comentarios
-  default_issue_status_new: Nueva
+  default_issue_status_new: Registrada
   default_issue_status_rejected: Rechazada
   default_issue_status_resolved: Resuelta
   default_priority_high: Alta
