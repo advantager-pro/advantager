@@ -56,8 +56,6 @@ RSpec.describe Project, type: :model do
             end
 
             it "returns the expected values" do
-              project.created_on = Time.now
-              project.save!
               # Start the project
               issue1 = FactoryGirl.create(:issue, project: project, start_date: Time.now)
               puts "", "  Period      |       planned value      |    earned value"
