@@ -30,7 +30,7 @@
           </div>
         <% end %>
 
-        <% estimated_completion_date = @project.evm_points.last.try(:estimated_completion_date) %>
+        <% estimated_completion_date = most_recent_point.try(:estimated_completion_date) %>
         <% if estimated_completion_date.present? %>
           <div class="estimated-date">
             <legend  style="float:left"><%= I18n.t!('es_estimated_completion_date') %></legend>
