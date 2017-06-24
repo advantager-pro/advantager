@@ -10,7 +10,7 @@ module Advantager::EarnedSchedule
     end
 
     def periods(until_period = nil)
-      (until_period || last_period).times.map{ |e| e }
+      (until_period || last_period).times.map{ |e| e+1 }
     end
 
     def period_duration
@@ -136,19 +136,12 @@ module Advantager::EarnedSchedule
 
     # ECD = Estimated Completion Date (Estimated project end date)
     def estimated_completion_date
-      result = es_start_date + (es_independent_time_estimate_at_compete * period_duration).days
-      earned_schedule.to_f
-      # byebug
-      result
-    end
-
-    def estimated_completion_date_es_to_date
       es_to_date(es_independent_time_estimate_at_compete)
     end
 
-    def earned_schedule(date=nil)
-      self.class.find_and_read(self, :earned_schedule, date)
-    end
+    # def earned_schedule(date=nil)
+    #   self.class.find_and_read(self, :earned_schedule, date)
+    # end
 
     def set_earned_schedule
       self.earned_schedule = calculate_earned_schedule
