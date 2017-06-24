@@ -6,7 +6,7 @@ module Advantager::EarnedSchedule
     end
 
     def last_period
-      ( (planned_completion_date - es_start_date) / period_duration ).to_i #+ 1
+      ( (planned_completion_date - es_start_date) / period_duration ).to_i
     end
 
     def periods(until_period = nil)
@@ -63,12 +63,12 @@ module Advantager::EarnedSchedule
       end
       # y = next_month
       y =  x + 1
-      bCWSx = BCWS(x)
-      pv_t = BCWP(t)
-      bCWSy = BCWS(y)
+      bCWSx = BCWS(x) # PV(x)
+      ev_t = BCWP(t) # EV(t)
+      bCWSy = BCWS(y) # PV(y)
       div = (bCWSy - bCWSx).to_f
        # div == 0.0 # avoid Infinity operation
-      return  x + ( ( pv_t - bCWSx).to_f / div )
+      return  x + ( ( ev_t - bCWSx).to_f / div )
     end
 
 
