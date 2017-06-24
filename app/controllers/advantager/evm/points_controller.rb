@@ -16,9 +16,9 @@ class Advantager::EVM::PointsController < ApplicationController
     built_response = {}
     begin
       @evm_points = @project.evm_points
-      last_point = @evm_points.last
+      most_recent_point = @project.most_recent_point
       lang = params[:lang]
-      built_response = Rails.cache.fetch("#{last_point.try(:id)}-#{lang}-#{last_point.try(:updated_at)}-#{@project.evm_frequency}/evm-charts", expires_in: 5.minutes) do
+      built_response = Rails.cache.fetch("#{most_recent_point.try(:id)}-#{lang}-#{most_recent_point.try(:updated_at)}-#{@project.evm_frequency}/evm-charts", expires_in: 5.minutes) do
         BuildChartResponse.(@evm_points, lang)
       end
     rescue 
