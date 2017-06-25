@@ -647,11 +647,42 @@ input[type="button"], input[type="submit"], button{
   height: 150px;
 }
 
-.minidash .indicators .negative .icon::before, .index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
-.minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
-.minidash .indicators .positive .icon::before, .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
-.minidash .indicators .positive.cost .icon::before, .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
-.minidash .indicators .neutral .icon::before, .index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
+.glosary .color.negative, .minidash .indicators .negative .icon::before, .index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
+.glosary .color.critical, .minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
+.glosary .color.positive_schedule, .minidash .indicators .positive .icon::before, .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
+.glosary .color.positive_cost,.minidash .indicators .positive.cost .icon::before, .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
+.glosary .color.neutral, .glosary .color.evm_chart, .minidash .indicators .neutral .icon::before, .index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
+
+.glosary .color{
+  border-radius: 3px;
+  height: 16px;
+  width: 16px;
+  display: block;
+  float: left;
+  margin-right: 7px;
+}
+
+.glosary .line{
+  line-height: 16px;
+  margin-top: 22px;
+  vertical-align: top;
+  list-style: none;
+}
+
+.glosary .line.icons{
+  line-height: 21px;
+  margin-top: 30px;
+}
+
+.glosary .line.icons .icon-container{
+  display: block;
+  float: left;
+}
+
+.glosary .line.icons .icon-container .icon::before{
+  font-size: 20px;
+  margin-right: 18px;
+}
 
 .index  .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
