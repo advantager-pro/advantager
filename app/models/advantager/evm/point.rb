@@ -9,6 +9,10 @@ class Advantager::EVM::Point < ActiveRecord::Base
     self.save_point!(project, Date.today)
   end
 
+  def self.by_day_range(start_date: , end_date:)
+    where('day >= :start_date AND day <= :end_date', start_date: start_date, end_date: end_date)
+  end
+
   def self.save_point!(project, date)
     p = ::Advantager::EVM::Point.find_or_initialize_by(project: project,
       day: date)

@@ -43,13 +43,13 @@ module Advantager::EVM::ProjectMethods
         self.evm_points.order("day ASC").first.day
       end
 
-      def recalculate_evm_points
-        ::Advantager::EVM::Point.generate_from_project_begining(self, self.most_recent_point_day, self.first_point_day)
+      def recalculate_evm_points_by_date(min_date: , max_date:)
+        affected_points = self.evm_points.by_day_range(start_date: min_date, end_date: max_date)
+        affected_points.find_each { |evm_point| evm_point.save! }
       end
 
+      # TODO: check why we are not using this validation
       # validates :evm_field, presence: true, inclusion: { in: ::Project.available_fields }
-
-      handle_asynchronously :recalculate_evm_points
     end
 
     module ClassMethods
