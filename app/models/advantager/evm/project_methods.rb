@@ -15,18 +15,16 @@ module Advantager::EVM::ProjectMethods
         sum
       end
 
-      def actual_cost(date=nil)
+      def actual_cost(date)
         sum = 0.0
-        date ||= Date.today
         # We only need issues that are in progress or finished
         issues.for_evm.where("#{::Issue.table_name}.actual_start_date <= ?",
           date).each{ |e| sum += e.actual_cost(date) }
         sum
       end
 
-      def earned_value(date=nil)
+      def earned_value(date)
         sum = 0.0
-        date ||= ::Date.today
         # We only need issues that are in progress or finished
         issues.for_evm.where("#{::Issue.table_name}.actual_start_date <= ?",
           date).each{ |e| sum += e.earned_value(date) }

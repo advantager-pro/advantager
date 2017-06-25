@@ -3,23 +3,19 @@ require 'rails_helper'
 RSpec.describe Project, type: :model do
   describe "earned_schedule" do
     let(:evm_field){ 'point' }
-    let(:evm_frequency){ 5 }
+    let(:evm_frequency){ 1 }
     let(:initial_time){ Time.local(2017, 1, 1) }
 
     context "when the current date is: 01/01/2017 " do
 
-      before do
-        Project.all.each{  |p| p.evm_points.destroy_all }
-        Project.destroy_all
-        Timecop.travel(initial_time)
-      end
+      before{ Timecop.travel(initial_time) }
 
       let(:project)  { FactoryGirl.create(:project, evm_field: evm_field, evm_frequency: evm_frequency, created_on: Time.now) }
       let(:issue_evm_field){ project.issue_evm_field }
       let(:entry_evm_field){ project.entry_evm_field }
       let(:earned_schedule_expectations) do
         {
-          # current_period: 7,
+          current_period: 7,
           earned_schedule: 6.52,
           es_schedule_variance: -0.48,
           es_schedule_performance_index: 0.93,
@@ -67,20 +63,18 @@ RSpec.describe Project, type: :model do
                 add_evm_for(project, period, periods)
                 # reload the project to get the updated EVM values
                 project.reload
-                # byebug
-                
+                today = Date.today
                 # check
                 puts "     #{period}#{period.to_i < 10 ? ' ' : ''}       |           #{values[:planned_value]}           |      #{values[:earned_value]}"
-                expect(project.planned_value).to eq(values[:planned_value])
-                expect(project.earned_value.round).to eq(values[:earned_value]) if values[:earned_value].present?
+                expect(project.planned_value(today)).to eq(values[:planned_value])
+                expect(project.earned_value(today).round).to eq(values[:earned_value]) if values[:earned_value].present?
               end
 
               # go a bit after 7 periods
               Timecop.travel(initial_time + (7*evm_frequency).days )
 
               Advantager::EVM::Point.generate_from_project_begining(project)
-              point = Advantager::EVM::Point.last
-              byebug
+              point = project.reload.most_recent_point
 
               # check earned_schedule calculus
               earned_schedule_expectations.each do |field, value|
@@ -88,43 +82,7 @@ RSpec.describe Project, type: :model do
                 precision = field == :es_independent_time_estimate_at_compete ? 1 : 2
                 expect(point.send(field).round(precision)).to eq(value)
               end
-
-              Timecop.travel(initial_time + (17*evm_frequency).days )
-              point = Advantager::EVM::Point.last
-
-
-              old_point_estimated_completion_date = point.estimated_completion_date
-              old_point_es = point.earned_schedule
-
-              # update frequency
-              project.evm_frequency = 2
-              project.save!
-              Advantager::EVM::Point.generate_from_project_begining(project)
-              point = Advantager::EVM::Point.last.reload
-              point_w_2_freq_estimated_completion_date = point.estimated_completion_date
-              point_w_2_freq_earned_schedule = point.earned_schedule
-
-              byebug
-
-
-              # update frequency again!
-              project.evm_frequency = 13
-              project.save!
-              Advantager::EVM::Point.generate_from_project_begining(project)
-              new_point = Advantager::EVM::Point.last.reload
-
-              puts "old_point date #{old_point_estimated_completion_date}"
-              puts "point_w_2_freq date #{point_w_2_freq_estimated_completion_date}"
-              puts "new_point date #{new_point.estimated_completion_date}"
-
-              byebug
-
-              expect(point_w_2_freq_earned_schedule).to eq(old_point_es)
-              expect(new_point.earned_schedule).to eq(old_point_es)
-
-              expect(old_point_estimated_completion_date).to eq(new_point.estimated_completion_date)
-              expect(old_point_estimated_completion_date).to eq(point_w_2_freq_estimated_completion_date)
-          end
+            end
         end
     end
   end
@@ -138,11 +96,8 @@ def add_evm_for(project, period, periods)
     :"#{project.issue_evm_field}" => planned_value, due_date: Time.now, start_date: Time.now)
   if current[:earned_value].present?
     actual_cost = current[:earned_value] - (previous[:earned_value] || 0.0)
-    # entry = 
     FactoryGirl.create(:time_entry, issue: issue, :"#{project.entry_evm_field}" => actual_cost)
-    dnratio = (actual_cost*100.0) / issue.planned_value
-    issue.done_ratio = dnratio
-    byebug unless issue.save
+    issue.done_ratio = (actual_cost*100.0) / issue.planned_value
     issue.save!
   end
 end

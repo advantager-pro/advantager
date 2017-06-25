@@ -53,11 +53,11 @@ module Advantager::EarnedSchedule
       # The Earned schedule is the point in period
       # when current progress (EV) was planned to occur
 
+      t = current_period # t = Actual Time (Time Now)
+
       # In the first period we have no previous period
       # so the earned schedule is 0
-      return 0 if current_period == periods.first
-
-      t = current_period # t = Actual Time (Time Now)
+      return 0 if current_period == first_period
 
       # x is the most recent period where
       # the current EV > the period x PV
@@ -164,13 +164,16 @@ module Advantager::EarnedSchedule
 
     private
 
-      def build_period_list(until_period)
+      def first_period
         # Periods starts with 0 given that
         # when a date is converted to period
         # if it's in the first period
         # it will be equal 0
         # For more info check: #es_to_period
-        (until_period + 1).times.to_a
+        0
+      end
+
+      def build_period_list(until_period)
         # We have to + 1 until_period in order to
         # include the desired period in the list
         # For example: we want a list of periods
@@ -179,6 +182,7 @@ module Advantager::EarnedSchedule
         #   included on the list.
         #   2.times.to_a will return: [0,1]
         #   but we want [0,1,2]
+        (until_period + 1).times.to_a
       end
   end
 
