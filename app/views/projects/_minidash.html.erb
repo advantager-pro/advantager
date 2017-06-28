@@ -2,10 +2,10 @@
 <% project =  locals[:project] %>
     <div class="splitcontent">
         <div class="indicators splitcontentleft">
-            <% last_point = project.last_point %>
-            <% if last_point.present? %>
+            <% most_recent_point = project.most_recent_point %>
+            <% if most_recent_point.present? %>
                 <h3><span class="icon icon-barcharts"></span><%= I18n.t!('indicators_evm') %></h3>
-                <% tcpi = last_point.to_complete_performance_index_bac.round(1) %>
+                <% tcpi = most_recent_point.to_complete_performance_index_bac.round(1) %>
                 <% status_tcpi = tcpi_status(tcpi) %>
                 <div class="tcpi cost <%= status_tcpi %>">
                     <%= link_to project_evm_path(project) do %>
@@ -13,7 +13,7 @@
                     <% end %>
                 </div>
 
-                <% tspi = last_point.to_complete_schedule_performance_index_pd.round(1) %>
+                <% tspi = most_recent_point.to_complete_schedule_performance_index_pd.round(1) %>
                 <% status_tspi = tspi_status(tspi) %>
                 <div class="tspi <%= status_tspi %>" >
                     <%= link_to project_evm_path(project) do %>

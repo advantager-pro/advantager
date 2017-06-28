@@ -6,28 +6,36 @@ module Advantager::EarnedSchedule
     end
 
     def last_period
-      ( (planned_completion_date - es_start_date) / period_duration ).to_i
+      es_to_period(planned_completion_date)
     end
 
-    def periods(until_period = nil)
-      (until_period || last_period).times.map{ |e| e+1 }
+    def last_periods_until(until_period)
+      build_period_list(until_period).reverse
+    end
+
+    def available_periods
+      build_period_list(last_period)
+    end
+
+    def current_period
+      es_to_period(self.day)
     end
 
     def period_duration
       self.project.evm_frequency
     end
 
-    def current_period
-      ( (self.day - es_start_date) / period_duration ).to_i
-    end
-
     def es_to_date(period)
       es_start_date + (period * period_duration).days
     end
 
+    def es_to_period(date)
+      ( (date - es_start_date) / period_duration ).to_i
+    end
+
     def BCWP(period) # EV
-      # Do not get EV from periods > current.. you don't want EV from the future
-      return 0 if period.present? && period > current_period 
+      error_message = "Do not get EV from periods > current.. you don't want EV from the future"
+      raise error_message if period.present? && period > current_period
       self.project.earned_value(es_to_date(period))
     end
 
@@ -36,33 +44,40 @@ module Advantager::EarnedSchedule
     end
 
     def find_period_x(period)
-      period ||= current_period
-      periods(period + 1).reverse.find{ |x| BCWP(period) > BCWS(x) }
+      # x is the most recent period where
+      # the current EV > the period x PV
+      last_periods_until(period).find{ |x| BCWP(period) > BCWS(x) }
     end
 
-    # Point in period when current progress was planned to occur
     def calculate_earned_schedule
-      # Earned Schedule =
-      # Whole months completed were Σ BCWP ≥ Σ BCWS + fractional month
-      # completed
-      # = Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
-      # (X = whole month earned; Y = month following X; T = Actual TIme)
+      # The Earned schedule is the point in period
+      # when current progress (EV) was planned to occur
 
-      # x = whole month earned; y = month following x; t = Actual Time (Time Now)
+      t = current_period # t = Actual Time (Time Now)
 
-      # t = Actual Time
-      t = current_period
+      # In the first period we have no previous period
+      # so the earned schedule is 0
+      return 0 if current_period == first_period
+
+      # x is the most recent period where
+      # the current EV > the period x PV
+      x = find_period_x(t) # x = whole period earned
+
+      # x is nil if there is no previous period where
+      # the current EV > the PV of any previous period
+      # Which means we are very behind the schedule
+      # so behind that we couldn't accomplish the PV for the first period yet
+      # so we are not earning schedule
+      # then let's return 0
+      return 0 if x.nil?
+
+      y =  x + 1 # y = period following x
+      bCWSx = BCWS(x) # PV(x)
+      ev_t = BCWP(t) # EV(t)
+      bCWSy = BCWS(y) # PV(y)
+
       # Month (X) + [(Σ BCWPt– Σ BCWSx) ÷ (Σ BCWSy – Σ BCWSx)]
-      # x = whole_month_earned
-      x = find_period_x(t) || t
-      # y = next_month
-      y =  x + 1
-      bCWSx = BCWS(x)
-      pv_t = BCWP(t)
-      bCWSy = BCWS(y)
-      div = (bCWSy - bCWSx).to_f
-      return 0 if div == 0.0 # avoid Infinity operation
-      return  x + ( ( pv_t - bCWSx).to_f / div )
+      return  x + ( ( ev_t - bCWSx).to_f / (bCWSy - bCWSx).to_f )
     end
 
 
@@ -85,7 +100,13 @@ module Advantager::EarnedSchedule
 
     #  PD = Planned Duration (planned project duration)
     def es_planned_duration
+      # The planned duration is the last period
+      # which is calculated based on the biggest
+      # planned due date of the project's issues
       last_period
+      # Notice PD is a period given that all
+      # the earned schedule formulas are in terms
+      # of periods
     end
 
     # Remaining work
@@ -130,12 +151,7 @@ module Advantager::EarnedSchedule
 
     # ECD = Estimated Completion Date (Estimated project end date)
     def estimated_completion_date
-      es_start_date + (es_independent_time_estimate_at_compete * period_duration).days
-    end
-
-    def earned_schedule(date=nil)
-      set_earned_schedule if self.read_attribute(:earned_schedule).nil?
-      self.class.find_and_read(self, :earned_schedule, date)
+      es_to_date(es_independent_time_estimate_at_compete)
     end
 
     def set_earned_schedule
@@ -145,6 +161,29 @@ module Advantager::EarnedSchedule
     before_save do
       set_earned_schedule
     end
+
+    private
+
+      def first_period
+        # Periods starts with 0 given that
+        # when a date is converted to period
+        # if it's in the first period
+        # it will be equal 0
+        # For more info check: #es_to_period
+        0
+      end
+
+      def build_period_list(until_period)
+        # We have to + 1 until_period in order to
+        # include the desired period in the list
+        # For example: we want a list of periods
+        #   from the first period: 0
+        #   until the period 2, which should be
+        #   included on the list.
+        #   2.times.to_a will return: [0,1]
+        #   but we want [0,1,2]
+        (until_period + 1).times.to_a
+      end
   end
 
   module ClassMethods

@@ -1,6 +1,6 @@
 <% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
-<% last_point = @project.evm_points.last %>
+<% most_recent_point = @project.most_recent_point %>
 <div id="project-show">
   <div class="splitcontentleft">
     <div class="panel project">
@@ -30,7 +30,7 @@
           </div>
         <% end %>
 
-        <% estimated_completion_date = @project.evm_points.last.try(:estimated_completion_date) %>
+        <% estimated_completion_date = most_recent_point.try(:estimated_completion_date) %>
         <% if estimated_completion_date.present? %>
           <div class="estimated-date">
             <legend  style="float:left"><%= I18n.t!('es_estimated_completion_date') %></legend>
@@ -116,14 +116,14 @@
               </div>
               <div class="clearfix"></div>
               <div class="value">
-                <% if last_point.present? %>
+                <% if most_recent_point.present? %>
                   <% if field == 'remaining_budget' %>
-                    <%= (last_point.planned_value - last_point.actual_cost).round(3) %>
+                    <%= (most_recent_point.planned_value - most_recent_point.actual_cost).round(3) %>
                   <% else %>
                     <% method = field %>
                     <% method = 'actual_cost' if field == 'accumulated_costs' %>
                     <% method = 'earned_value' if field == 'accumulated_earned_value' %>
-                    <%= last_point.send(method).round(3) %>                
+                    <%= most_recent_point.send(method).round(3) %>                
                   <% end %>
                 <% else %>
                   -

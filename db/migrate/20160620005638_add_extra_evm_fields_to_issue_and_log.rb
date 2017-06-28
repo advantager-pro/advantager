@@ -1,4 +1,4 @@
-class AddExtraEvmFieldsToIssueAndLog < ActiveRecord::Migration
+class AddExtraEVMFieldsToIssueAndLog < ActiveRecord::Migration
   def up
     # point:float cost:decimal custom:decimal
     # estimated_hours

@@ -15,15 +15,6 @@ module Advantager::EVM::Issue
         # end
       end
 
-
-      # Evm::Point.find_or_initialize_by(project: ::Project.last, day: (Date.today - 4.days)).save!
-      #
-      # # Set actual_start_date
-      # Issue.all.each{ |i|  i.actual_start_date = i.journals.first.try(:created_on) || i.start_date || i.created_on  }
-      #
-      # Project.last.evm_points.destroy_all ; Advantager::EVM::Point.generate_from_project_begining(Project.last)
-
-
       def planned_value(date=nil)
         # 9, 19
         pv = self.send(project.issue_evm_field) || 0.0
@@ -49,7 +40,7 @@ module Advantager::EVM::Issue
         if date.nil? || date == ::Date.today
           time_entries.sum(entry_ac_field)
         else
-          time_entries.where("#{::TimeEntry.table_name}.created_on <= ?",
+          time_entries.where("#{::TimeEntry.table_name}.spent_on <= ?",
             date).sum(entry_ac_field)
         end
       end
@@ -69,13 +60,11 @@ module Advantager::EVM::Issue
         (done_ratio_at(date)/100.0) * total_pv
       end
 
-      def try_to_update_planned_value
-        if self.send(:"#{project.issue_evm_field}_changed?")
-          project.evm_points.each do |evm_point|
-            evm_point.set_planned_value
-            evm_point.save!
-          end
-        end
+      def update_evm_points
+        today = Date.today
+        min_date = [start_date, actual_start_date, today].min
+        max_date = [due_date, actual_due_date, today].max
+        project.recalculate_evm_points_by_date(min_date: min_date, max_date: max_date)
       end
 
       def planned?
@@ -83,15 +72,23 @@ module Advantager::EVM::Issue
           self.send(project.issue_evm_field).present?
       end
 
-      def recalculate_project_evm_points
-        project.recalculate_evm_points if self.planned?
+      def pv_fields_changed?
+        self.send(:"#{project.issue_evm_field}_changed?") || 
+          due_date_changed? || start_date_changed?
       end
 
-      before_destroy :recalculate_project_evm_points
-      after_update :try_to_update_planned_value
+      def ac_fields_changed?
+        actual_due_date_changed? || actual_start_date_changed?
+      end
 
-      handle_asynchronously :recalculate_project_evm_points
-      handle_asynchronously :try_to_update_planned_value
+      def evm_fields_changed?
+        pv_fields_changed? || ac_fields_changed?
+      end
+
+      before_destroy :update_evm_points
+      after_update :update_evm_points, if: :evm_fields_changed?
+
+      handle_asynchronously :update_evm_points
     end
 
     module ClassMethods

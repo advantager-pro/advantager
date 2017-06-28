@@ -36,14 +36,18 @@ RSpec.describe Project, type: :model do
           " do
             let(:periods) do
               {
-                "5" => { planned_value: 1500, earned_value: 1360 },
+                "1" => { planned_value: 100, earned_value: 98 }, 
+                "2" => { planned_value: 350, earned_value: 325 }, 
+                "3" => { planned_value: 650, earned_value: 600 }, 
+                "4" => { planned_value: 1050, earned_value: 960 }, 
+                "5" => { planned_value: 1500, earned_value: 1360 }, 
                 "6" => { planned_value: 2000, earned_value: 1830 },
-                "7" => { planned_value: 2500, earned_value: 2260 },
-                "8" => { planned_value: 2950 },
-                "9" => { planned_value: 3350 },
-                "10" => { planned_value: 3650 },
-                "11" => { planned_value: 3900 },
-                "12" => { planned_value: 4000 }
+                "7" => { planned_value: 2500, earned_value: 2260 }, #7
+                "8" => { planned_value: 2950 }, #8
+                "9" => { planned_value: 3350 }, # 9
+                "10" => { planned_value: 3650 }, # 10
+                "11" => { planned_value: 3900 }, # 11
+                "12" => { planned_value: 4000 } # 12
                }
             end
 
@@ -54,22 +58,23 @@ RSpec.describe Project, type: :model do
 
               periods.each do |period, values|
                 # time travel to that specific period
-                Timecop.travel(initial_time + (period.to_i*evm_frequency).days )
+                Timecop.travel(initial_time + (period.to_i*evm_frequency).days )  #  + evm_frequency ?
                 # Add EVM entries (issues, logs, etc)
                 add_evm_for(project, period, periods)
                 # reload the project to get the updated EVM values
                 project.reload
+                today = Date.today
                 # check
                 puts "     #{period}#{period.to_i < 10 ? ' ' : ''}       |           #{values[:planned_value]}           |      #{values[:earned_value]}"
-                expect(project.planned_value).to eq(values[:planned_value])
-                expect(project.earned_value.round).to eq(values[:earned_value]) if values[:earned_value].present?
+                expect(project.planned_value(today)).to eq(values[:planned_value])
+                expect(project.earned_value(today).round).to eq(values[:earned_value]) if values[:earned_value].present?
               end
 
               # go a bit after 7 periods
               Timecop.travel(initial_time + (7*evm_frequency).days )
 
               Advantager::EVM::Point.generate_from_project_begining(project)
-              point = Advantager::EVM::Point.last
+              point = project.reload.most_recent_point
 
               # check earned_schedule calculus
               earned_schedule_expectations.each do |field, value|
@@ -77,7 +82,7 @@ RSpec.describe Project, type: :model do
                 precision = field == :es_independent_time_estimate_at_compete ? 1 : 2
                 expect(point.send(field).round(precision)).to eq(value)
               end
-          end
+            end
         end
     end
   end
@@ -91,7 +96,7 @@ def add_evm_for(project, period, periods)
     :"#{project.issue_evm_field}" => planned_value, due_date: Time.now, start_date: Time.now)
   if current[:earned_value].present?
     actual_cost = current[:earned_value] - (previous[:earned_value] || 0.0)
-    entry = FactoryGirl.create(:time_entry, issue: issue, :"#{project.entry_evm_field}" => actual_cost)
+    FactoryGirl.create(:time_entry, issue: issue, :"#{project.entry_evm_field}" => actual_cost)
     issue.done_ratio = (actual_cost*100.0) / issue.planned_value
     issue.save!
   end

@@ -1,4 +1,16 @@
 es:
+  evm:
+    glosary: 
+      colors: Colores
+      icons: Iconos
+      schedule: Cronograma
+      budget_on: Presupuesto (%{unity})
+      negative: Desfavorable
+      critical: Critico/a (se estima no alcanzable)
+      positive_schedule: Favorable (Cronograma)
+      positive_cost: Favorable (Costos/Presupuesto)
+      neutral: Neutral o Equilibrado/a
+      evm_chart: El gráfico de EVM no representa un estado específico
   permission_view_evm_budget: Ver presupuesto (EVM)
   permission_view_evm_schedule_info: Ver información del cronograma (EVM)
   evm_section: EVM
