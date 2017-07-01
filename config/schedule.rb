@@ -13,4 +13,6 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 8.hours { runner "::Project.store_all_projects_status" }
+every 8.hours do
+  runner "::Project.store_all_projects_status"
+end
