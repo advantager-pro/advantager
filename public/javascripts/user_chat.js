@@ -18,9 +18,12 @@ var conversationReady = function () {
         var sender_id = $(this).data('sid');
         var recipient_id = $(this).data('rip');
 
-        $.post("/conversations.js", { sender_id: sender_id, recipient_id: recipient_id }, function (data) {
+        $.post("/conversations.js", { sender_id: sender_id, recipient_id: recipient_id }).done(function (data) {
             chatBox.chatWith(data.conversation_id);
-        });
+        }).fail(function(){
+            var defaultTime = 8000;
+            $("#flash_conversation_error").slideDown().delay(defaultTime).queue(function(n) { $(this).slideUp(); n(); });
+        });;
     });
 
     /**

@@ -1,0 +1,49 @@
+<div class="minidash">
+<% project =  locals[:project] %>
+    <div class="splitcontent">
+        <div class="indicators splitcontentleft">
+            <% most_recent_point = project.most_recent_point %>
+            <% if most_recent_point.present? %>
+                <h3><span class="icon icon-barcharts"></span><%= I18n.t!('indicators_evm') %></h3>
+                <% tcpi = most_recent_point.to_complete_performance_index_bac.round(1) %>
+                <% status_tcpi = tcpi_status(tcpi) %>
+                <div class="tcpi cost <%= status_tcpi %>">
+                    <%= link_to project_evm_path(project) do %>
+                        <span class="icon icon-money  large-explanation"  tooltip='<%= I18n.t!("charts_explanations.indexes.to_complete_performance_indexes.#{status_tcpi}") %>'></span>
+                    <% end %>
+                </div>
+
+                <% tspi = most_recent_point.to_complete_schedule_performance_index_pd.round(1) %>
+                <% status_tspi = tspi_status(tspi) %>
+                <div class="tspi <%= status_tspi %>" >
+                    <%= link_to project_evm_path(project) do %>
+                        <span class="large-explanation icon icon-schedule" tooltip='<%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.#{status_tspi}") %> '></span>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+        
+        <!--<div class="clearfix"></div>-->
+
+        <div class="members splitcontentright" >
+            <h3><%=l(:label_member_plural)%></h3>
+            <% members_count = project.members.count %>
+            <% max_members = 4 %>
+            <% members = members_count > max_members ? project.members.first(3) : project.members %>
+            <div class="list">
+                <% members.each do |member|  %>
+                    <%= link_to project_path(project), class: 'avatar medium-explanation' do %>
+                        <%= avatar_image member.user  %>
+                    <% end %>
+                <% end %>
+                <% if members_count > max_members %>
+                    <%= link_to project_path(project) do %>
+                        <span class="member-count"><%= members_count - (max_members - 1) %>+</span>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="clearfix"></div>

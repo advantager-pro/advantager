@@ -1,4 +1,13 @@
 en:
+  show_guide: Show Guide
+  create_your_first_project: Create your first project efficiently using EVM and Earned Schedule integrating the management processes
+  indicators_evm: Indicators EVM
+  general_info: General Information
+  choose_files: Choose Files
+  estimated_dates: Estimated dates
+  actual_dates: Actual dates
+  no_parent_project: No parent project
+  not_assigned: Not assigned
   milestones:
     status_update_explanation: Status will be updated with information from tasks included in this milestone
     dates_update_explanation: Dates will be updated with information from tasks included in this milestone
@@ -6,6 +15,7 @@ en:
   es_estimated_completion_date: Estimated Completion Date (Earned Schedule)
   advanced_search: Advanced search
   activities: Activities
+  latest_activities: Latest activities
   chat_load_error: The chat could not be loaded properly. Please reload the page or contact the administrator.
   charts_load_error: There was an error while loading the charts. Please reload the page or contact the administrator.
   conversation_load_error: There was an error while loading the conversation
@@ -251,6 +261,7 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
   field_time: Time
@@ -439,6 +450,7 @@ en:
       cost_performance_index: Cost Performance Index
       performance_index: Performance Index ( SPI * CPI )
       budget_at_conclusion: Budget At Conclusion
+      budget_at_conclusion_abbr: Budget At Conclusion
       estimate_at_completion_calculated: Estimate At Completion (Calculated)
       estimate_at_completion_cpi: Estimate At Completion (CPI based)
       estimate_at_completion_cpi_and_spi: Estimate At Completion (CPI and SPI based)
@@ -447,6 +459,8 @@ en:
       time: hour/s
       point: point/s
     fieldset: Field used to calculate EVM
+    other_fields_to_keep_log: Other fields for to keep log
+    other_fields_to_keep_log_info: Those fields will not be used to calculate EVM
     field: Field
     visible_field: Visible field
     evm_field: EVM field
@@ -721,6 +735,8 @@ en:
   label_news_plural: News
   label_news_latest: Latest news
   label_news_view_all: View all news
+  label_activity_view_all: View all activities
+  label_project_view_all: View all projects
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
@@ -1124,7 +1140,7 @@ en:
   button_add: Add
   button_change: Change
   button_apply: Apply
-  button_clear: Clear
+  button_clear: Reset
   button_lock: Lock
   button_unlock: Unlock
   button_download: Download
@@ -1176,6 +1192,7 @@ en:
   version_status_closed: closed
 
   field_active: Active
+  spent_empty_confirm: Are you sure to close without any spent logs?
 
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
@@ -1267,11 +1284,11 @@ en:
   default_tracker_support: Support
   default_tracker_task: Task
   default_tracker_milestone: Milestone
-  default_issue_status_new: New
+  default_issue_status_new: Registered
   default_issue_status_in_progress: In progress
   default_issue_status_resolved: Resolved
   default_issue_status_feedback: Feedback
-  default_issue_status_closed: Closed
+  default_issue_status_closed: Completed
   default_issue_status_rejected: Rejected
   default_doc_category_user: User documentation
   default_doc_category_tech: Technical documentation
@@ -1292,7 +1309,7 @@ en:
 
   label_default_configs: Default configurations
   default_configs_warning: Caution! The application of these configurations is of global scope on all the projects, the changes made on the states, workflows and other initial data will be overwritten, the new data will not be eliminated.
-  button_default_configs: Reestablish default configs.
+  button_default_configs: Reestablish default configs
   default_configs_confirm: Are you sure you want to reestablish default configs?
   default_configs_succes: Default configs have been reestablished. 
 

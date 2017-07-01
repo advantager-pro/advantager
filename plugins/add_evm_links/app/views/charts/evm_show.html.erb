@@ -1,16 +1,16 @@
 <% allowed_to_view_budget = User.current.allowed_to?(:view_evm_budget, nil, { global: true }) %>
 <% allowed_to_view_schedule_info = User.current.allowed_to?(:view_evm_schedule_info, nil, { global: true }) %>
 <% css_position_classes = %w(splitcontentleft splitcontentright) %>
-<% last_point = @project.evm_points.last %>
+<% most_recent_point = @project.most_recent_point %>
 <div id="project-evm">
     <div class="performance-statuses section">
         <button class="left" id="evm-help"><%=l(:label_help) %></button>
         <div class="section-title">
             <h3><%= I18n.t!("evm_section_titles.project_performance_status") %></h3>
         </div>
-        <div class="section-content">
+        <div class="section-content splitcontent">
             <% if allowed_to_view_schedule_info %>
-                <% spi = last_point.es_schedule_performance_index.round(1) %>
+                <% spi = most_recent_point.es_schedule_performance_index.round(1) %>
                 <% status_spi = spi_status(spi) %>
                 <div class="<%= allowed_to_view_budget ? 'splitcontentleft' : '' %>">
                     <div class="index spi <%= status_spi %>">
@@ -38,7 +38,7 @@
                 </div>
             <% end %>
             <% if allowed_to_view_budget %>
-                <% cpi = last_point.cost_performance_index.round(1) %>
+                <% cpi = most_recent_point.cost_performance_index.round(1) %>
                 <% status_cpi = cpi_status(cpi) %>
                 <div class="<%= allowed_to_view_schedule_info ? 'splitcontentright' : '' %>">
                     <div class="index cpi <%= status_cpi %> cost">
@@ -66,7 +66,6 @@
                 </div>
             <% end %>
         </div> <!-- /section-content -->
-        <div class="clearfix"></div>
     </div><!-- /performance-statuses -->
 
 
@@ -76,8 +75,8 @@
             <div class="section-title">
                 <h3><%= I18n.t!("evm_section_titles.schedule_estimations") %></h3>
             </div>
-            <div class="section-content">
-                <% tspi = last_point.to_complete_schedule_performance_index_pd.round(1) %>
+            <div class="section-content splitcontent">
+                <% tspi = most_recent_point.to_complete_schedule_performance_index_pd.round(1) %>
                 <% status_tspi = tspi_status(tspi) %>
                 <div class="splitcontentleft">
                     <div class="index tspi <%= status_tspi %>">
@@ -89,7 +88,7 @@
                             <div class="pd-desc" tooltip='<%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration_explanation") %>'>
                                 <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.planned_duration") %>
                                 <br/>
-                                <%= last_point.es_to_date last_point.es_planned_duration %>
+                                <%= most_recent_point.es_to_date most_recent_point.es_planned_duration %>
                             </div>
                         </div>
 
@@ -111,7 +110,7 @@
                     </div>
                 </div>
 
-                <% es_tspi = last_point.to_complete_schedule_performance_index_ieac.round(1) %>
+                <% es_tspi = most_recent_point.to_complete_schedule_performance_index_ieac.round(1) %>
                 <% status_es_tspi = tspi_status(es_tspi) %>
                 <div class="splitcontentright">
                     <div class="index es_tspi <%= status_es_tspi %>">
@@ -123,7 +122,7 @@
                                 <div class="ieac-desc" tooltip="<%= I18n.t!('charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac_explanation')%> ">
                                     <%= I18n.t!("charts_explanations.indexes.to_complete_schedule_performance_indexes.ieac") %>
                                     <br/>
-                                    <%= last_point.es_to_date last_point.es_estimated_duration %>
+                                    <%= most_recent_point.es_to_date most_recent_point.es_estimated_duration %>
                                 </div>
                             </div>                    
                             <div id="to_complete_schedule_performance_index_ieac-chart" class="chart"></div>
@@ -144,7 +143,6 @@
                     </div>
                 </div>
             </div> <!-- /section-content -->
-            <div class="clearfix"></div>
         </div><!-- /schedule-estimations -->
     <% end %>
     <div class="clearfix"></div>
@@ -153,9 +151,9 @@
             <div class="section-title">
                 <h3><%= I18n.t!("evm_section_titles.costs_estimations") %></h3>
             </div>
-            <div class="section-content">
-                <% bac = last_point.budget_at_conclusion %>
-                <% tcpi_bac = last_point.to_complete_performance_index_bac.round(1) %>
+            <div class="section-content splitcontent">
+                <% bac = most_recent_point.budget_at_conclusion %>
+                <% tcpi_bac = most_recent_point.to_complete_performance_index_bac.round(1) %>
                 <% status_tcpi_bac = tcpi_status(tcpi_bac) %>
                 <div class="splitcontentleft">
                     <div class="index tcpi_bac <%= status_tcpi_bac %> cost">
@@ -190,8 +188,8 @@
                     </div>
                 </div>
 
-                <% eac_cpi = last_point.estimate_at_completion_cpi %>
-                <% tcpi_cpi = last_point.to_complete_cost_performance_index_cpi.round(1) %>
+                <% eac_cpi = most_recent_point.estimate_at_completion_cpi %>
+                <% tcpi_cpi = most_recent_point.to_complete_cost_performance_index_cpi.round(1) %>
                 <% status_tcpi_cpi = tcpi_status(tcpi_cpi) %>
                 <div class="splitcontentleft">
                     <div class="index tcpi_cpi <%= status_tcpi_cpi %> cost">
@@ -225,7 +223,6 @@
                     </div>
                 </div>
             </div> <!-- /section-content -->
-            <div class="clearfix"></div>
         </div><!-- /costs-estimations -->
     <% end %>
 
@@ -235,10 +232,10 @@
         <div class="section-title">
             <h3><%= I18n.t!("evm_section_titles.records_and_trends") %></h3>
         </div>
-        <div class="section-content">
+        <div class="section-content splitcontent">
             <% if allowed_to_view_budget %>
-                <% bac = last_point.budget_at_conclusion %>
-                <% ac = last_point.actual_cost %>
+                <% bac = most_recent_point.budget_at_conclusion %>
+                <% ac = most_recent_point.actual_cost %>
                 <% diff = bac - ac %>
                 <div class="records-row">
                     <div class="element bac">
@@ -264,9 +261,9 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <% eac = last_point.estimate_at_completion_cpi %>
-                <% ev = last_point.earned_value %>
-                <% etc = last_point.estimate_to_complete %>
+                <% eac = most_recent_point.estimate_at_completion_cpi %>
+                <% ev = most_recent_point.earned_value %>
+                <% etc = most_recent_point.estimate_to_complete %>
                 <div class="records-row estimates">
                     <div class="element eac ">
                         <div class="title"><%= I18n.t!('charts_explanations.estimates.estimates_at_completion.description')  %></div>
@@ -292,7 +289,7 @@
 
                 <div class="clearfix"></div>
 
-                <% cv = last_point.cost_variance.round(1) %>
+                <% cv = most_recent_point.cost_variance.round(1) %>
                 <% status_cv = cv_status(cv) %>
                 <div class="splitcontentleft">
                     <div class="index trends variance cv cost <%= status_cv %>">
@@ -319,7 +316,7 @@
                     </div>
                 </div>
 
-                <% vac = last_point.variance_at_conclusion(eac_cpi).round(1) %>
+                <% vac = most_recent_point.variance_at_conclusion(eac_cpi).round(1) %>
                 <% status_vac = vac_status(vac) %>
                 <div class="splitcontentright">
                     <div class="index trends variance vac <%= status_vac %> cost">
@@ -365,7 +362,7 @@
             <% end %>
         
             <% if allowed_to_view_schedule_info %>
-                <% sv = last_point.es_schedule_variance.round(1) %>
+                <% sv = most_recent_point.es_schedule_variance.round(1) %>
                 <% status_sv = sv_status(sv) %>
                 <div class="<%= allowed_to_view_budget ? 'splitcontentright' : ''%>">
                     <div class="index trends variance sv <%= status_sv %>">
@@ -392,9 +389,48 @@
                     </div>
                 </div>
             <% end %>
-            <div class="clearfix"></div>
         </div> <!-- /section-content -->
     </div><!-- /costs-estimations -->
+
+    <div class="glosary section">
+        <div class="splitcontent">
+            <div class="splitcontentleft">
+                <div class="box">
+                    <strong><%= I18n.t!('evm.glosary.colors') %>:</strong>
+                    <ul>
+                        <% status_colors = %w(negative critical positive_schedule positive_cost neutral evm_chart) %>
+                        <% status_colors.each do |status_color| %>
+                            <li class="line">
+                                <span class="color <%= status_color %>"></span> <%= I18n.t!("evm.glosary.#{status_color}") %>
+                            </li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+            <div class="splitcontentrigth">
+                <div class="box">
+                    <strong><%= I18n.t!('evm.glosary.icons') %>:</strong>
+                    <ul>
+                        <li class="line icons">
+                            <span class="icon-container">
+                                <span class="icon icon-calendar"></span>
+                                <span class="icon icon-schedule"></span>
+                                <span class="icon icon-calendar-o"></span>
+                            </span>
+                            <%= I18n.t!('evm.glosary.schedule') %>
+                        </li>
+                        <li class="line icons">
+                            <span class="icon-container">
+                                <span class="icon icon-money"></span>
+                                <span class="icon icon-tasks"></span>
+                            </span>
+                            <%= I18n.t!('evm.glosary.budget_on', unity: evm_unity(@project)) %>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <% content_for :sidebar do %>
         <%= render :partial => 'projects/sidebar' %>
@@ -407,7 +443,7 @@
 
 
     <script type="text/javascript">
-        $('.chart').empty();
+        $('.chart').empty(); // fix turbolinks issue
         
         $(document).ready(function () {
             var dateFormater = function(x){
@@ -421,6 +457,7 @@
             };
 
             getEVMPoints('<%= @project.id %>?lang=<%= User.current.language %>', function(response){
+                $('.chart').empty(); // fix turbolinks issue
                 var getLabels = function(keys){ 
                     var labels = [];
                     for(var i = 0; i < keys.length; i++)

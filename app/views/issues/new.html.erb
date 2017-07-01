@@ -6,7 +6,7 @@
                              :html => {:id => 'issue-form', :multipart => true} do |f| %>
   <%= error_messages_for 'issue' %>
   <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
-  <div class="box tabular">
+  <div class="box ">
     <div id="all_attributes">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
@@ -30,20 +30,25 @@
     </p>
     <% end %>
 
-    <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+    <div id="attachments_form" class="box">
+      <div class="box">
+        <%= render :partial => 'attachments/form', :locals => {:container => @issue} %>
+      </div>
+    </div>
 
     <% if @issue.safe_attribute? 'watcher_user_ids' -%>
-      <p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>
-      <span id="watchers_inputs">
-        <%= watchers_checkboxes(@issue, users_for_new_issue_watchers(@issue)) %>
-      </span>
-      <span class="search_for_watchers">
-      <%= link_to l(:label_search_for_watchers),
-                  {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
-                  :remote => true,
-                  :method => 'get' %>
-      </span>
-      </p>
+      <fieldset id="watchers_form">
+          <legend class=""><%= l(:label_issue_watchers) %></legend>
+          <div id="watchers_inputs">
+            <%= watchers_checkboxes(@issue, users_for_new_issue_watchers(@issue)) %>
+          </div>
+          <div class="search_for_watchers">
+            <%= link_to l(:label_search_for_watchers),
+                      {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
+                      :remote => true,
+                      :method => 'get' %>
+          </div>
+      </fieldset>
     <% end %>
   </div>
 

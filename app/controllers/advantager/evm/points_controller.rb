@@ -15,12 +15,7 @@ class Advantager::EVM::PointsController < ApplicationController
     error = nil
     built_response = {}
     begin
-      @evm_points = @project.evm_points
-      last_point = @evm_points.last
-      lang = params[:lang]
-      built_response = Rails.cache.fetch("#{last_point.try(:id)}-#{lang}-#{last_point.try(:updated_at)}/evm-charts", expires_in: 5.minutes) do
-        BuildChartResponse.(@evm_points, lang)
-      end
+      built_response = BuildChartResponse.(@project, params[:lang])
     rescue 
       # There seems to be a very uncommon error probably due to Rails cache cleanup or network timeout
       error = I18n.t!('charts_load_error')

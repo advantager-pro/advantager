@@ -19,11 +19,23 @@ module Advantager::EVM::ActualCostEntry
         self.send(project.entry_evm_field) || 0.0
       end
 
-      def recalculate_project_evm_points
-        project.recalculate_evm_points
+      def update_evm_points
+        today = Date.today
+        spent_minus = spent_on - 1.day
+        spent_plus = spent_on + 1.day 
+        min_date = spent_minus < project.start_date ? spent_on : spent_minus
+        max_date = spent_plus > today ? today : spent_plus
+        project.recalculate_evm_points_by_date(min_date: min_date, max_date: max_date)
       end
-      before_destroy :recalculate_project_evm_points
-      handle_asynchronously :recalculate_project_evm_points
+
+      def evm_fields_changed?
+        spent_on_changed? || self.send("#{project.entry_evm_field}_changed?")
+      end
+
+      before_destroy :update_evm_points
+      after_update :update_evm_points, if: :evm_fields_changed?
+
+      handle_asynchronously :update_evm_points
     end
 
     module ClassMethods

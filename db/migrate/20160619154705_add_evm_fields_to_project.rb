@@ -1,4 +1,4 @@
-class AddEvmFieldsToProject < ActiveRecord::Migration
+class AddEVMFieldsToProject < ActiveRecord::Migration
   def change
     add_column :projects, :visible_fields, :string, array: true, default: []
     add_column :projects, :evm_field, :string

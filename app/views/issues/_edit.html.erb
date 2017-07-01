@@ -1,45 +1,56 @@
-<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue, :html => {:id => 'issue-form', class:'multiple-submit',
+     :multipart => true} do |f| %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
     <% if @issue.attributes_editable? %>
-        <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
-        <div id="all_attributes">
-        <%= render :partial => 'form', :locals => {:f => f} %>
-        </div>
+        <fieldset class="">
+          <legend><%= l(:label_change_properties) %></legend>
+          <div id="all_attributes">
+          <%= render :partial => 'form', :locals => {:f => f} %>
+          </div>
         </fieldset>
     <% end %>
     <% if User.current.allowed_to?(:log_time, @project) %>
 
-        <fieldset class="tabular"><legend><%= l(:button_log) %></legend>
-        <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
-        <div class="splitcontent">
-        <div class="splitcontentleft">
-
-        <% project = @issue.project %>
-
-
-          <p>
-            <%= time_entry.text_field project.entry_evm_field, size: 6, label: :"label_spent_#{project.evm_field}" %>
-            <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
-          </p>
-
-
-        <% @issue.project.visible_fields.each do |field| %>
-          <p><%= time_entry.text_field Project.entry_field(field), size: 6, label: :"label_spent_#{field}"  %> </p>
-        <% end %>
-
-        </div>
-        <div class="splitcontentright">
-        <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
-        </div>
-        </div>
-        <p><%= time_entry.text_field :comments, :size => 60 %></p>
-        <% @time_entry.custom_field_values.each do |value| %>
-          <p><%= custom_field_tag_with_label :time_entry, value %></p>
-        <% end %>
-        <% end %>
-    </fieldset>
+        <fieldset class="">
+          <legend><%= l(:button_log) %></legend>
+          <div>
+              <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
+                <div class="splitcontent">
+                  <div class="splitcontentleft">
+                    <% project = @issue.project %>
+                    <p class="floating-field auto timelog-evm">
+                      <% evm_field = project.entry_evm_field %>
+                      <%= time_entry.label evm_field, I18n.t!("field_#{evm_field}"), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
+                      <%= time_entry.number_field evm_field, placeholder: evm_field, required: false, no_label: true %>
+                      <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
+                    </p>
+                    <% project.visible_fields.each do |field| %>
+                      <p class="floating-field auto">
+                        <%= time_entry.label field, class: (@time_entry.send(field).present? ? '' : 'hidden') %>
+                        <%= time_entry.number_field Project.entry_field(field), no_label: true, placeholder: field %>
+                      </p>
+                    <% end %>
+                  </div>
+                  <div class="splitcontentright">
+                    <p class="floating-field auto">
+                      <%= time_entry.label :activity, req_field(:activity), class: (@time_entry.activity.present? ? '' : 'hidden') %> 
+                      <%= time_entry.select :activity_id, activity_collection_for_select_options(@time_entry), required: true, no_label: true, placeholder: req_field(:activity) %>
+                    </p>
+                  </div>
+                </div>
+                <p class="floating-field issue timelog comments">
+                  <%= time_entry.label :comments, class: (@time_entry.comments.blank?  ? 'hidden' : '' ) %>
+                  <%= time_entry.text_field :comments, :size => 100, :maxlength => 1024, placeholder: :comments, no_label: true %>
+                </p>
+                
+                <% @time_entry.custom_field_values.each do |value| %>
+                  <p><%= custom_field_tag_with_label :time_entry, value %></p>
+                <% end %>
+              <% end %>
+          </div>
+        </fieldset>
 
     <% end %>
 
@@ -63,7 +74,24 @@
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
     <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
-    | <%= link_to l(:button_cancel), {}, :onclick => "$('#update').hide(); return false;" %>
+    <%= link_to l(:button_cancel), {}, :onclick => "$('#update').hide(); return false;" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
+
+<script>
+    $('#issue-form').on('submit',function(e){
+      var entriesEmpty = <%= @issue.time_entries.empty? %>;
+      var hasEndDate = $('#issue_actual_due_date').val() != '';
+      var closedStatusIds = <%= IssueStatus.where(is_closed: true).pluck(:id).to_json  %>;
+      var isClosed = closedStatusIds.indexOf($('#issue_status_id').val()) > -1;
+      var isDone = $('#issue_done_ratio').val() == '100';
+      var evmField = '<%= @issue.project.evm_field %>';
+      var spentEvmFieldId = '#time_entry_actual_' + evmField;
+      var spentFieldIsEmpty = $(spentEvmFieldId).val() == '';
+      if ((hasEndDate || isClosed || isDone) && (spentFieldIsEmpty && entriesEmpty)) {
+        var message = '<%= l(:spent_empty_confirm) %>';
+        return confirm(message);
+      }
+    });
+</script>

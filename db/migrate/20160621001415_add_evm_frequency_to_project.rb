@@ -1,4 +1,4 @@
-class AddEvmFrequencyToProject < ActiveRecord::Migration
+class AddEVMFrequencyToProject < ActiveRecord::Migration
   def change
     add_column :projects, :evm_frequency, :integer
   end

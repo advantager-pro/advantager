@@ -1,15 +1,40 @@
 <h2><%= l(:label_home) %></h2>
 
-<div class="splitcontentright">
-  <% if @news.any? %>
-  <div class="news box">
-  <h3><%=l(:label_news_latest)%></h3>
-    <%= render :partial => 'news/news', :collection => @news %>
-    <%= link_to l(:label_news_view_all), :controller => 'news' %>
+<% if @events_by_day.empty? && @news.empty? && @projects.empty? %>
+  <%= render 'help'  %>
+
+<% else %>
+  <div class="splitcontentleft">
+    <% if @events_by_day.any? %>
+      <div class="box activities">
+        <h3><span class="icon icon-history"></span><%= I18n.t!('latest_activities') %></h3>
+        <%= render 'activities/index', skip_sidebar: true, skip_title: true, skip_pages: true %>
+        <%= link_to l(:label_activity_view_all), activity_path %>
+      </div>
+    <% end %>
   </div>
-  <% end %>
-  <%= call_hook(:view_welcome_index_right) %>
-</div>
+
+  <div class="splitcontentright">
+    <% if @news.any? %>
+    <div class="news box">
+    <h3><%=l(:label_news_latest)%></h3>
+      <%= render :partial => 'news/news', :collection => @news %>
+      <%= link_to l(:label_news_view_all), :controller => 'news' %>
+    </div>
+    <% end %>
+    <%= call_hook(:view_welcome_index_right) %>
+  </div>
+
+  <div class="<%= @projects.count > 3 ? 'splitcontentright' : 'splitcontentright' %>">
+    <% if @projects.any? %>
+      <div id="projects-index" class="projects-box box">
+        <h3><span class="icon icon-tasks"></span><%= l(:label_my_projects) %></h3>
+        <%= render_project_hierarchy(@projects, true) %>
+        <%= link_to l(:label_project_view_all), projects_path %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},

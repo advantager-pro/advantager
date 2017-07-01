@@ -5,6 +5,15 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  show_guide: Mostrar guía
+  create_your_first_project: Crea tu primer proyecto utilizando EVM y Programación Ganada de forma eficientemente integrada a los procesos de gestión
+  indicators_evm: Indicadores EVM
+  general_info: Información General
+  choose_files: Seleccionar Archivos
+  estimated_dates: Fechas estimadas
+  actual_dates: Fechas reales
+  no_parent_project: Sin proyecto padre
+  not_assigned: No asignado
   milestones:
     status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
     dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
@@ -12,6 +21,7 @@ es:
   es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
+  latest_activities: Últimas actividades
   chat_load_error: No se pudo cargar correctamente el chat. Por favor recarga la página o contacta al administrador.
   charts_load_error: Hubo un error al cargar los gráficos. Por favor recarga la página o contacta al administrador.
   conversation_load_error: Ha ocurrido un error mientras se cargaba la conversación
@@ -208,7 +218,7 @@ es:
   button_change: Cambiar
   button_change_password: Cambiar contraseña
   button_check_all: Seleccionar todo
-  button_clear: Anular
+  button_clear: Restaurar
   button_configure: Configurar
   button_copy: Copiar
   button_create: Crear
@@ -242,9 +252,9 @@ es:
   default_doc_category_tech: Documentación técnica
   default_doc_category_user: Documentación de usuario
   default_issue_status_in_progress: En progreso
-  default_issue_status_closed: Cerrada
+  default_issue_status_closed: Completada
   default_issue_status_feedback: Comentarios
-  default_issue_status_new: Nueva
+  default_issue_status_new: Registrada
   default_issue_status_rejected: Rechazada
   default_issue_status_resolved: Resuelta
   default_priority_high: Alta
@@ -276,7 +286,7 @@ es:
   default_configs: Configuraciones por defecto
   label_default_configs: Configuraciones por defecto
   default_configs_warning: Atención! La aplicación de estas configuraciones es de alcance global sobre todos los proyectos, los cambios realizados sobre los estados, flujos de trabajo y demás datos iniciales serán sobreescritos, los nuevos datos no se eliminaran. 
-  button_default_configs: Reestablecer configuraciones por defecto.
+  button_default_configs: Reestablecer configuraciones por defecto
   default_configs_confirm: Está seguro que desea reestablecer las configuraciones por defecto?
   default_configs_succes: Se han reestablecido las configuraciones por defecto.
 
@@ -290,6 +300,7 @@ es:
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
   error_ldap_bind_credentials: Cuenta/Contraseña LDAP incorrecta
+  field_constitutional_act: Acta de Constitución
   field_account: Cuenta
   field_activity: Actividad
   field_actual_due_date: Fecha fin real
@@ -438,6 +449,7 @@ es:
       cost_performance_index: Índice del desempeño del costo (CPI)
       performance_index: Índice de desempeño ( SPI * CPI )
       budget_at_conclusion: Presupuesto a la conclusión (BAC)
+      budget_at_conclusion_abbr:  Ppto. a la conclusión (BAC)
       estimate_at_completion_calculated: Estimación a la conclusión (EAC) calculada
       estimate_at_completion_cpi: Estimación a la conclusión (EAC) basada en el CPI
       estimate_at_completion_cpi_and_spi: Estimación a la conclusión (EAC) basada en el CPI y SPI
@@ -446,6 +458,8 @@ es:
       time: hora/s
       point: punto/s
     fieldset: Campo utilizado para calcular EVM
+    other_fields_to_keep_log: Otros campos de registros
+    other_fields_to_keep_log_info: Estos campos no serán utilizados para calcular EVM
     field: Campo
     visible_field: Campo visible
     evm_field: Campo para EVM
@@ -642,6 +656,8 @@ es:
   label_news_new: Nueva noticia
   label_news_plural: Noticias
   label_news_view_all: Ver todas las noticias
+  label_activity_view_all: Ver todas las actividades
+  label_project_view_all: Ver todos los proyectos
   label_next: Siguiente
   label_no_change_option: (Sin cambios)
   label_no_data: Ningún dato disponible
@@ -1013,6 +1029,7 @@ es:
   version_status_locked: bloqueado
   version_status_open: abierto
   error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
+  spent_empty_confirm: Está seguro de cerrar sin registar gastos?
 
   label_user_anonymous: Anónimo
   button_move_and_follow: Mover y seguir

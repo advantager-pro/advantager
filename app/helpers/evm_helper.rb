@@ -1,5 +1,9 @@
 module EVMHelper
 
+  def req_field(field_key)
+    label = I18n.t("field_#{field_key}") || I18n.t("label_#{field_key}")
+    "#{label}  *"
+  end
 
   def evm_unity(project, field=nil)
     field ||= project.evm_field

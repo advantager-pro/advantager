@@ -163,6 +163,9 @@
 <audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
 <div id='chat-conversations'></div>
 <%= render_chat %>
+<!-- Check why this is not working on production -->
+<!-- probably cause: port issue -->
+<!--<script>$.getScript("#{root_url}:9292/faye.js").fail(displayChatError);</script>-->
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

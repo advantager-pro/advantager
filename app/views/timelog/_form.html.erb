@@ -1,37 +1,58 @@
 <%= error_messages_for 'time_entry' %>
 <%= back_url_hidden_field_tag %>
-
-<div class="box tabular">
+<% @time_entry ||= f.object %>
+<div class="box">
   <% if @time_entry.new_record? %>
     <% if params[:project_id] %>
       <%= hidden_field_tag 'project_id', params[:project_id] %>
     <% elsif params[:issue_id] %>
       <%= hidden_field_tag 'issue_id', params[:issue_id] %>
     <% else %>
-      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true) %></p>
+      <p class="floating-field auto">
+        <%= f.label :project, class: ( @time_entry.project.present? ? '' : 'hidden' ) %> 
+        <%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, no_label: true, placeholder: :project, :selected => @time_entry.project, :include_blank => true) %>
+      </p>
     <% end %>
   <% end %>
-  <p>
-    <%= f.text_field :issue_id, :size => 6 %>
-    <% if @time_entry.issue.try(:visible?) %>
-      <span id="time_entry_issue"><%= "#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}" %></span>
-    <% end %>
-  </p>
-  <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 
-  <p>
-    <%= f.number_field @time_entry.project.entry_evm_field, required: true %>
+  <% if @time_entry.issue.try(:visible?) %>
+    <big id="time_entry_issue" class="box"><%= "#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}" %></big>
+  <% end %>
+  <p class="floating-field mid">
+    <%= f.label :issue, class: (@time_entry.issue.present? ? '' : 'hidden') %>
+    <%= f.text_field :issue_id, placeholder: :issue, no_label: true, :size => 6 %>
+  </p>
+  <p class="floating-field timelog-date">
+    <%= f.label :spent_on, req_field(:spent_on), class: (@time_entry.spent_on.present? ? '' : 'hidden') %>
+    <%= f.text_field :spent_on, :size => 10, placeholder: req_field(:spent_on), no_label: true, :required => true %><%= calendar_for('time_entry_spent_on') %>
+  </p>
+
+  <p class="floating-field auto timelog-evm">
+    <% evm_field = @time_entry.project.entry_evm_field %>
+    <%= f.label evm_field, req_field( evm_field), class: (@time_entry.send(evm_field).present? ? '' : 'hidden') %>
+    <%= f.number_field evm_field, placeholder: req_field(evm_field), required: true, no_label: true %>
     <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
   </p>
 
   <% @time_entry.project.visible_fields.each do |field| %>
-    <p><%= f.number_field Project.entry_field(field) %></p>
+    <p class="floating-field auto">
+      <%= f.label field, class: (@time_entry.send(field).present? ? '' : 'hidden') %>
+      <%= f.number_field Project.entry_field(field), no_label: true, placeholder: field %>
+    </p>
   <% end %>
 
 
 
-  <p><%= f.text_field :comments, :size => 100, :maxlength => 1024 %></p>
-  <p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>
+  <p class="floating-field">
+    <%= f.label :comments, class: (@time_entry.comments.blank?  ? 'hidden' : '' ) %>
+    <%= f.text_field :comments, :size => 100, :maxlength => 1024, placeholder: :comments, no_label: true %>
+  </p>
+
+  <p class="floating-field auto">
+    <%= f.label :activity, req_field(:activity), class: (@time_entry.activity.present? ? '' : 'hidden') %> 
+    <%= f.select :activity_id, activity_collection_for_select_options(@time_entry), required: true, no_label: true, placeholder: req_field(:activity) %>
+  </p>
+  
   <% @time_entry.custom_field_values.each do |value| %>
     <p><%= custom_field_tag_with_label :time_entry, value %></p>
   <% end %>

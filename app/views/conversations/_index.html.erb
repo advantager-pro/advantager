@@ -6,7 +6,7 @@
       <div class="col-md-4">
         <div class="chat-wrapper" style="">
           <%= content_tag('div', I18n.t!('conversation_load_error'), class: "flash error js", id: "flash_conversation_error", style: "display: none") %>
-          <%= content_tag('div', '', class: "flash error js", id: "flash_chat_error_js", style: "display: none") %>
+          <%= content_tag('div', I18n.t!('chat_load_error'), class: "flash error js", id: "flash_chat_error_js", style: "display: none") %>
           <div class="panel panel-default">
               <div>
                 <ul>

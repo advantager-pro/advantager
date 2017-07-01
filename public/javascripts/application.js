@@ -5,6 +5,30 @@ function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
 }
 
+var showLogin = function(){
+  $("#show-login").hide();
+  $("#guid-presentation-help").hide();
+  $("#login-form").show();
+}
+var hideLogin = function(){
+  $("#login-form").hide();
+  $("#show-login").show();
+  $("#guid-presentation-help").show();
+}
+
+
+function showAdvanceSearch(){
+  $('#query_form_with_buttons').show();
+  $('#show-advance-search').hide();
+  $('#hide-advance-search').show();
+}
+
+function hideAdvanceSearch(){
+  $('#query_form_with_buttons').hide();
+  $('#show-advance-search').show();
+  $('#hide-advance-search').hide();
+}
+
 function toggleCheckboxesBySelector(selector) {
   var all_checked = true;
   $(selector).each(function(index) {
@@ -704,7 +728,7 @@ var displayChatError = function(message){
   $("#chatbox_users_list .panel.panel-default").remove();
   $("#chatbox_users_list .chat-wrapper").attr("style", 'height: auto');
   $("#chatbox_users_list .chatboxcontent").attr("style", 'height: auto');
-  $("#flash_chat_error_js").text(message).slideDown();
+  $("#flash_chat_error_js").slideDown();
 }
 
 function getEVMPoints(project_params, callback){
@@ -721,32 +745,6 @@ $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
 $(document).ready(setupTabs);
 
-/* Anything that gets to the document
-  will hide the dropdown */
-$(document).on('click', function(e){
-  $(".my-dropdown ul").hide();
-});
-
-var onReadyAndRender = function(){
-  $('.chart').empty();
-}
-$(document).on('turbolinks:render', onReadyAndRender);
-$(document).ready(onReadyAndRender);
-
-/* Clicks within the dropdown won't make
-  it past the dropdown itself */
-$(document).on('click', ".my-dropdown", function(e){
-  $(".my-dropdown ul").toggle();
-  e.stopPropagation();
-});
-
-$(document).on('click', '.sidebar-toggler', function(){
-  $(document).resize();
-});
-
-$(document).on('turbolinks:click', function() {
-  $("#chat-conversations").hide();
-});
 
 window.HELP_TOOLTIP_INDEX = 0;
 
@@ -794,3 +792,97 @@ $(document).on('click', '.help-navigation .previous', function(){
 });
 
 $(document).on('click', '.self-select', function(){ $('option[data-self-select]').prop('selected', true); });
+
+var getFloatingLabel = function(element){ 
+  var label = $(element).prev('label');
+  label = label.length == 0 ? $(element).next('label') : label;
+  return label.length == 0 ? $('label[for="'+$(element).attr('id')+'"]') : label ;
+}
+
+var floatingFieldSelector = '.floating-field input, .floating-field textarea, .floating-field select';
+
+var showFloatingLabel = function(label, callback){
+  if(label.hasClass('hidden')){
+    label.removeClass('hidden');
+    label.css("opacity", "0.0").animate({opacity: 1.0}, 400, function(){
+        if(callback) callback();
+    });
+  }
+};
+
+$.datepicker.setDefaults({ 
+  onSelect: function(date) { 
+    var field = $(this);
+    field.trigger('change').delay(600).queue(function() { field.focus(); });
+  } 
+});
+
+var hideFloatingLabel = function(label){
+  label.css("opacity", "1.0").animate({opacity: 0}, 600, function(){
+      label.addClass('hidden');
+  });
+};
+
+$(document).on('change', floatingFieldSelector, function(){
+  var field = $(this);
+  var label = getFloatingLabel(field);
+  if(field.val() == ""){
+    hideFloatingLabel(label);
+  }else{
+    showFloatingLabel(label);
+  }
+});
+
+$(document).on('focus', floatingFieldSelector, function(){ 
+  var label = getFloatingLabel(this);
+  label.addClass('focused');
+  showFloatingLabel(label);
+}); 
+$(document).on('blur', floatingFieldSelector, function(){ 
+  var label = getFloatingLabel(this);
+  label.removeClass('focused'); 
+  if($(this).val() == "") hideFloatingLabel(label)
+});
+
+var removeDuplicatedElements = function(){
+  $('.chart').empty();
+  var dupSelectors = [
+    '.tagit.ui-widget.ui-widget-content.ui-corner-all',
+    '.jstElements'
+  ]
+  for(var i = 0; i < dupSelectors.length ; i++){
+    var selector = dupSelectors[i];
+    var j = 0;
+    while($(selector).length > 1){
+      $($(selector)[j++]).remove();
+    }
+  }
+  
+}
+
+var onReadyAndRender = function(){
+  /* Anything that gets to the document
+  will hide the dropdown */
+  $(document).on('click', function(e){
+    $(".my-dropdown ul").hide();
+  });
+
+  /* Clicks within the dropdown won't make
+    it past the dropdown itself */
+  $(document).on('click', ".my-dropdown", function(e){
+    $(".my-dropdown ul").toggle();
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '.sidebar-toggler', function(){
+    $(document).resize();
+  });
+
+  $(document).on('turbolinks:click', function() {
+    $("#chat-conversations").hide();
+  });
+
+  removeDuplicatedElements();
+}
+$(document).on('turbolinks:render', onReadyAndRender);
+$(document).ready(onReadyAndRender);

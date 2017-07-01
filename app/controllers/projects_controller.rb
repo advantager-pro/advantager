@@ -23,7 +23,6 @@ class ProjectsController < ApplicationController
   before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
-  before_filter :sanitize_visible_fields, only: [:create, :update]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy
@@ -74,8 +73,8 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = IssueCustomField.sorted.to_a
     @trackers = Tracker.sorted.to_a
     @project = Project.new
-    params[:project][:visible_fields] = params[:project][:visible_fields].split(",") if params[:project][:visible_fields].present?
     @project.safe_attributes = params[:project]
+    @project.visible_fields = params[:project][:visible_fields] || []
     if @project.save
       unless User.current.admin?
         @project.add_default_member(User.current)
@@ -172,6 +171,7 @@ class ProjectsController < ApplicationController
 
   def update
     @project.safe_attributes = params[:project]
+    @project.visible_fields = params[:project][:visible_fields] || []
     if @project.save
       respond_to do |format|
         format.html {
@@ -234,12 +234,4 @@ class ProjectsController < ApplicationController
     # hide project in layout
     @project = nil
   end
-
-  private
-    def sanitize_visible_fields
-      if params[:project][:visible_fields].present?
-        params[:project][:visible_fields] = ( params[:project][:visible_fields]
-          .split(",") - [params[:project][:evm_field]] )
-      end
-    end
 end

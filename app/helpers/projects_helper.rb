@@ -41,7 +41,7 @@ module ProjectsHelper
     end
 
     options = ''
-    options << "<option value=''>&nbsp;</option>" if project.allowed_parents.include?(nil)
+    options << "<option value=''>#{I18n.t!('no_parent_project')}</option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
@@ -58,18 +58,7 @@ module ProjectsHelper
       links << link_to(l(:label_overall_spent_time), time_entries_path)
     end
     links << link_to(l(:label_overall_activity), activity_path)
-    links.join(" | ").html_safe
-  end
-
-  # Renders the projects index
-  def render_project_hierarchy(projects)
-    render_project_nested_lists(projects) do |project|
-      s = link_to_project(project, {}, :class => "#{project.css_classes} #{User.current.member_of?(project) ? 'my-project' : nil}")
-      if project.description.present?
-        s << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
-      end
-      s
-    end
+    links.join("  ").html_safe
   end
 
   # Returns a set of options for a select field, grouped by project.

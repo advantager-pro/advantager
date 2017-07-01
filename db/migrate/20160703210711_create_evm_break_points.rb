@@ -1,4 +1,4 @@
-class CreateEvmBreakPoints < ActiveRecord::Migration
+class CreateEVMBreakPoints < ActiveRecord::Migration
   def change
     create_table :evm_break_points do |t|
       t.references :project, index: true, foreign_key: true
