@@ -6,7 +6,16 @@ module Advantager::EarnedSchedule
     end
 
     def last_period
-      es_to_period(planned_completion_date)
+      # This block is executed when we use the Planned Date
+      #
+      # For PD we want the biggest period
+      # If for example we want to get the PD period.
+      # We would want the period at the end,
+      # instead of the nearest period
+      # start = 0, period duration = 7, date = 3
+      # it will result as the end of that period,
+      # which is the next period: 1
+      es_to_period(planned_completion_date).ceil
     end
 
     def last_periods_until(until_period)
@@ -18,7 +27,12 @@ module Advantager::EarnedSchedule
     end
 
     def current_period
-      es_to_period(self.day)
+      # We have to round the result so if the date is in the
+      # middle of a period. For example:
+      # start = 0, period duration = 7, date = 3
+      # The result will be the nearest period to that date
+      # Which, in this example, is the first period: 0
+      es_to_period(self.day).floor
     end
 
     def period_duration
@@ -30,7 +44,10 @@ module Advantager::EarnedSchedule
     end
 
     def es_to_period(date)
-      ( (date - es_start_date) / period_duration ).to_i
+      # Use to_f in order to delate the way the result
+      # will be rounded (ceil, floor, etc) to the methods
+      # that use #es_to_period
+      ( (date - es_start_date) / period_duration ).to_f
     end
 
     def BCWP(period) # EV
@@ -82,11 +99,13 @@ module Advantager::EarnedSchedule
 
 
     def to_complete_schedule_performance_index_pd
-      es_to_complete_performance_index
+      # TSPI = (PD-ES)/(PD-AT)
+      (es_planned_duration - earned_schedule) / (es_planned_duration - current_period)
     end
   
     def to_complete_schedule_performance_index_ieac
-      es_estimated_to_complete_performance_index
+      # TSPI= (PD-ES)/(ED-AT)
+      (es_planned_duration - earned_schedule) / (es_estimated_duration - current_period)
     end
 
 
@@ -103,7 +122,25 @@ module Advantager::EarnedSchedule
       # The planned duration is the last period
       # which is calculated based on the biggest
       # planned due date of the project's issues
-      last_period
+
+      pd = last_period
+
+      # If we are on the last period already
+      # and we still didn't finish the project
+      # It means that the PD might go until
+      # the end of the current period which is
+      # the next period.
+      # This way we also avoid infinity numbers on
+      # methods such as:
+      #   #to_complete_schedule_performance_index_pd
+      # where:
+      #   PD - current period
+      # is used as dividend
+      if last_period == current_period
+        pd += 1
+      end
+
+      pd
       # Notice PD is a period given that all
       # the earned schedule formulas are in terms
       # of periods
@@ -125,17 +162,7 @@ module Advantager::EarnedSchedule
       current_period + (es_planned_duration - earned_schedule) / es_schedule_performance_index
     end
 
-    def es_to_complete_performance_index #
-      # TSPI = (PD-ES)/(PD-AT)
-      (es_planned_duration - earned_schedule) / (es_planned_duration - current_period)
-    end
-
-    def es_estimated_to_complete_performance_index
-      # TSPI= (PD-ES)/(ED-AT)
-      (es_planned_duration - earned_schedule) / (es_estimated_duration - current_period)
-    end
-
-    #  ED = Estimated Duration (estimated project duration)
+    # ED = Estimated Duration (estimated project duration)
     def es_estimated_duration
       es_planned_duration / es_schedule_performance_index
     end

@@ -28,7 +28,8 @@ class BuildChartResponse
   def self.data_for_morris(project, options)
     fields = options[:fields]
     fields += %w(day) unless options[:no_day]
-    evm_points = project.evm_points
+    # We need to use ordered data to build the chart
+    evm_points = project.evm_points.order("day ASC")
 
     max_index = evm_points.length - 1
     indexes = (0..max_index).step(project.evm_frequency).to_a
