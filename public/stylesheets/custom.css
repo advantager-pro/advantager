@@ -648,7 +648,7 @@ input[type="button"], input[type="submit"], button{
 }
 
 .glosary .color.negative, .minidash .indicators .negative .icon::before, .index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
-.glosary .color.critical, .minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
+.glosary .color.critical, .minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical_equal .chart-wrapper, .index.critical_greater .chart-wrapper, .index.critical .ic, .index.index.critical_equal .ic, .index.index.critical_greater .ic{ background: #6d1c1c; }
 .glosary .color.positive_schedule, .minidash .indicators .positive .icon::before, .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
 .glosary .color.positive_cost,.minidash .indicators .positive.cost .icon::before, .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
 .glosary .color.neutral, .glosary .color.evm_chart, .minidash .indicators .neutral .icon::before, .index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
@@ -684,16 +684,16 @@ input[type="button"], input[type="submit"], button{
   margin-right: 18px;
 }
 
-.index  .chart-wrapper{ color: white; }
+.index .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
 .index .morris-hover.morris-default-style{ border: none; background: rgba(0,0,0,0.6)!important; }
-.index .morris-hover.morris-default-style .morris-hover-row-label,
+.index:not(.tcpi_bac) .morris-hover.morris-default-style .morris-hover-row-label,
 .trends.evm .morris-hover.morris-default-style .morris-hover-row-label,
-.index .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
+.index:not(.tcpi_bac) .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
 .trends.evm text, .index text{ fill: white!important; }
-.index path{ stroke: white!important; }
+.index:not(.tcpi_bac) path{ stroke: white!important; }
 .trends.evm circle{ stroke: rgba(103, 103, 103, 0.4)!important; }
-.index circle{ fill: rgba(255, 255, 255, 0.63)!important; }
+.index:not(.tcpi_bac) circle{ fill: rgba(255, 255, 255, 0.63)!important; }
 
 .trends.evm .morris-hover.morris-default-style{
   background: rgba(40, 32, 64, 0.81)!important;
