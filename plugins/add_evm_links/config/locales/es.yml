@@ -1,5 +1,6 @@
 es:
   evm:
+    tcpi_bac_overflow: "Los costos han superado/igualado el presupuesto.\nAC: %{actual_cost}\nBAC: %{bac}"
     glosary: 
       colors: Colores
       icons: Iconos
@@ -138,6 +139,9 @@ es:
         negative: Situación desfavorable respecto al desempeño del costo del trabajo remanente en relación al presupuesto dado.
         neutral_rule: TCPI = 1
         neutral: Situación neutra respecto al desempeño del costo del trabajo remanente en relación al presupuesto dado.
+        critical_rule: AC >= BAC
+        critical_equal: El presupuesto no es alcanzable, dado que los costos incurridos son iguales al presupuesto planeado.
+        critical_greater: El presupuesto no es alcanzable, dado que los costos incurridos son superiores al presupuesto planeado.
       es_schedule_performance_indexes:
         acronym: SPI(t)
         description: Índice de desempeño del cronograma basado en el tiempo

@@ -16,7 +16,9 @@ class Advantager::EVM::PointsController < ApplicationController
     built_response = {}
     begin
       built_response = BuildChartResponse.(@project, params[:lang])
-    rescue 
+    rescue => e
+      logger.error e.message
+      logger.error e.backtrace.join("\r\n")
       # There seems to be a very uncommon error probably due to Rails cache cleanup or network timeout
       error = I18n.t!('charts_load_error')
     end

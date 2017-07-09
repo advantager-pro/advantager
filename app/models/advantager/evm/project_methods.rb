@@ -3,8 +3,14 @@ module Advantager::EVM::ProjectMethods
 
     include ::Advantager::EVM::Methods
     included do
-      def _budget_at_conclusion
-        issues.for_evm.sum(::Project.issue_field(evm_field))
+      def _budget_at_conclusion(date=nil)
+        if date.nil?
+          issues.for_evm.sum(::Project.issue_field(evm_field))
+        else
+          # The BAC for a given date is equal to the accumulative
+          # planned value for that same date
+          planned_value(date)
+        end
       end
 
       def planned_value(date)

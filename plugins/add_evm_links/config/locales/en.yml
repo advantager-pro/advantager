@@ -1,5 +1,6 @@
 en:
   evm:
+    tcpi_bac_overflow: "Costs are over/equal budget.\nAC: %{actual_cost}\nBAC: %{bac}"
     glosary: 
       colors: Colors
       icons: Icons
@@ -138,6 +139,9 @@ en:
         negative: Unfavorable status regarding the performance of the cost of the remaining work in relation to the given budget.
         neutral_rule: TCPI = 1
         neutral: Neutral or balanced status regarding the performance of the remaining work cost in relation to the given budget.
+        critical_rule: AC >= BAC
+        critical_equal: The budget is not achievable, given that the incurred costs are equal the budget.
+        critical_greater: The budget is not achievable, given that the project is over budget, the incurred costs are greater than the planned budget.
       es_schedule_performance_indexes:
         acronym: SPI(t)
         description: Time based Schedule Performance Index
