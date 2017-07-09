@@ -19,6 +19,9 @@ class BuildChartResponse
       "to_complete_cost_performance_index_cpi"]
     single_fields.each{ |field| response = add_single_field(field, project, response, lang) } 
 
+    # Add AC field to bac based TCPI 
+    response[:to_complete_cost_performance_index_bac_fields] << 'actual_cost'
+
     response[:charts]  = single_fields + %w(evm)
     response
   end
@@ -41,6 +44,8 @@ class BuildChartResponse
         if field == 'day'
             d = e.day
             hash[field] = "#{d.year}-#{d.month}-#{d.day}"
+        elsif field == 'to_complete_cost_performance_index_bac'
+          hash.merge!(tcpi_bac_fix!(point: e, lang: options[:lang]))
         else
           hash[field] = e.send(field)
         end
@@ -59,7 +64,7 @@ class BuildChartResponse
   def self.add_single_field(field, project, response, lang)
     fields = [field]
     response[:"#{field}_fields"] = fields
-    response[:"#{field}_data"] = data_for_morris(project, fields: fields)
+    response[:"#{field}_data"] = data_for_morris(project, { fields: fields, lang: lang })
     fields.each{|f| response[:evm_labels][f] = t(f, lang) }
     response
   end
@@ -67,5 +72,21 @@ class BuildChartResponse
   def self.t(key, lang="")
     lang = lang.empty? ? I18n.config.available_locales.first : lang
     I18n.t!("evm.elements.#{key}", locale: lang)
+  end
+
+  def self.tcpi_bac_fix!(point:, lang: )
+    bac = point.budget_at_conclusion(point.day).round(2)
+    ac = point.actual_cost.round(2)
+    if ac >= bac
+      { 
+        to_complete_cost_performance_index_bac: nil,
+        actual_cost: ac,
+        tcpi_explanation: I18n.t!('evm.tcpi_bac_overflow', actual_cost: ac, bac: bac, locale: lang) }
+    else
+      { 
+        to_complete_cost_performance_index_bac: point.to_complete_cost_performance_index_bac,
+        actual_cost: nil
+      }
+    end
   end
 end

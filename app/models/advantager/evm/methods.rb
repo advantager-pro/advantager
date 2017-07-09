@@ -4,8 +4,8 @@ module Advantager::EVM::Methods
     included do
 
       def budget_at_conclusion(date=nil)
-        return _budget_at_conclusion if self.is_a?(::Project)
-        project._budget_at_conclusion
+        return _budget_at_conclusion(date) if self.is_a?(::Project)
+        project._budget_at_conclusion(date)
       end
 
       def schedule_variance(date=nil)
