@@ -1020,7 +1020,7 @@ es:
   label_group_plural: Grupos
   label_group: Grupo
   label_group_new: Nuevo grupo
-  label_time_entry_plural: Tiempo dedicado
+  label_time_entry_plural: Actividad realizada
   text_journal_added: "Añadido %{label} %{value}"
   field_active: Activo
   enumeration_system_activity: Actividad del sistema
