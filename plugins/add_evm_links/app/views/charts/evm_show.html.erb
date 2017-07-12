@@ -464,6 +464,7 @@
 
             getEVMPoints('<%= @project.id %>?lang=<%= User.current.language %>', function(response){
                 $('.chart').empty(); // fix turbolinks issue
+                var ACTIVITY_URL = "<%= project_activity_path(@project, from: 'FROM_DATE') %>";
                 var getLabels = function(keys){ 
                     var labels = [];
                     for(var i = 0; i < keys.length; i++)
@@ -511,6 +512,10 @@
 
                         var options = {
                             element: id,
+                            hoverCallback: function (index, options, content, row) {
+                                var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
+                                return "<a  target='_blank' style='text-decoration: none;' href='"+url+"'>"+content+"</a>";
+                            },
                             fillOpacity: 0.2,
                             resize: true,
                             behaveLikeLine: true,
@@ -524,10 +529,7 @@
                             hideHover: 'auto',
                             yLabelFormat: fixDec,
                             events: break_points_events
-                        }   
-
-                        if( field == 'to_complete_cost_performance_index_bac' ) console.error('why2?');
-
+                        }
                         if(id != 'evm-chart'){
                             options.lineColors = ['white'];
                         }
@@ -560,18 +562,19 @@
                                     var indexColor = "#fff";
                                     options.lineColors = [indexColor,  overflowColor];
                                     options.hoverCallback = function (index, options, content, row) {
+                                        var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
+                                        var newContent = "";
                                         if(row.tcpi_explanation){
-                                            var newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";' >"+row.day
-                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > "
-                                            newContent += row.tcpi_explanation.replace(/\n/g, "<br />")+"</div>"
-                                            return newContent;
+                                            newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";' >"+row.day;
+                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > ";
+                                            newContent += row.tcpi_explanation.replace(/\n/g, "<br />")+"</div>";
                                         }else{
                                             var bac = fixDec(parseFloat(row.to_complete_cost_performance_index_bac));
-                                            var newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";'  >"+row.day
-                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > "
-                                            newContent += tcpiBacLabel+" <br/>"+bac+"</div>"
-                                            return newContent;
+                                            var newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";'  >"+row.day;
+                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > ";
+                                            newContent += tcpiBacLabel+" <br/>"+bac+"</div>";
                                         }
+                                        return "<a target='_blank' style='text-decoration: none;' href='"+url+"'>"+newContent+"</a>";
                                     };
                                     Morris.Line(options);
                                 }else{
