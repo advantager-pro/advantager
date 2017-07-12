@@ -1753,3 +1753,11 @@ ul.tagit{
 #guid-presentation-help{
   margin-top: 28px;
 }
+
+.issue.details>img.gravatar{
+  display: none;
+}
+
+.issue.details>.subject, .issue.details>.author{
+  padding-left: 0px;
+}
