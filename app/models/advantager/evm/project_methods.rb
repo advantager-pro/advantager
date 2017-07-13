@@ -61,7 +61,14 @@ module Advantager::EVM::ProjectMethods
     module ClassMethods
       def store_all_projects_status
         self.all.each do |project|
-          ::Advantager::EVM::Point.update_current_point!(project)
+          begin
+            ::Advantager::EVM::Point.update_current_point!(project)
+          rescue => e
+            # Error with a project should not block the other projects
+            # EVM point logic
+            logger.error e.message
+            logger.error e.backtrace.join("\n")
+          end
         end
       end
     end
