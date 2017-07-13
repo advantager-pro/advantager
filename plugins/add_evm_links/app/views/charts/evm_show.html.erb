@@ -510,12 +510,14 @@
                         var chartFields = response[field+'_fields'];
                         var responseData = response[field+'_data'];
 
+                        var converDateToLink = function (index, options, content, row) {
+                            var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
+                            return "<a  target='_blank' style='text-decoration: none;' href='"+url+"'>"+content+"</a>";
+                        };
+
                         var options = {
                             element: id,
-                            hoverCallback: function (index, options, content, row) {
-                                var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
-                                return "<a  target='_blank' style='text-decoration: none;' href='"+url+"'>"+content+"</a>";
-                            },
+                            hoverCallback: converDateToLink,
                             fillOpacity: 0.2,
                             resize: true,
                             behaveLikeLine: true,
@@ -544,6 +546,7 @@
                                     element: 'evm-chart',
                                     behaveLikeLine: true,
                                     data: response.evm_chart_data,
+                                    hoverCallback: converDateToLink,
                                     xkey: 'day',
                                     ykeys: response.evm_fields,
                                     labels: getLabels(response.evm_fields),

@@ -16,9 +16,9 @@
   <tbody>
   <% members.each do |member| %>
   <% next if member.new_record? %>
-  <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-  <td class="name <%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
-  <td class="roles">
+  <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member-">
+  <td class="name username <%= member.principal.class.name.downcase %>"><%= avatar(member.principal, size: "14") %><%= link_to_user member.principal %></td>
+  <td class="roles text-center">
     <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
       <%= form_for(member,
                    {:as => :membership, :remote => true,
@@ -47,7 +47,7 @@
   <td class="buttons">
       <%= link_to_function l(:button_edit),
                            "$('#member-#{member.id}-roles').hide(); $('#member-#{member.id}-roles-form').show(); return false;",
-                           :class => 'icon icon-edit' %>
+                           :class => 'icon icon-edit edit-member-link' %>
       <%= delete_link membership_path(member),
                       :remote => true,
                       :data => (!User.current.admin? && member.include?(User.current) ? {:confirm => l(:text_own_membership_delete_confirmation)} : {}) if member.deletable? %>

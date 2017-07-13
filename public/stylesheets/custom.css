@@ -1761,3 +1761,59 @@ ul.tagit{
 .issue.details>.subject, .issue.details>.author{
   padding-left: 0px;
 }
+
+.news-article{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.padding-title, h2.padding-title{
+  margin-left: 10px;
+  margin-top: 18px;
+  margin-bottom: 22px;
+}
+
+.no-padding-file-container{
+  padding-bottom: 10px;
+  padding-top: 0px;
+}
+
+.edit-member-link{
+  margin-right: 14px;
+}
+
+table.list td.text-center.roles, table.list.members td.buttons{
+  text-align: center!important;
+}
+table.list td.text-center.roles form{
+  text-align: left!important;
+  padding-left: 12px;
+}
+
+table.list.members, table.list.members thead, table.list.members tbody, table.list.members tr, table.list.members td, table.list.members th{
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+}
+
+table.list tr td, table.list tr th{
+  border: none!important;
+  padding-top: 15px!important;
+  padding-bottom: 15px!important;
+}
+
+table.list{
+  /*margin-bottom: 0;*/
+  border: 1px solid #e8e8e8!important;
+  margin-top: 20px!important;
+}
+table.list thead{
+  border: 1px solid #e8e8e8!important;
+}
+
+table.list.members td.name.user{
+  padding-left: 16px;
+}
+
+table.list th a, table.list .table-list-header a{
+  color: #4e4e4e!important;
+}
