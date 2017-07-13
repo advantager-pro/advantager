@@ -1817,3 +1817,6 @@ table.list.members td.name.user{
 table.list th a, table.list .table-list-header a{
   color: #4e4e4e!important;
 }
+
+.nodata{  margin-top: 20px; }
+
