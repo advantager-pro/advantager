@@ -74,9 +74,9 @@
               <% if !@issue.milestone? %>
                 <p class="floating-field auto">
                   <% issue_evm_field = @issue.project.issue_evm_field %>
-                  <%= f.label issue_evm_field, class: @issue.send(issue_evm_field).present? ? ' issue-evm-field' : 'hidden issue-evm-field' %>
-                  <legend class="info"><span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span></legend>
+                  <%= f.label issue_evm_field, class: @issue.send(issue_evm_field).present? ? ' issue-evm-field____not-using-this-class' : 'hidden issue-evm-field____not-using-this-class' %>
                   <%= f.number_field issue_evm_field, placeholder: I18n.t!("field_#{issue_evm_field}"), no_label: true %>
+                  <span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span>
                 </p>
 
 
@@ -94,6 +94,7 @@
                 <p id="parent_issue" class="floating-field">
                   <%= f.label :parent_issue, class: @issue.parent.present? ? '' : 'hidden' %>
                   <%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), placeholder: :parent_issue, no_label: true %>
+                  <span class="icon-info-circle large-explanation"  tooltip="<%= I18n.t!('search_parent_tooltip') %>"></span>
                 </p>
                 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
               <% end %>
