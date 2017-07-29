@@ -930,9 +930,12 @@ input[type="button"], input[type="submit"], button{
   background: rgba(12, 180, 195, 0.88)!important;
   margin-top: 44px!important;
 }
+/*
 #top-menu #loggedas{
   width: 96px;
-}
+  min-width: 96px;
+  max-width: 122px;
+}*/
 
 .pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
     border-radius: 90px;
