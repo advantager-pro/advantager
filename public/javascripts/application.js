@@ -887,6 +887,11 @@ var onReadyAndRender = function(){
   });
 
   removeDuplicatedElements();
+
+  $("#top-menu a.help").on("click", function(e){ 
+    e.preventDefault();
+    alert($("#under-development-msg").text()); 
+  });
 }
 $(document).on('turbolinks:render', onReadyAndRender);
 $(document).ready(onReadyAndRender);

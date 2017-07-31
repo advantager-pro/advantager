@@ -5,6 +5,8 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  search_parent_tooltip: Ingrese el número o título de la petición padre
+  under_development: En construcción
   show_guide: Mostrar guía
   create_your_first_project: Crea tu primer proyecto utilizando EVM y Programación Ganada de forma eficientemente integrada a los procesos de gestión
   indicators_evm: Indicadores EVM

@@ -737,14 +737,18 @@ input[type="button"], input[type="submit"], button{
   width: 230px;
 }
 .help-navigation .next, .help-navigation .previous{
-  padding: 4px;
-  color: white;
   float: right;
   margin-left: 5px;
+  padding: 4px;
+  font-weight: bold;
+}
+.help-navigation .cancel, .help-navigation .next, .help-navigation .previous{
+  border: none;
+}
+.help-navigation .cancel, .help-navigation .previous{
+  color: white;
   background: rgba(255, 255, 255, 0.35);
   box-shadow: none;
-  border: none;
-  font-weight: bold;
 }
 .icon.next-arrow::before{
   content: "\f061";
@@ -926,9 +930,12 @@ input[type="button"], input[type="submit"], button{
   background: rgba(12, 180, 195, 0.88)!important;
   margin-top: 44px!important;
 }
+/*
 #top-menu #loggedas{
   width: 96px;
-}
+  min-width: 96px;
+  max-width: 122px;
+}*/
 
 .pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
     border-radius: 90px;
@@ -1817,3 +1824,7 @@ table.list.members td.name.user{
 table.list th a, table.list .table-list-header a{
   color: #4e4e4e!important;
 }
+
+.nodata{  margin-top: 20px; }
+
+#under-development-msg{ display: none; }

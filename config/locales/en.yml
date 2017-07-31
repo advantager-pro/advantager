@@ -1,4 +1,6 @@
 en:
+  search_parent_tooltip: Enter the parent issue number or title
+  under_development: Under development
   show_guide: Show Guide
   create_your_first_project: Create your first project efficiently using EVM and Earned Schedule integrating the management processes
   indicators_evm: Indicators EVM
