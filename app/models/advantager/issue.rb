@@ -123,6 +123,10 @@ module Advantager::Issue
         self.tracker.name == I18n.t!("default_tracker_milestone")
       end
 
+      def meeting?
+        self.tracker.name == I18n.t!("default_tracker_meeting")
+      end
+
       validate :required_fields_to_put_in_progress_or_close,
         :actual_dates_cannot_be_greater_than_today
 
