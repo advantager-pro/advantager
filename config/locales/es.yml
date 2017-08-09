@@ -277,6 +277,7 @@ es:
   default_tracker_support: Soporte
   default_tracker_task: Tarea
   default_tracker_milestone: Hito
+  default_tracker_meeting: Reunión
   default_activity_development: Desarrollo
   default_activity_documentation: Documentación
   default_activity_planification: Planificación
