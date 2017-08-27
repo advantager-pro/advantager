@@ -263,6 +263,9 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_meeting_end_time: End of meeting
+  field_meeting_start_time: Start of meeting
+  field_meeting_date: Meeting date
   field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
@@ -1340,3 +1343,6 @@ en:
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   alert_planned_first: The task must be planned first to allow modifications on checklists item.
+  meeting_end_time: End of meeting
+  meeting_start_time: Start of meeting
+  meeting_date: Meeting date
