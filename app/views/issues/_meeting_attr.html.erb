@@ -1,0 +1,37 @@
+<div class="box">
+    <div class="splitcontent">
+      <div class="splitcontentleft">
+        <div class="splitcontent">
+          <div class="splitcontentleft issue-small">
+            <div class="box">
+              <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
+                <% done_ratio_list = ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
+                <% # We have to select the done_ratio options because rails form doesn't recognize for example 100.0 = 100 to set the selected value %>
+                <% done_ratio_options = { selected: done_ratio_list.find{ |e| e.last ==  @issue.done_ratio }.last } %>
+                <% # An alternative solution would be to use @issue.done_ratio.to_i but that would not support done ratio with decimal %>
+                <p class="floating-field">
+                  <%= f.label :done_ratio, class: '' %>
+                  <%= f.select :done_ratio, options_for_select(done_ratio_list, done_ratio_options), :required => @issue.required_attribute?('done_ratio'), no_label: true %>
+                </p>
+              <% end %>
+
+              <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && !@issue.milestone? %>
+                  <p class="floating-field">
+                    <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
+                                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %>
+                  </p>
+              <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
+              <% else %>
+                <p class="milestone-status large-explanation" tooltip="<%= I18n.t!('milestones.status_update_explanation') %>"><label><%= l(:field_status) %></label> <%= @issue.status %></p>
+              <% end %>
+
+              <% if @issue.safe_attribute? 'priority_id' %>
+                <p class="floating-field">
+                  <%= f.label :priority, class: @issue.priority.present? ? '' : 'hidden' %>
+                  <%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), { required: true, no_label: true } %>
+                </p>
+              <% end %>
+            </div> <!-- /box -->
+          </div> <!-- splitcontentleft -->
+    </div>
+</div>

@@ -25,6 +25,10 @@
     </p>
   <% end %>
 
-  <%=  render 'milestone_task_attr', f: f%>
+  <% if @issue.meeting? %>
+    <%=  render 'meeting_attr', f: f%>
+  <% else %>
+    <%=  render 'milestone_task_attr', f: f%>
+  <% end %>
 
 <% end %>
