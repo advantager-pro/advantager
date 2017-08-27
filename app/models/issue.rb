@@ -426,6 +426,9 @@ class Issue < ActiveRecord::Base
     'description',
     'start_date',
     'due_date',
+    'meeting_date',
+    'meeting_end_time',
+    'meeting_start_time',
     'actual_start_date',
     'actual_due_date',
     'done_ratio',
@@ -464,7 +467,7 @@ class Issue < ActiveRecord::Base
       names |= %w(project_id)
     end
     if dates_derived?
-      names -= %w(start_date due_date actual_start_date actual_due_date)
+      names -= %w(start_date due_date actual_start_date actual_due_date meeting_date)
     end
     if priority_derived?
       names -= %w(priority_id)
