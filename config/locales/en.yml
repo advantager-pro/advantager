@@ -155,6 +155,7 @@ en:
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_today_meeting: 'meeting date is invalid, cannot be earlier than today.'
 
   actionview_instancetag_blank_option: Please select
 

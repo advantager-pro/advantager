@@ -22,12 +22,21 @@ module Advantager::Issue
       before_validation :binding_status,
                         :binding_actual_dates,
                         :binding_done_ratio,
-                        :reset_milestone_values
+                        :reset_milestone_values,
+                        :reset_meeting_values
                         
-      before_save :reset_milestone_values
+      before_save :reset_milestone_values, :reset_meeting_values
 
       def reset_milestone_values
         if self.milestone?
+          ( ::Project.available_fields  ).each do |field|
+            self.send(:"#{::Project.issue_field(field)}=", nil)
+          end
+        end
+      end
+
+      def reset_meeting_values
+        if self.meeting?
           ( ::Project.available_fields  ).each do |field|
             self.send(:"#{::Project.issue_field(field)}=", nil)
           end
