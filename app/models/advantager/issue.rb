@@ -22,9 +22,10 @@ module Advantager::Issue
       before_validation :binding_status,
                         :binding_actual_dates,
                         :binding_done_ratio,
-                        :reset_milestone_values
+                        :reset_milestone_values,
+                        :reset_meeting_values
                         
-      before_save :reset_milestone_values
+      before_save :reset_milestone_values, :reset_meeting_values
 
       def reset_milestone_values
         if self.milestone?
@@ -34,8 +35,16 @@ module Advantager::Issue
         end
       end
 
+      def reset_meeting_values
+        if self.meeting?
+          ( ::Project.available_fields  ).each do |field|
+            self.send(:"#{::Project.issue_field(field)}=", nil)
+          end
+        end
+      end
+
       def binding_status
-        return if milestone?
+        return if milestone? || meeting?
         if status.present? && status.is_closed? && self.status != status_was
           self.actual_start_date = ::Date.today if self.actual_start_date.nil?
           self.actual_due_date = ::Date.today if self.actual_due_date.nil?
@@ -54,7 +63,7 @@ module Advantager::Issue
       end
 
       def binding_actual_dates
-        return if milestone?
+        return if milestone? || meeting?
         if self.actual_start_date_changed? &&
           self.actual_start_date.present?
           if status.initial? && ::IssueStatus.find_in_progress_status.present?
@@ -71,7 +80,7 @@ module Advantager::Issue
       end
 
       def binding_done_ratio
-        return if milestone?
+        return if milestone? || meeting?
         return unless done_ratio_changed?
         if done_ratio_closed?
           closed_status = ::IssueStatus.where(is_closed: true).first #check if having rejected as is_closed true doesnt affect to this
@@ -123,11 +132,15 @@ module Advantager::Issue
         self.tracker.name == I18n.t!("default_tracker_milestone")
       end
 
+      def meeting?
+        self.tracker.name == I18n.t!("default_tracker_meeting")
+      end
+
       validate :required_fields_to_put_in_progress_or_close,
         :actual_dates_cannot_be_greater_than_today
 
       def required_fields_to_put_in_progress_or_close
-        return if milestone?
+        return if milestone? || meeting?
         will_be_in_progress_or_closed = done_ratio_in_progress? ||
           (actual_start_date.present? && actual_start_date <= Date.today) ||
           status.in_progress? || status.is_closed?

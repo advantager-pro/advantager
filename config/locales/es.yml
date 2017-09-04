@@ -162,7 +162,8 @@ es:
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "no puede ser anterior a %{date} debido a peticiones relacionadas"
+        earlier_than_today_meeting: 'La Fecha de la reunión es inválida, no puede ser anterior a hoy.'
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -277,6 +278,7 @@ es:
   default_tracker_support: Soporte
   default_tracker_task: Tarea
   default_tracker_milestone: Hito
+  default_tracker_meeting: Reunión
   default_activity_development: Desarrollo
   default_activity_documentation: Documentación
   default_activity_planification: Planificación
@@ -307,6 +309,9 @@ es:
   field_activity: Actividad
   field_actual_due_date: Fecha fin real
   field_actual_start_date: Fecha inicio real
+  field_meeting_end_time: Inicio de la reunión
+  field_meeting_start_time: Fin de la reunión
+  field_meeting_date: Fecha de la reunión
   field_admin: Administrador
   field_assignable: Se pueden asignar peticiones a este perfil
   field_assigned_to: Asignado a
@@ -1387,3 +1392,6 @@ es:
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
   alert_planned_first: La tarea debe ser planificada para permitir la edición de items de la lista.
+  meeting_end_time: Inicio de la reunión
+  meeting_start_time: Fin de la reunión
+  meeting_date: Fecha de la reunión

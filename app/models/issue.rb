@@ -426,6 +426,9 @@ class Issue < ActiveRecord::Base
     'description',
     'start_date',
     'due_date',
+    'meeting_date',
+    'meeting_end_time',
+    'meeting_start_time',
     'actual_start_date',
     'actual_due_date',
     'done_ratio',
@@ -464,7 +467,7 @@ class Issue < ActiveRecord::Base
       names |= %w(project_id)
     end
     if dates_derived?
-      names -= %w(start_date due_date actual_start_date actual_due_date)
+      names -= %w(start_date due_date actual_start_date actual_due_date meeting_date)
     end
     if priority_derived?
       names -= %w(priority_id)
@@ -660,6 +663,10 @@ class Issue < ActiveRecord::Base
 
     if start_date && start_date_changed? && soonest_start && start_date < soonest_start #TODO what about soonest_start
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
+    end
+
+    if meeting_date_was == nil && meeting_date < Date.today 
+      errors.add :meeting_date, :earlier_than_today_meeting
     end
 
     if fixed_version

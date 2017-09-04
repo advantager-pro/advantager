@@ -2,6 +2,7 @@
 
 ts = Tracker.where(name: I18n.t!("default_tracker_task")).first
 mil = Tracker.where(name: I18n.t!("default_tracker_milestone")).first
+meet = Tracker.where(name: I18n.t!("default_tracker_meeting")).first
 man = Role.where(name: I18n.t!("default_role_manager")).first
 clo = IssueStatus.where(name: I18n.t!("default_issue_status_closed")).first
 default_issue_status = IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
@@ -10,6 +11,7 @@ rej = IssueStatus.where(name: I18n.t!("default_issue_status_rejected")).first
 wk = Role.where(name: I18n.t!("default_role_worker")).first
 hr = Role.where(name: I18n.t!("default_role_hhrr")).first
 sup = Role.where(name: I18n.t!("default_role_supervisor")).first
+all_roles = Role.all
 #WorkflowTransition.delete_all(}).first
 
 #manager attribution over task
@@ -468,3 +470,30 @@ WorkflowTransition.seed(:id,
   {id: 162, tracker_id: mil.id, old_status_id: pro.id, new_status_id: default_issue_status.id, role_id: hr.id, assignee: true, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
 WorkflowTransition.seed(:id,
   {id: 163, tracker_id: mil.id, old_status_id: pro.id, new_status_id: clo.id, role_id: hr.id, assignee: true, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+
+#meeting
+#same permissions for all roles
+next_id = 164
+all_roles.each do |r|
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: 0, new_status_id: pro.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: 0, new_status_id: default_issue_status.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: default_issue_status.id, new_status_id: pro.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: default_issue_status.id, new_status_id: clo.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: default_issue_status.id, new_status_id: rej.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: pro.id, new_status_id: clo.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+  next_id = next_id + 1
+  WorkflowTransition.seed(:id,
+    {id: next_id, tracker_id: meet.id, old_status_id: pro.id, new_status_id: rej.id, role_id: r.id, assignee: false, author: false, type: "WorkflowTransition", field_name: nil, rule: nil}).first
+
+end

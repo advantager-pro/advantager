@@ -155,6 +155,7 @@ en:
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_today_meeting: 'meeting date is invalid, cannot be earlier than today.'
 
   actionview_instancetag_blank_option: Please select
 
@@ -263,6 +264,9 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_meeting_end_time: End of meeting
+  field_meeting_start_time: Start of meeting
+  field_meeting_date: Meeting date
   field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
@@ -1286,6 +1290,7 @@ en:
   default_tracker_support: Support
   default_tracker_task: Task
   default_tracker_milestone: Milestone
+  default_tracker_meeting: Meeting
   default_issue_status_new: Registered
   default_issue_status_in_progress: In progress
   default_issue_status_resolved: Resolved
@@ -1339,3 +1344,6 @@ en:
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   alert_planned_first: The task must be planned first to allow modifications on checklists item.
+  meeting_end_time: End of meeting
+  meeting_start_time: Start of meeting
+  meeting_date: Meeting date

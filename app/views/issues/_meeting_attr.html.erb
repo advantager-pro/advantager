@@ -1,0 +1,49 @@
+<div class="box">
+    <div class="splitcontent">
+      <div class="splitcontentleft">
+        <div class="splitcontent">
+          <div class="splitcontentleft issue-small">
+            <div class="box">
+              <p class="floating-field">
+                <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
+                            :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %>
+              </p>
+              <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
+
+              <% if @issue.safe_attribute? 'priority_id' %>
+                <p class="floating-field">
+                  <%= f.label :priority, class: @issue.priority.present? ? '' : 'hidden' %>
+                  <%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), { required: true, no_label: true } %>
+                </p>
+              <% end %>
+            </div> <!-- /box -->
+          </div> <!-- splitcontentleft issue-small-->
+        </div>
+      </div>
+      <div class="splitcontentright issues-dates-container" >
+        <div class="splitcontent">
+          <div class="splitcontentleft">
+              <% if @issue.safe_attribute? 'meeting_date' %>
+                <p id="meeting_date_area" class="floating-field">
+                  <%= f.label :meeting_date %>
+                  <%= f.text_field(:meeting_date, :size => 10, placeholder: :meeting_date, no_label: true, :required => @issue.required_attribute?('meeting_date'), class: '') %>
+                  <%= calendar_for('issue_meeting_date') %>
+                </p>
+              <% end %>
+              <% if @issue.safe_attribute? 'meeting_start_time' %>
+                <div class="floating-field">
+                  <%= f.label :meeting_start_time, req_field(:meeting_start_time), class: "#{@issue.meeting_start_time.present? ? '' : 'hidden'}" %>
+                  <%= f.text_field :meeting_start_time, placeholder: req_field(:meeting_start_time), no_label: true, :size => 80, :maxlength => 255, :required => true %>
+                </div>
+              <% end %>
+               <% if @issue.safe_attribute? 'meeting_end_time' %>
+                <div class="floating-field">
+                  <%= f.label :meeting_end_time, req_field(:meeting_end_time), class: "#{@issue.meeting_end_time.present? ? '' : 'hidden'}" %>
+                  <%= f.text_field :meeting_end_time, placeholder: req_field(:meeting_end_time), no_label: true, :size => 80, :maxlength => 255, :required => true %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="box">
+    <div class="splitcontent">
+      
+      <div class="splitcontentleft">
+        <div class="splitcontent">
+          <div class="splitcontentleft issue-small">
+            <div class="box">
+              <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
+                <% done_ratio_list = ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
+                <% # We have to select the done_ratio options because rails form doesn't recognize for example 100.0 = 100 to set the selected value %>
+                <% done_ratio_options = { selected: done_ratio_list.find{ |e| e.last ==  @issue.done_ratio }.last } %>
+                <% # An alternative solution would be to use @issue.done_ratio.to_i but that would not support done ratio with decimal %>
+                <p class="floating-field">
+                  <%= f.label :done_ratio, class: '' %>
+                  <%= f.select :done_ratio, options_for_select(done_ratio_list, done_ratio_options), :required => @issue.required_attribute?('done_ratio'), no_label: true %>
+                </p>
+              <% end %>
+
+              <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? && !@issue.milestone? %>
+                  <p class="floating-field">
+                    <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
+                                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %>
+                  </p>
+              <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
+              <% else %>
+                <p class="milestone-status large-explanation" tooltip="<%= I18n.t!('milestones.status_update_explanation') %>"><label><%= l(:field_status) %></label> <%= @issue.status %></p>
+              <% end %>
+
+              <% if @issue.safe_attribute? 'priority_id' %>
+                <p class="floating-field">
+                  <%= f.label :priority, class: @issue.priority.present? ? '' : 'hidden' %>
+                  <%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), { required: true, no_label: true } %>
+                </p>
+              <% end %>
+            </div> <!-- /box -->
+          </div> <!-- splitcontentleft -->
+          <div class="splitcontentright">
+            <div class="box">
+              <% if @issue.safe_attribute?('assigned_to_id') && !@issue.milestone? %>
+                <p id='assigned_to_line' class="floating-field">
+                  <%= f.label :assigned_to, class: @issue.assigned_to.present? ? '' : 'hidden' %>
+                  <%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), prompt: I18n.t!('not_assigned'), :required => @issue.required_attribute?('assigned_to_id'), no_label: true %>
+                  <a href="javascript:void(0)" class="self-select"><%= l(:label_me) %></a>
+                </p>
+              <% end %>
+
+              <% if !@issue.milestone? %>
+                <p class="floating-field auto">
+                  <% issue_evm_field = @issue.project.issue_evm_field %>
+                  <%= f.label issue_evm_field, class: @issue.send(issue_evm_field).present? ? ' issue-evm-field____not-using-this-class' : 'hidden issue-evm-field____not-using-this-class' %>
+                  <%= f.number_field issue_evm_field, placeholder: I18n.t!("field_#{issue_evm_field}"), no_label: true %>
+                  <span class="icon-info-circle large-explanation"  tooltip='<%= t("evm.fieldset") %>'></span>
+                </p>
+
+
+                <% @issue.project.visible_fields.each do |field| %>
+                  <p class="floating-field auto">
+                    <% issue_field = Project.issue_field(field) %>
+                    <%= f.label issue_field %>
+                    <%= f.number_field issue_field, placeholder: issue_field, no_label: true %>
+                  </p>
+                <% end %>
+
+              <% end %>
+
+              <% if @issue.safe_attribute? 'parent_issue_id' %>
+                <p id="parent_issue" class="floating-field">
+                  <%= f.label :parent_issue, class: @issue.parent.present? ? '' : 'hidden' %>
+                  <%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), placeholder: :parent_issue, no_label: true %>
+                  <span class="icon-info-circle large-explanation"  tooltip="<%= I18n.t!('search_parent_tooltip') %>"></span>
+                </p>
+                <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
+              <% end %>
+            </div> <!-- / box -->
+          </div> <!-- / splitcontentright -->
+        </div> <!-- / splitcontent -->
+      </div> <!-- /splitcontentleft -->
+
+
+      <% if !@issue.milestone? %>
+        <div class="splitcontentright issues-dates-container" >
+          <div class="">
+            <fieldset class="issue"><legend><%= I18n.t!('estimated_dates') %></legend>
+              <div class="splitcontent">
+                <div class="splitcontentleft">
+                  <% if @issue.safe_attribute? 'start_date' %>
+                    <p id="start_date_area" class="floating-field">
+                      <%= f.label :start_date, class: (@issue.start_date.present? ? '' : 'hidden') %>
+                      <%= f.text_field(:start_date, :size => 10, placeholder: :start_date, no_label: true, :required => @issue.required_attribute?('start_date'), class: '') %>
+                      <%= calendar_for('issue_start_date') %>
+                    </p>
+                  <% end %>
+                </div> <!-- /splitcontentleft -->
+                <div class="splitcontentright">
+                  <% if @issue.safe_attribute? 'due_date' %>
+                    <p id="due_date_area" class="floating-field">
+                      <%= f.label :due_date, class: (@issue.due_date.present? ? '' : 'hidden') %>
+                      <%= f.text_field(:due_date, :size => 10, :required => @issue.required_attribute?('due_date'), placeholder: :due_date, no_label: true) %>
+                      <%= calendar_for('issue_due_date') %>
+                    </p>
+                  <% end %>
+                </div> <!-- /splitcontentright -->
+              </div><!--/splitcontent  -->
+            </fieldset>
+
+            <fieldset class="issue"><legend><%= I18n.t!('actual_dates') %></legend>
+              <div class="splitcontent">
+                <div class="splitcontentleft">
+                  <% if @issue.safe_attribute? 'actual_start_date' %>
+                    <p id="actual_start_date_area" class="floating-field">
+                      <%= f.label :actual_start_date, class: (@issue.actual_start_date.present? ? '' : 'hidden') %>
+                      <%= f.text_field(:actual_start_date, :size => 10, :required => @issue.required_attribute?('actual_start_date'), placeholder: :actual_start_date, no_label: true) %>
+                      <%= calendar_for('issue_actual_start_date') %>
+                    </p>
+                  <% end %>
+                </div>
+                <div class="splitcontentright">
+                  <% if @issue.safe_attribute? 'actual_due_date' %>
+                    <p id="actual_due_date_area" class="floating-field">
+                      <%= f.label :actual_due_date, class: (@issue.actual_due_date.present? ? '' : 'hidden') %>
+                      <%= f.text_field(:actual_due_date, :size => 10, :required => @issue.required_attribute?('actual_due_date'), placeholder: :actual_due_date, no_label: true) %>
+                      <%= calendar_for('issue_actual_due_date') %>
+                    </p>
+                  <% end %>
+                </div>
+              </div> <!--/splitcontent  -->
+            </fieldset>
+          </div> <!-- /box -->
+        </div> <!-- /splitcontentright -->
+      <% else %>
+        <div class="splitcontentright">
+          <div class="milestone-dates large-explanation" tooltip="<%= I18n.t!('milestones.dates_update_explanation') %>" >
+            <% %w(start_date due_date actual_start_date actual_due_date).each do |dfield| %>
+              <p><label><%= l(:"field_#{dfield}") %></label> <%= @issue.send(dfield) %></p>
+            <% end %>
+          </div>
+        </div> <!-- /splitcontentright -->
+      <% end %>  
+      <% # end if not milestone %>
+
+      <% if @issue.milestone? %>
+        <p class="milestone-other-fields">
+          <span class="icon-info-circle large-explanation"  tooltip="<%= I18n.t!('milestones.other_fields_not_allowed') %>"></span>
+        </p>
+      <% end %>
+      
+      <% if @issue.safe_attribute? 'custom_field_values' %>
+        <%= render :partial => 'issues/form_custom_fields' %>
+      <% end %>
+
+
+      <% include_calendar_headers_tags %>
+
+    </div> <!-- /splitcontent -->
+  </div> <!-- /box -->
