@@ -48,7 +48,7 @@ class TimelogController < ApplicationController
       includes(:project, :user, :issue).
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
-    project  = scope.to_a.first.project
+    project  = @project || scope.to_a.first.project
     respond_to do |format|
       format.html {
         @entry_count = scope.count
