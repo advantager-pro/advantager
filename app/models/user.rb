@@ -625,6 +625,11 @@ class User < Principal
   # * nil with options[:global] set : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def allowed_to?(action, context, options={}, &block)
+    # Advantager addition
+    # The following features are temporarily disabled
+    disabled_features = %w(gantt version respositor)
+    return false if disabled_features.any?{ |feature| action.to_s.include?(feature) }
+
     if context && context.is_a?(Project)
       return false unless context.allows_to?(action)
       # Admin users are authorized for anything else

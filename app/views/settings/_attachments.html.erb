@@ -12,10 +12,10 @@
 <p><%= setting_text_field :file_max_size_displayed, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 
 <p><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></p>
-
-<p><%= setting_text_field :repositories_encodings, :size => 60 %>
-<em class="info"><%= l(:text_comma_separated) %></em></p>
-</div>
-
+<% if false %>
+  <p><%= setting_text_field :repositories_encodings, :size => 60 %>
+  <em class="info"><%= l(:text_comma_separated) %></em></p>
+  </div>
+<% end %>
 <%= submit_tag l(:button_save) %>
 <% end %>

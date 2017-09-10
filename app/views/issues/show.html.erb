@@ -59,9 +59,9 @@
     # unless @issue.disabled_core_fields.include?('category_id') || (@issue.category.nil? && @issue.project.issue_categories.none?)
     #   rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
     # end
-    unless @issue.disabled_core_fields.include?('fixed_version_id') || (@issue.fixed_version.nil? && @issue.assignable_versions.none?)
-      rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
-    end
+    #unless @issue.disabled_core_fields.include?('fixed_version_id') || (@issue.fixed_version.nil? && @issue.assignable_versions.none?)
+    #  rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
+    #end
 
     unless @issue.disabled_core_fields.include?('start_date')
       rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
@@ -123,14 +123,14 @@
   <%= render_descendants_tree(@issue) unless @issue.leaf? %>
   </div>
 <% end %>
-
-<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
-<hr />
-<div id="relations">
-<%= render :partial => 'relations' %>
-</div>
+<% if false # disable related issues %>
+  <% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
+    <hr />
+    <div id="relations">
+      <%= render :partial => 'relations' %>
+    </div>
+  <% end %>
 <% end %>
-
 </div>
 
 <% if @changesets.present? %>

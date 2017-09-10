@@ -421,7 +421,7 @@ class Issue < ActiveRecord::Base
     #'category_id',
     'assigned_to_id',
     'priority_id',
-    'fixed_version_id',
+    # 'fixed_version_id',
     'subject',
     'description',
     'start_date',
@@ -665,7 +665,7 @@ class Issue < ActiveRecord::Base
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
-    if meeting_date_was == nil && meeting_date < Date.today 
+    if meeting_date_was == nil && meeting_date.present? && meeting_date < Date.today 
       errors.add :meeting_date, :earlier_than_today_meeting
     end
 

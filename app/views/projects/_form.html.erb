@@ -55,7 +55,7 @@
 
     <p class="floating-option"><%= f.check_box :is_public %></p>
 
-    <% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
+    <% if false && @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
       <p class="floating-option"><%= f.select :default_version_id, project_default_version_options(@project), prompt: I18n.t!('field_default_version')  %></p>
     <% end %>
 

@@ -38,16 +38,18 @@
   <label><%= l(:field_assigned_to) %></label>
   <%= mapping_select_tag @import, 'assigned_to' %>
 </p>
-<p>
-  <label><%= l(:field_fixed_version) %></label>
-  <%= mapping_select_tag @import, 'fixed_version' %>
-  <% if User.current.allowed_to?(:manage_versions, @import.project) %>
-    <label class="block">
-      <%= check_box_tag 'import_settings[mapping][create_versions]', '1', @import.create_versions? %>
-      <%= l(:label_create_missing_values) %>
-    </label>
-  <% end %>
-</p>
+<% if false %>
+  <p>
+    <label><%= l(:field_fixed_version) %></label>
+    <%= mapping_select_tag @import, 'fixed_version' %>
+    <% if User.current.allowed_to?(:manage_versions, @import.project) %>
+      <label class="block">
+        <%= check_box_tag 'import_settings[mapping][create_versions]', '1', @import.create_versions? %>
+        <%= l(:label_create_missing_values) %>
+      </label>
+    <% end %>
+  </p>
+<% end %>
 <% @custom_fields.each do |field| %>
   <p>
     <label><%= field.name %></label>

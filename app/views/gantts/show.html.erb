@@ -25,6 +25,7 @@
   <div style="display: none;">
     <table>
       <tr>
+      <% if false # disable related issues %>
         <td>
           <fieldset>
             <legend><%= l(:label_related_issues) %></legend>
@@ -40,6 +41,7 @@
             </label>
           </fieldset>
         </td>
+      <% end %>
         <td>
           <fieldset>
             <legend><%= l(:label_gantt_progress_line) %></legend>
@@ -366,7 +368,7 @@
   $(document).ready(drawGanttHandler);
   $(window).resize(drawGanttHandler);
   $(function() {
-    $("#draw_relations").change(drawGanttHandler);
+    // $("#draw_relations").change(drawGanttHandler);
     $("#draw_progress_line").change(drawGanttHandler);
   });
 <% end %>
