@@ -327,6 +327,7 @@ en:
   field_new_password: New password
   field_password_confirmation: Confirmation
   field_version: Version
+  field_kind: Type
   field_type: Type
   field_host: Host
   field_port: Port
@@ -418,6 +419,7 @@ en:
   field_estimated_point: Estimated point
   field_estimated_custom: Estimated value
   field_estimated_value: Estimated value
+  kind: Type
   evm:
     titles:
       cpi: Desempeño del Presupuesto (Costos)
@@ -587,8 +589,8 @@ en:
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
   permission_edit_own_time_entries: Edit own time logs
-  permission_manage_news: Manage news
-  permission_comment_news: Comment news
+  permission_manage_news: Manage Announcement
+  permission_comment_news: Comment Announcement
   permission_view_documents: View documents
   permission_add_documents: Add documents
   permission_edit_documents: Edit documents
@@ -621,7 +623,7 @@ en:
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
-  project_module_news: News
+  project_module_news: Announcement
   project_module_documents: Documents
   project_module_files: Files
   project_module_wiki: Wiki
@@ -736,15 +738,17 @@ en:
   label_file_added: File added
   label_report: Report
   label_report_plural: Reports
-  label_news: News
-  label_news_new: Add news
-  label_news_plural: News
-  label_news_latest: Latest news
-  label_news_view_all: View all news
+  label_news_type_incidents: Incidents
+  label_news_type_news: News
+  label_news: Announcement
+  label_news_new: Add Announcement
+  label_news_plural: Announcement
+  label_news_latest: Latest Announcement
+  label_news_view_all: View all Announcement
   label_activity_view_all: View all activities
   label_project_view_all: View all projects
-  label_news_added: News added
-  label_news_comment_added: Comment added to a news
+  label_news_added: Announcement added
+  label_news_comment_added: Comment added to a Announcement
   label_settings: Settings
   label_overview: Overview
   label_earned_value: Earned Value
