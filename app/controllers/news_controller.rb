@@ -45,8 +45,9 @@ class NewsController < ApplicationController
     @newss = scope.includes([:author, :project]).
                       order("#{News.table_name}.created_on DESC").
                       limit(@limit).
-                      offset(@offset).
-                      to_a
+                      offset(@offset)
+    @all_news = @newss.where(kind: 'news').to_a
+    @all_incidents = @newss.where(kind: 'incidents').to_a
     respond_to do |format|
       format.html {
         @news = News.new # for adding news inline

@@ -30,7 +30,7 @@ class News < ActiveRecord::Base
 
   acts_as_attachable :edit_permission => :manage_news,
                      :delete_permission => :manage_news
-  acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"],
+  acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description", 'kind'],
                      :preload => :project
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
   acts_as_activity_provider :scope => preload(:project, :author),
@@ -45,7 +45,7 @@ class News < ActiveRecord::Base
     where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
   }
 
-  safe_attributes 'title', 'summary', 'description'
+  safe_attributes 'title', 'summary', 'description', 'kind'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)
