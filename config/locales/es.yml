@@ -389,6 +389,7 @@ es:
   field_title: Título
   field_tracker: Tipo
   field_type: Tipo
+  field_kind: Tipo
   field_updated_on: Actualizado
   field_url: URL
   field_user: Usuario
@@ -417,6 +418,7 @@ es:
   field_custom: Valor personalizado
   field_time: Horas
   field_point: Puntos
+  kind: Tipo
   evm:
     titles:
       cpi: Desempeño del Presupuesto (Costos)
@@ -657,12 +659,14 @@ es:
   label_my_projects: Mis proyectos
   label_new: Nuevo
   label_new_statuses_allowed: Nuevos estados autorizados
-  label_news: Noticia
-  label_news_added: Noticia añadida
-  label_news_latest: Últimas noticias
-  label_news_new: Nueva noticia
-  label_news_plural: Noticias
-  label_news_view_all: Ver todas las noticias
+  label_news_type_incidents: Incidentes
+  label_news_type_news: Noticia
+  label_news: Aviso
+  label_news_added: Aviso añadido
+  label_news_latest: Últimos Avisos
+  label_news_new: Nuevo Aviso
+  label_news_plural: Avisos
+  label_news_view_all: Ver todos los Avisos
   label_activity_view_all: Ver todas las actividades
   label_project_view_all: Ver todos los proyectos
   label_next: Siguiente
@@ -851,7 +855,7 @@ es:
   permission_add_issues: Añadir peticiones
   permission_add_messages: Enviar mensajes
   permission_browse_repository: Hojear repositiorio
-  permission_comment_news: Comentar noticias
+  permission_comment_news: Comentar Avisos
   permission_commit_access: Acceso de escritura
   permission_delete_issues: Borrar peticiones
   permission_delete_messages: Borrar mensajes
@@ -873,7 +877,7 @@ es:
   permission_manage_files: Administrar ficheros
   permission_manage_issue_relations: Administrar relación con otras peticiones
   permission_manage_members: Administrar miembros
-  permission_manage_news: Administrar noticias
+  permission_manage_news: Administrar Avisos
   permission_manage_public_queries: Administrar consultas públicas
   permission_manage_repository: Administrar repositorio
   permission_manage_versions: Administrar versiones
@@ -897,7 +901,7 @@ es:
   project_module_documents: Documentos
   project_module_files: Ficheros
   project_module_issue_tracking: Peticiones
-  project_module_news: Noticias
+  project_module_news: Avisos
   project_module_repository: Repositorio
   project_module_time_tracking: Control de tiempo
   project_module_wiki: Wiki
@@ -1131,7 +1135,7 @@ es:
   text_warn_on_leaving_unsaved: Esta página contiene texto no guardado y si la abandona sus cambios se perderán
   label_my_queries: Mis consultas personalizadas
   text_journal_changed_no_detail: "Se actualizó %{label}"
-  label_news_comment_added: Comentario añadido a noticia
+  label_news_comment_added: Comentario añadido a Aviso
   button_expand_all: Expandir todo
   button_collapse_all: Contraer todo
   label_additional_workflow_transitions_for_assignee: Transiciones adicionales permitidas cuando la petición está asignada al usuario
