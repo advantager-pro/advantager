@@ -1352,6 +1352,10 @@ ul.tagit{
   padding-left: 14px;
 }
 
+#attachments_form_news{
+  padding-left: 250px;
+}
+
 .floating-field.timelog-evm legend.info{
   top: -3px;
   right: -152px;

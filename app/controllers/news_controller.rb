@@ -34,7 +34,7 @@ class NewsController < ApplicationController
     when 'xml', 'json'
       @offset, @limit = api_offset_and_limit
     else
-      @limit =  10
+      @limit = 2
     end
 
     scope = @project ? @project.news.visible : News.visible
