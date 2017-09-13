@@ -96,8 +96,8 @@ class ApplicationController < ActionController::Base
   end
 
   def avoid_advantager_unsupported_formats
-    unsupported_formats = [:atom, :csv, :pdf]
-    if unsupported_formats.include?(request.format.symbol)
+    @unsupported_formats = [:atom, :csv, :pdf]
+    if @unsupported_formats.include?(request.format.symbol)
       render(:file => File.join(Rails.root, 'public/404.html'),
              :status => 404,
              :layout => false)
