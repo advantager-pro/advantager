@@ -1047,6 +1047,12 @@ module ApplicationHelper
     (blank ? [["(auto)", ""]] : []) + languages_options
   end
 
+  def news_options_for_select()
+    News.news_types.map do |n|
+      [I18n.t!("label_news_type_#{n}").capitalize, n]
+    end
+  end
+
   def labelled_form_for(*args, &proc)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
