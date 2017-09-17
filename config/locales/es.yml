@@ -525,16 +525,16 @@ es:
   label_changes_details: Detalles de todos los cambios
   label_changeset_plural: Cambios
   label_chronological_order: En orden cronológico
-  label_closed_issues: cerrada
-  label_closed_issues_plural: cerradas
+  label_closed_issues: completada
+  label_closed_issues_plural: completadas
   label_x_open_issues_abbr:
     zero:  0 abiertas
     one:   1 abierta
     other: "%{count} abiertas"
   label_x_closed_issues_abbr:
-    zero:  0 cerradas
-    one:   1 cerrada
-    other: "%{count} cerradas"
+    zero:  0 completadas
+    one:   1 completada
+    other: "%{count} completadas"
   label_comment: Comentario
   label_comment_add: Añadir un comentario
   label_comment_added: Comentario añadido
@@ -1039,7 +1039,7 @@ es:
   version_status_closed: cerrado
   version_status_locked: bloqueado
   version_status_open: abierto
-  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
+  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión completada
   spent_empty_confirm: Está seguro de cerrar sin registar gastos?
 
   label_user_anonymous: Anónimo
@@ -1282,7 +1282,7 @@ es:
   label_gantt_progress_line: Línea de progreso
   setting_jsonp_enabled: Habilitar soporte de JSONP
   field_inherit_members: Heredar miembros
-  field_closed_on: Cerrada
+  field_closed_on: completada
   field_generate_password: Generar contraseña
   setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
@@ -1380,7 +1380,7 @@ es:
   setting_attachment_extensions_allowed: Extensiones Permitidas
   setting_attachment_extensions_denied: Extensiones Prohibidas
   label_any_open_issues: cualquier peticiones abierta
-  label_no_open_issues: peticiones cerradas
+  label_no_open_issues: peticiones completadas
   label_default_values_for_new_users: Valor predeterminado para nuevos usuarios
   setting_sys_api_key: Clave de la API
   setting_lost_password: ¿Olvidaste la contraseña?
