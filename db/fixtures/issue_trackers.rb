@@ -2,10 +2,10 @@
 default_issue_status = IssueStatus.where(name: I18n.t!("default_issue_status_new")).first
 
 mt = Tracker.seed(:id,
-  { id: 1, name: I18n.t!("default_tracker_milestone"), position: 1, is_in_roadmap: true, default_status_id: default_issue_status.id }).first
+  { id: 2, name: I18n.t!("default_tracker_milestone"), position: 2, is_in_roadmap: true, default_status_id: default_issue_status.id }).first
 
 ts = Tracker.seed(:id,
-  { id: 2, name: I18n.t!("default_tracker_task"), position: 2, is_in_roadmap: true, default_status_id: default_issue_status.id }).first
+  { id: 1, name: I18n.t!("default_tracker_task"), position: 1, is_in_roadmap: true, default_status_id: default_issue_status.id }).first
 
 meet = Tracker.seed(:id,
   { id: 3, name: I18n.t!("default_tracker_meeting"), position: 3, is_in_roadmap: true, default_status_id: default_issue_status.id }).first
