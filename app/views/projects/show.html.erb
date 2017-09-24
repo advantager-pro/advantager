@@ -71,7 +71,8 @@
   <div class="clearfix"></div>
 
   <% if @trackers.present? %>
-    <% @trackers.each_with_index do |tracker, i| %>
+    <% @trackers.each do |tracker| %>
+      <% next if tracker.issues.build.meeting? %>
       <div class="float-left col-33">
         <div class="panel tracker">
           <h4 class="text-center"> <%= tracker.name %>s</h4>

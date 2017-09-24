@@ -20,7 +20,7 @@ es:
     status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
     dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
     other_fields_not_allowed: Campos como Checklist y el usuario asignado no están disponibles para Hitos.
-  es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
+  es_estimated_completion_date: Fecha estimada de fin (Programación Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
   latest_activities: Últimas actividades
@@ -332,7 +332,7 @@ es:
   field_description: Descripción
   field_done_ratio: "% Realizado"
   field_downloads: Descargas
-  field_due_date: Fecha fin estimada
+  field_due_date: Fecha planeada de fin
   field_effective_date: Fecha
   field_estimated_hours: Tiempo estimado
   field_field_format: Formato
