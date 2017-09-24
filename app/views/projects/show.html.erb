@@ -205,6 +205,7 @@
     
     <% if @trackers.present? %>
       <% @trackers.each do |tracker| %>
+        <% next if tracker.issues.build.meeting? %>
         Morris.Donut({
           element: 'issues-chart-<%= tracker.id %>',
           resize: true,
