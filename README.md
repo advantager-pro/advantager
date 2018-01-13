@@ -1,6 +1,6 @@
 ![Advantager](https://github.com/advantager-pro/advantager/blob/master/public/images/advantager-readme.png "Advantager")
 
-Advantager is a project manager that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metricts, etc.
+Advantager is a project manager that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metrics, etc.
 
  
   
