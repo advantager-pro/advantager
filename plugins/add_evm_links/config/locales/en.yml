@@ -1,7 +1,7 @@
 en:
   evm:
     tcpi_bac_overflow: "Costs are over/equal budget.\nAC: %{actual_cost}\nBAC: %{bac}"
-    glosary: 
+    glosary:
       colors: Colors
       icons: Icons
       schedule: Schedule
@@ -60,10 +60,10 @@ en:
         description: Budget at Conclusion
         explanation: It's the project's budget based on the sum of the planned issues %{evm_field} field
     variances:
-      schedule_variances: 
+      schedule_variances:
         acronym: SV
         description: Schedule Variance
-        explanation: The  Schedule Variance (SV) is a measurement of the variance of the project schedule performance. 
+        explanation: The  Schedule Variance (SV) is a measurement of the variance of the project schedule performance.
         purpose: The  Schedule Variance is used to determine the project schedule status. Either if the project before or after the schedule due date, in any specific moment.
         positive_rule: SV > 0
         positive: The schedule conditions are favorable.
@@ -71,10 +71,10 @@ en:
         negative: The schedule conditions are unfavorable.
         neutral_rule: SV = 0
         neutral: The schedule conditions are neutral.
-      es_schedule_variances: 
+      es_schedule_variances:
         acronym: SV(t)
         description: Time based Schedule Variance
-        explanation: The time based Schedule Variance (SV), is a measurement of the project schedule performance. 
+        explanation: The time based Schedule Variance (SV), is a measurement of the project schedule performance.
         purpose: The time based Schedule Variance is used to determine the project schedule status, either if the project is before or after the schedule due date.
         positive_rule: SV > 0
         positive: The schedule conditions are favorable.
@@ -158,7 +158,7 @@ en:
         planned_duration_explanation: The project planned duration (PD) is calculated based on the planned tasks estimated duration
         ieac: Based on the IEAC
         ieac_explanation: The Independent Estimate at Completion for Time (IEAC) is the Earned Schedule estimated project's completation date
-        acronym: TSPI 
+        acronym: TSPI
         description: To Complete Schedule Performance Index
         explanation: The To Complete Schedule Performance Index (TSPI) is a measurement of the schedule performance of the remaning work.
         purpose: The To Complete Schedule Performance Index is used to determine the efficiency required to complete the project or program in accordance with the plan with respect to the estimated duration.
@@ -167,7 +167,7 @@ en:
         negative_rule: TSPI > 1
         negative: The performance of the schedule is unfavorable, it is considered that there will be difficulties for the project to be completed according to the schedule.
         neutral_rule: TSPI = 1
-        neutral: El desempeño del cronograma es neutro para que el proyecto se termine según el cronograma.
+        neutral: The schedule performance is balanced based on the project time management.
         critical_rule: TSPI > 1.1
         critical: Based on the TSPI, the schedule estimate is not achievable.
     estimates:
