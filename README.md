@@ -2,6 +2,12 @@
 
 Advantager is a project manager that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metricts, etc.
 
+ 
+  
+   
+    
+    
+
 ## Features
 ### PMBOK
 This project manager was meant to provide a set of workflows that encourages its users to follow PMBOK good practices.
@@ -38,7 +44,7 @@ While performing analysis of the project performance the user is also able to re
 ![Audit example](https://github.com/advantager-pro/advantager/blob/master/public/images/audit.gif "Audit example")
 
 
-
+___
 
 ### Guided tour
 
@@ -46,7 +52,7 @@ While performing analysis of the project performance the user is also able to re
 
 ![Guided tour example](https://github.com/advantager-pro/advantager/blob/master/public/images/help.gif "Guided tour example")
 
-
+___
 
 ## Wiki
 * [Install instructions](https://github.com/advantager-pro/advantager/wiki/Install-instructions)
