@@ -5,6 +5,8 @@
 # Contributors: @borjacampina @jgutierrezvega
 
 es:
+  search_parent_tooltip: Ingrese el número o título de la petición padre
+  under_development: En construcción
   show_guide: Mostrar guía
   create_your_first_project: Crea tu primer proyecto utilizando EVM y Programación Ganada de forma eficientemente integrada a los procesos de gestión
   indicators_evm: Indicadores EVM
@@ -18,7 +20,7 @@ es:
     status_update_explanation: El Estado será actualizado con la información de las tareas incluidas en este Hito
     dates_update_explanation: Las fechas serán actualizadas con la información de las tareas incluidas en este Hito
     other_fields_not_allowed: Campos como Checklist y el usuario asignado no están disponibles para Hitos.
-  es_estimated_completion_date: Fecha estimada de fin (Programción Ganada)
+  es_estimated_completion_date: Fecha estimada de fin (Programación Ganada)
   advanced_search: Búsqueda avanzada
   activities: Actividades
   latest_activities: Últimas actividades
@@ -160,7 +162,8 @@ es:
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "no puede ser anterior a %{date} debido a peticiones relacionadas"
+        earlier_than_today_meeting: 'La Fecha de la reunión es inválida, no puede ser anterior a hoy.'
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -275,6 +278,7 @@ es:
   default_tracker_support: Soporte
   default_tracker_task: Tarea
   default_tracker_milestone: Hito
+  default_tracker_meeting: Reunión
   default_activity_development: Desarrollo
   default_activity_documentation: Documentación
   default_activity_planification: Planificación
@@ -305,6 +309,9 @@ es:
   field_activity: Actividad
   field_actual_due_date: Fecha fin real
   field_actual_start_date: Fecha inicio real
+  field_meeting_end_time: Inicio de la reunión
+  field_meeting_start_time: Fin de la reunión
+  field_meeting_date: Fecha de la reunión
   field_admin: Administrador
   field_assignable: Se pueden asignar peticiones a este perfil
   field_assigned_to: Asignado a
@@ -325,7 +332,7 @@ es:
   field_description: Descripción
   field_done_ratio: "% Realizado"
   field_downloads: Descargas
-  field_due_date: Fecha fin estimada
+  field_due_date: Fecha planeada de fin
   field_effective_date: Fecha
   field_estimated_hours: Tiempo estimado
   field_field_format: Formato
@@ -382,6 +389,7 @@ es:
   field_title: Título
   field_tracker: Tipo
   field_type: Tipo
+  field_kind: Tipo
   field_updated_on: Actualizado
   field_url: URL
   field_user: Usuario
@@ -410,6 +418,7 @@ es:
   field_custom: Valor personalizado
   field_time: Horas
   field_point: Puntos
+  kind: Tipo
   evm:
     titles:
       cpi: Desempeño del Presupuesto (Costos)
@@ -516,16 +525,16 @@ es:
   label_changes_details: Detalles de todos los cambios
   label_changeset_plural: Cambios
   label_chronological_order: En orden cronológico
-  label_closed_issues: cerrada
-  label_closed_issues_plural: cerradas
+  label_closed_issues: completada
+  label_closed_issues_plural: completadas
   label_x_open_issues_abbr:
     zero:  0 abiertas
     one:   1 abierta
     other: "%{count} abiertas"
   label_x_closed_issues_abbr:
-    zero:  0 cerradas
-    one:   1 cerrada
-    other: "%{count} cerradas"
+    zero:  0 completadas
+    one:   1 completada
+    other: "%{count} completadas"
   label_comment: Comentario
   label_comment_add: Añadir un comentario
   label_comment_added: Comentario añadido
@@ -650,12 +659,14 @@ es:
   label_my_projects: Mis proyectos
   label_new: Nuevo
   label_new_statuses_allowed: Nuevos estados autorizados
-  label_news: Noticia
-  label_news_added: Noticia añadida
-  label_news_latest: Últimas noticias
-  label_news_new: Nueva noticia
-  label_news_plural: Noticias
-  label_news_view_all: Ver todas las noticias
+  label_news_type_incidents: Incidentes
+  label_news_type_news: Noticia
+  label_news: Aviso
+  label_news_added: Aviso añadido
+  label_news_latest: Últimos Avisos
+  label_news_new: Nuevo Aviso
+  label_news_plural: Avisos
+  label_news_view_all: Ver todos los Avisos
   label_activity_view_all: Ver todas las actividades
   label_project_view_all: Ver todos los proyectos
   label_next: Siguiente
@@ -844,7 +855,7 @@ es:
   permission_add_issues: Añadir peticiones
   permission_add_messages: Enviar mensajes
   permission_browse_repository: Hojear repositiorio
-  permission_comment_news: Comentar noticias
+  permission_comment_news: Comentar Avisos
   permission_commit_access: Acceso de escritura
   permission_delete_issues: Borrar peticiones
   permission_delete_messages: Borrar mensajes
@@ -866,7 +877,7 @@ es:
   permission_manage_files: Administrar ficheros
   permission_manage_issue_relations: Administrar relación con otras peticiones
   permission_manage_members: Administrar miembros
-  permission_manage_news: Administrar noticias
+  permission_manage_news: Administrar Avisos
   permission_manage_public_queries: Administrar consultas públicas
   permission_manage_repository: Administrar repositorio
   permission_manage_versions: Administrar versiones
@@ -890,7 +901,7 @@ es:
   project_module_documents: Documentos
   project_module_files: Ficheros
   project_module_issue_tracking: Peticiones
-  project_module_news: Noticias
+  project_module_news: Avisos
   project_module_repository: Repositorio
   project_module_time_tracking: Control de tiempo
   project_module_wiki: Wiki
@@ -1020,7 +1031,7 @@ es:
   label_group_plural: Grupos
   label_group: Grupo
   label_group_new: Nuevo grupo
-  label_time_entry_plural: Tiempo dedicado
+  label_time_entry_plural: Actividad realizada
   text_journal_added: "Añadido %{label} %{value}"
   field_active: Activo
   enumeration_system_activity: Actividad del sistema
@@ -1028,7 +1039,7 @@ es:
   version_status_closed: cerrado
   version_status_locked: bloqueado
   version_status_open: abierto
-  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
+  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión completada
   spent_empty_confirm: Está seguro de cerrar sin registar gastos?
 
   label_user_anonymous: Anónimo
@@ -1124,7 +1135,7 @@ es:
   text_warn_on_leaving_unsaved: Esta página contiene texto no guardado y si la abandona sus cambios se perderán
   label_my_queries: Mis consultas personalizadas
   text_journal_changed_no_detail: "Se actualizó %{label}"
-  label_news_comment_added: Comentario añadido a noticia
+  label_news_comment_added: Comentario añadido a Aviso
   button_expand_all: Expandir todo
   button_collapse_all: Contraer todo
   label_additional_workflow_transitions_for_assignee: Transiciones adicionales permitidas cuando la petición está asignada al usuario
@@ -1271,7 +1282,7 @@ es:
   label_gantt_progress_line: Línea de progreso
   setting_jsonp_enabled: Habilitar soporte de JSONP
   field_inherit_members: Heredar miembros
-  field_closed_on: Cerrada
+  field_closed_on: completada
   field_generate_password: Generar contraseña
   setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
   label_total_time: Total
@@ -1369,7 +1380,7 @@ es:
   setting_attachment_extensions_allowed: Extensiones Permitidas
   setting_attachment_extensions_denied: Extensiones Prohibidas
   label_any_open_issues: cualquier peticiones abierta
-  label_no_open_issues: peticiones cerradas
+  label_no_open_issues: peticiones completadas
   label_default_values_for_new_users: Valor predeterminado para nuevos usuarios
   setting_sys_api_key: Clave de la API
   setting_lost_password: ¿Olvidaste la contraseña?
@@ -1385,3 +1396,6 @@ es:
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
   alert_planned_first: La tarea debe ser planificada para permitir la edición de items de la lista.
+  meeting_end_time: Inicio de la reunión
+  meeting_start_time: Fin de la reunión
+  meeting_date: Fecha de la reunión

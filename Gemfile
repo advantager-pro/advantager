@@ -15,6 +15,8 @@ gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "roadie-rails"
 gem "unicorn"
+# Rails server
+gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
 gem "dalli", "~> 2.7.0"
 gem "turbolinks"
 gem "byebug"

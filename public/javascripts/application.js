@@ -733,7 +733,11 @@ var displayChatError = function(message){
 
 function getEVMPoints(project_params, callback){
   $.get('/advantager/evm/points/charts/'+project_params).done(function(data){
+    if(data.error){
+      displayFlash(data.error, 'error');
+    }else{
       callback(data);
+    }
   }, "json").fail(function(response){
     displayFlash(response.error, 'error');
   });
@@ -883,6 +887,11 @@ var onReadyAndRender = function(){
   });
 
   removeDuplicatedElements();
+
+  $("#top-menu a.help").on("click", function(e){ 
+    e.preventDefault();
+    alert($("#under-development-msg").text()); 
+  });
 }
 $(document).on('turbolinks:render', onReadyAndRender);
 $(document).ready(onReadyAndRender);

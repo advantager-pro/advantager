@@ -34,48 +34,64 @@
         </p>
 
 <div class="attributes">
-<%= issue_fields_rows do |rows|
-  rows.left l(:field_status), @issue.status.name, :class => 'status'
-  rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
+<% if @issue.meeting? %>
+    <%= issue_fields_rows do |rows|
+    rows.left l(:field_status), @issue.status.name, :class => 'status'
+    rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
+    # unless @issue.disabled_core_fields.include?('category_id') || (@issue.category.nil? && @issue.project.issue_categories.none?)
+    #   rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
+    # end
 
-  unless @issue.disabled_core_fields.include?('assigned_to_id')
-    rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
-  end
-  # unless @issue.disabled_core_fields.include?('category_id') || (@issue.category.nil? && @issue.project.issue_categories.none?)
-  #   rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
-  # end
-  unless @issue.disabled_core_fields.include?('fixed_version_id') || (@issue.fixed_version.nil? && @issue.assignable_versions.none?)
-    rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
-  end
+    rows.right l(:field_meeting_date), @issue.meeting_date
+    rows.right l(:field_meeting_start_time), @issue.meeting_start_time
+    rows.right l(:field_meeting_end_time), @issue.meeting_end_time
+  end %>
+  <%= render_custom_fields_rows(@issue) %>
+  <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+<% else %>
+  <%= issue_fields_rows do |rows|
+    rows.left l(:field_status), @issue.status.name, :class => 'status'
+    rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
 
-  unless @issue.disabled_core_fields.include?('start_date')
-    rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
-  end
-  unless @issue.disabled_core_fields.include?('due_date')
-    rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
-  end
+    unless @issue.disabled_core_fields.include?('assigned_to_id')
+      rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
+    end
+    # unless @issue.disabled_core_fields.include?('category_id') || (@issue.category.nil? && @issue.project.issue_categories.none?)
+    #   rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
+    # end
+    #unless @issue.disabled_core_fields.include?('fixed_version_id') || (@issue.fixed_version.nil? && @issue.assignable_versions.none?)
+    #  rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
+    #end
 
-  rows.right l(:field_actual_start_date), format_date(@issue.actual_start_date), :class => 'start-date'
-  rows.right l(:field_actual_due_date), format_date(@issue.actual_due_date), :class => 'due-date'
-
-  unless @issue.disabled_core_fields.include?('done_ratio')
-    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
-  end
-
-  if @issue.estimated_value.present? || @issue.total_estimated_value.to_f > 0
-    rows.right l(:"field_#{@issue.project.issue_evm_field}"), issue_estimated_value_details(@issue), class: 'estimated-hours estimated-value'
-  end
-
-  if User.current.allowed_to_view_all_time_entries?(@project)
-    @issue.project.visible_fields.each do |field|
-      rows.right l(:"label_spent_#{field}"), issue_spent_value_details(@issue), class: "spent-#{field}"
+    unless @issue.disabled_core_fields.include?('start_date')
+      rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
+    end
+    unless @issue.disabled_core_fields.include?('due_date')
+      rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
     end
 
-    rows.right l(:"label_spent_#{@issue.project.evm_field}"), issue_spent_value_details(@issue), class: "spent-#{@issue.project.evm_field} actual-cost"
-  end
-end %>
-<%= render_custom_fields_rows(@issue) %>
-<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+    rows.right l(:field_actual_start_date), format_date(@issue.actual_start_date), :class => 'start-date'
+    rows.right l(:field_actual_due_date), format_date(@issue.actual_due_date), :class => 'due-date'
+
+    unless @issue.disabled_core_fields.include?('done_ratio')
+      rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+    end
+
+    if @issue.estimated_value.present? || @issue.total_estimated_value.to_f > 0
+      rows.right l(:"field_#{@issue.project.issue_evm_field}"), issue_estimated_value_details(@issue), class: 'estimated-hours estimated-value'
+    end
+
+    if User.current.allowed_to_view_all_time_entries?(@project)
+      @issue.project.visible_fields.each do |field|
+        rows.right l(:"label_spent_#{field}"), issue_spent_value_details(@issue), class: "spent-#{field}"
+      end
+
+      rows.right l(:"label_spent_#{@issue.project.evm_field}"), issue_spent_value_details(@issue), class: "spent-#{@issue.project.evm_field} actual-cost"
+    end
+  end %>
+  <%= render_custom_fields_rows(@issue) %>
+  <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+<% end %>
 </div>
 
 <% if @issue.description? || @issue.attachments.any? -%>
@@ -107,14 +123,14 @@ end %>
   <%= render_descendants_tree(@issue) unless @issue.leaf? %>
   </div>
 <% end %>
-
-<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
-<hr />
-<div id="relations">
-<%= render :partial => 'relations' %>
-</div>
+<% if false # disable related issues %>
+  <% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
+    <hr />
+    <div id="relations">
+      <%= render :partial => 'relations' %>
+    </div>
+  <% end %>
 <% end %>
-
 </div>
 
 <% if @changesets.present? %>

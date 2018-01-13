@@ -55,7 +55,7 @@
 
     <p class="floating-option"><%= f.check_box :is_public %></p>
 
-    <% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
+    <% if false && @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
       <p class="floating-option"><%= f.select :default_version_id, project_default_version_options(@project), prompt: I18n.t!('field_default_version')  %></p>
     <% end %>
 
@@ -147,7 +147,8 @@
 <fieldset class="tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
 <% @trackers.each do |tracker| %>
     <label class="floating">
-    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
+    <% is_traker_enabled = @project.new_record? ? true : @project.trackers.to_a.include?(tracker)  %>
+    <%= check_box_tag 'project[tracker_ids][]', tracker.id, is_traker_enabled, :id => nil %>
     <%= tracker %>
     </label>
 <% end %>

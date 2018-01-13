@@ -155,6 +155,12 @@
                 <% bac = most_recent_point.budget_at_conclusion %>
                 <% tcpi_bac = most_recent_point.to_complete_performance_index_bac.round(1) %>
                 <% status_tcpi_bac = tcpi_status(tcpi_bac) %>
+
+                <% if most_recent_point.actual_cost >= bac %>
+                    <% status_tcpi_bac = "critical_equal" %>
+                    <% status_tcpi_bac = "critical_greater" if most_recent_point.actual_cost > bac %>
+                    <% tcpi_bac = "" %>
+                <% end %>
                 <div class="splitcontentleft">
                     <div class="index tcpi_bac <%= status_tcpi_bac %> cost">
                         <div class="chart-wrapper">
@@ -458,6 +464,7 @@
 
             getEVMPoints('<%= @project.id %>?lang=<%= User.current.language %>', function(response){
                 $('.chart').empty(); // fix turbolinks issue
+                var ACTIVITY_URL = "<%= project_activity_path(@project, from: 'FROM_DATE') %>";
                 var getLabels = function(keys){ 
                     var labels = [];
                     for(var i = 0; i < keys.length; i++)
@@ -498,15 +505,26 @@
                         var id = field+'-chart';
                         $("#"+id).closest(".index").addClass('loaded');
                         $("#"+id).closest(".trends").addClass('loaded');
+
+                        var chartLabels = getLabels(response[field+'_fields']);
+                        var chartFields = response[field+'_fields'];
+                        var responseData = response[field+'_data'];
+
+                        var converDateToLink = function (index, options, content, row) {
+                            var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
+                            return "<a  target='_blank' style='text-decoration: none;' href='"+url+"'>"+content+"</a>";
+                        };
+
                         var options = {
                             element: id,
+                            hoverCallback: converDateToLink,
                             fillOpacity: 0.2,
                             resize: true,
                             behaveLikeLine: true,
-                            data: response[field+'_data'],
+                            data: responseData,
                             xkey: 'day',
-                            ykeys: response[field+'_fields'],
-                            labels: getLabels(response[field+'_fields']),
+                            ykeys: chartFields,
+                            labels: chartLabels,
                             resize: true,
                             pointSize: 2,
                             dateFormat: dateFormater,
@@ -514,7 +532,6 @@
                             yLabelFormat: fixDec,
                             events: break_points_events
                         }
-
                         if(id != 'evm-chart'){
                             options.lineColors = ['white'];
                         }
@@ -529,6 +546,7 @@
                                     element: 'evm-chart',
                                     behaveLikeLine: true,
                                     data: response.evm_chart_data,
+                                    hoverCallback: converDateToLink,
                                     xkey: 'day',
                                     ykeys: response.evm_fields,
                                     labels: getLabels(response.evm_fields),
@@ -540,7 +558,32 @@
                                     lineColors: colorsFor(response.evm_fields),
                                     events: break_points_events
                                 });
-                            }else{ new Morris.Area(options); }
+                            }else {
+                                if( field == 'to_complete_cost_performance_index_bac' ){
+                                    var tcpiBacLabel = response.evm_labels.to_complete_cost_performance_index_bac;
+                                    var overflowColor = '#ff5370';//'#ff4e8d';
+                                    var indexColor = "#fff";
+                                    options.lineColors = [indexColor,  overflowColor];
+                                    options.hoverCallback = function (index, options, content, row) {
+                                        var url = ACTIVITY_URL.replace('FROM_DATE', row.day);
+                                        var newContent = "";
+                                        if(row.tcpi_explanation){
+                                            newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";' >"+row.day;
+                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > ";
+                                            newContent += row.tcpi_explanation.replace(/\n/g, "<br />")+"</div>";
+                                        }else{
+                                            var bac = fixDec(parseFloat(row.to_complete_cost_performance_index_bac));
+                                            var newContent = "<div class='morris-hover-row-label' style='color: "+indexColor+";'  >"+row.day;
+                                            newContent += "</div><div class='morris-hover-point' style='color: "+indexColor+";' > ";
+                                            newContent += tcpiBacLabel+" <br/>"+bac+"</div>";
+                                        }
+                                        return "<a target='_blank' style='text-decoration: none;' href='"+url+"'>"+newContent+"</a>";
+                                    };
+                                    Morris.Line(options);
+                                }else{
+                                    new Morris.Area(options); 
+                                }
+                            }
                         }
                     }
                 }

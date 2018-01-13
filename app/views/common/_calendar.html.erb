@@ -25,7 +25,7 @@ while day <= calendar.enddt %>
   <% else %>
   <span class="icon icon-package">
     <%= "#{i.project} -" unless @project && @project == i.project %>
-    <%= link_to_version i%>
+    <%#= link_to_version i%>
   </span>
   <% end %>
 <% end %>

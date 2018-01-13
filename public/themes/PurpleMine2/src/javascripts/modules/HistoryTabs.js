@@ -10,6 +10,21 @@ PurpleMine.HistoryTabs = (function () {
       notes: 'Notes',
       details: 'Changes'
     },
+    es: {
+      all: 'Todo',
+      notes: 'Notas',
+      details: 'Cambios'
+    },
+    pt: {
+      all: 'Tudo',
+      notes: 'Notas',
+      details: 'Modificações'
+    },
+    esperanto: { // ahre
+      all: 'Ĉio',
+      notes: 'Notoj',
+      details: 'Modifoj'
+    }, 
     pl: {
       all: 'Wszystko',
       notes: 'Notatki',

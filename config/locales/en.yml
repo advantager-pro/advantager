@@ -1,4 +1,6 @@
 en:
+  search_parent_tooltip: Enter the parent issue number or title
+  under_development: Under development
   show_guide: Show Guide
   create_your_first_project: Create your first project efficiently using EVM and Earned Schedule integrating the management processes
   indicators_evm: Indicators EVM
@@ -153,6 +155,7 @@ en:
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_today_meeting: 'meeting date is invalid, cannot be earlier than today.'
 
   actionview_instancetag_blank_option: Please select
 
@@ -261,6 +264,9 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
 
+  field_meeting_end_time: End of meeting
+  field_meeting_start_time: Start of meeting
+  field_meeting_date: Meeting date
   field_constitutional_act: Constitutional Act
   field_name: Name
   field_cost: Cost
@@ -321,6 +327,7 @@ en:
   field_new_password: New password
   field_password_confirmation: Confirmation
   field_version: Version
+  field_kind: Type
   field_type: Type
   field_host: Host
   field_port: Port
@@ -412,6 +419,7 @@ en:
   field_estimated_point: Estimated point
   field_estimated_custom: Estimated value
   field_estimated_value: Estimated value
+  kind: Type
   evm:
     titles:
       cpi: Desempeño del Presupuesto (Costos)
@@ -581,8 +589,8 @@ en:
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
   permission_edit_own_time_entries: Edit own time logs
-  permission_manage_news: Manage news
-  permission_comment_news: Comment news
+  permission_manage_news: Manage Announcement
+  permission_comment_news: Comment Announcement
   permission_view_documents: View documents
   permission_add_documents: Add documents
   permission_edit_documents: Edit documents
@@ -615,7 +623,7 @@ en:
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
-  project_module_news: News
+  project_module_news: Announcement
   project_module_documents: Documents
   project_module_files: Files
   project_module_wiki: Wiki
@@ -730,15 +738,17 @@ en:
   label_file_added: File added
   label_report: Report
   label_report_plural: Reports
-  label_news: News
-  label_news_new: Add news
-  label_news_plural: News
-  label_news_latest: Latest news
-  label_news_view_all: View all news
+  label_news_type_incidents: Incidents
+  label_news_type_news: News
+  label_news: Announcement
+  label_news_new: Add Announcement
+  label_news_plural: Announcements
+  label_news_latest: Latest Announcement
+  label_news_view_all: View all Announcement
   label_activity_view_all: View all activities
   label_project_view_all: View all projects
-  label_news_added: News added
-  label_news_comment_added: Comment added to a news
+  label_news_added: Announcement added
+  label_news_comment_added: Comment added to a Announcement
   label_settings: Settings
   label_overview: Overview
   label_earned_value: Earned Value
@@ -752,16 +762,16 @@ en:
   label_public_projects: Public projects
   label_open_issues: open
   label_open_issues_plural: open
-  label_closed_issues: closed
-  label_closed_issues_plural: closed
+  label_closed_issues: completed
+  label_closed_issues_plural: completed
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
     other: "%{count} open"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "%{count} closed"
+    zero:  0 completed
+    one:   1 completed
+    other: "%{count} completed"
   label_x_issues:
     zero:  0 issues
     one:   1 issue
@@ -1021,7 +1031,7 @@ en:
   label_group_new: New group
   label_group_anonymous: Anonymous users
   label_group_non_member: Non member users
-  label_time_entry_plural: Spent time
+  label_time_entry_plural: Activity performed
   label_version_sharing_none: Not shared
   label_version_sharing_descendants: With subprojects
   label_version_sharing_hierarchy: With project hierarchy
@@ -1284,6 +1294,7 @@ en:
   default_tracker_support: Support
   default_tracker_task: Task
   default_tracker_milestone: Milestone
+  default_tracker_meeting: Meeting
   default_issue_status_new: Registered
   default_issue_status_in_progress: In progress
   default_issue_status_resolved: Resolved
@@ -1337,3 +1348,6 @@ en:
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   alert_planned_first: The task must be planned first to allow modifications on checklists item.
+  meeting_end_time: End of meeting
+  meeting_start_time: Start of meeting
+  meeting_date: Meeting date

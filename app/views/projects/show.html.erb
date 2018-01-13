@@ -71,7 +71,8 @@
   <div class="clearfix"></div>
 
   <% if @trackers.present? %>
-    <% @trackers.each_with_index do |tracker, i| %>
+    <% @trackers.each do |tracker| %>
+      <% next if tracker.issues.build.meeting? %>
       <div class="float-left col-33">
         <div class="panel tracker">
           <h4 class="text-center"> <%= tracker.name %>s</h4>
@@ -118,7 +119,7 @@
               <div class="value">
                 <% if most_recent_point.present? %>
                   <% if field == 'remaining_budget' %>
-                    <%= (most_recent_point.planned_value - most_recent_point.actual_cost).round(3) %>
+                    <%= (most_recent_point.budget_at_conclusion - most_recent_point.actual_cost).round(3) %>
                   <% else %>
                     <% method = field %>
                     <% method = 'actual_cost' if field == 'accumulated_costs' %>
@@ -204,6 +205,7 @@
     
     <% if @trackers.present? %>
       <% @trackers.each do |tracker| %>
+        <% next if tracker.issues.build.meeting? %>
         Morris.Donut({
           element: 'issues-chart-<%= tracker.id %>',
           resize: true,

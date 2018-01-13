@@ -7,7 +7,7 @@
 </div>
 
 <div id="add-news" style="display:none;">
-<h2><%=l(:label_news_new)%></h2>
+<h2 class="padding-title"><%=l(:label_news_new)%></h2>
 <%= labelled_form_for @news, :url => project_news_index_path(@project),
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
@@ -18,24 +18,44 @@
 <div id="preview" class="wiki"></div>
 </div>
 
-<h2><%=l(:label_news_plural)%></h2>
+<h1 class="padding-title"><%=l(:label_news_plural)%></h1>
 
-<% if @newss.empty? %>
+<h2 class="padding-title"><%=l(:label_news_type_news)%></h2>
+
+<% if @all_news.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<% @newss.each do |news| %>
-    <article class="news-article">
-      <header>
-        <h3><%= avatar(news.author, :size => "24") %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
-        <%= link_to h(news.title), news_path(news) %>
-        <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
-        <p class="author"><%= authoring news.created_on, news.author %></p>
-      </header>
-      <div class="wiki">
-      <%= textilizable(news, :description) %>
-      </div>
-    </article>
+  <% @all_news.each do |news| %>
+      <article class="news-article box shadow">
+        <header>
+          <h3><%= avatar(news.author, :size => "24") %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
+          <%= link_to h(news.title), news_path(news) %>
+          <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
+          <p class="author"><%= authoring news.created_on, news.author %></p>
+        </header>
+        <div class="wiki">
+        <%= textilizable(news, :description) %>
+        </div>
+      </article>
+  <% end %>
 <% end %>
+<h2 class="padding-title"><%=l(:label_news_type_incidents)%></h2>
+<% if @all_incidents.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <% @all_incidents.each do |news| %>
+      <article class="news-article box shadow">
+        <header>
+          <h3><%= avatar(news.author, :size => "24") %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
+          <%= link_to h(news.title), news_path(news) %>
+          <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
+          <p class="author"><%= authoring news.created_on, news.author %></p>
+        </header>
+        <div class="wiki">
+        <%= textilizable(news, :description) %>
+        </div>
+      </article>
+  <% end %>
 <% end %>
 <span class="pagination"><%= pagination_links_full @news_pages %></span>
 

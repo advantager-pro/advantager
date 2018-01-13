@@ -1047,6 +1047,12 @@ module ApplicationHelper
     (blank ? [["(auto)", ""]] : []) + languages_options
   end
 
+  def news_options_for_select()
+    News.news_types.map do |n|
+      [I18n.t!("label_news_type_#{n}").capitalize, n]
+    end
+  end
+
   def labelled_form_for(*args, &proc)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
@@ -1297,7 +1303,7 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'chat', 'user_chat', 'private_pub', 'turbolinks', 'application', 'responsive', 'raphael.min', 'morris', 'data-turbolinks-track': 'reload')
+    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'chat', 'user_chat', 'private_pub', 'application', 'responsive', 'raphael.min', 'morris', 'data-turbolinks-track': 'reload')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end

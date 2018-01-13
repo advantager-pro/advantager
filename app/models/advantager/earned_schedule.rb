@@ -62,8 +62,8 @@ module Advantager::EarnedSchedule
 
     def find_period_x(period)
       # x is the most recent period where
-      # the current EV > the period x PV
-      last_periods_until(period).find{ |x| BCWP(period) > BCWS(x) }
+      # the current EV >= the period x PV
+      last_periods_until(period).find{ |x| BCWP(period) >= BCWS(x) }
     end
 
     def calculate_earned_schedule
@@ -77,11 +77,11 @@ module Advantager::EarnedSchedule
       return 0 if current_period == first_period
 
       # x is the most recent period where
-      # the current EV > the period x PV
+      # the current EV >= the period x PV
       x = find_period_x(t) # x = whole period earned
 
       # x is nil if there is no previous period where
-      # the current EV > the PV of any previous period
+      # the current EV >= the PV of any previous period
       # Which means we are very behind the schedule
       # so behind that we couldn't accomplish the PV for the first period yet
       # so we are not earning schedule

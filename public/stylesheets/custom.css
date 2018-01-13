@@ -648,7 +648,7 @@ input[type="button"], input[type="submit"], button{
 }
 
 .glosary .color.negative, .minidash .indicators .negative .icon::before, .index.negative .chart-wrapper, .index.negative .ic{ background: #e46551; }
-.glosary .color.critical, .minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical .ic{ background: #6d1c1c; }
+.glosary .color.critical, .minidash .indicators .critical .icon::before, .index.critical .chart-wrapper, .index.critical_equal .chart-wrapper, .index.critical_greater .chart-wrapper, .index.critical .ic, .index.index.critical_equal .ic, .index.index.critical_greater .ic{ background: #6d1c1c; }
 .glosary .color.positive_schedule, .minidash .indicators .positive .icon::before, .index.positive .chart-wrapper, .index.positive .ic{ background: #4ec7db; }
 .glosary .color.positive_cost,.minidash .indicators .positive.cost .icon::before, .index.positive.cost .chart-wrapper, .index.positive.cost .ic{ background: #2eab7d; }
 .glosary .color.neutral, .glosary .color.evm_chart, .minidash .indicators .neutral .icon::before, .index.neutral  .chart-wrapper, .index.neutral .ic, .trends.evm{ background: #4f3f7d; }
@@ -684,16 +684,16 @@ input[type="button"], input[type="submit"], button{
   margin-right: 18px;
 }
 
-.index  .chart-wrapper{ color: white; }
+.index .chart-wrapper{ color: white; }
 .trends.evm .morris-hover.morris-default-style,
 .index .morris-hover.morris-default-style{ border: none; background: rgba(0,0,0,0.6)!important; }
-.index .morris-hover.morris-default-style .morris-hover-row-label,
+.index:not(.tcpi_bac) .morris-hover.morris-default-style .morris-hover-row-label,
 .trends.evm .morris-hover.morris-default-style .morris-hover-row-label,
-.index .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
+.index:not(.tcpi_bac) .morris-hover.morris-default-style .morris-hover-point{ color: white!important; }
 .trends.evm text, .index text{ fill: white!important; }
-.index path{ stroke: white!important; }
+.index:not(.tcpi_bac) path{ stroke: white!important; }
 .trends.evm circle{ stroke: rgba(103, 103, 103, 0.4)!important; }
-.index circle{ fill: rgba(255, 255, 255, 0.63)!important; }
+.index:not(.tcpi_bac) circle{ fill: rgba(255, 255, 255, 0.63)!important; }
 
 .trends.evm .morris-hover.morris-default-style{
   background: rgba(40, 32, 64, 0.81)!important;
@@ -737,14 +737,18 @@ input[type="button"], input[type="submit"], button{
   width: 230px;
 }
 .help-navigation .next, .help-navigation .previous{
-  padding: 4px;
-  color: white;
   float: right;
   margin-left: 5px;
+  padding: 4px;
+  font-weight: bold;
+}
+.help-navigation .cancel, .help-navigation .next, .help-navigation .previous{
+  border: none;
+}
+.help-navigation .cancel, .help-navigation .previous{
+  color: white;
   background: rgba(255, 255, 255, 0.35);
   box-shadow: none;
-  border: none;
-  font-weight: bold;
 }
 .icon.next-arrow::before{
   content: "\f061";
@@ -926,9 +930,12 @@ input[type="button"], input[type="submit"], button{
   background: rgba(12, 180, 195, 0.88)!important;
   margin-top: 44px!important;
 }
+/*
 #top-menu #loggedas{
   width: 96px;
-}
+  min-width: 96px;
+  max-width: 122px;
+}*/
 
 .pagination li>a, .pagination li>span, .pagination>.previous, .pagination>.next, .pagination>.page{
     border-radius: 90px;
@@ -1345,6 +1352,10 @@ ul.tagit{
   padding-left: 14px;
 }
 
+#attachments_form_news{
+  padding-left: 250px;
+}
+
 .floating-field.timelog-evm legend.info{
   top: -3px;
   right: -152px;
@@ -1753,3 +1764,71 @@ ul.tagit{
 #guid-presentation-help{
   margin-top: 28px;
 }
+
+.issue.details>img.gravatar{
+  display: none;
+}
+
+.issue.details>.subject, .issue.details>.author{
+  padding-left: 0px;
+}
+
+.news-article{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.padding-title, h2.padding-title{
+  margin-left: 10px;
+  margin-top: 18px;
+  margin-bottom: 22px;
+}
+
+.no-padding-file-container{
+  padding-bottom: 10px;
+  padding-top: 0px;
+}
+
+.edit-member-link{
+  margin-right: 14px;
+}
+
+table.list td.text-center.roles, table.list.members td.buttons{
+  text-align: center!important;
+}
+table.list td.text-center.roles form{
+  text-align: left!important;
+  padding-left: 12px;
+}
+
+table.list.members, table.list.members thead, table.list.members tbody, table.list.members tr, table.list.members td, table.list.members th{
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+}
+
+table.list tr td, table.list tr th{
+  border: none!important;
+  padding-top: 15px!important;
+  padding-bottom: 15px!important;
+}
+
+table.list{
+  /*margin-bottom: 0;*/
+  border: 1px solid #e8e8e8!important;
+  margin-top: 20px!important;
+}
+table.list thead{
+  border: 1px solid #e8e8e8!important;
+}
+
+table.list.members td.name.user{
+  padding-left: 16px;
+}
+
+table.list th a, table.list .table-list-header a{
+  color: #4e4e4e!important;
+}
+
+.nodata{  margin-top: 20px; }
+
+#under-development-msg{ display: none; }

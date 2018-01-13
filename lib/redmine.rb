@@ -82,7 +82,7 @@ Redmine::AccessControl.map do |map|
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :view_members, {:members => [:index, :show]}, :public => true, :read => true
   map.permission :manage_members, {:projects => :settings, :members => [:index, :show, :new, :create, :update, :destroy, :autocomplete]}, :require => :member
-  map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
+  # map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
 
   map.project_module :issue_tracking do |map|
@@ -92,7 +92,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issues, {:issues => [:index, :show],
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
-                                  :versions => [:index, :show, :status_by],
+                                  # :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]},
@@ -100,7 +100,7 @@ Redmine::AccessControl.map do |map|
     map.permission :add_issues, {:issues => [:new, :create], :attachments => :upload}
     map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update], :journals => [:new], :attachments => :upload}
     map.permission :copy_issues, {:issues => [:new, :create, :bulk_edit, :bulk_update], :attachments => :upload}
-    map.permission :manage_issue_relations, {:issue_relations => [:index, :show, :create, :destroy]}
+    # map.permission :manage_issue_relations, {:issue_relations => [:index, :show, :create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :set_issues_private, {}
     map.permission :set_own_issues_private, {}, :require => :loggedin
@@ -158,13 +158,13 @@ Redmine::AccessControl.map do |map|
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
 
-  map.project_module :repository do |map|
-    map.permission :manage_repository, {:repositories => [:new, :create, :edit, :update, :committers, :destroy]}, :require => :member
-    map.permission :browse_repository, {:repositories => [:show, :browse, :entry, :raw, :annotate, :changes, :diff, :stats, :graph]}, :read => true
-    map.permission :view_changesets, {:repositories => [:show, :revisions, :revision]}, :read => true
-    map.permission :commit_access, {}
-    map.permission :manage_related_issues, {:repositories => [:add_related_issue, :remove_related_issue]}
-  end
+  # map.project_module :repository do |map|
+  #   map.permission :manage_repository, {:repositories => [:new, :create, :edit, :update, :committers, :destroy]}, :require => :member
+  #   map.permission :browse_repository, {:repositories => [:show, :browse, :entry, :raw, :annotate, :changes, :diff, :stats, :graph]}, :read => true
+  #   map.permission :view_changesets, {:repositories => [:show, :revisions, :revision]}, :read => true
+  #   map.permission :commit_access, {}
+  #   map.permission :manage_related_issues, {:repositories => [:add_related_issue, :remove_related_issue]}
+  # end
 
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
@@ -228,8 +228,8 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :activity, { :controller => 'activities', :action => 'index' }
-  menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
-              :if => Proc.new { |p| p.shared_versions.any? }
+  # menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
+  #             :if => Proc.new { |p| p.shared_versions.any? }
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
   menu.push :new_issue, { :controller => 'issues', :action => 'new', :copy_from => nil }, :param => :project_id, :caption => :label_issue_new,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) },
@@ -244,8 +244,8 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
-  menu.push :repository, { :controller => 'repositories', :action => 'show', :repository_id => nil, :path => nil, :rev => nil },
-              :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+  # menu.push :repository, { :controller => 'repositories', :action => 'show', :repository_id => nil, :path => nil, :rev => nil },
+  #             :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 
