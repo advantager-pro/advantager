@@ -48,7 +48,7 @@ ___
 
 ### Guided tour
 
-
+If a user wants to have a deeper knowledge of the EVM indicators and forecasts, or if they just want to learn about the section layout they can access the Help in the EVM section, where useful information regarding EVM concepts is presented as a guided tour:
 
 ![Guided tour example](https://github.com/advantager-pro/advantager/blob/master/public/images/help.gif "Guided tour example")
 
@@ -58,4 +58,4 @@ ___
 * [Install instructions](https://github.com/advantager-pro/advantager/wiki/Install-instructions)
 
 ## TODO
-- [ ] Create a plugin: all the logic presented in this project can be moved to a redmine plugin.
+- [ ] Create a plugin: most of the logic delivered in this project can be moved to a Redmine plugin.
