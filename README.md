@@ -1,7 +1,6 @@
 ![Advantager](https://github.com/advantager-pro/advantager/blob/master/public/images/advantager-readme.png "Advantager")
 
-Advantager is a project manager that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metrics, etc.
-
+Advantager is a project management tool that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metrics, etc.
  
   
    
@@ -10,9 +9,7 @@ Advantager is a project manager that helps the decision making processes by prov
 
 ## Features
 ### PMBOK
-This project manager was meant to provide a set of workflows that encourages its users to follow PMBOK good practices.
-Presenting small additions such as providing a field for uploading the file that officially states the project beginning, to default roles based on PMBOK concepts, among others PMBOK related features.
-
+This project management tool was meant to provide a set of workflows that encourages its users to follow PMBOK good practices. Presenting small additions such as providing a field for uploading the file that officially states the project beginning, to default roles based on PMBOK concepts, among others PMBOK related features.
 
 ![Dashboard example](https://github.com/advantager-pro/advantager/blob/master/public/images/dashboard.png "Dashboard example")
 
@@ -24,7 +21,7 @@ Advantager helps the decision making processes by providing tools and performanc
 ![EVM charts example](https://github.com/advantager-pro/advantager/blob/master/public/images/evm_charts.png "EVM charts example")
 
 
-Advantager was designed in such a way to provide all the EVM features without requiring any new input or workflow from the user. So from an user based perspective the tool usage is just like most project managers. In summary Advantager brings EVM features without requiring any extra effort.
+Advantager was designed in such a way to provide all the EVM features without requiring any new input or workflow from the user. So from an user based perspective the tool usage is just like most project management tools. In summary Advantager brings EVM features without requiring any extra effort.
 
 
 ### Earned Schedule
