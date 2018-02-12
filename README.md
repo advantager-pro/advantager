@@ -55,4 +55,4 @@ ___
 * [Install instructions](https://github.com/advantager-pro/advantager/wiki/Install-instructions)
 
 ## TODO
-- [ ] Create a plugin: most of the logic delivered in this project can be moved to a Redmine plugin.
+- [ ] [Create a plugin: most of the logic delivered in this project can be moved to a Redmine plugin.](https://github.com/advantager-pro/advantager/issues/2)
