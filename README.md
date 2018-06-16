@@ -1,4 +1,4 @@
-# <img src="https://github.com/advantager-pro/advantager/blob/master/public/images/advantager-logo.png" alt="Advantager logo"  align="left" height="30px" />· Advantager <br/><img src="https://github.com/advantager-pro/advantager/blob/master/public/images/gradient.png"  height="2px" width="70%" alt="gradient" align="right" />
+# <img src="https://github.com/advantager-pro/advantager/blob/master/public/images/advantager-logo.png" alt="Advantager logo"  align="left" height="30px" />· Advantager <br/><img src="https://github.com/advantager-pro/advantager/blob/master/public/images/gradient.png"  height="2px" width="70%" alt="gradient" align="left" />
 
 
 Advantager is a project management tool that helps the decision making processes by providing a set of features such as: performance information, forecasts, schedule and costs metrics, etc.
