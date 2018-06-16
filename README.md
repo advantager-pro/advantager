@@ -33,9 +33,7 @@ EVM indicators allows you to determine if the project is over or under the budge
 ### Audit in data analysis
 While performing analysis of the project performance the user is also able to review exactly what changes other users made to cause any specific situation.
 
-
-
-![Audit example](https://github.com/advantager-pro/advantager/blob/master/public/images/audit.gif "Audit example")
+<img height="500px" src="https://github.com/advantager-pro/advantager/blob/master/public/images/audit.gif" alt="Audit example" align="center" style="margin: auto; text-align: center;" />
 
 
 ___
